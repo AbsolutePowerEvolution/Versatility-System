@@ -109,7 +109,7 @@ return [
     |
     */
 
-    'cookie' => 'versatility_system',
+    'cookie' => 'Versatility-System',
 
     /*
     |--------------------------------------------------------------------------
