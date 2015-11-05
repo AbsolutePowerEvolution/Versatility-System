@@ -5,7 +5,7 @@ var source = require('vinyl-source-stream');
 
 gulp.task('build', ['lint'], function() {
   browserify()
-    .add('./resources/assets/main.js', {debug: true})
+    .add('./resources/assets/javascript/main.js', {debug: true})
     .transform(babelify.configure({
       presets: ['es2015'],
       plugins: ['transform-es2015-modules-commonjs']
