@@ -15,27 +15,35 @@ class AppendAdditionalHeaders
      */
     public function handle($request, Closure $next)
     {
-        $response = $next($request);
+        $headers = [
+            'X-Content-Type-Options' => 'nosniff',
+            'X-Frame-Options' => 'sameorigin',
+            'X-XSS-Protection' => '1; mode=block',
+        ];
 
-        if ($request->secure()) {
-            $response->header('Strict-Transport-Security', 'max-age=15552000; preload');
+        if ($request->secure() || env('WEBSITE_HTTPS', false)) {
+            $headers['Strict-Transport-Security'] = 'max-age=15552000; preload';
 
             if (! is_null($pins = env('PUBLIC_KEY_PINS')) && strlen($pins) > 0) {
-                $publicKeyPins = 'max-age=3600;';
+                $publicKeyPins = '';
 
                 foreach (explode(',', $pins) as $pin) {
                     $publicKeyPins .= " pin-sha256=\"{$pin}\";";
                 }
 
-                $response->header('Public-Key-Pins', $publicKeyPins);
+                $headers['Public-Key-Pins'] = "{$publicKeyPins} max-age=600;";
+            }
+
+            if (! $request->secure()) {
+                return redirect()->secure($request->getRequestUri(), 302, $headers);
             }
         }
 
-        $response->header('X-Content-Type-Options', 'nosniff');
+        /** @var $response \Illuminate\Http\Response */
 
-        $response->header('X-Frame-Options', 'sameorigin');
+        $response = $next($request);
 
-        $response->header('X-XSS-Protection', '1; mode=block');
+        $response->headers->add($headers);
 
         return $response;
     }
