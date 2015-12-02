@@ -145,6 +145,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        Bepsvpt\LaravelSecurityHeader\SecurityHeaderServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
 
     ],

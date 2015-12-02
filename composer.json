@@ -7,6 +7,7 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
+        "bepsvpt/laravel-security-header": "~1.0",
         "doctrine/dbal": "~2.5",
         "nesbot/carbon": "~1.20",
         "predis/predis": "~1.0",

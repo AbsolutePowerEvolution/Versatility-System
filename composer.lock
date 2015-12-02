@@ -4,9 +4,52 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d6030e0ddd11d364a8a50b24b64a9877",
-    "content-hash": "87d5677f9fd00321e0d53cf493a8da55",
+    "hash": "10334b556cfb10d88c3dd623f4e05f20",
+    "content-hash": "2ea3a3d3d14d6309697213e20611f7a2",
     "packages": [
+        {
+            "name": "bepsvpt/laravel-security-header",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BePsvPT/laravel-security-header.git",
+                "reference": "97b4ca868d56b1f4d24374a638899adb4faab1ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BePsvPT/laravel-security-header/zipball/97b4ca868d56b1f4d24374a638899adb4faab1ce",
+                "reference": "97b4ca868d56b1f4d24374a638899adb4faab1ce",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "5.1.*",
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bepsvpt\\LaravelSecurityHeader\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "BePsvPT",
+                    "email": "freedom@csie.io"
+                }
+            ],
+            "description": "Append security headers to response for laravel framework.",
+            "keywords": [
+                "header",
+                "laravel",
+                "middleware",
+                "security"
+            ],
+            "time": "2015-12-01 12:12:14"
+        },
         {
             "name": "classpreloader/classpreloader",
             "version": "3.0.0",
