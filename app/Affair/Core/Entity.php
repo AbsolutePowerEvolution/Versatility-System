@@ -2,9 +2,9 @@
 
 namespace App\Affair\Core;
 
-use Illuminate\Database\Eloquent\Model;
+use Eloquent;
 
-class Entity extends Model
+class Entity extends Eloquent
 {
     /**
      * Get the table name of this model.
