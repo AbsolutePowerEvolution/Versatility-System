@@ -148,6 +148,6 @@ return [
     |
     */
 
-    'secure' => false,
+    'secure' => env('FORCE_HTTPS', false),
 
 ];
