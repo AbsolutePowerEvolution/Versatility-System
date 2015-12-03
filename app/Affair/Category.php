@@ -7,6 +7,13 @@ use App\Affair\Core\Entity;
 class Category extends Entity
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'categories';
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool

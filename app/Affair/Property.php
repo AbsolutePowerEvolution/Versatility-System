@@ -7,6 +7,13 @@ use App\Affair\Core\Entity;
 class Property extends Entity
 {
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'properties';
+
+    /**
      * Indicates if the model should be timestamped.
      *
      * @var bool
@@ -21,6 +28,8 @@ class Property extends Entity
     protected $fillable = ['name', 'describe', 'category'];
 
     /**
+     * 取得財產分類
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category()
@@ -29,6 +38,8 @@ class Property extends Entity
     }
 
     /**
+     * 取得財產借用紀錄
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function loans()
@@ -37,6 +48,8 @@ class Property extends Entity
     }
 
     /**
+     * 取得財產維修紀錄
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function repairs()

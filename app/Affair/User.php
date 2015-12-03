@@ -17,6 +17,13 @@ class User extends Entity implements AuthenticatableContract,
     use Authenticatable, Authorizable, CanResetPassword;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -31,6 +38,8 @@ class User extends Entity implements AuthenticatableContract,
     protected $hidden = ['password', 'remember_token'];
 
     /**
+     * 取得使用者借用紀錄
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function loans()
@@ -39,6 +48,8 @@ class User extends Entity implements AuthenticatableContract,
     }
 
     /**
+     * 取得使用者報修紀錄
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function repairs()

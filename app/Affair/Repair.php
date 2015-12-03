@@ -10,6 +10,13 @@ class Repair extends Entity
     use SoftDeletes;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'repairs';
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -24,6 +31,8 @@ class Repair extends Entity
     protected $fillable = ['user_id', 'property_id', 'type', 'remark', 'status'];
 
     /**
+     * 取得報修之財產
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function property()
@@ -32,6 +41,8 @@ class Repair extends Entity
     }
 
     /**
+     * 取得報修狀態
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function status()
@@ -40,6 +51,8 @@ class Repair extends Entity
     }
 
     /**
+     * 取得報修類型
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function type()
@@ -48,6 +61,8 @@ class Repair extends Entity
     }
 
     /**
+     * 取得報修者
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
