@@ -13,7 +13,16 @@ return [
      *
      * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/CSP
      */
-    'csp' => '',
+    'csp' => [
+        'rule' => '',
+        /*
+         * The URIs that should be excluded to add CSP header.
+         */
+
+        'except' => [
+            //
+        ],
+    ],
 
     /*
      * Make sure you enable https first.
@@ -28,7 +37,7 @@ return [
      * Note: hsts will only add when the request is secure or config is set to force https
      */
     'hsts' => [
-        'enable' => false,
+        'enable' => true,
 
         'max_age' => 15552000,
 
@@ -43,10 +52,12 @@ return [
      * Note: hpkp will only add when the request is secure or config is set to force https
      */
     'hpkp' => [
-        'enable' => false,
+        'enable' => true,
 
         'pins' => [
-            //
+            'XLoUgpqzldf90EhmzcFl1KbHprnCMgaMYShCtuXC+cM=',
+            'YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=',
+            'sm/7PZmxEIdYTR3jGeOqnAByUSAolO3eSo95ZCTE1Bc='
         ],
 
         'max_age' => 300,
