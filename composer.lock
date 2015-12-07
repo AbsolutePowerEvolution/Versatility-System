@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "bepsvpt/laravel-security-header",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BePsvPT/laravel-security-header.git",
-                "reference": "97b4ca868d56b1f4d24374a638899adb4faab1ce"
+                "reference": "b2799c68e4b5ba5349ebbba94687cd49a50a830d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BePsvPT/laravel-security-header/zipball/97b4ca868d56b1f4d24374a638899adb4faab1ce",
-                "reference": "97b4ca868d56b1f4d24374a638899adb4faab1ce",
+                "url": "https://api.github.com/repos/BePsvPT/laravel-security-header/zipball/b2799c68e4b5ba5349ebbba94687cd49a50a830d",
+                "reference": "b2799c68e4b5ba5349ebbba94687cd49a50a830d",
                 "shasum": ""
             },
             "require": {
@@ -48,7 +48,7 @@
                 "middleware",
                 "security"
             ],
-            "time": "2015-12-01 12:12:14"
+            "time": "2015-12-07 11:32:56"
         },
         {
             "name": "classpreloader/classpreloader",
