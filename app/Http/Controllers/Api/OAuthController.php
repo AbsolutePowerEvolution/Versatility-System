@@ -4,34 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Auth;
 use Cache;
 use Crypt;
 use Exception;
-use Illuminate\Auth\Guard;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class OAuthController extends Controller
 {
     /**
-     * @var Guard
-     */
-    protected $auth;
-
-    /**
      * @var array
      */
     private $parameters = [];
-
-    /**
-     * OAuthController constructor.
-     *
-     * @param Guard $auth
-     */
-    public function __construct(Guard $auth)
-    {
-        $this->auth = $auth;
-    }
 
     /**
      * OAuth
@@ -43,7 +28,7 @@ class OAuthController extends Controller
     {
         $this->checkParameters($request);
 
-        if ($this->auth->guest()) {
+        if (Auth::guest()) {
             return redirect()->route('home', ['oauth' => $request->fullUrl()]); // need redirect to sign in page
         }
 
@@ -69,7 +54,7 @@ class OAuthController extends Controller
             throw new BadRequestHttpException('The parameter redirect_uri is invalid.');
         }
 
-        $this->parameters = $request->except(['redirect_uri']);
+        $this->parameters = array_merge($this->parameters, $request->except(['redirect_uri']));
     }
 
     /**
@@ -77,12 +62,12 @@ class OAuthController extends Controller
      */
     protected function storeOAuthDataToCache()
     {
-        $token = str_random(256);
+        list($token, $user) = [str_random(64), Auth::user()];
 
         Cache::tags('oauth')->put($token, [
-            'student_id' => $this->auth->user()->getAttribute('username'),
-            'name' => $this->auth->user()->getAttribute('nickname'),
-            'email' => $this->auth->user()->getAttribute('email'),
+            'student_id' => $user->getAttribute('username'),
+            'name' => $user->getAttribute('nickname'),
+            'email' => $user->getAttribute('email'),
         ], 3);
 
         $this->parameters['token'] = Crypt::encrypt($token);
