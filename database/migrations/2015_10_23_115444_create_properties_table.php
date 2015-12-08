@@ -16,12 +16,12 @@ class CreatePropertiesTable extends Migration
             $table->increments('id');
             $table->string('name', 64)->comment('財產名稱');
             $table->string('describe', 192)->comment('財產敘述');
-            $table->integer('category')->unsigned()->nullable()->comment('財產類別(分類)');
+            $table->integer('category')->unsigned()->comment('財產類別(分類)');
 
             $table->index('name');
             $table->index('category');
 
-            $table->foreign('category')->references('id')->on('categories')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('category')->references('id')->on('categories')->onUpdate('cascade');
         });
     }
 

@@ -15,10 +15,10 @@ class CreateRepairsTable extends Migration
         Schema::create('repairs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable()->comment('報修帳號id');
-            $table->integer('property_id')->unsigned()->nullable()->comment('財產id');
-            $table->integer('type')->unsigned()->nullable()->comment('報修類型');
+            $table->integer('property_id')->unsigned()->comment('財產id');
+            $table->integer('type')->unsigned()->comment('報修類型');
             $table->string('remark')->nullable()->comment('附註');
-            $table->integer('status')->unsigned()->nullable()->comment('報修狀態');
+            $table->integer('status')->unsigned()->comment('報修狀態');
             $table->timestamps();
             $table->softDeletes();
 
@@ -30,9 +30,9 @@ class CreateRepairsTable extends Migration
             $table->index('deleted_at');
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('set null');
-            $table->foreign('property_id')->references('id')->on('properties')->onUpdate('cascade')->onDelete('set null');
-            $table->foreign('type')->references('id')->on('categories')->onUpdate('cascade')->onDelete('set null');
-            $table->foreign('status')->references('id')->on('categories')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('property_id')->references('id')->on('properties')->onUpdate('cascade');
+            $table->foreign('type')->references('id')->on('categories')->onUpdate('cascade');
+            $table->foreign('status')->references('id')->on('categories')->onUpdate('cascade');
         });
     }
 

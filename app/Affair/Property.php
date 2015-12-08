@@ -25,7 +25,7 @@ class Property extends Entity
      *
      * @var array
      */
-    protected $fillable = ['name', 'describe', 'category'];
+    protected $fillable = ['name', 'describe', 'category', 'status'];
 
     /**
      * 取得財產分類
@@ -35,6 +35,16 @@ class Property extends Entity
     public function category()
     {
         return $this->belongsTo(Category::class, 'category');
+    }
+
+    /**
+     * 取得財產狀態
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function status()
+    {
+        return $this->belongsTo(Category::class, 'status');
     }
 
     /**

@@ -32,6 +32,7 @@ $factory->define(\App\Affair\Property::class, function (Faker\Generator $faker) 
         'name' => $faker->name,
         'describe' => $faker->sentence,
         'category' => Category::where('category', '=', 'property')->get()->random()->getAttribute('id'),
+        'status' => Category::where('category', '=', 'property.status')->get()->random()->getAttribute('id'),
         'code' => str_random(8)
     ];
 });
