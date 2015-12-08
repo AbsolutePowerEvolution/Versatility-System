@@ -11,8 +11,17 @@
 |
 */
 
-/** @var \Illuminate\Routing\Router $router*/
+/** @var Router $router */
 
-$router->get('/', function () {
+use Illuminate\Routing\Router;
+
+$router->get('/', ['as' => 'home', function () {
     return view('welcome');
+}]);
+
+$router->group(['prefix' => 'api', 'namespace' => 'Api'], function (Router $router) {
+    $router->group(['prefix' => 'auth', 'as' => 'api.auth.'], function (Router $router) {
+        $router->get('oauth', ['as' => 'oauth', 'uses' => 'OAuthController@OAuth']);
+        $router->get('oauth/{verify}', ['as' => 'oauth.verify', 'uses' => 'OAuthController@verifyToken']);
+    });
 });
