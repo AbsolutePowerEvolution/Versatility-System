@@ -15,10 +15,10 @@ return [
      */
     'csp' => [
         'rule' => '',
+
         /*
          * The URIs that should be excluded to add CSP header.
          */
-
         'except' => [
             //
         ],
