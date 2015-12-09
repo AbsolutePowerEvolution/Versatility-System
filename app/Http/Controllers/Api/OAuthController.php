@@ -68,7 +68,7 @@ class OAuthController extends Controller
             'student_id' => $user->getAttribute('username'),
             'name' => $user->getAttribute('nickname'),
             'email' => $user->getAttribute('email'),
-        ], 3);
+        ], 1);
 
         $this->parameters['token'] = Crypt::encrypt($token);
     }
@@ -94,17 +94,21 @@ class OAuthController extends Controller
     /**
      * 驗證 token 並回傳 OAuth 資料
      *
-     * @param string $token
+     * @param string $encryptToken
      * @return \Illuminate\Http\JsonResponse
      */
-    public function verifyToken($token)
+    public function verifyToken($encryptToken)
     {
         try {
-            $user = Cache::tags('oauth')->get(Crypt::decrypt($token));
+            $decryptToken = Crypt::decrypt($encryptToken);
+
+            $user = Cache::tags('oauth')->get($decryptToken);
 
             if (null === $user) {
                 throw new Exception;
             }
+
+            Cache::tags('oauth')->forget($decryptToken);
 
             $data = [
                 'data' => $user,
