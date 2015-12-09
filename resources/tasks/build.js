@@ -7,8 +7,7 @@ gulp.task('build', ['lint'], function() {
   browserify()
     .add('./resources/assets/javascript/main.js', {debug: true})
     .transform(babelify.configure({
-      presets: ['es2015'],
-      plugins: ['transform-es2015-modules-commonjs']
+      presets: ['es2015', 'stage-0']
     }))
     .bundle()
     .pipe(source('bundle.js'))
