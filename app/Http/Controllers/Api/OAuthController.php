@@ -14,12 +14,14 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class OAuthController extends Controller
 {
     /**
+     * redirect_uri 所需附加上的參數
+     *
      * @var array
      */
     private $parameters = [];
 
     /**
-     * OAuth
+     * OAuth 請求
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -59,9 +61,13 @@ class OAuthController extends Controller
 
     /**
      * 將使用者資訊存到 Cache 中
+     *
+     * @return void
      */
     protected function storeOAuthDataToCache()
     {
+        /** @var $user \App\Affair\User */
+
         list($token, $user) = [str_random(64), Auth::user()];
 
         Cache::tags('oauth')->put($token, [
