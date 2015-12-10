@@ -15,9 +15,7 @@
 
 use Illuminate\Routing\Router;
 
-$router->get('/', ['as' => 'home', function () {
-    return view('welcome');
-}]);
+$router->get('/', ['as' => 'home', 'uses' => 'HomeController@home']);
 
 $router->group(['prefix' => 'api', 'namespace' => 'Api'], function (Router $router) {
     $router->group(['prefix' => 'auth', 'as' => 'api.auth.'], function (Router $router) {
