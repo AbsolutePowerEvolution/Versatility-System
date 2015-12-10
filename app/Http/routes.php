@@ -23,9 +23,16 @@ $router->group(['prefix' => 'api', 'namespace' => 'Api'], function (Router $rout
         $router->get('oauth/{verify}', ['as' => 'oauth.verify', 'uses' => 'OAuthController@verifyToken']);
     });
 
-    $router->group(['prefix' => 'user', 'as' => 'api.user'], function(Router $router){
-        $router->get('propertyList', ['as' => 'getPropertyList', 'uses' => 'User\PropertyController@getPropertyList']);
-        $router->get('property/{property_id}', ['as' => 'getPropertyDetail', 'uses' => 'User\PropertyController@getPropertyDetail']);
-        $router->get('repairList', ['as' => 'getPropertyRepairList', 'uses' => 'User\RepairController@getPropertyRepairList']);
+    $router->group(['prefix' => 'user', 'as' => 'api.user'], function (Router $router) {
+        // property
+        $router->get('property', ['as' => 'user.property', 'uses' => 'User\PropertyController@getPropertyList']);
+        $router->get('property/{property_id}', ['as' => 'user.property.detail', 'uses' => 'User\PropertyController@getPropertyDetail']);
+        $router->get('property-borrowlist', ['as' => 'user.borrowlist', 'uses' => 'User\PropertyController@getPropertyBorrowList']);
+
+        // repair
+        $router->get('repair', ['as' => 'user.repairlist', 'uses' => 'User\RepairController@getPropertyRepairList']);
+        $router->post('repair', ['as' => 'user.repair.create', 'uses' => 'User\RepairController@postPropertyRepair']);
+
+        // classroom
     });
 });

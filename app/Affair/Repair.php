@@ -9,6 +9,8 @@ class Repair extends Entity
 {
     use SoftDeletes;
 
+    const SUMMITED = 7;
+
     /**
      * The table associated with the model.
      *
