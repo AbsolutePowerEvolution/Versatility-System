@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Affair\Repair;
+use App\Affair\Category;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
@@ -72,7 +73,7 @@ class RepairController extends Controller
                 'property_id' => $request->input('id'),
                 'type'        => $request->input('type'),
                 'remark'      => $request->input('remark'),
-                'status'      => Repair::SUMMITED,
+                'status'      => Category::getCategoryIds(['repair.status' => 'summited'])[0],
             ]);
         }
 

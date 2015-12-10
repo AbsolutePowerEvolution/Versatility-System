@@ -34,5 +34,6 @@ $router->group(['prefix' => 'api', 'namespace' => 'Api'], function (Router $rout
         $router->post('repair', ['as' => 'user.repair.create', 'uses' => 'User\RepairController@postPropertyRepair']);
 
         // classroom
+        $router->get('classroom', ['as' => 'user.classroomlist', 'uses' => 'User\ClassroomController@getClassroomList']);
     });
 });
