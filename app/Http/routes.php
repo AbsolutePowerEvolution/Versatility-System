@@ -25,15 +25,19 @@ $router->group(['prefix' => 'api', 'namespace' => 'Api'], function (Router $rout
 
     $router->group(['prefix' => 'user', 'as' => 'api.user'], function (Router $router) {
         // property
-        $router->get('property', ['as' => 'user.property', 'uses' => 'User\PropertyController@getPropertyList']);
-        $router->get('property/{property_id}', ['as' => 'user.property.detail', 'uses' => 'User\PropertyController@getPropertyDetail']);
-        $router->get('property-borrowlist', ['as' => 'user.borrowlist', 'uses' => 'User\PropertyController@getPropertyBorrowList']);
+        $router->get('property', ['as' => 'r-user.property', 'uses' => 'User\PropertyController@getPropertyList']);
+        $router->get('property/{property_id}', ['as' => 'r-user.property.detail', 'uses' => 'User\PropertyController@getPropertyDetail']);
+        $router->get('property-borrowlist', ['as' => 'r-user.property.borrowlist', 'uses' => 'User\PropertyController@getPropertyBorrowList']);
 
         // repair
-        $router->get('repair', ['as' => 'user.repairlist', 'uses' => 'User\RepairController@getPropertyRepairList']);
-        $router->post('repair', ['as' => 'user.repair.create', 'uses' => 'User\RepairController@postPropertyRepair']);
+        $router->get('repair', ['as' => 'r-user.repairlist', 'uses' => 'User\RepairController@getPropertyRepairList']);
+        $router->post('repair', ['as' => 'c-user.repair.create', 'uses' => 'User\RepairController@postPropertyRepair']);
 
         // classroom
-        $router->get('classroom', ['as' => 'user.classroomlist', 'uses' => 'User\ClassroomController@getClassroomList']);
+        $router->get('classroom', ['as' => 'r-user.classroomlist', 'uses' => 'User\ClassroomController@getClassroomList']);
+        $router->get('classroom-borrowlist', ['as' => 'r-user.classroom.borrowlist', 'uses' => 'User\ClassroomController@getClassroomBorrowlist']);
+        $router->post('classroom-borrow', ['as' => 'c-user.classroom.borrow', 'uses' => 'User\ClassroomController@postClassroomBorrow']);
+        $router->delete('classroom-borrow', ['as' => 'd-user.classroom.borrow', 'uses' => 'User\ClassroomController@deleteClassroomborrow']);
+
     });
 });

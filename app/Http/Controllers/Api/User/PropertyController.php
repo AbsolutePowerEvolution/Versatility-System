@@ -34,7 +34,11 @@ class PropertyController extends Controller
         }
 
         // get data with query
-        $property_list = $property_query->paginate($length, [
+        $property_list = $property_query::with([
+            'status',
+            'category'
+        ])
+        ->paginate($length, [
             'id',
             'name',
             'status',
@@ -62,7 +66,11 @@ class PropertyController extends Controller
     public function getPropertyDetail($property_id)
     {
         // get property detail
-        $property_detail = Property::find($property_id);
+        $property_detail = Property::with([
+            'status',
+            'category'
+        ])
+        ->find($property_id);
 
         // gen response
         $response = [
@@ -90,26 +98,22 @@ class PropertyController extends Controller
         // get borrow list
         $borrow_list = Loan::with([
             'property' => function ($query) {
-                $query->get([
+                $query->with(['category'])
+                ->get([
                     'id',
                     'name',
                     'code'
                 ]);
             },
-            'status' => function ($query) {
-                $query->get([
-                    'id',
-                    'name'
-                ]);
-            }
+            'status'
         ])
         ->where('user_id', '=', Auth::user()->id)
-        ->orderBy('status', 'asc')
+        ->orderBy('date_began_at', 'desc')
         ->paginate($length, [
             'id',
             'property_id',
-            'user_id',
-            'status',
+            'date_began_at',
+            'status'
         ]);
 
         // response

@@ -14,8 +14,9 @@ class RepairController extends Controller
     /**
      * get property repair list
      *
-     * @param int page
-     * @param int length (not required)
+     * @param Request $request
+     *  @param int page
+     *  @param int length (not required)
      * @return response repair list
      */
     public function getPropertyRepairList(Request $request)
@@ -25,9 +26,10 @@ class RepairController extends Controller
 
         // query
         $repair_list = Repair::with([
-            'property' => function($query){
-                $query->get(['name']);
+            'property' => function ($query) {
+                $query->get(['id', 'name']);
             },
+            'type'
         ])
         ->where('user_id', '=', Auth::user()->id)
         ->paginate($length, [
@@ -55,8 +57,12 @@ class RepairController extends Controller
     /**
      * create property repair request
      *
-     * @param
-     * @return
+     * @param Request $request
+     *  @param int id
+     *  @param string remark
+     *  @param int type
+     * @return Json $response
+     *  @param int status
      */
     public function postPropertyRepair(Request $request)
     {
@@ -64,8 +70,14 @@ class RepairController extends Controller
 
         if (
             !$request->has('id') ||     //property_id
-            !$request->has('type') ||
-            !$request->has('remark')
+            !$request->has('remark') ||
+            !(
+                $request->has('type') &&
+                // check is the type in CategoryIds
+                in_array($request->input('type'), Category::getCategoryIds([
+                    'repair.type' => []
+                ]))
+            )
         ) {
             // create repair query
             Repair::create([
