@@ -1,15 +1,28 @@
 var gulp = require('gulp');
-var browserify = require('browserify');
-var babelify = require('babelify');
-var source = require('vinyl-source-stream');
+var gutil = require('gulp-util');
+var webpack = require('webpack');
+
+var statsOptions = {
+  colors: gutil.colors.supportsColor,
+  hash: false,
+  timings: false,
+  chunks: false,
+  chunkModules: false,
+  modules: false,
+  children: true,
+  version: true,
+  cached: false,
+  cachedAssets: false,
+  reasons: false,
+  source: false,
+  errorDetails: false
+};
 
 gulp.task('js', ['lint'], function() {
-  browserify()
-    .add('./resources/assets/javascript/main.js', {debug: true})
-    .transform(babelify.configure({
-      presets: ['es2015', 'stage-0']
-    }))
-    .bundle()
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest('public'));
+  webpack(require('../../webpack.config.js'), function(err, stats) {
+    if(err) {
+      throw new gutil.PluginError("webpack", err);
+    }
+    gutil.log("[webpack]", stats.toString(statsOptions));
+  });
 });
