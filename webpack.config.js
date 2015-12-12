@@ -26,6 +26,10 @@ module.exports = {
     }]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')
+    new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
+    new webpack.ProvidePlugin({
+      'jQuery': 'jquery',
+      '$': 'jquery'
+    })
   ]
 };
