@@ -6,12 +6,14 @@
 
   "requireCurlyBraces": true,
   "requireParenthesesAroundIIFE": true,
+  "requireSpaceAfterKeywords": null,
 
   "maximumLineLength": 120,
   "validateLineBreaks": "LF",
   "validateIndentation": 2,
 
   "disallowKeywords": ["with"],
+  "disallowSpaceAfterKeywords": true,
   "disallowSpacesInsideObjectBrackets": null,
   "disallowImplicitTypeConversion": ["string"],
 
