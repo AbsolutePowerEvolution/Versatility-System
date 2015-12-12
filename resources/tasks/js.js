@@ -23,9 +23,9 @@ gulp.task('js', ['lint'], function() {
   return new when.Promise(function(resolve, reject) {
     webpack(require('../../webpack.config.js'), function(err, stats) {
       if(err) {
-        reject(new gutil.PluginError("webpack", err));
+        reject(new gutil.PluginError('webpack', err));
       }
-      gutil.log("[webpack]", stats.toString(statsOptions));
+      gutil.log('[webpack]', stats.toString(statsOptions));
       resolve();
     });
   });
