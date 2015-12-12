@@ -6,7 +6,6 @@ gulp.task('lint', function() {
       './resources/assets/**/*.js',
       './resources/tasks/**/*.js',
       './gulpfile.js'])
-    .pipe(jscs({ fix: true }))
-    .pipe(jscs.reporter('jscs-stylish'))
-    .pipe(gulp.dest('./'));
+    .pipe(jscs())
+    .pipe(jscs.reporter('jscs-stylish'));
 });
