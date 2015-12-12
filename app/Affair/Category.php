@@ -30,8 +30,8 @@ class Category extends Entity
     /**
      * get CategoryIds with provided data
      *
-     * @param
-     * @return
+     * @param array $datas
+     * @return array $ids
      */
     public static function getCategoryIds($datas)
     {
@@ -41,14 +41,14 @@ class Category extends Entity
             $query->orWhere(function ($query) use ($category, $data) {
                 $query->where('category', '=', $category);
 
-                if (is_array($data)) {
+                if (is_array($data) && count($data) > 0) {
                     $query->where(function ($query) use ($data) {
                         $query->where('id', '=', -1);
                         foreach ($data as $name) {
                             $query->orWhere('name', '=', $name);
                         }
                     });
-                } else {
+                } else if(!is_array($data)){
                     $query->where('name', '=', $data);
                 }
             });

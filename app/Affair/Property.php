@@ -6,7 +6,6 @@ use App\Affair\Core\Entity;
 
 class Property extends Entity
 {
-
     /**
      * The table associated with the model.
      *
