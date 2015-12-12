@@ -3,7 +3,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 
 gulp.task('sass', function() {
-  gulp.src('./resources/assets/app.scss')
+  return gulp.src('./resources/assets/app.scss')
     .pipe(sourcemaps.init())
     .pipe(sass())
     .pipe(sourcemaps.write())

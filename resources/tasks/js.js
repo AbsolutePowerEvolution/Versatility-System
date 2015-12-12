@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
+var when = require('when');
 
 var statsOptions = {
   colors: gutil.colors.supportsColor,
@@ -19,10 +20,13 @@ var statsOptions = {
 };
 
 gulp.task('js', ['lint'], function() {
-  webpack(require('../../webpack.config.js'), function(err, stats) {
-    if(err) {
-      throw new gutil.PluginError("webpack", err);
-    }
-    gutil.log("[webpack]", stats.toString(statsOptions));
+  return new when.Promise(function(resolve, reject) {
+    webpack(require('../../webpack.config.js'), function(err, stats) {
+      if(err) {
+        reject(new gutil.PluginError("webpack", err));
+      }
+      gutil.log("[webpack]", stats.toString(statsOptions));
+      resolve();
+    });
   });
 });
