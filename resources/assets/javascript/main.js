@@ -1,5 +1,6 @@
-let fn = () => {
-  console.log('Hello world');
-};
+require('materialize-css/dist/js/materialize');
+var Sammy = require('sammy');
 
-fn();
+require('./routes');
+
+Sammy('#root').run('#/');
