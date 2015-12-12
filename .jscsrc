@@ -2,18 +2,24 @@
   "esnext": true,
   "preset": "google",
 
-  "fileExtensions": [".js", ".jsx"],
+  "fileExtensions": [".js"],
 
   "requireCurlyBraces": true,
   "requireParenthesesAroundIIFE": true,
-  "requireSpaceAfterKeywords": null,
+  "requireSpaceAfterKeywords": ["else"],
 
   "maximumLineLength": 120,
   "validateLineBreaks": "LF",
   "validateIndentation": 2,
 
   "disallowKeywords": ["with"],
-  "disallowSpaceAfterKeywords": true,
+  "disallowSpaceAfterKeywords": [
+    "if",
+    "for",
+    "while",
+    "switch",
+    "catch"
+  ],
   "disallowSpacesInsideObjectBrackets": null,
   "disallowImplicitTypeConversion": ["string"],
 
