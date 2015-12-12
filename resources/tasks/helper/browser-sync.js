@@ -12,11 +12,12 @@ var once = require('once');
  * It will just initialize BrowserSync once.
  * And delegate `init`, `stream`, and `reload` method.
  */
-var BrowserSync = (function(){
+
+var BrowserSync = (function() {
   var instance = null;
   var methods = ['init', 'stream', 'reload'];
   var init = once(function() { // Init instance exactly once
-      instance = browserSync.create();
+    instance = browserSync.create();
   });
 
   /**
@@ -24,9 +25,9 @@ var BrowserSync = (function(){
    *
    * This is a helper function to create delegater.
    * And it will call hook before pass function call.
-   * @param [Object] obj instance to pass the method.
-   * @param [Array] methods delegate methods
-   * @param [Function] hook hook before delegate
+   *
+   * @param {Object} obj instance to pass the method.
+   * @param {Function} methods delegate methods
    */
   var createDelegater = function(obj, methods) {
     var delegater = {};
