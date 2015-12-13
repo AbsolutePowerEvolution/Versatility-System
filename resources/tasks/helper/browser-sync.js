@@ -15,7 +15,7 @@ var once = require('once');
 
 var BrowserSync = (function() {
   var instance = null;
-  var methods = ['init', 'stream', 'reload'];
+  var methods = ['init', 'stream', 'reload', 'stream'];
   var init = once(function() { // Init instance exactly once
     instance = browserSync.create();
   });
@@ -36,7 +36,6 @@ var BrowserSync = (function() {
       delegater[method] = function() { // Define delgate function
         obj[method].apply(obj, arguments); // Pass to origin object
       };
-      return delegater;
     });
     return delegater;
   };

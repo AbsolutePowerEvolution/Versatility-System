@@ -8,7 +8,11 @@ gulp.task('proxy', ['build', 'watch', 'php-server'], function() {
   browserSync.init({
     proxy: {
       target: 'localhost:8000'
-    }
+    },
+    files: [
+      'public/**/*.css',
+      'public/**/*.js'
+    ]
   });
 });
 
