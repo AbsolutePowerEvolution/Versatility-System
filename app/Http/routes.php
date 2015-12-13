@@ -35,11 +35,14 @@ $router->group(['prefix' => 'api', 'namespace' => 'Api'], function (Router $rout
         $router->group(['prefix' => 'repair', 'as' => 'api.user.repair'], function ($router) {
             $router->get('/', ['as' => 'api.user.repairList', 'uses' => 'User\RepairController@index']);
             $router->post('create', ['as' => 'api.user.repairCreate', 'uses' => 'User\RepairController@store']);
-            $router->delete('{repair_id}', ['as' => 'api.user.repairDelete', 'uses' => 'User\RepairController@delete']);
+            $router->delete('delete/{id}', ['as' => 'api.user.repairDelete', 'uses' => 'User\RepairController@delete']);
         });
 
         $router->group(['prefix' => 'loan', 'as' => 'api.user.loan'], function ($router) {
-            ;
+            $router->get('others', ['as' => 'api.user.loan.otherList', 'uses' => 'User\LoanController@index']);
+            $router->get('classrooms', ['as' => 'api.user.loan.classroomList', 'uses' => 'User\LoanController@indexClassroomBorrow']);
+            $router->post('create', ['as' => 'api.user.loan.create', 'uses' => 'User\LoanController@storeClassroomBorrow']);
+            $router->delete('delete/{id}', ['as' => 'api.user.loan.delete', 'uses' => 'User\LoanController@destroyClassroomBorrow']);
         });
     });
 
