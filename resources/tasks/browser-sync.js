@@ -11,7 +11,8 @@ gulp.task('proxy', ['build', 'watch', 'php-server'], function() {
     },
     files: [
       'public/**/*.css',
-      'public/**/*.js'
+      'public/**/*.js',
+      'public/templates/**/*.ms'
     ]
   });
 });
