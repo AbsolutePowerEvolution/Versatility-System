@@ -76,7 +76,7 @@ class LoanController extends Controller
         $LTK = $request->input('long_term_token');
 
         // return if time provided conflict
-        if (checkConflict($date_info, $time_info, $LTK)) {
+        if (self::checkConflict($date_info, $time_info, $LTK)) {
             return response()->json(['status' => 3]);
         }
 
@@ -123,7 +123,7 @@ class LoanController extends Controller
      */
     private static function checkConflict($date_info, $time_info, $LTK)
     {
-        $LTK = ($LTK === 0)? 1<<date('w'):$LTK;
+        $LTK = ((int)$LTK === 0)? 1<<date('w'):(int)$LTK;
 
         $conflict_num = DB::table('Loans')
             ->whereBetween('date_ended_at', $date_info)
