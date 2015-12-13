@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use DB;
 use Auth;
+use App\Affair\Loan;
+use App\Affair\Category;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -18,13 +20,13 @@ class LoanController extends Controller
      */
     public function index()
     {
-        $borrow_list = Loans::with([
+        $borrow_list = Loan::with([
                 'type',
                 'status'
             ])
             ->join('properties as pro_t', function ($query) {
-                $query->on('prot.id', '=', 'property_id')
-                    ->where('pro_t.category', '=', Category::getCategoryId(['property' => 'others']));
+                $query->on('pro_t.id', '=', 'property_id')
+                    ->where('pro_t.category', '=', Category::getCategoryId('property', 'others'));
             })
             ->where('user_id', '=', Auth::user()->id)
             ->get([
@@ -43,13 +45,13 @@ class LoanController extends Controller
      */
     public function indexClassroomBorrow()
     {
-        $borrow_list = Loans::with([
+        $borrow_list = Loan::with([
                 'type',
                 'status'
             ])
             ->join('properties as pro_t', function ($query) {
-                $query->on('prot.id', '=', 'property_id')
-                    ->where('pro_t.category', '=', Category::getCategoryId(['property' => 'classroom']));
+                $query->on('pro_t.id', '=', 'property_id')
+                    ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
             })
             ->where('user_id', '=', Auth::user()->id)
             ->get([
