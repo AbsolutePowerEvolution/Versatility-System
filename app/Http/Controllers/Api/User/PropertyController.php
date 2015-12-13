@@ -15,14 +15,18 @@ class PropertyController extends Controller
     /**
      * Display a listing of the normal property.
      *
+     * @param Request $request
      * @return Json
      */
-    public function index()
+    public function index(Request $request)
     {
+        // get length
+        $length = $request->input('length', 10);
+
         // get property list
         $property_list = Property::with(['category', 'status'])
             ->where('category', Category::getCategoryId('property', 'others'))
-            ->get();
+            ->paginate($length);
 
         return response()->json($property_list);
     }
@@ -46,17 +50,21 @@ class PropertyController extends Controller
     /**
      * Display a listing of the normal classroom.
      *
+     * @param Request $request
      * @return
      */
-    public function indexClassroom()
+    public function indexClassroom(Request $request)
     {
+        // get length
+        $length = $request->input('length', 10);
+
         $classroom_list = Property::with([
                 'category',
                 'status',
                 'loanClassroom'
             ])
             ->where('category', Category::getCategoryId('property', 'classroom'))
-            ->get();
+            ->paginate($length);
 
         return response()->json($classroom_list);
     }

@@ -16,10 +16,14 @@ class LoanController extends Controller
     /**
      * Display a listing of the others borrow.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // get length
+        $length = $request->input('length', 10);
+
         $borrow_list = Loan::with([
                 'type',
                 'status'
@@ -29,7 +33,7 @@ class LoanController extends Controller
                     ->where('pro_t.category', '=', Category::getCategoryId('property', 'others'));
             })
             ->where('user_id', '=', Auth::user()->id)
-            ->get([
+            ->paginate($length, [
                 'loans.*',
                 'pro_t.id as p_id',
                 'pro_t.name as p_name',
@@ -41,10 +45,14 @@ class LoanController extends Controller
     /**
      * Display a listing of the classroom borrow.
      *
+     * Request $request
      * @return \Illuminate\Http\Response
      */
-    public function indexClassroomBorrow()
+    public function indexClassroomBorrow(Request $request)
     {
+        // get length
+        $length = $request->input('length', 10);
+
         $borrow_list = Loan::with([
                 'type',
                 'status'
@@ -54,7 +62,7 @@ class LoanController extends Controller
                     ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
             })
             ->where('user_id', '=', Auth::user()->id)
-            ->get([
+            ->paginate($length, [
                 'loans.*',
                 'pro_t.id as p_id',
                 'pro_t.name as p_name',
@@ -71,13 +79,14 @@ class LoanController extends Controller
      */
     public function storeClassroomBorrow(Request $request)
     {
+        $p_id = $request->input('property_id');
         $date_info = [$request->input('date_began_at'), $request->input('date_ended_at')];
         $time_info = [$request->input('time_began_at'), $request->input('time_ended_at')];
         $LTK = $request->input('long_term_token');
 
         // return if time provided conflict
-        if (self::checkConflict($date_info, $time_info, $LTK)) {
-            return response()->json(['status' => 3]);
+        if (Loan::checkConflict($p_id, $date_info, $time_info, $LTK)) {
+            return response()->json(['status' => 2]);
         }
 
         // create loan request
@@ -88,11 +97,11 @@ class LoanController extends Controller
                 'time_began_at',
                 'time_ended_at',
                 'remark',
-                'long_term_token',
             ]), [
                 'user_id' => Auth::user()->id,
                 'type' => Category::getCategoryId('loan.type', $request->input('type')),
-                'status' => Category::getCategoryId('loan.status', $request->input('processing'))
+                'status' => Category::getCategoryId('loan.status', $request->input('processing')),
+                'long_term_token' => bindec($request->input('long_term_token'))
             ]));
 
         return response()->json(['status' => 0]);
@@ -113,28 +122,5 @@ class LoanController extends Controller
             ]);
 
         return response()->json(['status' => ($affect==1)? 0:2]);
-    }
-
-    /**
-     * check loan data conflict or not
-     *
-     * @param
-     * @return bool
-     */
-    private static function checkConflict($date_info, $time_info, $LTK)
-    {
-        $LTK = ((int)$LTK === 0)? 1<<date('w'):(int)$LTK;
-
-        $conflict_num = DB::table('Loans')
-            ->whereBetween('date_ended_at', $date_info)
-            ->whereBetween('time_info', $time_info)
-            ->where(function ($query) use ($LTK) {
-                $query
-                    ->where(DB::raw("long_term_token & {$LTK}"), '>', 0)
-                    ->orWhere('long_term_token', '=', NULL);
-            })
-            ->count();
-
-        return ($conflict_num > 0);
     }
 }

@@ -73,4 +73,30 @@ class Loan extends Entity
     {
         return $this->belongsTo(User::class);
     }
+
+    /**
+     * check loan data conflict or not
+     *
+     * @param array $date_info
+     * @param array $time_info
+     * @param int $LTK
+     * @return bool
+     */
+    public static function checkConflict($p_id, $date_info, $time_info, $LTK)
+    {
+        $LTK = ((int)$LTK === 0)? 1<<date('w'):(int)$LTK;
+
+        $conflict_num = DB::table('Loans')
+            ->where('property_id', '=', $p_id)
+            ->whereBetween('date_ended_at', $date_info)
+            ->whereBetween('time_ended_at', $time_info)
+            ->where(function ($query) use ($LTK) {
+                $query
+                    ->where(DB::raw("long_term_token & {$LTK}"), '>', 0)
+                    ->orWhere('long_term_token', '=', NULL);
+            })
+            ->count();
+
+        return ($conflict_num > 0);
+    }
 }

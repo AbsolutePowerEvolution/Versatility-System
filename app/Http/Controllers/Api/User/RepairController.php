@@ -16,17 +16,21 @@ class RepairController extends Controller
     /**
      * Display a listing of the repair request.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // get length
+        $length = $request->input('length', 10);
+
         $repair_list = Repair::with([
                 'property',
                 'type',
                 'status'
             ])
             ->where('user_id', Auth::user()->id)
-            ->get();
+            ->paginate($length);
 
         return response()->json($repair_list);
     }
@@ -41,8 +45,9 @@ class RepairController extends Controller
     {
         $repair_property = Property::find($request->input('id'));
 
+        // To avoid user to request for repair two or more times.
         if ($repair_property->getAttribute('status') != Category::getCategoryId('property.status', 'normal')) {
-            return response()->json(['status' => 0]);
+            return response()->json(['status' => 2]);
         } else {
             Repair::create(array_merge(array_only($request->all(), [
                     'property_id',
