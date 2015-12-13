@@ -21,7 +21,7 @@ class PropertyController extends Controller
     {
         // get property list
         $property_list = Property::with(['category', 'status'])
-            ->where('type', Category::getCategoryId('property', 'others'))
+            ->where('category', Category::getCategoryId('property', 'others'))
             ->get();
 
         return response()->json($property_list);
@@ -37,7 +37,7 @@ class PropertyController extends Controller
     {
         // get property detail
         $property_detail = Property::with(['category', 'status'])
-            ->withType('others')
+            ->where('category', Category::getCategoryId('property', 'others'))
             ->find($id);
 
         return response()->json($property_detail);
@@ -50,12 +50,12 @@ class PropertyController extends Controller
      */
     public function indexClassroom()
     {
-        $classroom_list = Property::withType('classroom')
-            ->with([
+        $classroom_list = Property::with([
                 'category',
                 'status',
-                'loansClassroom'
+                'loanClassroom'
             ])
+            ->where('category', Category::getCategoryId('property', 'classroom'))
             ->get();
 
         return response()->json($classroom_list);

@@ -28,6 +28,21 @@ class Category extends Entity
     protected $fillable = ['category', 'name'];
 
     /**
+     * get category id
+     *
+     * @param string category
+     * @param string name
+     */
+    public static function getCategoryId($category, $name)
+    {
+        $id = self::where('category', $category)
+            ->where('name', $name)
+            ->pluck('id');
+
+        return ($id != null)? $id:0;
+    }
+
+    /**
      * get CategoryIds with provided data
      *
      * @param array $datas
@@ -54,12 +69,6 @@ class Category extends Entity
             });
         }
 
-        $ids = [];
-
-        foreach ($query->get(['id']) as $model) {
-            array_push($ids, $model->id);
-        }
-
-        return $ids;
+        return $query->get()->pluck('id');
     }
 }

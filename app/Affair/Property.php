@@ -2,6 +2,7 @@
 
 namespace App\Affair;
 
+use App\Affair\Category;
 use App\Affair\Core\Entity;
 
 class Property extends Entity
@@ -55,6 +56,21 @@ class Property extends Entity
     public function loans()
     {
         return $this->hasMany(Loan::class);
+    }
+
+    /**
+     * 取得有效教室借用
+     *
+     * @return
+     */
+    public function loanClassroom(){
+        return $this->hasMany(Loan::class)
+            ->join('categories', 'type', '=', 'categories.id')
+            ->where('date_ended_at', '>', date('Y-m-d', time()))
+            ->whereIn('status', Category::getCategoryIds(['loan.status' => [
+                'accepted',
+                'processing'
+            ]]));
     }
 
     /**
