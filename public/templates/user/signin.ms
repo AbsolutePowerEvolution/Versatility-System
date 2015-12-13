@@ -9,12 +9,12 @@
           <form method="post" action="#/user/signin">
             <div class="input-field">
               <i class="material-icons prefix">account_box</i>
-              <input type="text" id="username" name="username" />
+              <input type="text" id="username" name="username">
               <label for="username">Username</label>
             </div>
             <div class="input-field">
               <i class="material-icons prefix">lock</i>
-              <input type="password" id="password" name="password" />
+              <input type="password" id="password" name="password">
               <label for="password">Password</label>
             </div>
             <div class="card-action">
