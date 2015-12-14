@@ -1,15 +1,10 @@
+var path = require('path');
 var webpack = require('webpack');
+var SplitByPathPlugin = require('webpack-split-by-path');
 
 module.exports = {
   entry: {
-    'bundle': './resources/assets/javascript/main.js',
-    'vendors': [
-      'jquery',
-      'mustache',
-      'materialize-css/dist/js/materialize',
-      'sammy',
-      'sammy/lib/plugins/sammy.mustache'
-    ]
+    'bundle': './resources/assets/javascript/main.js'
   },
   output: {
     filename: '[name].js',
@@ -29,7 +24,10 @@ module.exports = {
     }]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
+    new SplitByPathPlugin([{
+      name: 'vendors',
+      path: path.join(__dirname, 'node_modules/')
+    }]),
     new webpack.ProvidePlugin({
       'jQuery': 'jquery',
       '$': 'jquery'

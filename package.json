@@ -22,7 +22,8 @@
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
     "vinyl-source-stream": "^1.1.0",
-    "webpack": "^1.12.9"
+    "webpack": "^1.12.9",
+    "webpack-split-by-path": "0.0.7"
   },
   "dependencies": {
     "bootstrap-sass": "^3.3.6",
