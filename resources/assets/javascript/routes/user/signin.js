@@ -1,7 +1,7 @@
 var Sammy = require('sammy');
 require('sammy/lib/plugins/sammy.mustache.js');
 
-Sammy('#root', function() {
+Sammy('#main', function() {
   console.log('hello');
   this.use('Mustache', 'ms');
 

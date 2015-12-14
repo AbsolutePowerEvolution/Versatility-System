@@ -3,4 +3,4 @@ var Sammy = require('sammy');
 
 require('./routes');
 
-Sammy('#root').run('#/');
+Sammy('#main').run('#/');

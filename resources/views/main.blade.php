@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="/styles.css">
     </head>
     <body>
-        <div id="root"></div>
+        <div id="main"></div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.js" defer> </script>
