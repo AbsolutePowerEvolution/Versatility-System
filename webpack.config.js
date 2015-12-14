@@ -5,6 +5,7 @@ module.exports = {
     'bundle': './resources/assets/javascript/main.js',
     'vendors': [
       'jquery',
+      'materialize-css/dist/js/materialize',
       'sammy'
     ]
   },
