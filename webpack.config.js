@@ -5,8 +5,10 @@ module.exports = {
     'bundle': './resources/assets/javascript/main.js',
     'vendors': [
       'jquery',
+      'mustache',
       'materialize-css/dist/js/materialize',
-      'sammy'
+      'sammy',
+      'sammy/lib/plugins/sammy.mustache'
     ]
   },
   output: {
