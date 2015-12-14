@@ -10,6 +10,13 @@ module.exports = {
     filename: '[name].js',
     path: 'public'
   },
+  externals: [{
+      jquery: 'jQuery',
+      'materialize-css/dist/js/materialize': 'null',
+      sammy: 'Sammy',
+      mustache: 'Mustache'
+    }
+  ],
   module: {
     loaders: [{
       test: /\.js$/,
