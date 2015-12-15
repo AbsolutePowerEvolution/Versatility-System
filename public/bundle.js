@@ -9,7 +9,7 @@ webpackJsonp([0],[
 
 	__webpack_require__(3);
 
-	Sammy('#root').run('#/');
+	Sammy('#main').run('#/');
 
 /***/ },
 /* 1 */
@@ -50,7 +50,7 @@ webpackJsonp([0],[
 	var Sammy = __webpack_require__(2);
 	__webpack_require__(6);
 
-	Sammy('#root', function () {
+	Sammy('#main', function () {
 	  console.log('hello');
 	  this.use('Mustache', 'ms');
 
@@ -88,7 +88,7 @@ webpackJsonp([0],[
 
 	var Sammy = __webpack_require__(2);
 
-	Sammy('#root', function () {
+	Sammy('#main', function () {
 	  this.get('#/', function (context) {
 	    context.redirect('#/user/signin');
 	  });
