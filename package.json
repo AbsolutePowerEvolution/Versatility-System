@@ -27,8 +27,10 @@
     "webpack-split-by-path": "0.0.7"
   },
   "dependencies": {
-    "bootstrap-sass": "^3.3.6",
+    "hammerjs": "^2.0.4",
+    "jquery": "^2.1.4",
     "materialize-css": "^0.97.3",
+    "mustache": "^2.2.1",
     "once": "^1.3.3",
     "sammy": "^0.7.6",
     "when": "^3.7.5"
