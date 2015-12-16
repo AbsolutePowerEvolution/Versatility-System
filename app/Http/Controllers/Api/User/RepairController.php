@@ -43,18 +43,18 @@ class RepairController extends Controller
      */
     public function store(Request $request)
     {
-        $repair_property = Property::find($request->input('id'));
+        $repair_property = Property::find($request->input('property_id'));
 
         // To avoid user to request for repair two or more times.
-        if ($repair_property->getAttribute('status') != Category::getCategoryId('property.status', 'normal')) {
+        if ($repair_property === null || $repair_property->status != Category::getCategoryId('property.status', 'normal')) {
             return response()->json(['status' => 2]);
         } else {
             Repair::create(array_merge(array_only($request->all(), [
                     'property_id',
-                    'type',
                     'remark'
                 ]),[
                     'user_id' => Auth::user()->id,
+                    'type' => Category::getCategoryId('repair.type', $request->input('type')),
                     'status' => Category::getCategoryId('repair.status', 'submitted')
                 ]));
 

@@ -35,8 +35,7 @@ class LoanController extends Controller
             ->where('user_id', '=', Auth::user()->id)
             ->paginate($length, [
                 'loans.*',
-                'pro_t.id as p_id',
-                'pro_t.name as p_name',
+                'pro_t.name as property_name',
             ]);
 
         return response()->json($borrow_list);
@@ -64,8 +63,7 @@ class LoanController extends Controller
             ->where('user_id', '=', Auth::user()->id)
             ->paginate($length, [
                 'loans.*',
-                'pro_t.id as p_id',
-                'pro_t.name as p_name',
+                'pro_t.name as property_name',
             ]);
 
         return response()->json($borrow_list);
@@ -82,7 +80,7 @@ class LoanController extends Controller
         $p_id = $request->input('property_id');
         $date_info = [$request->input('date_began_at'), $request->input('date_ended_at')];
         $time_info = [$request->input('time_began_at'), $request->input('time_ended_at')];
-        $LTK = $request->input('long_term_token');
+        $LTK = bindec($request->input('long_term_token'));
 
         // return if time provided conflict
         if (Loan::checkConflict($p_id, $date_info, $time_info, $LTK)) {
@@ -100,7 +98,7 @@ class LoanController extends Controller
             ]), [
                 'user_id' => Auth::user()->id,
                 'type' => Category::getCategoryId('loan.type', $request->input('type')),
-                'status' => Category::getCategoryId('loan.status', $request->input('processing')),
+                'status' => Category::getCategoryId('loan.status', 'processing'),
                 'long_term_token' => bindec($request->input('long_term_token'))
             ]));
 
