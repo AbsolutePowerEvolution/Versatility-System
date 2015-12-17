@@ -22,7 +22,12 @@ class RepairController extends Controller
         // get length
         $length = ($request->has('length'))? $request->input('length'):10;
 
-        $repair_list = Repair::with(['property', 'status', 'type', 'user'])
+        $repair_list = Repair::with([
+                'property',
+                'status',
+                'type',
+                'user'
+            ])
             ->where('status', '=', Category::getCategoryId('repair.status', 'submitted'))
             ->paginate($length);
 

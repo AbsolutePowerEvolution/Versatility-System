@@ -33,7 +33,10 @@ class LoanController extends Controller
                 $join->on('pro_t.id', '=', 'property_id')
                     ->where('pro_t.category', '=', Category::getCategoryId('property', 'others'));
             })
-            ->paginate($length);
+            ->paginate($length, [
+                'loans.*',
+                'pro_t.name as property_name'
+            ]);
 
         return response()->json($borrow_list);
     }
@@ -59,7 +62,10 @@ class LoanController extends Controller
                 $join->on('pro_t.id', '=', 'property_id')
                     ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
             })
-            ->paginate($length);
+            ->paginate($length, [
+                'loans.*',
+                'pro_t.name as property_name'
+            ]);
 
         return response()->json($borrow_list);
     }
@@ -79,7 +85,7 @@ class LoanController extends Controller
                 'date_ended_at',
                 'remark'
             ]), [
-                'user_id' => Auth::user()->id,
+                'user_id' => $request->input('user_id'),
                 'type' => Category::getCategoryId('loan.type', $request->input('type', 'others')),
                 'status' => Category::getCategoryId('loan.status', 'accepted')
             ]));
@@ -98,7 +104,7 @@ class LoanController extends Controller
         $p_id = $request->input('property_id');
         $date_info = [$request->input('date_began_at'), $request->input('date_ended_at')];
         $time_info = [$request->input('time_began_at'), $request->input('time_ended_at')];
-        $LTK = $request->input('long_term_token');
+        $LTK = bindec($request->input('long_term_token'));
 
         // return if time provided conflict
         if (Loan::checkConflict($p_id, $date_info, $time_info, $LTK)) {
@@ -116,7 +122,7 @@ class LoanController extends Controller
             ]), [
                 'user_id' => Auth::user()->id,
                 'type' => Category::getCategoryId('loan.type', $request->input('type')),
-                'status' => Category::getCategoryId('loan.status', $request->input('accepted')),
+                'status' => Category::getCategoryId('loan.status', 'accepted'),
                 'long_term_token' => bindec($request->input('long_term_token')),
             ]));
 

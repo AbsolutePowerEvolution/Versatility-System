@@ -83,7 +83,7 @@ class PropertyController extends Controller
                 'code'
             ]), [
                 'category' => Category::getCategoryId('property', $request->input('category')),
-                'status' => Category::getCategoryId('property.status', $request->input('normal'))
+                'status' => Category::getCategoryId('property.status', 'normal')
             ]));
 
         return response()->json(['status' => 0]);
