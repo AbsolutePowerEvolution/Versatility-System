@@ -1,5 +1,5 @@
 module.exports = function(url, prev, done) {
-  if(url.startsWith('~')) {
+  if(url[0] == '~') {
     try {
       var file = require.resolve(url.slice(1));
       done({ file: file });
