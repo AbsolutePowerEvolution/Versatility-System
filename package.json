@@ -12,6 +12,7 @@
     "css-loader": "^0.23.0",
     "gulp": "^3.9.0",
     "gulp-bg": "0.0.7",
+    "gulp-cdnizer": "^1.1.6",
     "gulp-concat": "^2.6.0",
     "gulp-cssmin": "^0.1.7",
     "gulp-if": "^2.0.0",
