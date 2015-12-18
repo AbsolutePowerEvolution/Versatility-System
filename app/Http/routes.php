@@ -78,10 +78,10 @@ $router->group(['prefix' => 'api', 'namespace' => 'Api'], function (Router $rout
 
         $router->group(['prefix' => 'user', 'as' => 'api.man.user'], function ($router) {
             $router->get('/', ['as' => 'api.man.user.list', 'uses' => 'Manager\UserController@index']);
-            $router->get('/{id}', ['as' => 'api.man.user.detail', 'uses' => 'Manager\UserController@detail']);
-            $router->post('/create', ['as' => 'api.man.user.create', 'uses' => 'Manager\UserController@create']);
+            $router->get('/{id}', ['as' => 'api.man.user.detail', 'uses' => 'Manager\UserController@show']);
+            $router->post('/', ['as' => 'api.man.user.create', 'uses' => 'Manager\UserController@create']);
             $router->put('/{id}', ['as' => 'api.man.user.update', 'uses' => 'Manager\UserController@update']);
-            $router->delete('/{id}', ['as' => 'api.man.user.delete', 'uses' => 'Manager\UserController@delete']);
+            $router->delete('/{id}', ['as' => 'api.man.user.delete', 'uses' => 'Manager\UserController@destroy']);
 
         });
     });

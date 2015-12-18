@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Manager;
 
 use Illuminate\Http\Request;
 
+use App\Affair\User;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -14,8 +15,15 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // get length
+        $length = $request->input('length', 10);
+
+        // get user list
+        $user_list = User::paginate($length);
+
+        return response()->json($user_list);
         //
     }
 
@@ -35,10 +43,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    //public function store(Request $request)
+    //{
+    //    //
+    //}
 
     /**
      * Display the specified resource.
@@ -48,7 +56,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(User::find($id));
     }
 
     /**
@@ -57,10 +65,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
-    }
+    //public function edit($id)
+    //{
+    //    //
+    //}
 
     /**
      * Update the specified resource in storage.
@@ -82,6 +90,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        return response()->json($user->delete() == true);
     }
 }
