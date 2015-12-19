@@ -93,7 +93,7 @@ class Loan extends Entity
             ->where(function ($query) use ($LTK) {
                 $query
                     ->where(DB::raw("long_term_token & {$LTK}"), '>', 0)
-                    ->orWhere('long_term_token', '=', NULL);
+                    ->orWhereNull('long_term_token');
             })
             ->count();
 
