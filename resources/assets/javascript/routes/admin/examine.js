@@ -1,9 +1,13 @@
 var Sammy = require('sammy');
+var client = require('../../lib/client');
 
 Sammy('#main', function() {
   this.use('Mustache', 'ms');
 
   this.get('#/admin/examine', function(context) {
+    client({path: 'manager/loan/classrooms'})
+      .then((response) => console.log(response))
+      .catch((response) => console.log(response));
     context.list = [{
       id: 1,
       username: 'foo',
