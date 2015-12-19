@@ -2,7 +2,6 @@
 
 namespace App\Affair;
 
-use App\Affair\Category;
 use App\Affair\Core\Entity;
 
 class Property extends Entity
