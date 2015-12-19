@@ -5,7 +5,7 @@ var errorCode = require('rest/interceptor/errorCode');
 var mime = require('rest/interceptor/mime');
 var csrf = require('rest/interceptor/csrf');
 
-var token = $('meta[name="csrf-token"]').attr('content');
+var token = $('#csrf-token').attr('content');
 var client = rest
   .wrap(pathPrefix, {prefix: '/api'})
   .wrap(errorCode)
