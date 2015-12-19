@@ -52,7 +52,7 @@ webpackJsonp([0],{
 	__webpack_require__(197);
 	__webpack_require__(200);
 
-	__webpack_require__(202);
+	__webpack_require__(248);
 
 /***/ },
 
@@ -227,11 +227,17 @@ webpackJsonp([0],{
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
+	var client = __webpack_require__(202);
 
 	Sammy('#main', function () {
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/admin/examine', function (context) {
+	    client({ path: 'manager/loan/classrooms' }).then(function (response) {
+	      return console.log(response);
+	    }).catch(function (response) {
+	      return console.log(response);
+	    });
 	    context.list = [{
 	      id: 1,
 	      username: 'foo',
@@ -291,6 +297,32 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 202:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var $ = __webpack_require__(194);
+	var rest = __webpack_require__(203);
+	var pathPrefix = __webpack_require__(231);
+	var errorCode = __webpack_require__(233);
+	var mime = __webpack_require__(234);
+	var csrf = __webpack_require__(247);
+
+	var token = $('meta[name="csrf-token"]').attr('content');
+	var client = rest.wrap(pathPrefix, { prefix: '/api' }).wrap(errorCode).wrap(mime).wrap(csrf, { name: 'X-CSRF-TOKEN', token: token });
+
+	module.exports = client;
+
+/***/ },
+
+/***/ 211:
+/***/ function(module, exports) {
+
+	/* (ignored) */
+
+/***/ },
+
+/***/ 248:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
