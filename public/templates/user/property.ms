@@ -61,13 +61,13 @@
     <div class="lean-overlay" id="materialize-lean-overlay-30"></div>
 
     <ul class="pagination center-align">
-        <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-        <li class="active"><a href="#!">1</a></li>
+        <li class="waves-effect"><a data-pageNum="prev"><i class="material-icons">chevron_left</i></a></li>
+        <!--<li class="active"><a href="#!">1</a></li>
         <li class="waves-effect"><a href="#!">2</a></li>
         <li class="waves-effect"><a href="#!">3</a></li>
         <li class="waves-effect"><a href="#!">4</a></li>
         <li class="waves-effect"><a href="#!">5</a></li>
-        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>-->
     </ul>
 
 </div>

@@ -1,4 +1,5 @@
 var Sammy = require('sammy');
+var client = require('../../lib/client');
 require('sammy/lib/plugins/sammy.mustache.js');
 
 Sammy('#main', function() {
@@ -7,55 +8,91 @@ Sammy('#main', function() {
   this.get('#/user/property', function(context) {
     console.log('property');
     context.partial('/templates/user/property.ms').then(function() {
-      getPropertyList(0, 5);
+      getPropertyList(1, 5, 1);
     });
   });
 });
 
-function getPropertyList(pageNum, pageLength) {
-  $.ajax({
-    url: '/api/user/property/others',
-    type: 'GET',
-    data: {
+function getPropertyList(pageNum, pageLength, createPageSwit) {
+  client({
+    path: 'user/property/others',
+    method: 'GET',
+    params: {
       page: pageNum,
       length: pageLength
-    },
-    error: function(error) {
-      console.error('ajax property get other error');
-      return;
-    },
-    success: function(data) {
-      console.log(data);
-      buildPropertyCard(data.data);
     }
-  });
+  }).then(function(response) {
+    console.log(response);
+    buildPropertyCard(response.entity.data);
+    var propertyTotalPage = response.entity.total;
+    if(createPageSwit) {
+      buildPage(propertyTotalPage);
+    }
+  }).catch((response) => console.log(response));
 }
 
 function postPropertyRepair(propertyId, type, remark) {
-  $.ajax({
-    url: '/api/user/repair/create',
-    type: 'POST',
-    data: {
+  client({
+    path: 'user/repair/create',
+    method: 'POST',
+    params: {
       property_id: propertyId,
       type: type,
       remark: remark
-    },
-    error: function(error) {
-      console.error('ajax property repair create error');
-      return;
-    },
-    success: function(data) {
-      console.log(data);
     }
+  }).then(function(response) {
+    console.log(response);
+    //location.reload();
+  }).catch((response) => console.log(response));
+}
+
+function buildPage(propertyTotalPage) {
+  console.log('propertyTotalPage:' + propertyTotalPage);
+  var i;
+  var page = '<li class="active waves-effect"><a data-pageNum="1">1</a></li>';
+  for(i = 1; i < propertyTotalPage / 5 - 1; i++) {
+    page += '<li class="waves-effect"><a data-pageNum="' + (i + 1) + '">' + (i + 1) + '</a></li>  ';
+  }
+  page += '<li class="waves-effect"><a data-pageNum="next"><i class="material-icons">chevron_right</i></a></li>';
+  $('#property_container').find('.pagination').append(page);
+  pageEvent(propertyTotalPage / 5 - 1);
+}
+
+function pageEvent(limit) {
+  var nowPage = 1;
+  $('#property_container').find('.pagination a').on('click', function(event) {
+    var $ActiveTarget;
+    if(nowPage == parseInt($(this).data('pagenum'))) {
+      return;
+    } else if($(this).data('pagenum') == 'prev') {
+      if(nowPage <= 1) {
+        return;
+      }
+      $ActiveTarget = $(this).parent().parent().find('.active').prev();
+      nowPage -= 1;
+    } else if($(this).data('pagenum') == 'next') {
+      if(nowPage >= limit) {
+        return;
+      }
+      $ActiveTarget = $(this).parent().parent().find('.active').next();
+      nowPage += 1;
+    } else {
+      $ActiveTarget = $(this).parent();
+      nowPage = $(this).data('pagenum');
+    }
+    $(this).parent().parent().find('.active').removeClass('active');
+    $ActiveTarget.addClass('active');
+    getPropertyList(nowPage, 5, 0);
   });
 }
 
 function buildPropertyCard(propertyData) {
   var i;
+  $('#property_system_content').find('.propertyContent').remove();
   for(i = 0; i < propertyData.length; i++) {
     var status = propertyData[i].status.id;//3: normal, 4:maintenance
     var color = status == 3 ? 'teal' : (status == 4 ? 'red' : 'blue');
-    var divCard = '<div class="card">';
+    var divCard = '<div class="card propertyContent">';
     var divCardContent = '<div class="row card-content" ' +
                           'data-name="' + propertyData[i].name + '"' +
                           'data-propertyid="' + propertyData[i].id + '"' +

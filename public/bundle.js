@@ -50,7 +50,7 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(197);
-	__webpack_require__(200);
+	__webpack_require__(246);
 
 	__webpack_require__(248);
 
@@ -98,6 +98,7 @@ webpackJsonp([0],{
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
+	var client = __webpack_require__(200);
 	__webpack_require__(193);
 
 	Sammy('#main', function () {
@@ -106,55 +107,95 @@ webpackJsonp([0],{
 	  this.get('#/user/property', function (context) {
 	    console.log('property');
 	    context.partial('/templates/user/property.ms').then(function () {
-	      getPropertyList(0, 5);
+	      getPropertyList(1, 5, 1);
 	    });
 	  });
 	});
 
-	function getPropertyList(pageNum, pageLength) {
-	  $.ajax({
-	    url: '/api/user/property/others',
-	    type: 'GET',
-	    data: {
+	function getPropertyList(pageNum, pageLength, createPageSwit) {
+	  client({
+	    path: 'user/property/others',
+	    method: 'GET',
+	    params: {
 	      page: pageNum,
 	      length: pageLength
-	    },
-	    error: function error(_error) {
-	      console.error('ajax property get other error');
-	      return;
-	    },
-	    success: function success(data) {
-	      console.log(data);
-	      buildPropertyCard(data.data);
 	    }
+	  }).then(function (response) {
+	    console.log(response);
+	    buildPropertyCard(response.entity.data);
+	    var propertyTotalPage = response.entity.total;
+	    if (createPageSwit) {
+	      buildPage(propertyTotalPage);
+	    }
+	  }).catch(function (response) {
+	    return console.log(response);
 	  });
 	}
 
 	function postPropertyRepair(propertyId, type, remark) {
-	  $.ajax({
-	    url: '/api/user/repair/create',
-	    type: 'POST',
-	    data: {
+	  client({
+	    path: 'user/repair/create',
+	    method: 'POST',
+	    params: {
 	      property_id: propertyId,
 	      type: type,
 	      remark: remark
-	    },
-	    error: function error(_error2) {
-	      console.error('ajax property repair create error');
-	      return;
-	    },
-	    success: function success(data) {
-	      console.log(data);
 	    }
+	  }).then(function (response) {
+	    console.log(response);
+	    //location.reload();
+	  }).catch(function (response) {
+	    return console.log(response);
+	  });
+	}
+
+	function buildPage(propertyTotalPage) {
+	  console.log('propertyTotalPage:' + propertyTotalPage);
+	  var i;
+	  var page = '<li class="active waves-effect"><a data-pageNum="1">1</a></li>';
+	  for (i = 1; i < propertyTotalPage / 5 - 1; i++) {
+	    page += '<li class="waves-effect"><a data-pageNum="' + (i + 1) + '">' + (i + 1) + '</a></li>  ';
+	  }
+	  page += '<li class="waves-effect"><a data-pageNum="next"><i class="material-icons">chevron_right</i></a></li>';
+	  $('#property_container').find('.pagination').append(page);
+	  pageEvent(propertyTotalPage / 5 - 1);
+	}
+
+	function pageEvent(limit) {
+	  var nowPage = 1;
+	  $('#property_container').find('.pagination a').on('click', function (event) {
+	    var $ActiveTarget;
+	    if (nowPage == parseInt($(this).data('pagenum'))) {
+	      return;
+	    } else if ($(this).data('pagenum') == 'prev') {
+	      if (nowPage <= 1) {
+	        return;
+	      }
+	      $ActiveTarget = $(this).parent().parent().find('.active').prev();
+	      nowPage -= 1;
+	    } else if ($(this).data('pagenum') == 'next') {
+	      if (nowPage >= limit) {
+	        return;
+	      }
+	      $ActiveTarget = $(this).parent().parent().find('.active').next();
+	      nowPage += 1;
+	    } else {
+	      $ActiveTarget = $(this).parent();
+	      nowPage = $(this).data('pagenum');
+	    }
+	    $(this).parent().parent().find('.active').removeClass('active');
+	    $ActiveTarget.addClass('active');
+	    getPropertyList(nowPage, 5, 0);
 	  });
 	}
 
 	function buildPropertyCard(propertyData) {
 	  var i;
+	  $('#property_system_content').find('.propertyContent').remove();
 	  for (i = 0; i < propertyData.length; i++) {
 	    var status = propertyData[i].status.id; //3: normal, 4:maintenance
 	    var color = status == 3 ? 'teal' : status == 4 ? 'red' : 'blue';
-	    var divCard = '<div class="card">';
+	    var divCard = '<div class="card propertyContent">';
 	    var divCardContent = '<div class="row card-content" ' + 'data-name="' + propertyData[i].name + '"' + 'data-propertyid="' + propertyData[i].id + '"' + 'data-describe="' + propertyData[i].describe + '">';
 	    var spanName = '<span class="col s4 center-align">' + propertyData[i].name + '</span>';
 	    var spanStatus = '<span class="col s4 center-align" style="color:' + color + '">' + propertyData[i].status.name + '</span>';
@@ -217,17 +258,43 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	__webpack_require__(201);
+	var $ = __webpack_require__(194);
+	var rest = __webpack_require__(201);
+	var pathPrefix = __webpack_require__(229);
+	var errorCode = __webpack_require__(231);
+	var mime = __webpack_require__(232);
+	var csrf = __webpack_require__(245);
+
+	var token = $('meta[name="csrf-token"]').attr('content');
+	var client = rest.wrap(pathPrefix, { prefix: '/api' }).wrap(errorCode).wrap(mime).wrap(csrf, { name: 'X-CSRF-TOKEN', token: token });
+
+	module.exports = client;
 
 /***/ },
 
-/***/ 201:
+/***/ 209:
+/***/ function(module, exports) {
+
+	/* (ignored) */
+
+/***/ },
+
+/***/ 246:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(247);
+
+/***/ },
+
+/***/ 247:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(202);
+	var client = __webpack_require__(200);
 
 	Sammy('#main', function () {
 	  this.use('Mustache', 'ms');
@@ -293,32 +360,6 @@ webpackJsonp([0],{
 	  });
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
-
-/***/ },
-
-/***/ 202:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var $ = __webpack_require__(194);
-	var rest = __webpack_require__(203);
-	var pathPrefix = __webpack_require__(231);
-	var errorCode = __webpack_require__(233);
-	var mime = __webpack_require__(234);
-	var csrf = __webpack_require__(247);
-
-	var token = $('meta[name="csrf-token"]').attr('content');
-	var client = rest.wrap(pathPrefix, { prefix: '/api' }).wrap(errorCode).wrap(mime).wrap(csrf, { name: 'X-CSRF-TOKEN', token: token });
-
-	module.exports = client;
-
-/***/ },
-
-/***/ 211:
-/***/ function(module, exports) {
-
-	/* (ignored) */
 
 /***/ },
 

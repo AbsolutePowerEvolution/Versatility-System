@@ -5497,9 +5497,7 @@
 /* 198 */,
 /* 199 */,
 /* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -5514,8 +5512,8 @@
 
 		!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-			var rest = __webpack_require__(204),
-			    browser = __webpack_require__(207);
+			var rest = __webpack_require__(202),
+			    browser = __webpack_require__(205);
 
 			rest.setPlatformDefaultClient(browser);
 
@@ -5524,13 +5522,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 204 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -5605,7 +5603,7 @@
 
 			var client, target, platformDefault;
 
-			client = __webpack_require__(205);
+			client = __webpack_require__(203);
 
 			/**
 			 * Make a request with the default client
@@ -5654,13 +5652,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 205 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -5724,20 +5722,20 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 206 */
+/* 204 */
 /***/ function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ },
-/* 207 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -5754,11 +5752,11 @@
 
 			var when, UrlBuilder, normalizeHeaderName, responsePromise, client, headerSplitRE;
 
-			when = __webpack_require__(208);
-			UrlBuilder = __webpack_require__(227);
-			normalizeHeaderName = __webpack_require__(229);
-			responsePromise = __webpack_require__(230);
-			client = __webpack_require__(205);
+			when = __webpack_require__(206);
+			UrlBuilder = __webpack_require__(225);
+			normalizeHeaderName = __webpack_require__(227);
+			responsePromise = __webpack_require__(228);
+			client = __webpack_require__(203);
 
 			// according to the spec, the line break is '\r\n', but doesn't hold true in practice
 			headerSplitRE = /[\r|\n]+/;
@@ -5910,14 +5908,14 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206),
+		__webpack_require__(204),
 		typeof window !== 'undefined' ? window : void 0
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 208 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -5931,24 +5929,24 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-		var timed = __webpack_require__(209);
-		var array = __webpack_require__(213);
-		var flow = __webpack_require__(216);
-		var fold = __webpack_require__(217);
-		var inspect = __webpack_require__(218);
-		var generate = __webpack_require__(219);
-		var progress = __webpack_require__(220);
-		var withThis = __webpack_require__(221);
-		var unhandledRejection = __webpack_require__(222);
-		var TimeoutError = __webpack_require__(212);
+		var timed = __webpack_require__(207);
+		var array = __webpack_require__(211);
+		var flow = __webpack_require__(214);
+		var fold = __webpack_require__(215);
+		var inspect = __webpack_require__(216);
+		var generate = __webpack_require__(217);
+		var progress = __webpack_require__(218);
+		var withThis = __webpack_require__(219);
+		var unhandledRejection = __webpack_require__(220);
+		var TimeoutError = __webpack_require__(210);
 
 		var Promise = [array, flow, fold, generate, progress,
 			inspect, withThis, timed, unhandledRejection]
 			.reduce(function(Promise, feature) {
 				return feature(Promise);
-			}, __webpack_require__(224));
+			}, __webpack_require__(222));
 
-		var apply = __webpack_require__(215)(Promise);
+		var apply = __webpack_require__(213)(Promise);
 
 		// Public API
 
@@ -6147,11 +6145,11 @@
 
 		return when;
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	})(__webpack_require__(206));
+	})(__webpack_require__(204));
 
 
 /***/ },
-/* 209 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6161,8 +6159,8 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function(require) {
 
-		var env = __webpack_require__(210);
-		var TimeoutError = __webpack_require__(212);
+		var env = __webpack_require__(208);
+		var TimeoutError = __webpack_require__(210);
 
 		function setTimeout(f, ms, x, y) {
 			return env.setTimer(function() {
@@ -6231,11 +6229,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 210 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6269,7 +6267,7 @@
 
 		} else if (!capturedSetTimeout) { // vert.x
 			var vertxRequire = require;
-			var vertx = __webpack_require__(211);
+			var vertx = __webpack_require__(209);
 			setTimer = function (f, ms) { return vertx.setTimer(ms, f); };
 			clearTimer = vertx.cancelTimer;
 			asap = vertx.runOnLoop || vertx.runOnContext;
@@ -6310,13 +6308,13 @@
 			};
 		}
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
 
 /***/ },
-/* 211 */,
-/* 212 */
+/* 209 */,
+/* 210 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6345,10 +6343,10 @@
 
 		return TimeoutError;
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 /***/ },
-/* 213 */
+/* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6358,8 +6356,8 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function(require) {
 
-		var state = __webpack_require__(214);
-		var applier = __webpack_require__(215);
+		var state = __webpack_require__(212);
+		var applier = __webpack_require__(213);
 
 		return function array(Promise) {
 
@@ -6639,11 +6637,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 214 */
+/* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6680,11 +6678,11 @@
 		}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 215 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6739,13 +6737,13 @@
 		}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 
 
 /***/ },
-/* 216 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6907,11 +6905,11 @@
 		}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 217 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6940,11 +6938,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 218 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -6954,7 +6952,7 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function(require) {
 
-		var inspect = __webpack_require__(214).inspect;
+		var inspect = __webpack_require__(212).inspect;
 
 		return function inspection(Promise) {
 
@@ -6966,11 +6964,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 219 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -7037,11 +7035,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 220 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -7067,11 +7065,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 221 */
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -7110,12 +7108,12 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 
 /***/ },
-/* 222 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -7125,8 +7123,8 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function(require) {
 
-		var setTimer = __webpack_require__(210).setTimer;
-		var format = __webpack_require__(223);
+		var setTimer = __webpack_require__(208).setTimer;
+		var format = __webpack_require__(221);
 
 		return function unhandledRejection(Promise) {
 
@@ -7203,11 +7201,11 @@
 		function noop() {}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 223 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -7265,11 +7263,11 @@
 		}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 224 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -7279,20 +7277,20 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-		var makePromise = __webpack_require__(225);
-		var Scheduler = __webpack_require__(226);
-		var async = __webpack_require__(210).asap;
+		var makePromise = __webpack_require__(223);
+		var Scheduler = __webpack_require__(224);
+		var async = __webpack_require__(208).asap;
 
 		return makePromise({
 			scheduler: new Scheduler(async)
 		});
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	})(__webpack_require__(206));
+	})(__webpack_require__(204));
 
 
 /***/ },
-/* 225 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -8221,12 +8219,12 @@
 			return Promise;
 		};
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
 
 /***/ },
-/* 226 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -8308,11 +8306,11 @@
 		return Scheduler;
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(206)));
+	}(__webpack_require__(204)));
 
 
 /***/ },
-/* 227 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8331,7 +8329,7 @@
 
 			var mixin, origin, urlRE, absoluteUrlRE, fullyQualifiedUrlRE;
 
-			mixin = __webpack_require__(228);
+			mixin = __webpack_require__(226);
 
 			urlRE = /([a-z][a-z0-9\+\-\.]*:)\/\/([^@]+@)?(([^:\/]+)(:([0-9]+))?)?(\/[^?#]*)?(\?[^#]*)?(#\S*)?/i;
 			absoluteUrlRE = /^([a-z][a-z0-9\-\+\.]*:\/\/|\/)/i;
@@ -8540,14 +8538,14 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206),
+		__webpack_require__(204),
 		typeof window !== 'undefined' ? window.location : void 0
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 228 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8595,13 +8593,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 229 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8639,13 +8637,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 230 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8660,8 +8658,8 @@
 
 		!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-			var when = __webpack_require__(208),
-				normalizeHeaderName = __webpack_require__(229);
+			var when = __webpack_require__(206),
+				normalizeHeaderName = __webpack_require__(227);
 
 			function property(promise, name) {
 				return promise.then(
@@ -8785,13 +8783,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 231 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8808,8 +8806,8 @@
 
 			var interceptor, UrlBuilder;
 
-			interceptor = __webpack_require__(232);
-			UrlBuilder = __webpack_require__(227);
+			interceptor = __webpack_require__(230);
+			UrlBuilder = __webpack_require__(225);
 
 			function startsWith(str, prefix) {
 				return str.indexOf(prefix) === 0;
@@ -8850,13 +8848,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 232 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8873,11 +8871,11 @@
 
 			var defaultClient, mixin, responsePromise, client, when;
 
-			defaultClient = __webpack_require__(204);
-			mixin = __webpack_require__(228);
-			responsePromise = __webpack_require__(230);
-			client = __webpack_require__(205);
-			when = __webpack_require__(208);
+			defaultClient = __webpack_require__(202);
+			mixin = __webpack_require__(226);
+			responsePromise = __webpack_require__(228);
+			client = __webpack_require__(203);
+			when = __webpack_require__(206);
 
 			/**
 			 * Interceptors have the ability to intercept the request and/org response
@@ -9021,13 +9019,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 233 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9044,8 +9042,8 @@
 
 			var interceptor, when;
 
-			interceptor = __webpack_require__(232);
-			when = __webpack_require__(208);
+			interceptor = __webpack_require__(230);
+			when = __webpack_require__(206);
 
 			/**
 			 * Rejects the response promise based on the status code.
@@ -9074,13 +9072,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 234 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9097,10 +9095,10 @@
 
 			var interceptor, mime, registry, noopConverter, when;
 
-			interceptor = __webpack_require__(232);
-			mime = __webpack_require__(235);
-			registry = __webpack_require__(236);
-			when = __webpack_require__(208);
+			interceptor = __webpack_require__(230);
+			mime = __webpack_require__(233);
+			registry = __webpack_require__(234);
+			when = __webpack_require__(206);
 
 			noopConverter = {
 				read: function (obj) { return obj; },
@@ -9190,13 +9188,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 235 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9249,13 +9247,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 236 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9272,8 +9270,8 @@
 
 			var mime, when, registry;
 
-			mime = __webpack_require__(235);
-			when = __webpack_require__(208);
+			mime = __webpack_require__(233);
+			when = __webpack_require__(206);
 
 			function Registry(mimes) {
 
@@ -9357,11 +9355,11 @@
 			registry = new Registry({});
 
 			// include provided serializers
-			registry.register('application/hal', __webpack_require__(237));
-			registry.register('application/json', __webpack_require__(243));
-			registry.register('application/x-www-form-urlencoded', __webpack_require__(244));
-			registry.register('multipart/form-data', __webpack_require__(245));
-			registry.register('text/plain', __webpack_require__(246));
+			registry.register('application/hal', __webpack_require__(235));
+			registry.register('application/json', __webpack_require__(241));
+			registry.register('application/x-www-form-urlencoded', __webpack_require__(242));
+			registry.register('multipart/form-data', __webpack_require__(243));
+			registry.register('text/plain', __webpack_require__(244));
 
 			registry.register('+json', registry.delegate('application/json'));
 
@@ -9370,13 +9368,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 237 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9393,12 +9391,12 @@
 
 			var pathPrefix, template, find, lazyPromise, responsePromise, when;
 
-			pathPrefix = __webpack_require__(231);
-			template = __webpack_require__(238);
-			find = __webpack_require__(241);
-			lazyPromise = __webpack_require__(242);
-			responsePromise = __webpack_require__(230);
-			when = __webpack_require__(208);
+			pathPrefix = __webpack_require__(229);
+			template = __webpack_require__(236);
+			find = __webpack_require__(239);
+			lazyPromise = __webpack_require__(240);
+			responsePromise = __webpack_require__(228);
+			when = __webpack_require__(206);
 
 			function defineProperty(obj, name, value) {
 				Object.defineProperty(obj, name, {
@@ -9515,13 +9513,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 238 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9538,9 +9536,9 @@
 
 			var interceptor, uriTemplate, mixin;
 
-			interceptor = __webpack_require__(232);
-			uriTemplate = __webpack_require__(239);
-			mixin = __webpack_require__(228);
+			interceptor = __webpack_require__(230);
+			uriTemplate = __webpack_require__(237);
+			mixin = __webpack_require__(226);
 
 			/**
 			 * Applies request params to the path as a URI Template
@@ -9575,13 +9573,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 239 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9600,7 +9598,7 @@
 
 			var uriEncoder, operations, prefixRE;
 
-			uriEncoder = __webpack_require__(240);
+			uriEncoder = __webpack_require__(238);
 
 			prefixRE = /^([^:]*):([0-9]+)$/;
 			operations = {
@@ -9753,13 +9751,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 240 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9938,13 +9936,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 241 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9985,13 +9983,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 242 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10008,7 +10006,7 @@
 
 			var when;
 
-			when = __webpack_require__(208);
+			when = __webpack_require__(206);
 
 			/**
 			 * Create a promise whose work is started only when a handler is registered.
@@ -10046,13 +10044,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 243 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10099,13 +10097,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 244 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10195,13 +10193,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 245 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10274,13 +10272,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 246 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10309,13 +10307,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ },
-/* 247 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10332,7 +10330,7 @@
 
 			var interceptor;
 
-			interceptor = __webpack_require__(232);
+			interceptor = __webpack_require__(230);
 
 			/**
 			 * Applies a Cross-Site Request Forgery protection header to a request
@@ -10376,7 +10374,7 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(206)
+		__webpack_require__(204)
 		// Boilerplate for AMD and Node
 	));
 
