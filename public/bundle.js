@@ -265,7 +265,7 @@ webpackJsonp([0],{
 	var mime = __webpack_require__(232);
 	var csrf = __webpack_require__(245);
 
-	var token = $('meta[name="csrf-token"]').attr('content');
+	var token = $('#csrf-token').attr('content');
 	var client = rest.wrap(pathPrefix, { prefix: '/api' }).wrap(errorCode).wrap(mime).wrap(csrf, { name: 'X-CSRF-TOKEN', token: token });
 
 	module.exports = client;
