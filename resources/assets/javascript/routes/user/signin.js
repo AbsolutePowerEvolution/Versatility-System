@@ -1,5 +1,4 @@
 var Sammy = require('sammy');
-require('sammy/lib/plugins/sammy.mustache.js');
 
 Sammy('#main', function() {
   console.log('hello');
