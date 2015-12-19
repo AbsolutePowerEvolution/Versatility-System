@@ -3,7 +3,7 @@
 use App\Affair\Property;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class LoadTest extends TestCase
+class LoanTest extends TestCase
 {
     use CategoryHelper;
     use DatabaseTransactions;
