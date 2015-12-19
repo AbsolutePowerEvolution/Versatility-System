@@ -43,12 +43,10 @@ webpackJsonp([0],[
 
 	'use strict';
 
-	__webpack_require__(4);
-
-	__webpack_require__(10);
 	__webpack_require__(7);
-	__webpack_require__(9);
-	__webpack_require__(11);
+	__webpack_require__(10);
+
+	__webpack_require__(12);
 
 /***/ },
 /* 7 */
@@ -56,9 +54,8 @@ webpackJsonp([0],[
 
 	'use strict';
 
-	__webpack_require__(5);
-	__webpack_require__(9);
 	__webpack_require__(8);
+	__webpack_require__(9);
 
 /***/ },
 /* 8 */
@@ -89,12 +86,61 @@ webpackJsonp([0],[
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	__webpack_require__(10);
+	var Sammy = __webpack_require__(2);
+	__webpack_require__(3);
+
+	Sammy('#main', function () {
+	  this.use('mustache', 'ms');
+
+	  this.get('#/user/property', function (context) {
+	    console.log('property');
+	    context.partial('/templates/user/property.ms').then(function () {
+	      propertyBindEvent();
+	    });
+	  });
+	});
+
+	function propertyBindEvent() {
+	  $('#property_container #property_system').click(function () {
+	    $('#property_system').addClass('purple darken-4').css('color', 'white');
+	    $('#property_history').removeClass('purple darken-4').addClass('white').css('color', 'black');
+	    $('#property_system_content').css('display', 'block');
+	    $('#property_history_content').css('display', 'none');
+	  });
+
+	  $('#property_container #property_history').click(function () {
+	    $('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
+	    $('#property_history').addClass('purple darken-4').css('color', 'white');
+	    $('#property_system_content').css('display', 'none');
+	    $('#property_history_content').css('display', 'block');
+	  });
+
+	  var modalTarget;
+	  $('#property_container').find('.modal-trigger').on('click', function (event) {
+	    $('#materialize-lean-overlay-30').css('display', 'block');
+	    modalTarget = $(this).data('modal_target');
+	    $('#' + modalTarget).fadeIn();
+	  });
+
+	  $('#property_container').find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
+	    $('#materialize-lean-overlay-30').css('display', 'none');
+	    $('#' + modalTarget).fadeOut();
+	  });
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
 /* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(11);
+
+/***/ },
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -163,68 +209,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 11 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
-
-	var Sammy = __webpack_require__(2);
-	__webpack_require__(6);
-
-	Sammy('#main', function () {
-	  this.use('mustache', 'ms');
-
-	  this.get('#/user/property', function (context) {
-	    console.log('property');
-	    context.partial('/templates/user/property.ms').then(function () {
-	      propertyBindEvent();
-	    });
-	  });
-	});
-
-	function propertyBindEvent() {
-	  $('#property_container #property_system').click(function () {
-	    $('#property_system').addClass('purple darken-4').css('color', 'white');
-	    $('#property_history').removeClass('purple darken-4').addClass('white').css('color', 'black');
-	    $('#property_system_content').css('display', 'block');
-	    $('#property_history_content').css('display', 'none');
-	  });
-
-	  $('#property_container #property_history').click(function () {
-	    $('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
-	    $('#property_history').addClass('purple darken-4').css('color', 'white');
-	    $('#property_system_content').css('display', 'none');
-	    $('#property_history_content').css('display', 'block');
-	  });
-
-	  var modalTarget;
-	  $('#property_container').find('.modal-trigger').on('click', function (event) {
-	    $('#materialize-lean-overlay-30').css('display', 'block');
-	    modalTarget = $(this).data('modal_target');
-	    $('#' + modalTarget).fadeIn();
-	    /*event.preventDefault();
-	    var ele = $(this);
-	    $(this).parent().addClass('open');
-	    setTimeout(function() {
-	      ele.parent().siblings().fadeIn();
-	      setTimeout(function() {
-	        ele.parent().removeClass('open');
-	        ele.removeClass('slide');
-	      }, 500)
-	    }, 600);*/
-	  });
-
-	  $('#property_container').find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
-	    $('#materialize-lean-overlay-30').css('display', 'none');
-	    $('#' + modalTarget).fadeOut();;
-	    /*event.preventDefault();
-	    $(this).parent().fadeOut();*/
-	  });
-	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
-
-/***/ },
-/* 10 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
