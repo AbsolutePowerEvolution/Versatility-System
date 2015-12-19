@@ -1,5 +1,7 @@
 <?php
 
+use Symfony\Component\HttpFoundation\Response;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -32,16 +34,26 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
-     * Assert that the client response has an error status code.
+     * Assert that the client response has a status code.
      *
      * @param int $status
      * @return void
      */
-    public function assertResponseErrorCode($status)
+    public function assertResponseCode($status)
     {
         $actual = $this->response->getStatusCode();
 
         $this->assertEquals($status, $this->response->getStatusCode(), "Expected status code {$status}, got {$actual}.");
+    }
+
+    /**
+     * Assert that the client response has an 201 status code.
+     *
+     * @return void
+     */
+    public function assertResponseCreated()
+    {
+        $this->assertResponseCode(Response::HTTP_CREATED);
     }
 
     /**
@@ -51,7 +63,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function assertResponseForbidden()
     {
-        $this->assertResponseErrorCode(403);
+        $this->assertResponseCode(Response::HTTP_FORBIDDEN);
     }
 
     /**
@@ -61,7 +73,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function assertResponseNotFound()
     {
-        $this->assertResponseErrorCode(404);
+        $this->assertResponseCode(Response::HTTP_NOT_FOUND);
     }
 
     /**
@@ -71,6 +83,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function assertResponseUnprocessableEntity()
     {
-        $this->assertResponseErrorCode(422);
+        $this->assertResponseCode(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
