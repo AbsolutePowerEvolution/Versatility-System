@@ -27,22 +27,13 @@ class RepairTest extends TestCase
         $this->assertResponseForbidden();
 
         // the priority of 403 should higher than 404
-        $this->call('GET', '/delete/not_found');
+        $this->call('DELETE', '/delete/not_found');
         $this->assertResponseForbidden();
     }
 
     public function test_it_should_response_404_if_result_not_found()
     {
         $this->signIn();
-
-        $this->call('POST', '/create');
-        $this->assertResponseNotFound();
-
-        $this->call('POST', '/create', ['property_id' => 'not_found']);
-        $this->assertResponseNotFound();
-
-        $this->call('POST', '/create', ['property_id' => '1a2b3c4d5e']);
-        $this->assertResponseNotFound();
 
         $this->call('POST', '/create', [
             'property_id' => Property::where('status', '=', $this->specificElement('property.status', 'maintenance', true))
@@ -63,7 +54,7 @@ class RepairTest extends TestCase
         $this->assertResponseNotFound();
     }
     
-    public function test_it_should_response_422_if_query_string_is_invalid()
+    public function test_it_should_response_422_if_input_is_invalid()
     {
         $this->signIn();
         
@@ -74,6 +65,15 @@ class RepairTest extends TestCase
         $this->assertResponseUnprocessableEntity();
         
         $this->call('GET', '/', ['length' => 'hello_world']);
+        $this->assertResponseUnprocessableEntity();
+
+        $this->call('POST', '/create');
+        $this->assertResponseUnprocessableEntity();
+
+        $this->call('POST', '/create', ['property_id' => 'string']);
+        $this->assertResponseUnprocessableEntity();
+
+        $this->call('POST', '/create', ['property_id' => '1a2b3c4d5e']);
         $this->assertResponseUnprocessableEntity();
 
         $this->call('POST', '/create', ['property_id' => 1, 'type' => 'maybe_is_wrong']);

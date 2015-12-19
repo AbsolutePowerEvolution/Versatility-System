@@ -77,6 +77,16 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     }
 
     /**
+     * Assert that the client response has an 409 status code.
+     *
+     * @return void
+     */
+    public function assertResponseConflict()
+    {
+        $this->assertResponseCode(Response::HTTP_CONFLICT);
+    }
+
+    /**
      * Assert that the client response has an 422 status code.
      *
      * @return void

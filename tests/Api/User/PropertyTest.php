@@ -43,7 +43,7 @@ class PropertyTest extends TestCase
         $this->assertResponseNotFound();
     }
 
-    public function test_it_should_response_422_if_query_string_is_invalid()
+    public function test_it_should_response_422_if_input_is_invalid()
     {
         $this->signIn();
 
