@@ -15,45 +15,13 @@
             <span>搜尋：</span>
             <input type="text" placeholder="財產名稱"/>
         </div>
-
-        <div class="card">
-            <div class="row card-content">
-                <span class="col s4 center-align">投影機遙控器</span>
-                <span class="col s4 center-align">3333/12/31</span>
-                <span class="col s4 center-align">
-                    <a class="waves-effect waves-light btn modal-trigger" data-modal_target="property_modal"><i class="material-icons left">build</i>報修/清理</a>
-                </span>
-            </div>
-
-        </div>
-
-        <div class="card">
-            <div class="row card-content">
-                <span class="col s4 center-align">投影機遙控器</span>
-                <span class="col s4 center-align">2014/12/31</span>
-                <span class="col s4 center-align">
-                    <a class="waves-effect waves-light btn modal-trigger" data-modal_target="property_modal"><i class="material-icons left">build</i>報修/清理</a>
-                </span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="row card-content">
-                <span class="col s4 center-align">投影機遙控器</span>
-                <span class="col s4 center-align">2013/12/31</span>
-                <span class="col s4 center-align">
-                    <a class="waves-effect waves-light btn modal-trigger" data-modal_target="property_modal"><i class="material-icons left">build</i>報修/清理</a>
-                </span>
-            </div>
-        </div>
     </div>
 
     <div id="property_history_content" class="row" style="display:none">
         <div class="card">
             <div class="row card-content">
-                <span class="col s4 center-align">投影機遙控器</span>
-                <span class="col s4 center-align">3333/12/31</span>
-                <span class="col s4 center-align">
+                <span class="col s6 center-align">投影機遙控器</span>
+                <span class="col s6 center-align">
                     <a class="waves-effect waves-light btn modal-trigger" data-modal_target="property_modal"><i class="material-icons left">build</i>報修/清理</a>
                 </span>
             </div>
@@ -61,26 +29,36 @@
 
         <div class="card">
             <div class="row card-content">
-                <span class="col s4 center-align">投影機遙控器</span>
-                <span class="col s4 center-align">2014/12/31</span>
-                <span class="col s4 center-align">
+                <span class="col s6 center-align">投影機遙控器</span>
+                <span class="col s6 center-align">
                     <a class="waves-effect waves-light btn modal-trigger" data-modal_target="property_modal"><i class="material-icons left">build</i>報修/清理</a>
                 </span>
             </div>
         </div>
     </div>
 
-    <!-- Modal Structure -->
     <div id="property_modal" class="modal">
         <div class="modal-content">
-            <h4>Modal Header</h4>
-            <p>A bunch of text</p>
+            <h4></h4>
+            <p></p><br>
+            <span>
+                <input id="cleanup" name="clean_type" type="radio" value="5"/>
+                <label for="cleanup">清理</label>
+            </span>
+            <span>
+                <input id="maint" name="clean_type" type="radio" value="6"/>
+                <label for="maint">報修</label>
+            </span>
+            <div class="input-field">
+                <textarea id="reason" class="materialize-textarea"></textarea>
+                <label for="reason">理由</label>
+            </div>
         </div>
         <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+            <a id="property_repair_submit" class=" modal-action modal-close waves-effect waves-green btn-flat">確認送出</a>
         </div>
     </div>
-    <div class="lean-overlay" id="materialize-lean-overlay-30""></div>
+    <div class="lean-overlay" id="materialize-lean-overlay-30"></div>
 
     <ul class="pagination center-align">
         <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
