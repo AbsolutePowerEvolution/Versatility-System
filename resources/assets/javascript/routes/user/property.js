@@ -2,7 +2,7 @@ var Sammy = require('sammy');
 require('sammy/lib/plugins/sammy.mustache.js');
 
 Sammy('#main', function() {
-  this.use('mustache', 'ms');
+  this.use('Mustache', 'ms');
 
   this.get('#/user/property', function(context) {
     console.log('property');
