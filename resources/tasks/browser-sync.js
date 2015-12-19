@@ -1,8 +1,8 @@
 var gulp = require('gulp');
-var bg = require('gulp-bg');
+var $ = require('gulp-load-plugins')();
 var browserSync = require('./helper/browser-sync');
 
-gulp.task('php-server', bg('php', 'artisan', 'serve'));
+gulp.task('php-server', $.bg('php', 'artisan', 'serve'));
 
 gulp.task('proxy', ['build', 'watch', 'php-server'], function() {
   browserSync.init({

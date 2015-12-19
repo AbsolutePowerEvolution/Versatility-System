@@ -1,11 +1,11 @@
 var gulp = require('gulp');
-var jscs = require('gulp-jscs');
+var $ = require('gulp-load-plugins')();
 
 gulp.task('lint', function() {
   return gulp.src([
       './resources/assets/**/*.js',
       './resources/tasks/**/*.js',
       './gulpfile.js'])
-    .pipe(jscs())
-    .pipe(jscs.reporter('jscs-stylish'));
+    .pipe($.jscs())
+    .pipe($.jscs.reporter('jscs-stylish'));
 });
