@@ -1,2 +1,22 @@
 // @import "~normalize.css";
 @import "~materialize-css/sass/materialize.scss";
+
+#property_container #property_system{
+  background-color: #4a148c;
+  color:white;
+}
+#property_container #property_history{
+  background-color: white;
+  color:black;
+}
+#property_container #property_modal {
+  z-index: 1003;
+  opacity: 1;
+  transform: scaleX(1);
+  top: 10%;
+}
+#property_container #materialize-lean-overlay-30{
+  z-index: 1002;
+  opacity: 0.5;
+  display: none;
+}

@@ -1,0 +1,38 @@
+<div id="property_container" class="container">
+    <div id="menu" class="row">
+        <span>首頁</span>
+        <span>教室預借系統</span>
+        <span>財產管理系統</span>
+    </div>
+
+    <div id="sub_menu" class="row">
+        <span>財產管理系統</span>
+        <span>歷史紀錄</span>
+    </div>
+
+    <div id="property_system" class="row">
+        <div class="row">
+            <span>搜尋：</span>
+            <input type="text" placeholder="財產名稱"/>
+        </div>
+
+        <div class="row">
+            <div class="row">
+                <span>投影機遙控器</span>
+                <span>3333/12/31</span>
+                <span>報修/清理</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="property_history" class="row" style="display:none">
+        <div class="row">
+            <div class="row">
+                <span>投影機遙控器</span>
+                <span>3333/12/31</span>
+                <span>報修/清理</span>
+            </div>
+        </div>
+    </div>
+
+</div>
