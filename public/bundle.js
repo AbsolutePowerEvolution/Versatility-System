@@ -1,77 +1,69 @@
-webpackJsonp([0],{
-
-/***/ 0:
+webpackJsonp([0],[
+/* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	__webpack_require__(1);
-	__webpack_require__(191);
-	var Sammy = __webpack_require__(192);
-	__webpack_require__(193);
+	var Sammy = __webpack_require__(2);
+	__webpack_require__(3);
 
-	__webpack_require__(196);
+	__webpack_require__(6);
 
 	Sammy('#main').run('#/');
 
 /***/ },
-
-/***/ 191:
+/* 1 */
 /***/ function(module, exports) {
 
 	module.exports = null;
 
 /***/ },
-
-/***/ 192:
+/* 2 */
 /***/ function(module, exports) {
 
 	module.exports = Sammy;
 
 /***/ },
-
-/***/ 194:
+/* 3 */,
+/* 4 */
 /***/ function(module, exports) {
 
 	module.exports = jQuery;
 
 /***/ },
-
-/***/ 195:
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = Mustache;
 
 /***/ },
-
-/***/ 196:
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(197);
-	__webpack_require__(200);
+	__webpack_require__(7);
+	__webpack_require__(10);
 
-	__webpack_require__(202);
+	__webpack_require__(12);
 
 /***/ },
-
-/***/ 197:
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(198);
-	__webpack_require__(199);
+	__webpack_require__(8);
+	__webpack_require__(9);
 
 /***/ },
-
-/***/ 198:
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Sammy = __webpack_require__(192);
+	var Sammy = __webpack_require__(2);
 
 	Sammy('#main', function () {
 	  console.log('hello');
@@ -91,14 +83,13 @@ webpackJsonp([0],{
 	});
 
 /***/ },
-
-/***/ 199:
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var Sammy = __webpack_require__(192);
-	__webpack_require__(193);
+	var Sammy = __webpack_require__(2);
+	__webpack_require__(3);
 
 	Sammy('#main', function () {
 	  this.use('mustache', 'ms');
@@ -138,30 +129,29 @@ webpackJsonp([0],{
 	    $('#' + modalTarget).fadeOut();
 	  });
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-
-/***/ 200:
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(201);
+	__webpack_require__(11);
 
 /***/ },
-
-/***/ 201:
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var Sammy = __webpack_require__(192);
+	var Sammy = __webpack_require__(2);
 
 	Sammy('#main', function () {
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/admin/examine', function (context) {
+	    console.log('examine');
 	    context.list = [{
 	      id: 1,
 	      username: 'foo',
@@ -216,27 +206,21 @@ webpackJsonp([0],{
 	    });
 	  });
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-
-/***/ 202:
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Sammy = __webpack_require__(192);
+	var Sammy = __webpack_require__(2);
 
 	Sammy('#main', function () {
 	  this.get('#/', function (context) {
 	    context.redirect('#/user/signin');
 	  });
-
-	  this.get('#/user/property', function (context) {
-	    context.redirect('#/user/property');
-	  });
 	});
 
 /***/ }
-
-});
+]);
