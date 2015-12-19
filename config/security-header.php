@@ -14,13 +14,13 @@ return [
      * Reference: https://developer.mozilla.org/en-US/docs/Web/Security/CSP
      */
     'csp' => [
-        'rule' => '',
+        'rule' => "default-src 'none'; script-src 'self' 'unsafe-eval' https://ajax.googleapis.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src data: https:; media-src 'self'; font-src 'self' https://fonts.gstatic.com; connect-src 'self'",
 
         /*
          * The URIs that should be excluded to add CSP header.
          */
         'except' => [
-            //
+            'api/*',
         ],
     ],
 

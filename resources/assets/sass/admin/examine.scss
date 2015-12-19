@@ -1,0 +1,6 @@
+@import "../bourbon/bourbon";
+
+.Examine-Detail, .Examine-Pass, .Examine-Reject {
+  cursor: pointer;
+  @include user-select(none);
+}

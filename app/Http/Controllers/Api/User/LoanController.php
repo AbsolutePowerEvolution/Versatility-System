@@ -119,6 +119,6 @@ class LoanController extends Controller
                 'status' => Category::getCategoryId('loan.status', 'canceled')
             ]);
 
-        return response()->json(['status' => ($affect==1)? 0:2]);
+        return response()->json(['status' => ($affect_rows==1)? 0:2]);
     }
 }

@@ -164,7 +164,7 @@ webpackJsonp([0],[
 	      time: '10:00'
 	    }];
 
-	    context.partial('/templates/admin/examine.ms', context, function () {
+	    context.partial('/templates/admin/examine.ms').then(function () {
 	      // Content has been render
 	      $('.Examine-Item').each(function (idx, ele) {
 	        var item = $(ele);

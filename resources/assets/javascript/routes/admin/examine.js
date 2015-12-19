@@ -4,7 +4,6 @@ Sammy('#main', function() {
   this.use('Mustache', 'ms');
 
   this.get('#/admin/examine', function(context) {
-    console.log('examine');
     context.list = [{
       id: 1,
       username: 'foo',
@@ -17,7 +16,7 @@ Sammy('#main', function() {
       time: '10:00'
     }];
 
-    context.partial('/templates/admin/examine.ms', context, () => {
+    context.partial('/templates/admin/examine.ms').then(() => {
       // Content has been render
       $('.Examine-Item').each((idx, ele) => {
         var item = $(ele);
