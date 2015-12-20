@@ -38,6 +38,7 @@
     "babel-polyfill": "^6.3.14",
     "hammerjs": "^2.0.4",
     "jquery": "^2.1.4",
+    "lodash": "^3.10.1",
     "materialize-css": "^0.97.3",
     "mustache": "^2.2.1",
     "once": "^1.3.3",
