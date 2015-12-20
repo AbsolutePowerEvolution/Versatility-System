@@ -300,62 +300,66 @@ webpackJsonp([0],{
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/admin/examine', function (context) {
-	    client({ path: 'manager/loan/classrooms' }).then(function (response) {
-	      return console.log(response);
-	    }).catch(function (response) {
-	      return console.log(response);
-	    });
-	    context.list = [{
-	      id: 1,
-	      username: 'foo',
-	      propertyName: 'class1',
-	      time: '12:00'
-	    }, {
-	      id: 2,
-	      username: 'bar',
-	      propertyName: 'class2',
-	      time: '10:00'
-	    }];
+	    client({
+	      path: 'manager/loan/classrooms',
+	      params: { page: context.params.page }
+	    }).entity().then(function (data) {
+	      var currentPage = data.current_page;
+	      console.log(data);
+	      context.prevUrl = '#/admin/examine?page=' + (currentPage - 1);
+	      context.nextUrl = '#/admin/examine?page=' + (currentPage + 1);
+	      if (data.current_page === 1) {
+	        context.disablePrev = true;
+	      }
+	      if (!data.next_page_url) {
+	        context.disableNext = true;
+	      }
+	      context.list = data.data.map(function (item) {
+	        item.time = item.date_began_at + '~' + item.date_ended_at;
+	        return item;
+	      });
+	      context.partial('/templates/admin/examine.ms').then(function () {
+	        // Content has been render
+	        $('.Examine-Item').each(function (idx, ele) {
+	          var item = $(ele);
+	          var id = item.data('id');
 
-	    context.partial('/templates/admin/examine.ms').then(function () {
-	      // Content has been render
-	      $('.Examine-Item').each(function (idx, ele) {
-	        var item = $(ele);
-	        var id = item.data('id');
+	          // Initialize tooltip
+	          $('.tooltipped').tooltip({
+	            delay: 50,
+	            position: 'buttom'
+	          });
 
-	        // Initialize tooltip
-	        $('.tooltipped').tooltip({
-	          delay: 50,
-	          position: 'buttom'
-	        });
+	          // Re-trigger event for click
+	          item.find('.Examine-Detail').click(function () {
+	            return item.trigger('examine-detail', id);
+	          });
 
-	        // Re-trigger event for click
-	        item.find('.Examine-Detail').click(function () {
-	          return item.trigger('examine-detail', id);
-	        });
+	          item.find('.Examine-Pass').click(function (event) {
+	            event.preventDefault();
+	            item.trigger('examine-pass', id);
+	          });
+	          item.find('.Examine-Reject').click(function (event) {
+	            event.preventDefault();
+	            item.trigger('examine-reject', id);
+	          });
 
-	        item.find('.Examine-Pass').click(function (event) {
-	          event.preventDefault();
-	          item.trigger('examine-pass', id);
-	        });
-	        item.find('.Examine-Reject').click(function (event) {
-	          event.preventDefault();
-	          item.trigger('examine-reject', id);
-	        });
+	          // Deal custom event
+	          item.on('examine-detail', function (event, id) {
+	            console.log('Show detail for id: ' + id);
+	          });
 
-	        // Deal custom event
-	        item.on('examine-detail', function (event, id) {
-	          console.log('Show detail for id: ' + id);
-	        });
+	          item.on('examine-pass', function (event, id) {
+	            console.log('Examine pass id: ' + id);
+	          });
 
-	        item.on('examine-pass', function (event, id) {
-	          console.log('Examine pass id: ' + id);
-	        });
-
-	        item.on('examine-reject', function (event, id) {
-	          console.log('Examine reject id: ' + id);
+	          item.on('examine-reject', function (event, id) {
+	            console.log('Examine reject id: ' + id);
+	          });
 	        });
 	      });
+	    }).catch(function (response) {
+	      console.log(response);
 	    });
 	  });
 	});
