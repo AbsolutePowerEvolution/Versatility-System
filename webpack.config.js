@@ -48,6 +48,7 @@ var getConfigs = function(env) {
       jquery: 'jQuery',
       'materialize-css/dist/js/materialize': 'null',
       sammy: 'Sammy',
+      lodash: '_',
       mustache: 'Mustache'
     }];
 
