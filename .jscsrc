@@ -7,6 +7,9 @@
   "requireCurlyBraces": true,
   "requireParenthesesAroundIIFE": true,
   "requireSpaceAfterKeywords": ["else"],
+  "requireCamelCaseOrUpperCaseIdentifiers": {
+    "ignoreProperties": true
+  },
 
   "maximumLineLength": 120,
   "validateLineBreaks": "LF",
