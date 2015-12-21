@@ -34,7 +34,16 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        User::create(array_only($request->all(), [
+                'role',
+                'username',
+                'password',
+                'nickname',
+                'email',
+                'phone'
+            ]));
+
+        return response()->json(['status' => 0]);
     }
 
     /**
@@ -79,7 +88,16 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $affect_row = User::where('id', '=', $id)->update([
+            'role' => $request->input('role'),
+            'username' => $request->input('username'),
+            'password' => $request->input('password'),
+            'nickname' => $request->input('nickname'),
+            'email' => $request->input('email'),
+            'phone' => $request->input('phone')
+        ]);
+
+        return response()->json(['status' => ($affect_row==1)? 0:2]);
     }
 
     /**
