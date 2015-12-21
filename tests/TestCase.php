@@ -43,7 +43,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         $actual = $this->response->getStatusCode();
 
-        $this->assertEquals($status, $this->response->getStatusCode(), "Expected status code {$status}, got {$actual}.");
+        $this->assertEquals($status, $actual, "Expected status code {$status}, got {$actual}.");
     }
 
     /**
