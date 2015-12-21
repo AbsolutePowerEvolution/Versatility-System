@@ -17,6 +17,12 @@
         </div>
     </div>
 
+    {{#list}}
+        <div>
+            <span>{{data}}</span>
+        </div>
+    {{/list}}
+
     <div id="property_history_content" class="row" style="display:none">
         <!--<div class="card">
             <div class="row card-content">
@@ -46,6 +52,18 @@
         </div>
         <div class="modal-footer">
             <a id="property_repair_submit" class=" modal-action modal-close waves-effect waves-green btn-flat">確認送出</a>
+        </div>
+    </div>
+
+    <div id="history_modal" class="modal">
+        <div class="modal-content">
+            <h4></h4>
+            <span></span><br>
+            <p></p>
+            <div class="input-field">
+            </div>
+        </div>
+        <div class="modal-footer">
         </div>
     </div>
     <div class="lean-overlay" id="materialize-lean-overlay-30"></div>

@@ -100,6 +100,7 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(192);
 	var client = __webpack_require__(200);
 	__webpack_require__(193);
+
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth() + 1; //January is 0!
@@ -127,6 +128,7 @@ webpackJsonp([0],{
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/user/property', function (context) {
+	    console.log('context:', context);
 	    console.log('property');
 	    context.partial('/templates/user/property.ms').then(function () {
 	      getPropertyList(1, 5, 1);
@@ -165,7 +167,7 @@ webpackJsonp([0],{
 	    var divCardContent = '<div class="row card-content" ' + 'data-name="' + propertyData[i].name + '"' + 'data-propertyid="' + propertyData[i].id + '"' + 'data-describe="' + propertyData[i].describe + '">';
 	    var spanName = '<span class="col s4 center-align">' + propertyData[i].name + '</span>';
 	    var spanStatus = '<span class="col s4 center-align" style="color:' + color + '">' + propertyData[i].status.name + '</span>';
-	    var spanBtn = '<span class="col s4 center-align"><a class="waves-effect waves-light btn modal-trigger ' + (status == 4 ? 'disabled' : '') + '" data-modal_target="property_modal"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
+	    var spanBtn = '<span class="col s4 center-align"><a class="waves-effect waves-light btn modal-trigger ' + (status == 4 ? 'disabled' : '') + '"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
 	    $('#property_system_content').append(divCard + divCardContent + spanName + spanStatus + spanBtn);
 	  }
 	  propertyBindEvent();
@@ -187,14 +189,13 @@ webpackJsonp([0],{
 	    $propertyContainer.find('#property_history_content').css('display', 'block');
 	  });
 
-	  var $modalTarget;
+	  var $modalTarget = $('#property_modal');
 	  $propertyContainer.find('.modal-trigger').on('click', function (event) {
 	    if ($(this).hasClass('disabled')) {
 	      return;
 	    }
 
 	    $('#materialize-lean-overlay-30').css('display', 'block');
-	    $modalTarget = $('#' + $(this).data('modal_target'));
 	    $modalTarget.fadeIn();
 
 	    var ele = $(this).parent().parent();
@@ -206,6 +207,7 @@ webpackJsonp([0],{
 	  $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
 	    $('#materialize-lean-overlay-30').css('display', 'none');
 	    $modalTarget.fadeOut();
+	    $('#history_modal').fadeOut();
 	  });
 
 	  $propertyContainer.find('#property_repair_submit').on('click', function (event) {
@@ -277,7 +279,7 @@ webpackJsonp([0],{
 	  var debugData = {
 	    0: {
 	      id: 1,
-	      remark: 'reason',
+	      remark: 'repairReason1',
 	      create_at: '2014/12/12',
 	      type: {
 	        id: 5,
@@ -293,7 +295,7 @@ webpackJsonp([0],{
 	    },
 	    1: {
 	      id: 2,
-	      remark: 'reason2',
+	      remark: 'repairReason2',
 	      create_at: '2015/12/20',
 	      type: {
 	        id: 6,
@@ -318,7 +320,6 @@ webpackJsonp([0],{
 	    sortData[i][2] = debugData[i].create_at;
 	  }
 	  getPropertyLoan(1, 10000, sortData, debugData);
-	  //buildRepairHistoryCard(debugData);
 	  /*client({
 	    path: 'user/repair',
 	    method: 'GET',
@@ -328,7 +329,7 @@ webpackJsonp([0],{
 	    }
 	  }).then(function(response) {
 	    console.log(response);
-	    buildRepairCard(response.entity.data);
+	    //buildRepairCard(response.entity.data);
 	  }).catch((response) => console.log(response));*/
 	}
 
@@ -386,8 +387,6 @@ webpackJsonp([0],{
 	  //console.log('after sort: totalData:' + totalData);
 	  buildHistoryCard(sortData, repairData, debugData);
 
-	  //buildPropertyHistoryCard(debugData);
-	  //buildRepairHistoryCard(debugData);
 	  /*client({
 	   path: 'user/loan/others',
 	   method: 'GET',
@@ -406,20 +405,19 @@ webpackJsonp([0],{
 	  for (i = 0; i < dataLength; i++) {
 	    if (sortData[i][1] == 0) {
 	      //repair
-	      //console.log('repair:' , repairData[sortData[i][0]]);
 	      buildRepairHistoryCard(repairData[sortData[i][0]]);
 	    } else if (sortData[i][1] == 1) {
 	      //property
-	      //console.log('property:' , propertyData[sortData[i][0]]);
 	      buildPropertyHistoryCard(propertyData[sortData[i][0]]);
 	    }
 	  }
+	  historyCardEvent();
 	}
 
 	function buildRepairHistoryCard(data) {
-	  console.log('Repair history:' + data);
+	  console.log('Repair history:', data);
 	  var color = today > data.create_at ? 'teal' : 'red';
-	  var divCard = '<div class="card waves-effect">';
+	  var divCard = '<div class="card waves-effect"' + 'data-id="' + data.id + '"' + 'data-name="' + data.property.name + '"' + 'data-time="' + data.create_at + '"' + 'data-remark="' + data.remark + '">';
 	  var divCardContent = '<div class="row card-content">';
 	  var spanName = '<span class="col s4 center-align">' + data.property.name + '</span>';
 	  var spanDate = '<span class="col s4 center-align " style="color:' + color + '">' + data.create_at + '</span>';
@@ -429,15 +427,33 @@ webpackJsonp([0],{
 	}
 
 	function buildPropertyHistoryCard(data) {
-	  console.log('Property history:' + data);
+	  console.log('Property history:', data);
 	  var color = today > data.data_began_at ? 'teal' : 'red';
-	  var divCard = '<div class="card waves-effect">';
+	  var divCard = '<div class="card waves-effect"' + 'data-id="' + data.id + '"' + 'data-name="' + data.property_name + '"' + 'data-time="' + data.data_began_at + ' ' + data.time_began_at + ' - ' + data.data_ended_at + ' ' + data.time_ended_at + '"' + 'data-remark="' + data.remark + '">';
 	  var divCardContent = '<div class="row card-content">';
 	  var spanName = '<span class="col s4 center-align">' + data.property_name + '</span>';
-	  var spanDate = '<span class="col s4 center-align" style="color:' + color + '">' + data.data_began_at + ' ' + data.time_began_at + ' - ' + data.data_ended_at + ' ' + data.time_ended_at + '</span>';
+	  var spanDate = '<span class="col s4 center-align" style="color:' + color + '">' + data.data_began_at + '</span>';
 	  var spanType = '<span class="col s4 center-align">' + data.status.name + '</span></div></div>';
 	  //console.log(divCard + divCardContent + spanName + spanDate + spanType);
 	  $('#property_history_content').append(divCard + divCardContent + spanName + spanDate + spanType);
+	}
+
+	function historyCardEvent() {
+	  var $propertyContainer = $('#property_container');
+	  var $modalTarget = $('#history_modal');
+	  $propertyContainer.find('#property_history_content .card').on('click', function (event) {
+	    if ($(this).hasClass('disabled')) {
+	      return;
+	    }
+
+	    $('#materialize-lean-overlay-30').css('display', 'block');
+	    $modalTarget.fadeIn();
+
+	    var ele = $(this);
+	    $modalTarget.find('.modal-content h4').html(ele.data('name'));
+	    $modalTarget.find('span').html(ele.data('time'));
+	    $modalTarget.find('p').html(ele.data('remark'));
+	  });
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
 
