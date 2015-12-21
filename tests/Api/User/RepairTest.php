@@ -53,17 +53,17 @@ class RepairTest extends TestCase
         $this->call('DELETE', '/delete/1');
         $this->assertResponseNotFound();
     }
-    
+
     public function test_it_should_response_422_if_input_is_invalid()
     {
         $this->signIn();
-        
+
         $this->call('GET', '/', ['length' => -135]);
         $this->assertResponseUnprocessableEntity();
-        
+
         $this->call('GET', '/', ['length' => 0]);
         $this->assertResponseUnprocessableEntity();
-        
+
         $this->call('GET', '/', ['length' => 'hello_world']);
         $this->assertResponseUnprocessableEntity();
 

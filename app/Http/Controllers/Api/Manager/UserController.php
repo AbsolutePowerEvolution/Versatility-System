@@ -18,7 +18,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = $request->input('length', 10);
+        $length = ($request->input('length') > 0)? $request->input('length'):10;
 
         // get user list
         $user_list = User::paginate($length);

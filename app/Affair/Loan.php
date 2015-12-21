@@ -2,6 +2,7 @@
 
 namespace App\Affair;
 
+use DB;
 use App\Affair\Core\Entity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -86,7 +87,7 @@ class Loan extends Entity
     {
         $LTK = ((int)$LTK === 0)? 1<<date('w'):(int)$LTK;
 
-        $conflict_num = DB::table('Loans')
+        $conflict_num = DB::table('loans')
             ->where('property_id', '=', $p_id)
             ->whereBetween('date_ended_at', $date_info)
             ->whereBetween('time_ended_at', $time_info)

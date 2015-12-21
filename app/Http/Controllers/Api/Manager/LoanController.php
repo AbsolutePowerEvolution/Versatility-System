@@ -21,7 +21,7 @@ class LoanController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = (int)$request->input('length', 10);
+        $length = ($request->input('length') > 0)? $request->input('length'):10;
 
         // get borrow list
         $borrow_list = Loan::with([
@@ -50,7 +50,7 @@ class LoanController extends Controller
     public function indexClassroomBorrow(Request $request)
     {
         // get length
-        $length = $request->input('length', 10);
+        $length = ($request->input('length') > 0)? $request->input('length'):10;
 
         // get borrow list
         $borrow_list = Loan::with([

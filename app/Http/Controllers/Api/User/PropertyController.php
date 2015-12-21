@@ -21,7 +21,7 @@ class PropertyController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = $request->input('length', 10);
+        $length = ($request->input('length') > 0)? ($request->input('length')):10;
 
         // get property list
         $property_list = Property::with(['category', 'status'])
@@ -56,7 +56,7 @@ class PropertyController extends Controller
     public function indexClassroom(Request $request)
     {
         // get length
-        $length = $request->input('length', 10);
+        $length = ($request->input('length') > 0)? ($request->input('length')):10;
 
         $classroom_list = Property::with([
                 'category',
