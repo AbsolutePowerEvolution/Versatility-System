@@ -55,7 +55,7 @@ class LoanTest extends TestCase
         $this->signIn();
 
         $propertyId = Property::first()->getAttribute('id');
-        $loadType = $this->randomElement('loan.type', true);
+        $loadType = $this->randomElement('loan.type')->getAttribute('name');
 
         // 長期借用衝突測試
         $this->call('POST', '/create', [

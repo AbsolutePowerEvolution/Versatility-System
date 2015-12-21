@@ -11,9 +11,9 @@ trait CategoryHelper
      */
     public function randomElement($category, $getId = false)
     {
-        $categories = Category::where('category', '=', $category)->get();
+        $categories = Category::where('category', '=', $category)->get()->random();
 
-        return $getId ? $categories->random()->getAttribute('id') : $categories;
+        return $getId ? $categories->getAttribute('id') : $categories;
     }
 
     /**
