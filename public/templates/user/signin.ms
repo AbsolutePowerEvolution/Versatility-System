@@ -17,7 +17,7 @@
               <input type="password" id="password" name="password">
               <label for="password">Password</label>
             </div>
-            <div class="card-action">
+            <div class="card-action center">
               <button class="waves-effect btn" type="submit">Login</button>
             </div>
           </form>
