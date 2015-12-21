@@ -10,7 +10,7 @@
         <span id="property_history" class="col s6 center-align waves-effect waves-light btn"><i class="material-icons">history</i>歷史紀錄</span>
     </div>
 
-    <div id="property_system_content" class="row">
+    <div id="property_system_content" class="property_system row">
         <div class="row">
             <span>搜尋：</span>
             <input type="text" placeholder="財產名稱"/>
@@ -18,23 +18,13 @@
     </div>
 
     <div id="property_history_content" class="row" style="display:none">
-        <div class="card">
+        <!--<div class="card">
             <div class="row card-content">
                 <span class="col s6 center-align">投影機遙控器</span>
-                <span class="col s6 center-align">
-                    <a class="waves-effect waves-light btn modal-trigger" data-modal_target="property_modal"><i class="material-icons left">build</i>報修/清理</a>
-                </span>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="row card-content">
                 <span class="col s6 center-align">投影機遙控器</span>
-                <span class="col s6 center-align">
-                    <a class="waves-effect waves-light btn modal-trigger" data-modal_target="property_modal"><i class="material-icons left">build</i>報修/清理</a>
-                </span>
+                <span class="col s6 center-align">投影機遙控器</span>
             </div>
-        </div>
+        </div>-->
     </div>
 
     <div id="property_modal" class="modal">
@@ -60,14 +50,8 @@
     </div>
     <div class="lean-overlay" id="materialize-lean-overlay-30"></div>
 
-    <ul class="pagination center-align">
+    <ul class="property_system pagination center-align">
         <li class="waves-effect"><a data-pageNum="prev"><i class="material-icons">chevron_left</i></a></li>
-        <!--<li class="active"><a href="#!">1</a></li>
-        <li class="waves-effect"><a href="#!">2</a></li>
-        <li class="waves-effect"><a href="#!">3</a></li>
-        <li class="waves-effect"><a href="#!">4</a></li>
-        <li class="waves-effect"><a href="#!">5</a></li>
-        <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>-->
     </ul>
 
 </div>
