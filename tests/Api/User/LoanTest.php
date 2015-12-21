@@ -13,7 +13,7 @@ class LoanTest extends TestCase
      *
      * @var string
      */
-    protected $baseUrl = 'http://localhost/api/user/load';
+    protected $baseUrl = 'http://localhost/api/user/loan';
 
     public function test_it_should_response_403_if_not_sign_in()
     {
