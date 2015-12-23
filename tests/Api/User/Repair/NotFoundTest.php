@@ -1,10 +1,10 @@
 <?php
 
-namespace Tests\Api\User\Loan;
+namespace Tests\Api\User\Repair;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class NotFoundTest extends LoanTest
+class NotFoundTest extends RepairTest
 {
     use DatabaseTransactions;
 
@@ -21,7 +21,7 @@ class NotFoundTest extends LoanTest
     }
 
     /** @test */
-    public function delete_non_exists_loan()
+    public function delete_non_exists_repair()
     {
         $this->call('DELETE', '/delete/not_found');
         $this->assertResponseNotFound();
@@ -35,22 +35,22 @@ class NotFoundTest extends LoanTest
     }
 
     /** @test */
-    public function delete_same_loan_multiple_times()
+    public function delete_same_repair_multiple_times()
     {
-        $loanId = $this->getTestLoanId();
+        $repairId = $this->getTestRepairId();
 
-        $this->call('DELETE', "/delete/{$loanId}");
-        $this->call('DELETE', "/delete/{$loanId}");
+        $this->call('DELETE', "/delete/{$repairId}");
+        $this->call('DELETE', "/delete/{$repairId}");
         $this->assertResponseNotFound();
     }
 
     /** @test */
-    public function delete_same_classroom_loan_multiple_times()
+    public function delete_same_classroom_repair_multiple_times()
     {
-        $loanId = $this->getTestLoanId(true);
+        $repairId = $this->getTestRepairId(true);
 
-        $this->call('DELETE', "/delete/{$loanId}");
-        $this->call('DELETE', "/delete/{$loanId}");
+        $this->call('DELETE', "/delete/{$repairId}");
+        $this->call('DELETE', "/delete/{$repairId}");
         $this->assertResponseNotFound();
     }
 }

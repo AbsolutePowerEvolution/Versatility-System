@@ -28,7 +28,18 @@ class PermissionTest extends  LoanTest
     /** @test */
     public function delete_loan_with_not_sign_in()
     {
-        $this->call('DELETE', '/delete/1');
+        $loanId = $this->getTestLoanId();
+
+        $this->call('DELETE', "/delete/{$loanId}");
+        $this->assertResponseForbidden();
+    }
+
+    /** @test */
+    public function delete_classroom_loan_with_not_sign_in()
+    {
+        $loanId = $this->getTestLoanId(true);
+
+        $this->call('DELETE', "/delete/{$loanId}");
         $this->assertResponseForbidden();
     }
 

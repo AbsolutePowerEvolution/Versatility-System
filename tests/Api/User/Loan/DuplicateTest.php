@@ -2,7 +2,6 @@
 
 namespace Tests\Api\User\Loan;
 
-use App\Affair\Property;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\Helper\CategoryHelper;
 
@@ -44,12 +43,9 @@ class DuplicateTest extends LoanTest
      */
     protected function initialize()
     {
-        $this->propertyId = factory(Property::class)->create([
-            'category' => $this->specificElement('property', 'classroom'),
-            'status' => $this->specificElement('property.status', 'normal'),
-        ])->getAttribute('id');
+        $this->propertyId = $this->getTestPropertyId(true, true);
 
-        $this->loanType = $this->randomElement('loan.type', true);
+        $this->loanType = $this->randomElement('loan.type');
     }
 
     /**

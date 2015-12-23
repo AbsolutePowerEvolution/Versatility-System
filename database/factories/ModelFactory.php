@@ -59,6 +59,6 @@ $factory->define(\App\Affair\Loan::class, function (Faker\Generator $faker) {
         'time_ended_at' => $time ? $day->addHours(mt_rand(1, 8))->toTimeString() : null,
         'remark' => $faker->sentence,
         'status' => Category::where('category', '=', 'loan.status')->get()->random()->getAttribute('id'),
-        'long_term_token' => $time ? str_random(16) : null,
+        'long_term_token' => $time ? str_random(7) : null,
     ];
 });

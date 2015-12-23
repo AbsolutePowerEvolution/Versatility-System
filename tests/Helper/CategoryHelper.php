@@ -8,14 +8,11 @@ trait CategoryHelper
 {
     /**
      * @param string $category
-     * @param bool $getName
-     * @return \Illuminate\Database\Eloquent\Collection|static[]|int
+     * @return string
      */
-    public function randomElement($category, $getName = false)
+    public function randomElement($category)
     {
-        $categories = Category::where('category', '=', $category)->get()->random();
-
-        return $getName ? $categories->getAttribute('name') : $categories;
+        return Category::where('category', '=', $category)->get()->random()->getAttribute('name');
     }
 
     /**

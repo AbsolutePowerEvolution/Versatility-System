@@ -26,7 +26,7 @@ class SuccessTest extends LoanTest
 
         $this->signIn();
 
-        $this->loanType = $this->randomElement('loan.type', true);
+        $this->loanType = $this->randomElement('loan.type');
     }
 
     /** @test */
@@ -46,10 +46,24 @@ class SuccessTest extends LoanTest
     }
 
     /** @test */
+    public function create_not_classroom_loan()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true),
+            'date_began_at' => '2016-03-01',
+            'date_ended_at' => '2016-03-01',
+            'time_began_at' => '12:17:00',
+            'time_ended_at' => '12:33:00',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseCreated();
+    }
+
+    /** @test */
     public function create_short_term_loan()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-03-01',
             'date_ended_at' => '2016-03-01',
             'time_began_at' => '12:00:00',
@@ -64,7 +78,7 @@ class SuccessTest extends LoanTest
     public function create_short_term_loan_with_all_day()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-03-02',
             'date_ended_at' => '2016-03-02',
             'remark' => str_random(16),
@@ -77,7 +91,7 @@ class SuccessTest extends LoanTest
     public function create_long_term_loan_1()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-03-01',
             'date_ended_at' => '2016-03-31',
             'remark' => str_random(16),
@@ -91,7 +105,7 @@ class SuccessTest extends LoanTest
     public function create_long_term_loan_2()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-04-01',
             'date_ended_at' => '2016-04-31',
             'time_began_at' => '12:00:00',
@@ -106,9 +120,18 @@ class SuccessTest extends LoanTest
     /** @test */
     public function delete_loan()
     {
-        $propertyId = $this->getTestPropertyId();
+        $loanId = $this->getTestLoanId();
 
-        $this->call('DELETE', "/delete/{$propertyId}");
+        $this->call('DELETE', "/delete/{$loanId}");
+        $this->assertResponseOk();
+    }
+
+    /** @test */
+    public function delete_classroom_loan()
+    {
+        $loanId = $this->getTestLoanId(true);
+
+        $this->call('DELETE', "/delete/{$loanId}");
         $this->assertResponseOk();
     }
 }

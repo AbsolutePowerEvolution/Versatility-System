@@ -26,10 +26,8 @@ class InvalidInputTest extends LoanTest
 
         $this->signIn();
 
-        $this->loanType = $this->randomElement('loan.type', true);
+        $this->loanType = $this->randomElement('loan.type');
     }
-
-
 
     /** @test */
     public function visit_others_with_negative_page_length()
@@ -105,10 +103,34 @@ class InvalidInputTest extends LoanTest
     }
 
     /** @test */
+    public function create_loan_with_maintenance_property()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(false),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_maintenance_classroom()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(false, true),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
     public function create_loan_with_invalid_date_and_time_1()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => 'string',
             'date_ended_at' => 'string',
             'time_began_at' => 'string',
@@ -122,7 +144,21 @@ class InvalidInputTest extends LoanTest
     public function create_loan_with_invalid_date_and_time_2()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true),
+            'date_began_at' => 'string',
+            'date_ended_at' => 'string',
+            'time_began_at' => 'string',
+            'time_ended_at' => 'string',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_invalid_date_and_time_3()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2015-12-34',
             'date_ended_at' => '2015-22-33',
             'time_began_at' => '55:00:99',
@@ -133,12 +169,62 @@ class InvalidInputTest extends LoanTest
     }
 
     /** @test */
-    public function create_loan_with_invalid_date_and_time_3()
+    public function create_loan_with_invalid_date_and_time_4()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true),
+            'date_began_at' => '2015-12-34',
+            'date_ended_at' => '2015-22-33',
+            'time_began_at' => '55:00:99',
+            'time_ended_at' => '99:75:77',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_invalid_date_and_time_5()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2015-00-00',
             'date_ended_at' => '2015-00-00',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_invalid_date_and_time_6()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true),
+            'date_began_at' => '2015-00-00',
+            'date_ended_at' => '2015-00-00',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_invalid_date_and_time_7()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true, true),
+            'date_began_at' => '2016-03-15',
+            'date_ended_at' => '2015-03-10',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_invalid_date_and_time_8()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true),
+            'date_began_at' => '2016-03-15',
+            'date_ended_at' => '2015-03-10',
             'type' => $this->loanType,
         ]);
         $this->assertResponseUnprocessableEntity();
@@ -148,7 +234,7 @@ class InvalidInputTest extends LoanTest
     public function create_loan_with_invalid_long_term_token_1()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-05-01',
             'date_ended_at' => '2016-05-01',
             'long_term_token' => 'string',
@@ -161,7 +247,7 @@ class InvalidInputTest extends LoanTest
     public function create_loan_with_invalid_long_term_token_2()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-05-01',
             'date_ended_at' => '2016-05-01',
             'long_term_token' => '4096',
@@ -174,7 +260,7 @@ class InvalidInputTest extends LoanTest
     public function create_loan_with_invalid_long_term_token_3()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-05-01',
             'date_ended_at' => '2016-05-01',
             'long_term_token' => '111111111111111111111111111111111111111111111',
@@ -187,7 +273,7 @@ class InvalidInputTest extends LoanTest
     public function create_loan_with_invalid_long_term_token_4()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-05-01',
             'date_ended_at' => '2016-05-01',
             'long_term_token' => '-1',
@@ -197,10 +283,62 @@ class InvalidInputTest extends LoanTest
     }
 
     /** @test */
+    public function create_loan_with_invalid_long_term_token_5()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true, true),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'long_term_token' => '111111',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_invalid_long_term_token_6()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true, true),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'long_term_token' => '1111111',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_invalid_long_term_token_7()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true, true),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'long_term_token' => '0000000',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_long_term_token_but_not_classroom()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'long_term_token' => '1111111',
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
     public function create_loan_with_invalid_type_1()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-05-01',
             'date_ended_at' => '2016-05-01',
             'type' => 0,
@@ -212,7 +350,19 @@ class InvalidInputTest extends LoanTest
     public function create_loan_with_invalid_type_2()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'type' => 0,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_invalid_type_3()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true, true),
             'date_began_at' => '2016-05-01',
             'date_ended_at' => '2016-05-01',
             'type' => 'hello_world',
@@ -221,10 +371,35 @@ class InvalidInputTest extends LoanTest
     }
 
     /** @test */
-    public function create_loan_with_too_long_remark()
+    public function create_loan_with_invalid_type_4()
     {
         $this->call('POST', '/create', [
-            'property_id' => $this->getTestPropertyId(),
+            'property_id' => $this->getTestPropertyId(true),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'type' => 'hello_world',
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_too_long_remark_1()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true, true),
+            'date_began_at' => '2016-05-01',
+            'date_ended_at' => '2016-05-01',
+            'remark' => str_random(500),
+            'type' => $this->loanType,
+        ]);
+        $this->assertResponseUnprocessableEntity();
+    }
+
+    /** @test */
+    public function create_loan_with_too_long_remark_2()
+    {
+        $this->call('POST', '/create', [
+            'property_id' => $this->getTestPropertyId(true),
             'date_began_at' => '2016-05-01',
             'date_ended_at' => '2016-05-01',
             'remark' => str_random(500),
