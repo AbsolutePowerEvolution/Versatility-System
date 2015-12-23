@@ -1,8 +1,13 @@
 <?php
 
+namespace Tests;
+
+use App\Affair\User;
+use Auth;
+use Illuminate\Contracts\Console\Kernel;
 use Symfony\Component\HttpFoundation\Response;
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase
+class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
     /**
      * The base URL to use while testing the application.
@@ -20,7 +25,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(Kernel::class)->bootstrap();
 
         return $app;
     }
@@ -30,7 +35,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      */
     public function signIn()
     {
-        Auth::loginUsingId(\App\Affair\User::first()->getAttribute('id'));
+        Auth::loginUsingId(User::first()->getAttribute('id'));
     }
 
     /**

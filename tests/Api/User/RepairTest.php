@@ -1,7 +1,11 @@
 <?php
 
+namespace Tests\Api\User;
+
 use App\Affair\Property;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\Helper\CategoryHelper;
+use Tests\TestCase;
 
 class RepairTest extends TestCase
 {
@@ -36,7 +40,7 @@ class RepairTest extends TestCase
         $this->signIn();
 
         $this->call('POST', '/create', [
-            'property_id' => Property::where('status', '=', $this->specificElement('property.status', 'maintenance', true))
+            'property_id' => Property::where('status', '=', $this->specificElement('property.status', 'maintenance'))
                 ->first()
                 ->getAttribute('id'),
         ]);
@@ -95,7 +99,7 @@ class RepairTest extends TestCase
         $this->seeJson();
 
         $this->call('POST', '/create', [
-            'property_id' => Property::where('status', '=', $this->specificElement('property.status', 'normal', true))
+            'property_id' => Property::where('status', '=', $this->specificElement('property.status', 'normal'))
                 ->first()
                 ->getAttribute('id'),
             'type' => $this->randomElement('repair.type', true),

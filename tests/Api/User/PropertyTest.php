@@ -1,6 +1,9 @@
 <?php
 
+namespace Tests\Api\User;
+
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Tests\TestCase;
 
 class PropertyTest extends TestCase
 {
