@@ -27,12 +27,10 @@ Object.size = function(obj) {
 
 Sammy('#main', function() {
   this.use('Mustache', 'ms');
-
   this.get('#/user/property', function(context) {
-    console.log('context:' , context);
     console.log('property');
     context.partial('/templates/user/property.ms').then(function() {
-      getPropertyList(1, 5, 1);
+      getPropertyList(1, 10000, 1);
       getRepairList(1, 10000);
     });
   });
@@ -48,36 +46,37 @@ function getPropertyList(pageNum, pageLength, createPageSwit) {
     }
   }).then(function(response) {
     console.log(response);
-    buildPropertyCard(response.entity.data);
+    buildPropertyCard(response.entity.data, response.entity.data);
     var propertyTotalPage = response.entity.total;
     if(createPageSwit) {
-      buildPage(propertyTotalPage);
+      propertyBuildPage(propertyTotalPage);
     }
   }).catch((response) => console.log(response));
 }
 
-function buildPropertyCard(propertyData) {
+function buildPropertyCard(oriPropertyData, searchPropertyData) {
   var i;
+  var length = Object.size(searchPropertyData);
   $('#property_system_content').find('.propertyContent').remove();
-  for(i = 0; i < propertyData.length; i++) {
-    var status = propertyData[i].status.id;//3: normal, 4:maintenance
+  for(i = 0; i < length; i++) {
+    var status = searchPropertyData[i].status.id;//3: normal, 4:maintenance
     var color = status == 3 ? 'teal' : (status == 4 ? 'red' : 'blue');
-    var divCard = '<div class="card propertyContent">';
+    var divCard = '<div class="card propertyContent ' + (i < 5 ? 'block' : 'hide') + '">';
     var divCardContent = '<div class="row card-content" ' +
-        'data-name="' + propertyData[i].name + '"' +
-        'data-propertyid="' + propertyData[i].id + '"' +
-        'data-describe="' + propertyData[i].describe + '">';
-    var spanName = '<span class="col s4 center-align">' + propertyData[i].name + '</span>';
+        'data-name="' + searchPropertyData[i].name + '"' +
+        'data-propertyid="' + searchPropertyData[i].id + '"' +
+        'data-describe="' + searchPropertyData[i].describe + '">';
+    var spanName = '<span class="col s4 center-align">' + searchPropertyData[i].name + '</span>';
     var spanStatus = '<span class="col s4 center-align" style="color:' + color + '">' +
-        propertyData[i].status.name + '</span>';
+        searchPropertyData[i].status.name + '</span>';
     var spanBtn = '<span class="col s4 center-align"><a class="waves-effect waves-light btn modal-trigger ' +
      (status == 4 ? 'disabled' : '') + '"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
     $('#property_system_content').append(divCard + divCardContent + spanName + spanStatus + spanBtn);
   }
-  propertyBindEvent();
+  propertyBindEvent(oriPropertyData);
 }
 
-function propertyBindEvent() {
+function propertyBindEvent(propertyData) {
   var $propertyContainer = $('#property_container');
   $propertyContainer.find('#property_system').on('click', function(event) {
     $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
@@ -118,23 +117,44 @@ function propertyBindEvent() {
     var remark = $modalTarget.find('#reason').val();
     postPropertyRepair(propertyid, type, remark);
   });
+
+  $propertyContainer.find('#search_property_btn').on('click', function() {
+    var i;
+    var j;
+    var target = $propertyContainer.find('#search_property').val();
+    var result = {};
+    if(target !== '') {
+      for(j = 0, i = 0; i < propertyData.length; i++) {
+        if(propertyData[i].name.indexOf(target) != -1) {
+          result[j++] = propertyData[i];
+        }
+      }
+    } else {
+      result = propertyData;
+    }
+    buildPropertyCard(propertyData, result);
+    propertyBuildPage(Object.size(result));
+  });
 }
 
-function buildPage(propertyTotalPage) {
-  console.log('propertyTotalPage:' + propertyTotalPage);
+function propertyBuildPage(propertyTotalPage) {
+  //console.log('propertyTotalPage:' + propertyTotalPage);
   var i;
-  var page = '<li class="active waves-effect"><a data-pageNum="1">1</a></li>';
+  var page = '';
+  page += '<li onselectstart="return false"><a class="page" data-pageNum="prev"><i class="material-icons">' +
+ 'chevron_left</i></a></li><li onselectstart="return false" class="active"><a class="page" data-pageNum="1">1</a></li>';
   for(i = 1; i < propertyTotalPage / 5 ; i++) {
-    page += '<li class="waves-effect"><a data-pageNum="' + (i + 1) + '">' + (i + 1) + '</a></li>  ';
+    page += '<li onselectstart="return false"><a class="page" data-pageNum="' + (i + 1) + '">' + (i + 1) + '</a></li> ';
   }
-  page += '<li class="waves-effect"><a data-pageNum="next"><i class="material-icons">chevron_right</i></a></li>';
-  $('#property_container').find('.pagination').append(page);
-  pageEvent(propertyTotalPage / 5);
+  page += '<li onselectstart="return false">' +
+          '<a class="page" data-pageNum="next"><i class="material-icons">chevron_right</i></a></li>';
+  $('#property_container').find('.pagination').empty().append(page);
+  propertyPageEvent(propertyTotalPage / 5);
 }
 
-function pageEvent(limit) {
+function propertyPageEvent(limit) {
   var nowPage = 1;
-  $('#property_container').find('.pagination a').on('click', function(event) {
+  $('#property_container').find('.page').on('click', function(event) {
     var $ActiveTarget;
     if(nowPage == parseInt($(this).data('pagenum'))) {
       return;
@@ -156,8 +176,18 @@ function pageEvent(limit) {
     }
     $(this).parent().parent().find('.active').removeClass('active');
     $ActiveTarget.addClass('active');
-    getPropertyList(nowPage, 5, 0);
+    showPage(nowPage);
+    //getPropertyList(nowPage, 5, 0);
   });
+}
+
+function showPage(page) {
+  $('#property_container').find('#property_system_content .card').addClass('hide');
+  var i;
+  for(i = 0; i < 5; i++) {
+    var show = '#property_system_content .card:nth-child(' + ((parseInt(page) - 1) * 5 + i + 1) + ')';
+    $('#property_container').find(show).removeClass('hide').addClass('block');
+  }
 }
 
 function postPropertyRepair(propertyId, type, remark) {
