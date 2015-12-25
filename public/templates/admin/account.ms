@@ -23,23 +23,10 @@
       <input type="text" placeholder="帳號名稱" name="search"/>
     </div>
 
-    <div class="row">
+    <div id="first_row" class="row">
       <span class="waves-effect waves-light btn modal-trigger" data-modal_target="add_card">
         <i class="material-icons">add</i>
       </span>
-    </div>
-
-    <div class="card">
-      <div class="row card-content">
-        <span class="col s4 center-align">帳號</span>
-        <span class="col s4 center-align">權限</span>
-        <span class="col s4 center-align">
-          <a class="waves-effect waves-light btn modal-trigger" data-modal_target="card_detail">
-            <i class="material-icons left">build</i>
-            修改/刪除
-          </a>
-        </span>
-      </div>
     </div>
   </div>
 
@@ -69,14 +56,16 @@
   <!-- Modal Structure -->
   <div id="card_detail" class="modal">
     <div class="modal-content">
-      <h4>Detail</h4>
-      <p>A bunch of text</p>
+      <input type="text" name="account" placeholder="account">
+      <input type="text" name="password" placeholder="password">
     </div>
     <div class="modal-footer">
       <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
   </div>
-  <div class="lean-overlay" id="materialize-lean-overlay-30""></div>
+  <div class="lean-overlay" id="materialize-lean-overlay-30">
+    <li class="waves-effect account_page">1</li><!-- For init -->
+  </div>
 
 
 
