@@ -24,7 +24,6 @@ Sammy('#main', function() {
           item.time = `${item.date_began_at}~${item.date_ended_at}`;
           return item;
         });
-        console.log('list:', context.list);
         context
           .partial('/templates/admin/examine.ms')
           .then(() => {
