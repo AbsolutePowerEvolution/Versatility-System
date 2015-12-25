@@ -182,10 +182,10 @@ function propertyPageEvent(limit) {
 }
 
 function showPage(page) {
-  $('#property_container').find('#property_system_content .card').addClass('hide');
+  $('#property_container').find('#property_system_content .propertyContent').removeClass('block').addClass('hide');
   var i;
-  for(i = 0; i < 5; i++) {
-    var show = '#property_system_content .card:nth-child(' + ((parseInt(page) - 1) * 5 + i + 1) + ')';
+  for(i = 1; i <= 5; i++) {
+    var show = '#property_system_content .propertyContent:nth-child(' + ((parseInt(page) - 1) * 5 + i + 1) + ')';
     $('#property_container').find(show).removeClass('hide').addClass('block');
   }
 }
