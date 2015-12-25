@@ -12,25 +12,13 @@
 
     <div id="property_system_content" class="property_system row">
         <div class="row">
-            <span>搜尋：</span>
-            <input type="text" placeholder="財產名稱"/>
+            <input id="search_property" class="offset-s3 col s6" type="text" placeholder="財產名稱"/>
+            <span id="search_property_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4
+"><i class="material-icons left">search</i>搜尋</a></span>
         </div>
     </div>
 
-    {{#list}}
-        <div>
-            <span>{{data}}</span>
-        </div>
-    {{/list}}
-
     <div id="property_history_content" class="row" style="display:none">
-        <!--<div class="card">
-            <div class="row card-content">
-                <span class="col s6 center-align">投影機遙控器</span>
-                <span class="col s6 center-align">投影機遙控器</span>
-                <span class="col s6 center-align">投影機遙控器</span>
-            </div>
-        </div>-->
     </div>
 
     <div id="property_modal" class="modal">
@@ -69,7 +57,6 @@
     <div class="lean-overlay" id="materialize-lean-overlay-30"></div>
 
     <ul class="property_system pagination center-align">
-        <li class="waves-effect"><a data-pageNum="prev"><i class="material-icons">chevron_left</i></a></li>
     </ul>
 
 </div>

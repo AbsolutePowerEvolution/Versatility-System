@@ -1,10 +1,17 @@
+#property_container .hide{
+  display: none;
+}
+#property_container .block{
+  display: block;
+}
+
 #property_container #property_system{
   background-color: #4a148c;
-  color:white;
+  color: white;
 }
 #property_container #property_history{
   background-color: white;
-  color:black;
+  color: black;
 }
 #property_container #property_modal, #property_container #history_modal {
   z-index: 1003;
@@ -20,4 +27,8 @@
 
 #property_container #property_history_content .card.waves-effect{
   display: inherit;
+}
+
+#property_container .page{
+  cursor: pointer;
 }
