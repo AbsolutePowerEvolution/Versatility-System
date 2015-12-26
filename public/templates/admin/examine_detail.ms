@@ -1,4 +1,4 @@
-<div id="Examine" class="Examine">
+<div class="Examine">
   <ul class="collection with-header">
     <li class="collection-header">教室審核</li>
     {{#list}}
@@ -7,6 +7,9 @@
           <span class="Examine-Username">{{user.nickname}}</span>
           <span class="Examine-Classroom">{{property_name}}</span>
           <span class="Examine-Time">{{time}}</span>
+          <a class="Examine-Detail secondary-content tooltipped" data-tooltip="More Detail">
+            <i class="material-icons">details</i>
+          </a>
           <a class="Examine-Pass secondary-content">
             <i class="material-icons">done</i>
           </a>

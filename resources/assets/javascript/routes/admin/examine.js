@@ -12,6 +12,7 @@ Sammy('#main', function() {
       .then((data) => {
         let currentPage = data.current_page;
         console.log(data);
+        examineData = data.data;
         context.prevUrl = `#/admin/examine?page=${currentPage - 1}`;
         context.nextUrl = `#/admin/examine?page=${currentPage + 1}`;
         if(data.current_page === 1) {
