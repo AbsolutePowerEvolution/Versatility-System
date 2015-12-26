@@ -36,6 +36,8 @@ class SuccessTest extends RepairTest
                 $property->repairs()->save($repair);
             });
 
+        $property->load(['repairs']);
+
         $this->call('PUT', '/', [
             'repair_list' =>  $property->getRelation('repairs')->pluck('id'),
         ]);
@@ -46,7 +48,7 @@ class SuccessTest extends RepairTest
             Property::find($this->getTestPropertyId(true))->getAttribute('status')
         );
 
-        foreach (Property::find($this->getTestPropertyId(true))->getRelation('repairs') as $repair) {
+        foreach (Property::with(['repairs'])->find($this->getTestPropertyId(true))->getRelation('repairs') as $repair) {
             $this->assertSame(
                 Category::getCategories('repair.status', 'finished', true),
                 $repair->getAttribute('status')

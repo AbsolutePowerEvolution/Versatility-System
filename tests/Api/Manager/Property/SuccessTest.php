@@ -52,7 +52,7 @@ class SuccessTest extends PropertyTest
         $property = Property::find($this->getTestPropertyId(true));
 
         $this->call('PUT', '/update/' . $property->getAttribute('id'), [
-            'name' =>  str_random(),
+            'name' => str_random(),
         ]);
         $this->assertResponseOk();
         $this->seeJson();
@@ -68,7 +68,7 @@ class SuccessTest extends PropertyTest
         $property = Property::find($this->getTestPropertyId(true));
 
         $this->call('PUT', '/update/' . $property->getAttribute('id'), [
-            'describe' =>  str_random(),
+            'describe' => str_random(),
         ]);
         $this->assertResponseOk();
         $this->seeJson();
