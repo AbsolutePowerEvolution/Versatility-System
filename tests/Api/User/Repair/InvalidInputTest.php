@@ -3,11 +3,9 @@
 namespace Tests\Api\User\Repair;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\Helper\CategoryHelper;
 
 class InvalidInputTest extends RepairTest
 {
-    use CategoryHelper;
     use DatabaseTransactions;
 
     /**
@@ -26,7 +24,7 @@ class InvalidInputTest extends RepairTest
 
         $this->signIn();
 
-        $this->repairType = $this->randomElement('repair.type');
+        $this->repairType = $this->randomCategoryName('repair.type');
     }
 
     /** @test */

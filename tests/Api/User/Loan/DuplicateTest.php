@@ -3,11 +3,9 @@
 namespace Tests\Api\User\Loan;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\Helper\CategoryHelper;
 
 class DuplicateTest extends LoanTest
 {
-    use CategoryHelper;
     use DatabaseTransactions;
 
     /**
@@ -45,7 +43,7 @@ class DuplicateTest extends LoanTest
     {
         $this->propertyId = $this->getTestPropertyId(true, true);
 
-        $this->loanType = $this->randomElement('loan.type');
+        $this->loanType = $this->randomCategoryName('loan.type');
     }
 
     /**

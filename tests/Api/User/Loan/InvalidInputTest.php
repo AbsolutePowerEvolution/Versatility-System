@@ -3,11 +3,9 @@
 namespace Tests\Api\User\Loan;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\Helper\CategoryHelper;
 
 class InvalidInputTest extends LoanTest
 {
-    use CategoryHelper;
     use DatabaseTransactions;
 
     /**
@@ -26,7 +24,7 @@ class InvalidInputTest extends LoanTest
 
         $this->signIn();
 
-        $this->loanType = $this->randomElement('loan.type');
+        $this->loanType = $this->randomCategoryName('loan.type');
     }
 
     /** @test */
