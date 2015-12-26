@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class InvalidInputTest extends PropertyTest
 {
-    use DatabaseTransactions
+    use DatabaseTransactions;
 
     /**
      * @var string
