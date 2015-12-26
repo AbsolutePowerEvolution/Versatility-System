@@ -66,7 +66,4 @@
   <div class="lean-overlay" id="materialize-lean-overlay-30">
     <li class="waves-effect account_page">1</li><!-- For init -->
   </div>
-
-
-
 </div>

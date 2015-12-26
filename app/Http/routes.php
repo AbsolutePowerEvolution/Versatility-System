@@ -15,7 +15,7 @@ use Illuminate\Routing\Router;
 |
 */
 
-$router->group(['middleware' => ['header']], function (Router $router) {
+$router->group(['middleware' => ['web', 'header']], function (Router $router) {
     $router->get('/', ['as' => 'home', 'uses' => 'HomeController@home']);
 });
 
