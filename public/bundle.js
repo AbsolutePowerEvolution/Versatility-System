@@ -580,7 +580,6 @@ webpackJsonp([0],{
 	    }).entity().then(function (data) {
 	      var currentPage = data.current_page;
 	      console.log(data);
-	      examineData = data.data;
 	      context.prevUrl = '#/admin/examine?page=' + (currentPage - 1);
 	      context.nextUrl = '#/admin/examine?page=' + (currentPage + 1);
 	      if (data.current_page === 1) {
@@ -594,6 +593,29 @@ webpackJsonp([0],{
 	        return item;
 	      });
 	      context.partial('/templates/admin/examine.ms').then(function () {
+	        var sendVerifyRequest = function sendVerifyRequest(id, type) {
+	          client({
+	            path: 'manager/loan/class-verify/' + id,
+	            method: 'put',
+	            entity: {
+	              id: id,
+	              status: type
+	            }
+	          }).entity().then(function (response) {
+	            console.log('Success', response);
+	          }).catch(function (response) {
+	            console.log('Fail', response);
+	          });
+	        };
+
+	        var sendRefuseVerify = function sendRefuseVerify(id) {
+	          sendVerifyRequest(id, 'refused');
+	        };
+
+	        var sendAcceptVerify = function sendAcceptVerify(id) {
+	          sendVerifyRequest(id, 'accepted');
+	        };
+
 	        // Content has been render
 	        $('.Examine-Item').each(function (idx, ele) {
 	          var item = $(ele);
@@ -606,10 +628,6 @@ webpackJsonp([0],{
 	          });
 
 	          // Re-trigger event for click
-	          item.find('.Examine-Detail').click(function () {
-	            return item.trigger('examine-detail', id);
-	          });
-
 	          item.find('.Examine-Pass').click(function (event) {
 	            event.preventDefault();
 	            item.trigger('examine-pass', id);
@@ -620,16 +638,14 @@ webpackJsonp([0],{
 	          });
 
 	          // Deal custom event
-	          item.on('examine-detail', function (event, id) {
-	            console.log('Show detail for id: ' + id);
-	          });
-
 	          item.on('examine-pass', function (event, id) {
 	            console.log('Examine pass id: ' + id);
+	            sendAcceptVerify(id);
 	          });
 
 	          item.on('examine-reject', function (event, id) {
 	            console.log('Examine reject id: ' + id);
+	            sendRefuseVerify(id);
 	          });
 	        });
 	      });
