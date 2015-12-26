@@ -4,7 +4,7 @@ var client = require('../../lib/client');
 Sammy('#main', function() {
   this.use('Mustache', 'ms');
 
-  this.get('#/admin/examine', function(context) {
+  this.get('#/admin/examine', (context) => {
     client({
       path: 'manager/loan/classrooms',
       params: {page: context.params.page}
