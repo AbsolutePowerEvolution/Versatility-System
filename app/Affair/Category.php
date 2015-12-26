@@ -37,7 +37,7 @@ class Category extends Entity
     {
         $id = self::where('category', $category)
             ->where('name', $name)
-            ->pluck('id');
+            ->first()['id'];
 
         return ($id != null)? $id:0;
     }
