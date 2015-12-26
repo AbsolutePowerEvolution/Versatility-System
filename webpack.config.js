@@ -10,7 +10,7 @@ var getDefaultConfigs = function() {
     },
     output: {
       filename: '[name].js',
-      path: 'public'
+      path: 'public/assets/js'
     },
     module: {
       loaders: [{

@@ -565,8 +565,9 @@ webpackJsonp([0],{
 /***/ 248:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	'use strict';
 
+	var $ = __webpack_require__(194);
 	var Sammy = __webpack_require__(192);
 	var client = __webpack_require__(200);
 
@@ -597,10 +598,9 @@ webpackJsonp([0],{
 	          client({
 	            path: 'manager/loan/class-verify/' + id,
 	            method: 'put',
-	            entity: {
-	              id: id,
+	            entity: $.param({
 	              status: type
-	            }
+	            })
 	          }).entity().then(function (response) {
 	            console.log('Success', response);
 	          }).catch(function (response) {
@@ -654,7 +654,6 @@ webpackJsonp([0],{
 	    });
 	  });
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
 
 /***/ },
 

@@ -15,5 +15,5 @@ gulp.task('sass', function() {
     .pipe($.concat('styles.css'))
     .pipe($.if(productionMode, $.cssmin()))
     .pipe($.if(productionMode, $.rename({suffix: '.min'})))
-    .pipe(gulp.dest('./public'));
+    .pipe(gulp.dest('./public/assets/css'));
 });
