@@ -869,10 +869,12 @@ webpackJsonp([0],{
 	    $createPropertyModal.fadeIn();
 	  });
 	  $propertyContainer.find('#create_property_modal #create_property_btn').on('click', function (event) {
-	    var propertyName = $propertyContainer.find('#create_property_name').val();
-	    var describe = $propertyContainer.find('#create_property_describe').val();
-	    if (!propertyName || !describe) {
-	      alert('請輸入財產名稱和敘述！');
+	    var type = $createPropertyModal.find('input[type="radio"]:checked').val();
+	    var propertyName = $createPropertyModal.find('#create_property_name').val();
+	    var propertyCode = $createPropertyModal.find('#create_property_code').val();
+	    var describe = $createPropertyModal.find('#create_property_describe').val();
+	    if (!type || !propertyName || !propertyCode || !describe) {
+	      alert('請輸入財產名稱和財產條碼和敘述！');
 	      return;
 	    }
 	    client({
@@ -880,9 +882,9 @@ webpackJsonp([0],{
 	      method: 'POST',
 	      params: {
 	        name: propertyName,
+	        code: propertyCode,
 	        describe: describe,
-	        code: 'sdfsdasdf',
-	        category: 'others'
+	        category: type
 	      }
 	    }).then(function (response) {
 	      console.log('create property success!');
@@ -923,34 +925,33 @@ webpackJsonp([0],{
 	    var propertyID = $propertyModal.data('propertyid');
 	    console.log('delete property: ' + propertyID);
 	    console.log('_token:' + $('meta[name="csrf-token"]').attr('content'));
-	    client({
+	    /*client({
 	      path: 'manager/property/delete/' + propertyID,
 	      method: 'delete',
 	      _method: 'delete',
 	      params: {
-	        id: propertyID
+	        id: propertyID,
 	      }
-	    }).then(function (response) {
+	    }).then(function(response) {
 	      console.log('delete property success!');
 	      console.log(response);
-	    }).catch(function (response) {
-	      return console.log('delete property error, ', response);
-	    });
-	    /*$.ajax({
+	    }).catch((response) => console.log('delete property error, ', response));*/
+	    $.ajax({
 	      url: '/api/manager/property/delete/' + propertyID,
+	      _method: 'delete',
 	      type: 'delete',
 	      data: {
 	        id: propertyID,
 	        _token: $('meta[name="csrf-token"]').attr('content')
 	      },
-	      error: function(error) {
-	        console.log('delete property error, ' + error);
+	      error: function error(_error) {
+	        console.log('delete property error, ', _error);
 	      },
-	      success: function(data) {
+	      success: function success(data) {
 	        console.log('delete property success!');
 	        console.log(data);
 	      }
-	    });*/
+	    });
 	  });
 	}
 

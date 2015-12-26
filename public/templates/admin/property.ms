@@ -54,9 +54,23 @@
     <div id="create_property_modal" class="modal">
         <div class="modal-content">
             <h4>新增財產</h4><br>
+            <div>
+                <span>
+                    <input id="create_property_others" name="property_type" type="radio" value="others"/>
+                    <label for="create_property_others">一般財產</label>
+                </span>
+                <span>
+                    <input id="create_property_classroom" name="property_type" type="radio" value="classroom"/>
+                    <label for="create_property_classroom">教室</label>
+                </span>
+            </div>
             <div class="input-field">
                 <input id="create_property_name" type="text"/>
                 <label for="create_property_name">財產名稱</label>
+            </div>
+            <div class="input-field">
+                <input id="create_property_code" type="text"/>
+                <label for="create_property_code">財產條碼</label>
             </div>
             <div class="input-field">
                 <textarea id="create_property_describe" class="materialize-textarea"/>
