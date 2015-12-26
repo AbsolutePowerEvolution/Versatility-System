@@ -49,7 +49,7 @@ $router->group(['middleware' => ['web']], function (Router $router) {
             $router->group(['prefix' => 'repair'], function (Router $router) {
                 $router->get('/', ['as' => 'api.user.repair.list', 'uses' => 'User\RepairController@index']);
                 $router->post('create', ['as' => 'api.user.repair.create', 'uses' => 'User\RepairController@store']);
-                $router->delete('delete/{id}', ['as' => 'api.user.repair.delete', 'uses' => 'User\RepairController@delete']);
+                $router->delete('delete/{id}', ['as' => 'api.user.repair.delete', 'uses' => 'User\RepairController@destroy']);
             });
 
             $router->group(['prefix' => 'loan'], function (Router $router) {
@@ -69,7 +69,7 @@ $router->group(['middleware' => ['web']], function (Router $router) {
                 $router->get('others/{id}', ['as' => 'api.man.other.detail', 'uses' => 'Manager\PropertyController@show']);
                 $router->post('create', ['as' => 'api.man.pro.create', 'uses' => 'Manager\PropertyController@store']);
                 $router->put('update/{id}', ['as' => 'api.man.pro.update', 'uses' => 'Manager\PropertyController@update']);
-                $router->delete('delete/{id}', ['as' => 'api.man.pro.delete', 'uses' => 'Manager\PropertyController@delete']);
+                $router->delete('delete/{id}', ['as' => 'api.man.pro.delete', 'uses' => 'Manager\PropertyController@destroy']);
             });
 
             $router->group(['prefix' => 'repair'], function (Router $router) {
