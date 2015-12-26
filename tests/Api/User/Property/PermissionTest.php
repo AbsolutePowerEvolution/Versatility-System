@@ -2,8 +2,12 @@
 
 namespace Tests\Api\User\Property;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 class PermissionTest extends PropertyTest
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function visit_classroom_with_not_sign_in()
     {

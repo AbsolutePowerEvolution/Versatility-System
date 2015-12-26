@@ -2,8 +2,12 @@
 
 namespace Tests\Api\User\Loan;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 class PermissionTest extends  LoanTest
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function visit_others_with_not_sign_in()
     {

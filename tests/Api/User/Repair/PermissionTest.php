@@ -2,8 +2,12 @@
 
 namespace Tests\Api\User\Repair;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 class PermissionTest extends RepairTest
 {
+    use DatabaseTransactions;
+
     /** @test */
     public function visit_index_with_not_sign_in()
     {

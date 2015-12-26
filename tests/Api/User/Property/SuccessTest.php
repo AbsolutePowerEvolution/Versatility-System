@@ -2,8 +2,12 @@
 
 namespace Tests\Api\User\Property;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 class SuccessTest extends PropertyTest
 {
+    use DatabaseTransactions;
+
     /**
      * Setup the test environment.
      *
