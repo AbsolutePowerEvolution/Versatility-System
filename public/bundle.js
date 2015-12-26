@@ -499,9 +499,20 @@ webpackJsonp([0],{
 	var errorCode = __webpack_require__(231);
 	var mime = __webpack_require__(232);
 	var csrf = __webpack_require__(245);
+	var when = __webpack_require__(206);
+	var interceptor = __webpack_require__(230);
+
+	var statusCheck = interceptor({
+	  response: function response(_response, config) {
+	    if (_response.request.method !== 'GET' && _response.status.code === 200 && _response.entity.status !== 0) {
+	      return when.reject(_response);
+	    }
+	    return _response;
+	  }
+	});
 
 	var token = $('#csrf-token').attr('content');
-	var client = rest.wrap(pathPrefix, { prefix: '/api' }).wrap(errorCode).wrap(mime).wrap(csrf, { name: 'X-CSRF-TOKEN', token: token });
+	var client = rest.wrap(pathPrefix, { prefix: '/api' }).wrap(errorCode).wrap(mime).wrap(csrf, { name: 'X-CSRF-TOKEN', token: token }).wrap(statusCheck);
 
 	module.exports = client;
 
@@ -569,6 +580,7 @@ webpackJsonp([0],{
 	    }).entity().then(function (data) {
 	      var currentPage = data.current_page;
 	      console.log(data);
+	      examineData = data.data;
 	      context.prevUrl = '#/admin/examine?page=' + (currentPage - 1);
 	      context.nextUrl = '#/admin/examine?page=' + (currentPage + 1);
 	      if (data.current_page === 1) {
