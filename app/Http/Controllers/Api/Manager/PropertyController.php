@@ -123,7 +123,7 @@ class PropertyController extends Controller
     public function destroy($id)
     {
         $affect_rows = Property::where('id', '=', $id)
-            ->update(['status' => Category::getCategoryId('property', 'deleted')]);
+            ->update(['status' => Category::getCategoryId('property.status', 'deleted')]);
 
         return response()->json(['status' => ($affect_rows==1)? 0:2]);
     }
