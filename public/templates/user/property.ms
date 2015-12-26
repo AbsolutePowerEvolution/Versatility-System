@@ -30,8 +30,8 @@
                 <label for="cleanup">清理</label>
             </span>
             <span>
-                <input id="maint" name="clean_type" type="radio" value="6"/>
-                <label for="maint">報修</label>
+                <input id="maintain" name="clean_type" type="radio" value="6"/>
+                <label for="maintain">報修</label>
             </span>
             <div class="input-field">
                 <textarea id="reason" class="materialize-textarea"></textarea>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a id="property_repair_submit" class=" modal-action modal-close waves-effect waves-green btn-flat">確認送出</a>
+            <a id="property_repair_submit" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確認送出</a>
         </div>
     </div>
 

@@ -93,7 +93,7 @@ function propertyBindEvent(propertyData) {
   });
 
   var $modalTarget = $('#property_modal');
-  $propertyContainer.find('.modal-trigger').on('click', function(event) {
+  $propertyContainer.find('#property_system_content .modal-trigger').on('click', function(event) {
     if($(this).hasClass('disabled')) { return; }
 
     $('#materialize-lean-overlay-30').css('display', 'block');

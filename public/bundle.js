@@ -189,7 +189,7 @@ webpackJsonp([0],{
 	  });
 
 	  var $modalTarget = $('#property_modal');
-	  $propertyContainer.find('.modal-trigger').on('click', function (event) {
+	  $propertyContainer.find('#property_system_content .modal-trigger').on('click', function (event) {
 	    if ($(this).hasClass('disabled')) {
 	      return;
 	    }
@@ -554,7 +554,6 @@ webpackJsonp([0],{
 	        item.time = item.date_began_at + '~' + item.date_ended_at;
 	        return item;
 	      });
-	      console.log('list:', context.list);
 	      context.partial('/templates/admin/examine.ms').then(function () {
 	        // Content has been render
 	        $('.Examine-Item').each(function (idx, ele) {
@@ -798,13 +797,76 @@ webpackJsonp([0],{
 	        showPage(1, context.page.length);
 	      });
 	    }).catch(function (response) {
-	      return console.log(response);
+	      return console.log('get property list error, ', response);
 	    });
 	  });
 	});
 
 	function propertyBindEvent(propertyData) {
 	  var $propertyContainer = $('#property_container');
+	  $propertyContainer.find('#property_system').on('click', function (event) {
+	    $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
+	    $propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
+	    $propertyContainer.find('.property_system').css('display', 'block');
+	    $propertyContainer.find('#property_manage_content').css('display', 'none');
+	  });
+
+	  $propertyContainer.find('#property_manage').on('click', function (event) {
+	    $propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
+	    $propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
+	    $propertyContainer.find('.property_system').css('display', 'none');
+	    $propertyContainer.find('#property_manage_content').css('display', 'block');
+	  });
+
+	  var $propertyModal = $('#property_modal');
+	  $propertyContainer.find('#property_system_content .modal-trigger').on('click', function (event) {
+	    if ($(this).hasClass('disabled')) {
+	      return;
+	    }
+
+	    $('#materialize-lean-overlay-30').css('display', 'block');
+	    $propertyModal.fadeIn();
+
+	    var ele = $(this).parent().parent();
+	    $propertyModal.find('.modal-content h4').html(ele.data('name'));
+	    $propertyModal.find('p').html(ele.data('describe'));
+	    $propertyModal.data('propertyid', ele.data('propertyid'));
+	  });
+
+	  var $createPropertyModal = $('#create_property_modal');
+	  $propertyContainer.find('#property_manage_content #create_property').on('click', function (event) {
+	    $('#materialize-lean-overlay-30').css('display', 'block');
+	    $createPropertyModal.fadeIn();
+	  });
+	  $propertyContainer.find('#create_property_modal #create_property_btn').on('click', function (event) {
+	    var propertyName = $propertyContainer.find('#create_property_name').val();
+	    var describe = $propertyContainer.find('#create_property_describe').val();
+	    if (!propertyName || !describe) {
+	      alert('請輸入財產名稱和敘述！');
+	      return;
+	    }
+	    client({
+	      path: 'manager/property/create',
+	      _method: 'create',
+	      params: {
+	        name: propertyName,
+	        describe: describe,
+	        category: 'others'
+	      }
+	    }).then(function (response) {
+	      console.log('create property success!');
+	      console.log(response);
+	    }).catch(function (response) {
+	      return console.log('create property error, ', response);
+	    });
+	  });
+
+	  $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
+	    $('#materialize-lean-overlay-30').css('display', 'none');
+	    $propertyModal.fadeOut();
+	    $createPropertyModal.fadeOut();
+	  });
+
 	  $propertyContainer.find('#search_property_btn').on('click', function () {
 	    var i;
 	    var limit;
@@ -819,65 +881,82 @@ webpackJsonp([0],{
 	        }
 	      }
 	    } else {
+	      limit = propertyData.length;
 	      $propertyContainer.find('#property_system_content .propertyContent').addClass('searched');
 	    }
 	    showPage(1, Math.ceil(limit / 5));
 	    propertyPageEvent(Math.ceil(limit / 5));
 	  });
+
+	  $propertyContainer.find('#property_modal #delete_property_btn').on('click', function () {
+	    var propertyID = $propertyModal.data('propertyid');
+	    console.log('delete property: ' + propertyID);
+	    console.log('_token:' + $('meta[name="csrf-token"]').attr('content'));
+	    client({
+	      path: 'manager/property/delete/' + propertyID,
+	      _method: 'delete',
+	      params: {
+	        id: propertyID
+	      }
+	    }).then(function (response) {
+	      console.log('delete property success!');
+	      console.log(response);
+	    }).catch(function (response) {
+	      return console.log('delete property error, ', response);
+	    });
+	    /*$.ajax({
+	      url: '/api/manager/property/delete/' + propertyID,
+	      type: 'delete',
+	      data: {
+	        id: propertyID,
+	        _token: $('meta[name="csrf-token"]').attr('content')
+	      },
+	      error: function(error) {
+	        console.log('delete property error, ' + error);
+	      },
+	      success: function(data) {
+	        console.log('delete property success!');
+	        console.log(data);
+	      }
+	    });*/
+	  });
 	}
 
 	function propertyPageEvent(limit) {
 	  var $propertyContainer = $('#property_container');
-	  console.log('--propertyPageEvent limit:', limit);
 	  var nowPage = 1;
 	  $propertyContainer.find('.page').unbind('click').on('click', function (event) {
-	    var $ActiveTarget;
 	    if (nowPage == parseInt($(this).data('pagenum'))) {
 	      return;
 	    } else if ($(this).data('pagenum') == 'prev') {
 	      if (nowPage <= 1) {
 	        return;
 	      }
-	      $ActiveTarget = $(this).parent().parent().find('.active').prev();
 	      nowPage -= 1;
 	    } else if ($(this).data('pagenum') == 'next') {
 	      if (nowPage >= limit) {
 	        return;
 	      }
-	      $ActiveTarget = $(this).parent().parent().find('.active').next();
 	      nowPage += 1;
 	    } else {
-	      $ActiveTarget = $(this).parent();
 	      nowPage = $(this).data('pagenum');
 	    }
-	    $(this).parent().parent().find('.active').removeClass('active');
-	    $ActiveTarget.addClass('active');
-	    console.log('propertyPageEvent limit:', limit);
 	    showPage(nowPage, limit);
 	  });
 	}
 
 	function showPage(page, limit) {
-	  console.log('showPage limit:', limit);
 	  var $propertyContainer = $('#property_container');
 	  $propertyContainer.find('#property_system_content .propertyContent').removeClass('block').addClass('hide');
-	  var show = '#property_system_content .propertyContent.searched';
-	  $propertyContainer.find(show).each(function (idx) {
-	    if ((page - 1) * 5 <= idx && idx < page * 5) {
-	      $(this).removeClass('hide').addClass('block');
-	    } else if (idx >= page * 5) {
-	      return false;
-	    }
-	  });
+	  var i;
+	  for (i = 0; i < 5; i++) {
+	    var show = '#property_system_content .propertyContent.searched:eq(' + ((page - 1) * 5 + i) + ')';
+	    $propertyContainer.find(show).removeClass('hide').addClass('block');
+	  }
 
-	  $propertyContainer.find('.pagination li').removeClass('inline-block').addClass('hide');
-	  $propertyContainer.find('.pagination li').each(function (idx) {
-	    if (idx <= limit) {
-	      $(this).removeClass('hide').addClass('inline-block');
-	    } else {
-	      return false;
-	    }
-	  });
+	  $propertyContainer.find('.pagination li').removeClass('inline-block active').addClass('hide');
+	  $propertyContainer.find('.pagination li:eq(' + page + ')').addClass('active');
+	  $propertyContainer.find('.pagination li:lt(' + (limit + 1) + ')').removeClass('hide').addClass('inline-block');
 	  $propertyContainer.find('.pagination li:last-child').removeClass('hide').addClass('inline-block');
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
