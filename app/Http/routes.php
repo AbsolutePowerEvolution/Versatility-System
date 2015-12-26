@@ -36,7 +36,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         $router->get('oauth/{verify}', ['as' => 'oauth.verify', 'uses' => 'OAuthController@verifyToken']);
     });
 
-    $router->group(['prefix' => 'user'], function (Router $router) {
+    $router->group(['middleware' => ['user'], 'prefix' => 'user'], function (Router $router) {
         $router->get('login', 'User\UserAuthController@login');
 
         $router->group(['prefix' => 'property'], function (Router $router) {
@@ -51,7 +51,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
             $router->delete('delete/{id}', ['as' => 'api.user.repair.delete', 'uses' => 'User\RepairController@destroy']);
         });
 
-        $router->group(['prefix' => 'loan'], function (Router $router) {
+        $router->group(['middleware' => ['manager'], 'prefix' => 'loan'], function (Router $router) {
             $router->get('others', ['as' => 'api.user.loan.other.list', 'uses' => 'User\LoanController@index']);
             $router->get('classrooms', ['as' => 'api.user.loan.class.list', 'uses' => 'User\LoanController@indexClassroomBorrow']);
             $router->post('create', ['as' => 'api.user.loan.class.create', 'uses' => 'User\LoanController@storeClassroomBorrow']);
