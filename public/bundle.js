@@ -50,9 +50,9 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(197);
-	__webpack_require__(246);
+	__webpack_require__(247);
 
-	__webpack_require__(250);
+	__webpack_require__(251);
 
 /***/ },
 
@@ -63,6 +63,7 @@ webpackJsonp([0],{
 
 	__webpack_require__(198);
 	__webpack_require__(199);
+	__webpack_require__(246);
 
 /***/ },
 
@@ -516,15 +517,44 @@ webpackJsonp([0],{
 /***/ 246:
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	__webpack_require__(247);
-	__webpack_require__(248);
-	__webpack_require__(249);
+	var Sammy = __webpack_require__(192);
+
+	Sammy('#main', function () {
+	  this.use('Mustache', 'ms');
+
+	  this.get('#/user/loan', function (context) {
+	    context.partial('/templates/user/loan.ms').then(function () {
+	      dateEvent();
+	    });
+	  });
+	});
+
+	function dateEvent() {
+	  var picker = new Pikaday({
+	    field: document.getElementById('datepicker'),
+	    bound: false
+	  });
+
+	  $('.pika-prev').addClass('btn');
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
 
 /***/ },
 
 /***/ 247:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(248);
+	__webpack_require__(249);
+	__webpack_require__(250);
+
+/***/ },
+
+/***/ 248:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -554,7 +584,6 @@ webpackJsonp([0],{
 	        item.time = item.date_began_at + '~' + item.date_ended_at;
 	        return item;
 	      });
-	      console.log('list:', context.list);
 	      context.partial('/templates/admin/examine.ms').then(function () {
 	        // Content has been render
 	        $('.Examine-Item').each(function (idx, ele) {
@@ -604,7 +633,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 248:
+/***/ 249:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -743,7 +772,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 249:
+/***/ 250:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -884,7 +913,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 250:
+/***/ 251:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
