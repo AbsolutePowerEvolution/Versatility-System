@@ -1,3 +1,4 @@
+var $ = require('jquery');
 var Sammy = require('sammy');
 var client = require('../../lib/client');
 
@@ -31,10 +32,9 @@ Sammy('#main', function() {
               client({
                 path: `manager/loan/class-verify/${id}`,
                 method: 'put',
-                entity: {
-                  id: id,
+                entity: $.param({
                   status: type
-                }
+                })
               }).entity()
               .then((response) => {
                 console.log('Success', response);
