@@ -25,7 +25,7 @@ class Property extends Entity
      *
      * @var array
      */
-    protected $fillable = ['name', 'describe', 'category', 'status'];
+    protected $fillable = ['name', 'describe', 'category', 'status', 'code'];
 
     /**
      * 取得財產分類
