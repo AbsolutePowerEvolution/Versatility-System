@@ -79,8 +79,8 @@ class PropertyController extends Controller
         // get create
         Property::create(array_merge(array_only($request->all(), [
                 'name',
-                'describe',
-                'code'
+                'code',
+                'describe'
             ]), [
                 'category' => Category::getCategoryId('property', $request->input('category')),
                 'status' => Category::getCategoryId('property.status', 'normal')

@@ -94,10 +94,11 @@ function propertyBindEvent(propertyData) {
     }
     client({
       path: 'manager/property/create',
-      _method: 'create',
+      method: 'POST',
       params: {
         name: propertyName,
         describe: describe,
+        code: 'sdfsdasdf',
         category: 'others'
       }
     }).then(function(response) {
@@ -139,6 +140,7 @@ function propertyBindEvent(propertyData) {
     console.log('_token:' + $('meta[name="csrf-token"]').attr('content'));
     client({
       path: 'manager/property/delete/' + propertyID,
+      method: 'delete',
       _method: 'delete',
       params: {
         id: propertyID,
