@@ -12,11 +12,15 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        if (app()->environment(['local', 'testing']) && ! User::where('username', '=', 'test')->exists()) {
-            factory(User::class)->create([
-                'username' => 'test',
-                'password' => bcrypt('test'),
-            ]);
+        if (app()->environment(['local', 'testing'])) {
+            foreach (['test', 'testLab', 'testManager'] as $user) {
+                if (! User::where('username', $user)->exists()) {
+                    factory(User::class)->create([
+                        'username' => $user,
+                        'password' => bcrypt('test'),
+                    ]);
+                }
+            }
         }
 
         factory(User::class, random_int(30, 50))->create();

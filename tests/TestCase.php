@@ -2,8 +2,6 @@
 
 namespace Tests;
 
-use App\Affair\User;
-use Auth;
 use Illuminate\Contracts\Console\Kernel;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
@@ -27,18 +25,5 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         $app->make(Kernel::class)->bootstrap();
 
         return $app;
-    }
-
-    /**
-     * 登入
-     */
-    public function signIn()
-    {
-        Auth::loginUsingId(User::first()->getAttribute('id'));
-    }
-
-    public function signInWithManager()
-    {
-        //
     }
 }

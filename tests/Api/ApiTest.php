@@ -4,11 +4,75 @@ namespace Tests\Api;
 
 use App\Affair\Category;
 use App\Affair\Property;
+use App\Affair\User;
+use Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
 class ApiTest extends TestCase
 {
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->ensureTestUsersCreated();
+    }
+
+    /**
+     * 確保測試帳號已建立
+     *
+     * @return void
+     */
+    protected function ensureTestUsersCreated()
+    {
+        if (! User::where('username', 'test')->exists()) {
+            factory(User::class)->create(['username' => 'test']);
+        }
+
+        if (! User::where('username', 'testLab')->exists()) {
+            factory(User::class)->create(['username' => 'testLab']);
+        }
+
+        if (! User::where('username', 'testManager')->exists()) {
+            factory(User::class)->create(['username' => 'testManager']);
+        }
+    }
+
+    /**
+     * 以一般使用者身份登入
+     *
+     * @param string $username
+     */
+    public function signIn($username = 'test')
+    {
+        Auth::loginUsingId(User::where('username', $username)->first()->getAttribute('id'));
+    }
+
+    /**
+     * 以 lab 帳號身份登入
+     *
+     * @return void
+     */
+    public function signInWithLab()
+    {
+        $this->signIn('testLab');
+    }
+
+    /**
+     * 以管理員帳號身份登入
+     *
+     * @return void
+     */
+    public function signInWithManager()
+    {
+        $this->signIn('testManager');
+    }
+
     /**
      * 取得測試財產資料 id
      *
