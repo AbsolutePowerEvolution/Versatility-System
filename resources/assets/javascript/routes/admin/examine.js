@@ -39,9 +39,6 @@ Sammy('#main', function() {
               });
 
               // Re-trigger event for click
-              item.find('.Examine-Detail')
-                .click(() => item.trigger('examine-detail', id));
-
               item.find('.Examine-Pass')
                 .click((event) => {
                   event.preventDefault();
@@ -54,10 +51,6 @@ Sammy('#main', function() {
                 });
 
               // Deal custom event
-              item.on('examine-detail', (event, id) => {
-                console.log(`Show detail for id: ${id}`);
-              });
-
               item.on('examine-pass', (event, id) => {
                 console.log(`Examine pass id: ${id}`);
               });
