@@ -27,6 +27,31 @@ Sammy('#main', function() {
         context
           .partial('/templates/admin/examine.ms')
           .then(() => {
+            var sendVerifyRequest = (id, type) => {
+              client({
+                path: `manager/loan/class-verify/${id}`,
+                method: 'put',
+                entity: {
+                  id: id,
+                  status: type
+                }
+              }).entity()
+              .then((response) => {
+                console.log('Success', response);
+              })
+              .catch((response) => {
+                console.log('Fail', response);
+              });
+            };
+
+            var sendRefuseVerify = (id) => {
+              sendVerifyRequest(id, 'refused');
+            };
+
+            var sendAcceptVerify = (id) => {
+              sendVerifyRequest(id, 'accepted');
+            };
+
             // Content has been render
             $('.Examine-Item').each((idx, ele) => {
               var item = $(ele);
@@ -53,10 +78,12 @@ Sammy('#main', function() {
               // Deal custom event
               item.on('examine-pass', (event, id) => {
                 console.log(`Examine pass id: ${id}`);
+                sendAcceptVerify(id);
               });
 
               item.on('examine-reject', (event, id) => {
                 console.log(`Examine reject id: ${id}`);
+                sendRefuseVerify(id);
               });
             });
           });
