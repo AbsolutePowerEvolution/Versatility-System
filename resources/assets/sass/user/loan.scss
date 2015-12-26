@@ -1,6 +1,13 @@
-.date_container{
-
+.date_container {
+  box-sizing: border-box;
+  position: relative;
+  width: 320px;
+  max-width: 768px;
+  margin: 0px auto;
+  z-index: 1500;
+  opacity: 1;
 }
+
 .pika-single{
   box-sizing: border-box;
   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
@@ -11,6 +18,7 @@
   z-index: 1500;
   opacity: 1;
   transform: translate3d(0px, 64px, 0px), scale(0.9);
+  
   .pika-lendar{
     .pika-prev, .pika-next{
       text-decoration: none;
@@ -23,6 +31,7 @@
       border: medium none;
       border-radius: 2px;
       display: inline-block;
+      width: 50%;
       height: 36px;
       line-height: 36px;
       outline: 0px none;
@@ -30,12 +39,15 @@
       text-transform: uppercase;
       vertical-align: middle;
       transform: scale(0.8);
+      
       &:hover {
         background-color: #2BBBAD;
+        box-shadow: 0px 5px 11px 0px rgba(0, 0, 0, 0.18), 0px 4px 15px 0px rgba(0, 0, 0, 0.15);
       }
     }
   }
 }
+
 .pika-lebal {
   position: relative;
   overflow: hidden;
@@ -48,8 +60,11 @@
   opacity: 1;
   width: 100%;
 }
+
 .pika-table {
-  th {
+  td, th {
+    padding: 15px 0px !important;
+    text-align: center !important;
     abbr {
       font-style: none;
       float: left;
@@ -62,20 +77,47 @@
 }
 
 .pika-button {
-  border:10px;
-  background:none;
-  box-sizing:border-box;
-  display:inline-block;
-  font:inherit;
-  font-family:Roboto, sans-serif;
-  tap-highlight-color:rgba(0, 0, 0, 0);
-  cursor:pointer;
-  text-decoration:none;
-  outline:none;
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
-  position:relative;
-  float:left;
-  width:41px;
-  padding:4px 2px;
-  -moz-appearance:button;
+  border: 10px;
+  background: transparent;
+  box-sizing: border-box;
+  display: inline-block;
+  font: inherit;
+  font-family :Roboto, sans-serif;
+  tap-highlight-color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+  text-decoration: none;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  position: relative;
+  float: left;
+  width: 41px;
+  padding: 0;
+  -moz-appearance: button;
+  
+  &:hover:before {
+    content:"";
+    position: absolute;
+    display: inline-block;
+    width: 41px;
+    height: 41px;
+    top: -10px;
+    left: 0px;
+    border-radius: 50%;
+    vertical-align: middle;
+    opacity: 1;
+    background-color: rgba(38, 166, 154, 0.8) !important;
+    box-shadow: 0px 5px 11px 0px rgba(0, 0, 0, 0.18), 0px 4px 15px 0px rgba(0, 0, 0, 0.15) !important;
+    z-index: -1;
+    animation: fadein 0.15s 1;
+    animation-timing-function: ease-out;
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

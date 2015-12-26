@@ -517,7 +517,7 @@ webpackJsonp([0],{
 /***/ 246:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	'use strict';
 
 	var Sammy = __webpack_require__(192);
 
@@ -536,10 +536,7 @@ webpackJsonp([0],{
 	    field: document.getElementById('datepicker'),
 	    bound: false
 	  });
-
-	  $('.pika-prev').addClass('btn');
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
 
 /***/ },
 

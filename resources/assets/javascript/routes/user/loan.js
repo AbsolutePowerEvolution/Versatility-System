@@ -16,7 +16,4 @@ function dateEvent() {
     field: document.getElementById('datepicker'),
     bound: false
   });
-
-  $('.pika-prev')
-    .addClass('btn');
 }
