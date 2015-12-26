@@ -38,6 +38,11 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
         Auth::loginUsingId(User::first()->getAttribute('id'));
     }
 
+    public function signInWithManager()
+    {
+        //
+    }
+
     /**
      * Assert that the client response has a status code.
      *

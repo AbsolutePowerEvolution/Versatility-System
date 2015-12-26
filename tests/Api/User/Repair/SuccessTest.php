@@ -3,11 +3,9 @@
 namespace Tests\Api\User\Repair;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\Helper\CategoryHelper;
 
 class SuccessTest extends RepairTest
 {
-    use CategoryHelper;
     use DatabaseTransactions;
 
     /**
@@ -35,7 +33,7 @@ class SuccessTest extends RepairTest
     {
         $this->call('POST', '/create', [
             'property_id' => $this->getTestPropertyId(true),
-            'type' => $this->randomElement('repair.type'),
+            'type' => $this->randomCategoryName('repair.type'),
         ]);
         $this->assertResponseCreated();
     }
@@ -45,7 +43,7 @@ class SuccessTest extends RepairTest
     {
         $this->call('POST', '/create', [
             'property_id' => $this->getTestPropertyId(true, true),
-            'type' => $this->randomElement('repair.type'),
+            'type' => $this->randomCategoryName('repair.type'),
         ]);
         $this->assertResponseCreated();
     }
