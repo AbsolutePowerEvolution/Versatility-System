@@ -17,48 +17,57 @@ use App\Affair\Category;
 use App\Affair\User;
 use Carbon\Carbon;
 
-$factory->define(User::class, function (Faker\Generator $faker) {
+
+
+$factory->define(User::class, function () {
+    $faker = Faker\Factory::create('zh_TW');
+
     return [
         'username' => $faker->userName,
         'password' => bcrypt($faker->password),
         'nickname' => $faker->name,
         'email' => $faker->email,
-        'phone' => str_random(10),
+        'phone' => '09' . random_int(10000000, 99999999),
     ];
 });
 
-$factory->define(\App\Affair\Property::class, function (Faker\Generator $faker) {
+$factory->define(\App\Affair\Property::class, function () {
+    $faker = Faker\Factory::create('zh_TW');
+
     return [
         'name' => $faker->name,
-        'describe' => $faker->sentence,
-        'category' => Category::where('category', '=', 'property')->get()->random()->getAttribute('id'),
-        'status' => Category::where('category', '=', 'property.status')->get()->random()->getAttribute('id'),
-        'code' => str_random(8)
+        'describe' => $faker->realText(16),
+        'category' => Category::getCategories('property')->random()->getAttribute('id'),
+        'status' => Category::getCategories('property.status')->random()->getAttribute('id'),
+        'code' => random_int(10000000, 99999999)
     ];
 });
 
-$factory->define(\App\Affair\Repair::class, function (Faker\Generator $faker) {
+$factory->define(\App\Affair\Repair::class, function () {
+    $faker = Faker\Factory::create('zh_TW');
+
     return [
         'user_id' => User::all()->random()->getAttribute('id'),
-        'type' => Category::where('category', '=', 'repair.type')->get()->random()->getAttribute('id'),
-        'remark' => $faker->sentence,
-        'status' => Category::where('category', '=', 'repair.status')->get()->random()->getAttribute('id'),
+        'type' => Category::getCategories('repair.type')->random()->getAttribute('id'),
+        'remark' => $faker->realText(32),
+        'status' => Category::getCategories('repair.status')->random()->getAttribute('id'),
     ];
 });
 
-$factory->define(\App\Affair\Loan::class, function (Faker\Generator $faker) {
-    $day = Carbon::now()->startOfDay()->addHours(8)->addDays(mt_rand(1, 30));
-    $time = mt_rand(0, 1);
+$factory->define(\App\Affair\Loan::class, function () {
+    $faker = Faker\Factory::create('zh_TW');
+    $day = Carbon::now()->startOfDay()->addHours(random_int(4, 12))->addDays(random_int(1, 30));
+    $time = random_int(0, 1);
 
     return [
         'user_id' => User::all()->random()->getAttribute('id'),
-        'type' => Category::where('category', '=', 'loan.type')->get()->random()->getAttribute('id'),
+        'type' => Category::getCategories('loan.type')->random()->getAttribute('id'),
         'date_began_at' => $day->toDateString(),
-        'date_ended_at' => $day->addDays(mt_rand(0, 3))->toDateString(),
+        'date_ended_at' => $day->addDays(random_int(0, 3))->toDateString(),
         'time_began_at' => $time ? $day->toTimeString() : null,
-        'time_ended_at' => $time ? $day->addHours(mt_rand(1, 8))->toTimeString() : null,
-        'remark' => $faker->sentence,
-        'status' => Category::where('category', '=', 'loan.status')->get()->random()->getAttribute('id'),
-        'long_term_token' => $time ? str_random(7) : null,
+        'time_ended_at' => $time ? $day->addHours(random_int(1, 8))->toTimeString() : null,
+        'remark' => $faker->realText(32),
+        'status' => Category::getCategories('loan.status')->random()->getAttribute('id'),
+        'long_term_token' => $time ? random_int(0, 127) : null,
     ];
 });

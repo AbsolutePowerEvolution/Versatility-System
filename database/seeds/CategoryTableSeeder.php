@@ -23,7 +23,7 @@ class CategoryTableSeeder extends Seeder
 
         foreach ($static as $category => $collections) {
             foreach ($collections as $value) {
-                Category::firstOrCreate(['category' => $category, 'name' => $value,]);
+                Category::firstOrCreate(['category' => $category, 'name' => $value]);
             }
         }
     }

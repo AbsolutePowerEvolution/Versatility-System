@@ -3,6 +3,7 @@
 namespace App\Affair;
 
 use App\Affair\Core\Entity;
+use Cache;
 
 class Category extends Entity
 {
@@ -70,5 +71,38 @@ class Category extends Entity
         }
 
         return $query->get()->pluck('id');
+    }
+
+    /**
+     * @param string $category
+     * @param string $name
+     * @param bool $firstId
+     * @return \Illuminate\Database\Eloquent\Collection|int|static[]
+     */
+    public static function getCategories($category = '', $name = '', $firstId = false)
+    {
+        /** @var $categories \Illuminate\Database\Eloquent\Collection|static[] */
+
+        $categories = Cache::remember('categoriesTable', static::MINUTES_PER_WEEK, function () {
+            return static::all();
+        });
+
+        if (empty($category)) {
+            return $categories;
+        }
+
+        $issetName = ! empty($name);
+
+        $categories = $categories->filter(function ($item) use ($category, $issetName, $name) {
+            /** @var $item Category */
+
+            $filter = $item->getAttribute('category') === $category;
+
+            return $issetName ? ($filter && $item->getAttribute('name') === $name) : $filter;
+        });
+
+        return $firstId
+            ? $categories->first()->getAttribute('id')
+            : ($issetName ? $categories->first() : $categories->values());
     }
 }
