@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Manager;
 
 use Illuminate\Http\Request;
 
+use Cache;
 use App\Affair\Loan;
 use App\Affair\Category;
 use App\Affair\User;
@@ -151,8 +152,7 @@ class LoanController extends Controller
      */
     public function getClassroomBorrowInfo()
     {
-        $redis_cli = new \Predis\Client;
-        $borrow_info = $redis_cli->mget([
+        $borrow_info = Cache::get([
                 'time_name',
                 'began_date',
                 'ended_date',
@@ -171,14 +171,18 @@ class LoanController extends Controller
      */
     public function setClassroomBorrowInfo(Request $request)
     {
-        $redis_cli = new \Predis\Client;
-        $redis_cli->mset(array_only($request->all(), [
+
+        $borrow_info = array_only($request->all(), [
                 'time_name',
                 'began_date',
                 'ended_date',
                 'stu_start',
                 'lab_start'
-            ]));
+            ]);
+
+        foreach ($borrow_info as $key => $value) {
+            Cache::forever($key, $value);
+        }
 
         return response()->json(['status' => 0]);
     }
