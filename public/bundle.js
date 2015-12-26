@@ -923,8 +923,6 @@ webpackJsonp([0],{
 
 	  $propertyContainer.find('#property_modal #delete_property_btn').on('click', function () {
 	    var propertyID = $propertyModal.data('propertyid');
-	    console.log('delete property: ' + propertyID);
-	    console.log('_token:' + $('meta[name="csrf-token"]').attr('content'));
 	    /*client({
 	      path: 'manager/property/delete/' + propertyID,
 	      method: 'delete',

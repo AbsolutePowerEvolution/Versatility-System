@@ -2,30 +2,80 @@
 
 }
 .pika-single{
+  box-sizing: border-box;
+  transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  position: relative;
+  width: 320px;
+  max-width: 768px;
+  margin: 0px auto;
+  z-index: 1500;
+  opacity: 1;
+  transform: translate3d(0px, 64px, 0px), scale(0.9);
   .pika-lendar{
-    .pika-prev{
-      float: left !important;
-    }
-    .pika-next{
-      float: right !important;
-    }
     .pika-prev, .pika-next{
-      // .waves-effect
-      position: relative;
+      text-decoration: none;
+      color: #FFF;
+      background-color: #26A69A;
+      text-align: center;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease-out 0s;
       cursor: pointer;
+      border: medium none;
+      border-radius: 2px;
       display: inline-block;
-      overflow: hidden;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      height: 36px;
+      line-height: 36px;
+      outline: 0px none;
+      padding: 0px 1rem;
+      text-transform: uppercase;
       vertical-align: middle;
-      z-index: 1;
-      will-change: opacity, transform;
-      transition: all .3s ease-out;
-
-      // btn
+      transform: scale(0.8);
+      &:hover {
+        background-color: #2BBBAD;
+      }
     }
   }
+}
+.pika-lebal {
+  position: relative;
+  overflow: hidden;
+  height: 38px;
+  display: inline-block;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 36px;
+  cursor: pointer;
+  opacity: 1;
+  width: 100%;
+}
+.pika-table {
+  th {
+    abbr {
+      font-style: none;
+      float: left;
+      width: 37px;
+      text-align: center;
+      margin: 0 2px;
+      border-bottom: none !important;
+    }
+  }
+}
+
+.pika-button {
+  border:10px;
+  background:none;
+  box-sizing:border-box;
+  display:inline-block;
+  font:inherit;
+  font-family:Roboto, sans-serif;
+  tap-highlight-color:rgba(0, 0, 0, 0);
+  cursor:pointer;
+  text-decoration:none;
+  outline:none;
+  -webkit-tap-highlight-color:rgba(0,0,0,0);
+  position:relative;
+  float:left;
+  width:41px;
+  padding:4px 2px;
+  -moz-appearance:button;
 }
