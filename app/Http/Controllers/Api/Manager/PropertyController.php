@@ -54,16 +54,18 @@ class PropertyController extends Controller
      */
     public function indexClassroom(Request $request)
     {
-        // get length
-        $length = ($request->input('length') > 0)? $request->input('length'):10;
+        // get date
+        $date = $request->input('date', date('Y-m-d', time()));
 
         $classroom_list = Property::with([
                 'category',
                 'status',
-                'loanClassroom'
+                'loanClassroom' => function ($query) use ($date) {
+                    $query->where('date_ended_at', '>=', $date);
+                }
             ])
             ->where('category', Category::getCategoryId('property', 'classroom'))
-            ->paginate($length);
+            ->get();
 
         return response()->json($classroom_list);
     }
