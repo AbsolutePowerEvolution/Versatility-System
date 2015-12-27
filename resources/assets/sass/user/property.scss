@@ -10,6 +10,10 @@
 #property_container .modal .btn{
   margin-right: 20px;
 }
+#property_container .modal .row{
+  margin-left: 0px;
+  margin-right: 0px;
+}
 
 #property_container #property_system{
   background-color: #4a148c;
@@ -23,7 +27,7 @@
   display:none;
 }
 
-#property_container #property_modal, #property_container #history_modal, #property_container #create_property_modal{
+#property_container #property_modal, #property_container #history_modal, #property_container #create_property_modal, #property_container #loan_property_modal{
   z-index: 1003;
   opacity: 1;
   transform: scaleX(1);

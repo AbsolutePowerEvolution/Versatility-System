@@ -51,7 +51,10 @@ function getPropertyList(pageNum, pageLength, createPageSwit) {
     if(createPageSwit) {
       propertyBuildPage(propertyTotalPage);
     }
-  }).catch((response) => console.log(response));
+  }).catch(function(response) {
+    alert('取得財產列表失敗!');
+    console.log('get property list error!', response);
+  });
 }
 
 function buildPropertyCard(oriPropertyData, searchPropertyData) {
@@ -200,9 +203,12 @@ function postPropertyRepair(propertyId, type, remark) {
       remark: remark
     }
   }).then(function(response) {
-    console.log(response);
-    //location.reload();
-  }).catch((response) => console.log(response));
+    alert('報修財產成功!');
+    location.reload();
+  }).catch(function(response) {
+    alert('報修財產失敗!');
+    console.log('repair property error!', response);
+  });
 }
 
 function getRepairList(pageNum, pageLength) {

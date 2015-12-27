@@ -35,7 +35,7 @@
                 <a id="create_property" class=" center-align waves-effect waves-light btn modal-trigger s4"><i class="material-icons left">add_circle</i>新增財產</a>
             </span>
             <span class="col s6 center-align">
-                <a id="load_property" class=" center-align waves-effect waves-light btn modal-trigger s4"><i class="material-icons left">alarm</i>財產借用/歸還</a>
+                <a id="loan_property" class=" center-align waves-effect waves-light btn modal-trigger s4"><i class="material-icons left">alarm</i>財產借用/歸還</a>
             </span>
         </div>
     </div>
@@ -53,6 +53,7 @@
 
     <div id="create_property_modal" class="modal">
         <div class="modal-content">
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
             <h4>新增財產</h4><br>
             <div>
                 <span>
@@ -81,6 +82,47 @@
             <a id="create_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確定新增</a>
         </div>
     </div>
+
+    <div id="loan_property_modal" class="modal">
+        <div class="modal-content">
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
+            <h4>財產借用/歸還</h4><br/>
+            <div class="input-field">
+                <input id="loan_user_id" type="text"/>
+                <label for="loan_user_id">學號</label>
+            </div>
+            <div class="input-field row">
+                <input id="loan_property_code" class="col s5" type="text"/>
+                <label for="loan_property_code">財產條碼</label>
+                <h5 id="loan_property_name" class="col offset-s1"></h5>
+                <label for="loan_property_name" class="col offset-s5">財產名稱</label>
+            </div>
+            <div class="input-field row">
+                <input id="date_began_at" type="date" class="datepicker col s3"/>
+                <label for="date_began_at" class="col">借用起始時間</label>
+                <input id="date_ended_at" type="date" class="datepicker offset-s2 col s3"/>
+                <label for="date_ended_at" class="col offset-s5">借用歸還時間</label>
+            </div><br/>
+            <div class="input-field col s12">
+                <select id="loan_property_type">
+                    <option value="others">一般財產</option>
+                    <option value="classroom">教室</option>
+                    <option value="course">課程</option>
+                    <option value="interview">面試</option>
+                    <option value="meeting">開會</option>
+                </select>
+                <label for="loan_property_type">借用類別</label>
+            </div><br/>
+            <div class="input-field">
+                <textarea id="loan_property_remark" class="materialize-textarea"/>
+                <label for="loan_property_remark">借用理由</label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="loan_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確定新增</a>
+        </div>
+    </div>
+
     <div class="lean-overlay" id="materialize-lean-overlay-30"></div>
 
     <ul class="property_system pagination center-align">

@@ -152,7 +152,8 @@ webpackJsonp([0],{
 	      propertyBuildPage(propertyTotalPage);
 	    }
 	  }).catch(function (response) {
-	    return console.log(response);
+	    alert('取得財產列表失敗!');
+	    console.log('get property list error!', response);
 	  });
 	}
 
@@ -297,10 +298,11 @@ webpackJsonp([0],{
 	      remark: remark
 	    }
 	  }).then(function (response) {
-	    console.log(response);
-	    //location.reload();
+	    alert('報修財產成功!');
+	    location.reload();
 	  }).catch(function (response) {
-	    return console.log(response);
+	    alert('報修財產失敗!');
+	    console.log('repair property error!', response);
 	  });
 	}
 
@@ -851,20 +853,27 @@ webpackJsonp([0],{
 	        showPage(1, context.page.length);
 	      });
 	    }).catch(function (response) {
-	      return console.log('get property list error, ', response);
+	      alert('取得財產列表失敗!');
+	      console.log('get property list error, ', response);
 	    });
 	  });
 	});
 
 	function propertyBindEvent(propertyData) {
 	  var $propertyContainer = $('#property_container');
+	  //Material initialize
+	  $propertyContainer.find('select').material_select();
+	  $propertyContainer.find('.datepicker').pickadate({
+	    selectMonths: true,
+	    selectYears: 15,
+	    format: 'yyyy-mm-dd'
+	  });
 	  $propertyContainer.find('#property_system').on('click', function (event) {
 	    $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
 	    $propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
 	    $propertyContainer.find('.property_system').css('display', 'block');
 	    $propertyContainer.find('#property_manage_content').css('display', 'none');
 	  });
-
 	  $propertyContainer.find('#property_manage').on('click', function (event) {
 	    $propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
 	    $propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
@@ -872,6 +881,39 @@ webpackJsonp([0],{
 	    $propertyContainer.find('#property_manage_content').css('display', 'block');
 	  });
 
+	  $propertyContainer.find('#search_property_btn').on('click', function () {
+	    var i;
+	    var limit;
+	    var target = $propertyContainer.find('#search_property').val();
+	    $propertyContainer.find('#property_system_content .propertyContent').removeClass('searched');
+	    if (target !== '') {
+	      for (i = 0, limit = 0; i < propertyData.length; i++) {
+	        if (propertyData[i].name.indexOf(target) != -1) {
+	          limit++;
+	          var tag = '#property_system_content .propertyContent:nth-child(' + (i + 2) + ')';
+	          $propertyContainer.find(tag).addClass('searched');
+	        }
+	      }
+	    } else {
+	      limit = propertyData.length;
+	      $propertyContainer.find('#property_system_content .propertyContent').addClass('searched');
+	    }
+	    showPage(1, Math.ceil(limit / 5));
+	    propertyPageEvent(Math.ceil(limit / 5));
+	  });
+	  showPropertyDeailAndDeleteProperty();
+	  createProperty();
+	  loanProperty(propertyData);
+	  $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
+	    $('#materialize-lean-overlay-30').css('display', 'none');
+	    $('#property_modal').fadeOut();
+	    $('#create_property_modal').fadeOut();
+	    $('#loan_property_modal').fadeOut();
+	  });
+	}
+
+	function showPropertyDeailAndDeleteProperty() {
+	  var $propertyContainer = $('#property_container');
 	  var $propertyModal = $('#property_modal');
 	  $propertyContainer.find('#property_system_content .modal-trigger').on('click', function (event) {
 	    if ($(this).hasClass('disabled')) {
@@ -886,7 +928,30 @@ webpackJsonp([0],{
 	    $propertyModal.find('p').html(ele.data('describe'));
 	    $propertyModal.data('propertyid', ele.data('propertyid'));
 	  });
+	  $propertyContainer.find('#property_modal #delete_property_btn').on('click', function () {
+	    var propertyID = $propertyModal.data('propertyid');
+	    $.ajax({
+	      url: '/api/manager/property/delete/' + propertyID,
+	      _method: 'delete',
+	      type: 'delete',
+	      data: {
+	        id: propertyID,
+	        _token: $('meta[name="csrf-token"]').attr('content')
+	      },
+	      error: function error(_error) {
+	        alert('刪除財產失敗!');
+	        console.log('delete property error, ', _error);
+	      },
+	      success: function success(data) {
+	        alert('刪除財產成功!');
+	        location.reload();
+	      }
+	    });
+	  });
+	}
 
+	function createProperty() {
+	  var $propertyContainer = $('#property_container');
 	  var $createPropertyModal = $('#create_property_modal');
 	  $propertyContainer.find('#property_manage_content #create_property').on('click', function (event) {
 	    $('#materialize-lean-overlay-30').css('display', 'block');
@@ -911,70 +976,76 @@ webpackJsonp([0],{
 	        category: type
 	      }
 	    }).then(function (response) {
-	      console.log('create property success!');
-	      console.log(response);
+	      alert('新增財產成功!');
+	      location.reload();
 	    }).catch(function (response) {
-	      return console.log('create property error, ', response);
+	      alert('新增財產失敗!');
+	      console.log('loan property error, ', response);
 	    });
 	  });
+	}
 
-	  $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
-	    $('#materialize-lean-overlay-30').css('display', 'none');
-	    $propertyModal.fadeOut();
-	    $createPropertyModal.fadeOut();
+	function loanProperty(propertyData) {
+	  var $propertyContainer = $('#property_container');
+	  var $loanPropertyModal = $('#loan_property_modal');
+	  $propertyContainer.find('#property_manage_content #loan_property').on('click', function (event) {
+	    $('#materialize-lean-overlay-30').css('display', 'block');
+	    $loanPropertyModal.fadeIn();
 	  });
+	  $propertyContainer.find('#loan_property_modal #loan_property_code').on('keyup', function (event) {
+	    var code = $(this).val();
+	    var property = propertyCode2propertyID(code, propertyData);
+	    $(this).parent().find('#loan_property_name').html(property.name);
+	  });
+	  $propertyContainer.find('#loan_property_btn').on('click', function (event) {
+	    var userID = $loanPropertyModal.find('#loan_user_id').val();
+	    var code = $loanPropertyModal.find('#loan_property_code').val();
+	    var dateBeganAt = $loanPropertyModal.find('#date_began_at').val();
+	    var dateEndedAt = $loanPropertyModal.find('#date_ended_at').val();
+	    var type = $loanPropertyModal.find('#loan_property_type').val();
+	    var remark = $loanPropertyModal.find('#loan_property_remark').val();
 
-	  $propertyContainer.find('#search_property_btn').on('click', function () {
-	    var i;
-	    var limit;
-	    var target = $propertyContainer.find('#search_property').val();
-	    $propertyContainer.find('#property_system_content .propertyContent').removeClass('searched');
-	    if (target !== '') {
-	      for (i = 0, limit = 0; i < propertyData.length; i++) {
-	        if (propertyData[i].name.indexOf(target) != -1) {
-	          limit++;
-	          var tag = '#property_system_content .propertyContent:nth-child(' + (i + 2) + ')';
-	          $propertyContainer.find(tag).addClass('searched');
-	        }
-	      }
-	    } else {
-	      limit = propertyData.length;
-	      $propertyContainer.find('#property_system_content .propertyContent').addClass('searched');
+	    if (!userID || !code || !dateBeganAt || !dateEndedAt || !type || !remark) {
+	      alert('請確實填寫借用表單！');
+	      return;
 	    }
-	    showPage(1, Math.ceil(limit / 5));
-	    propertyPageEvent(Math.ceil(limit / 5));
-	  });
+	    var property = propertyCode2propertyID(code, propertyData);
+	    if (!property.id || !property.name) {
+	      alert('沒有此一財產，請從新填寫！');
+	      return;
+	    }
 
-	  $propertyContainer.find('#property_modal #delete_property_btn').on('click', function () {
-	    var propertyID = $propertyModal.data('propertyid');
-	    /*client({
-	      path: 'manager/property/delete/' + propertyID,
-	      method: 'delete',
-	      _method: 'delete',
+	    client({
+	      path: 'manager/loan/other-create',
+	      method: 'POST',
 	      params: {
-	        id: propertyID,
+	        property_id: property.id,
+	        user_id: userID,
+	        date_began_at: dateBeganAt,
+	        date_ended_at: dateEndedAt,
+	        remark: remark,
+	        type: type
 	      }
-	    }).then(function(response) {
-	      console.log('delete property success!');
-	      console.log(response);
-	    }).catch((response) => console.log('delete property error, ', response));*/
-	    $.ajax({
-	      url: '/api/manager/property/delete/' + propertyID,
-	      _method: 'delete',
-	      type: 'delete',
-	      data: {
-	        id: propertyID,
-	        _token: $('meta[name="csrf-token"]').attr('content')
-	      },
-	      error: function error(_error) {
-	        console.log('delete property error, ', _error);
-	      },
-	      success: function success(data) {
-	        console.log('delete property success!');
-	        console.log(data);
-	      }
+	    }).then(function (response) {
+	      alert('借用財產成功!');
+	    }).catch(function (response) {
+	      alert('借用財產失敗!');
+	      console.log('loan property error, ', response);
 	    });
 	  });
+	}
+
+	function propertyCode2propertyID(code, Data) {
+	  var i;
+	  var property = {};
+	  for (i = 0; i < Object.size(Data); i++) {
+	    if (Data[i].code === code) {
+	      property.id = Data[i].id;
+	      property.name = Data[i].name;
+	      break;
+	    }
+	  }
+	  return property;
 	}
 
 	function propertyPageEvent(limit) {
