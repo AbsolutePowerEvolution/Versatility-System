@@ -1,6 +1,7 @@
 var $ = require('jquery');
 var Sammy = require('sammy');
 var client = require('../../lib/client');
+var api = require('../../lib/fetch-plus');
 
 Sammy('#main', function() {
   this.use('Mustache', 'ms');
@@ -29,13 +30,16 @@ Sammy('#main', function() {
           .partial('/templates/admin/examine.ms')
           .then(() => {
             var sendVerifyRequest = (id, type) => {
-              client({
-                path: `manager/loan/class-verify/${id}`,
-                method: 'put',
-                entity: $.param({
+              api.replace(`manager/loan/class-verify/${id}`, {
+                credentials: 'include',
+                headers: {
+                  'Content-type':
+                    'application/x-www-form-urlencoded; charset=UTF-8'
+                },
+                body: $.param({
                   status: type
                 })
-              }).entity()
+              })
               .then((response) => {
                 console.log('Success', response);
               })
