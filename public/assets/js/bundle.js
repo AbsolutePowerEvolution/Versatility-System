@@ -52,7 +52,7 @@ webpackJsonp([0],{
 	__webpack_require__(197);
 	__webpack_require__(247);
 
-	__webpack_require__(251);
+	__webpack_require__(255);
 
 /***/ },
 
@@ -559,8 +559,8 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(248);
-	__webpack_require__(249);
-	__webpack_require__(250);
+	__webpack_require__(253);
+	__webpack_require__(254);
 
 /***/ },
 
@@ -572,6 +572,7 @@ webpackJsonp([0],{
 	var $ = __webpack_require__(194);
 	var Sammy = __webpack_require__(192);
 	var client = __webpack_require__(200);
+	var api = __webpack_require__(249);
 
 	Sammy('#main', function () {
 	  this.use('Mustache', 'ms');
@@ -597,13 +598,15 @@ webpackJsonp([0],{
 	      });
 	      context.partial('/templates/admin/examine.ms').then(function () {
 	        var sendVerifyRequest = function sendVerifyRequest(id, type) {
-	          client({
-	            path: 'manager/loan/class-verify/' + id,
-	            method: 'put',
-	            entity: $.param({
+	          api.replace('manager/loan/class-verify/' + id, {
+	            credentials: 'include',
+	            headers: {
+	              'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+	            },
+	            body: $.param({
 	              status: type
 	            })
-	          }).entity().then(function (response) {
+	          }).then(function (response) {
 	            console.log('Success', response);
 	          }).catch(function (response) {
 	            console.log('Fail', response);
@@ -660,6 +663,42 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 249:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	var _fetchPlus = __webpack_require__(250);
+
+	var _fetchPlusJson = __webpack_require__(251);
+
+	var _fetchPlusJson2 = _interopRequireDefault(_fetchPlusJson);
+
+	var _fetchPlusCsrf = __webpack_require__(252);
+
+	var _fetchPlusCsrf2 = _interopRequireDefault(_fetchPlusCsrf);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var token = $('#csrf-token').attr('content');
+
+	var api = (0, _fetchPlus.connectEndpoint)('/api');
+	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
+	api.addMiddleware((0, _fetchPlusJson2.default)());
+
+	api.addMiddleware(function (request) {
+	  return function (response) {
+	    console.log(request);
+	    console.log(response);
+	    return response;
+	  };
+	});
+
+	module.exports = api;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+
+/***/ },
+
+/***/ 253:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -798,7 +837,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 250:
+/***/ 254:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1218,7 +1257,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 251:
+/***/ 255:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
