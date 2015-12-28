@@ -840,7 +840,7 @@ webpackJsonp([0],{
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/admin/account', function (context) {
-	    context.partial('/templates/admin/account.ms').then(function () {
+	    context.loadPartitals({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/account.ms').then(function () {
 	      accountButtonEvent();
 	      accountDataEvent();
 	      $('.account_page').click();
@@ -1041,7 +1041,7 @@ webpackJsonp([0],{
 	          context.loanPage[i].pageNum = i + 1;
 	        }
 
-	        context.partial('/templates/admin/property.ms').then(function () {
+	        context.loadPartitals({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/property.ms').then(function () {
 	          propertyBindEvent(context.propertyData, context.loanData);
 	          propertyPageEvent(context.propertyPage.length, '.property_system');
 	          showPage(1, context.propertyPage.length, '.property_system');
