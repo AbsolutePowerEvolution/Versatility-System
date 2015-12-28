@@ -21,10 +21,5 @@
       </li>
     {{/list}}
   </ul>
-  <a href="{{prevUrl}}" class="btn-flat waves-effect waves-teal{{#disablePrev}} disabled{{/disablePrev}}">
-    <i class="material-icons">chevron_left</i>Prev
-  </a>
-  <a href="{{nextUrl}}" class="btn-flat waves-effect waves-teal{{#disableNext}} disabled{{/disableNext}}">
-    Next<i class="material-icons">chevron_right</i>
-  </a>
+  {{>pagination}}
 </div>
