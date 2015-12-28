@@ -1,3 +1,4 @@
+{{>menu}}
 <div id="Examine" class="Examine">
   <ul class="collection with-header">
     <li class="collection-header">教室審核</li>
