@@ -52,7 +52,7 @@ webpackJsonp([0],{
 	__webpack_require__(197);
 	__webpack_require__(247);
 
-	__webpack_require__(254);
+	__webpack_require__(258);
 
 /***/ },
 
@@ -559,8 +559,8 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(248);
-	__webpack_require__(252);
-	__webpack_require__(253);
+	__webpack_require__(256);
+	__webpack_require__(257);
 
 /***/ },
 
@@ -663,7 +663,11 @@ webpackJsonp([0],{
 /***/ 249:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	'use strict';
+
+	var _jquery = __webpack_require__(194);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
 
 	var _fetchPlus = __webpack_require__(250);
 
@@ -671,36 +675,97 @@ webpackJsonp([0],{
 
 	var _fetchPlusCsrf2 = _interopRequireDefault(_fetchPlusCsrf);
 
-	var _when = __webpack_require__(206);
+	var _cookie = __webpack_require__(252);
 
-	var _when2 = _interopRequireDefault(_when);
+	var _cookie2 = _interopRequireDefault(_cookie);
+
+	var _param = __webpack_require__(253);
+
+	var _param2 = _interopRequireDefault(_param);
+
+	var _header = __webpack_require__(254);
+
+	var _header2 = _interopRequireDefault(_header);
+
+	var _statusCode = __webpack_require__(255);
+
+	var _statusCode2 = _interopRequireDefault(_statusCode);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var token = (0, _jquery2.default)('#csrf-token').attr('content');
+	var api = (0, _fetchPlus.connectEndpoint)('/api');
+
+	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
+	api.addMiddleware(_cookie2.default);
+	api.addMiddleware(_param2.default);
+	api.addMiddleware(_header2.default);
+	api.addMiddleware(_statusCode2.default);
+
+	module.exports = api;
+
+/***/ },
+
+/***/ 252:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// Default add cookie
+
+	exports.default = function (request) {
+	  if (!request.options.credentials) {
+	    request.options.credentials = 'include';
+	  }
+	};
+
+/***/ },
+
+/***/ 253:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(194);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
-	var token = $('#csrf-token').attr('content');
+	exports.default = function (request) {
+	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
+	    request.path = request.path + '?' + _jquery2.default.param(request.options.params);
+	  }
+	};
+
+/***/ },
+
+/***/ 254:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
 	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
 	var JSON_HEADER = 'application/json; charset=UTF-8';
-	var api = (0, _fetchPlus.connectEndpoint)('/api');
-
-	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
-
-	// Default add cookie default
-	api.addMiddleware(function (request) {
-	  if (request.options.credentials) {
-	    request.options.credentials = 'include';
-	  }
-	});
-
-	api.addMiddleware(function (request) {
-	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
-	    request.path = request.path + '?' + $.param(request.options.params);
-	  }
-	});
 
 	// custom JSON middleware
-	api.addMiddleware(function (request) {
+
+	exports.default = function (request) {
 	  var body = request.options.body;
 	  // If options have key named type
 	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
@@ -724,10 +789,31 @@ webpackJsonp([0],{
 	  return function (response) {
 	    return response.json();
 	  };
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+
+/***/ },
+
+/***/ 255:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
 	});
 
+	var _when = __webpack_require__(206);
+
+	var _when2 = _interopRequireDefault(_when);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
 	// P2P-style unjustifed status code check
-	api.addMiddleware(function () {
+
+	exports.default = function () {
 	  return function (response) {
 	    if (_typeof(response.body) === 'object' && response.body.status) {
 	      if (response.body.status !== 0) {
@@ -736,14 +822,11 @@ webpackJsonp([0],{
 	    }
 	    return response;
 	  };
-	});
-
-	module.exports = api;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	};
 
 /***/ },
 
-/***/ 252:
+/***/ 256:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -882,7 +965,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 253:
+/***/ 257:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1302,7 +1385,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 254:
+/***/ 258:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
