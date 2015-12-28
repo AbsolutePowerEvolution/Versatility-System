@@ -846,7 +846,9 @@ webpackJsonp([0],{
 	        });
 
 	        context.loanData = loanData.entity.data.map(function (item) {
-	          item.time = item.date_began_at + (item.time_began_at == null ? '' : item.time_began_at) + ' ~ ' + item.date_ended_at + (item.time_ended_at == null ? '' : item.time_ended_at);
+	          item.time = item.date_began_at + (item.time_began_at == null ? '' : ' ' + item.time_began_at) + ' ~ ' + item.date_ended_at + (item.time_ended_at == null ? '' : ' ' + item.time_ended_at);
+	          var property = propertyID2propertyCode(item.property_id, context.propertyData);
+	          item.code = property.code;
 	          return item;
 	        });
 	        console.log('loan data:', context.loanData);
@@ -873,7 +875,7 @@ webpackJsonp([0],{
 	        }
 
 	        context.partial('/templates/admin/property.ms').then(function () {
-	          propertyBindEvent(context.propertyData);
+	          propertyBindEvent(context.propertyData, context.loanData);
 	          propertyPageEvent(context.propertyPage.length, '.property_system');
 	          showPage(1, context.propertyPage.length, '.property_system');
 	          propertyPageEvent(context.loanPage.length, '.manage_system');
@@ -890,7 +892,7 @@ webpackJsonp([0],{
 	  });
 	});
 
-	function propertyBindEvent(propertyData) {
+	function propertyBindEvent(propertyData, loanData) {
 	  var $propertyContainer = $('#property_container');
 	  //Material initialize
 	  $propertyContainer.find('select').material_select();
@@ -912,19 +914,30 @@ webpackJsonp([0],{
 	    $propertyContainer.find('.manage_system').css('display', 'block');
 	  });
 
+	  searchData(propertyData, loanData);
+	  showPropertyDetailAndDeleteProperty();
+	  createProperty();
+	  loanProperty(propertyData);
+	  returnProperty();
+	  $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
+	    $('#materialize-lean-overlay-30').css('display', 'none');
+	    $('#property_modal').fadeOut();
+	    $('#create_property_modal').fadeOut();
+	    $('#loan_property_modal').fadeOut();
+	    $('#return_property_modal').fadeOut();
+	  });
+	}
+
+	function searchData(propertyData, loanData) {
+	  var $propertyContainer = $('#property_container');
 	  $propertyContainer.find('#search_property_btn').on('click', function () {
-	    var i;
 	    var limit;
 	    var target = $propertyContainer.find('#search_property').val();
 	    $propertyContainer.find('#property_system_content .propertyContent').removeClass('searched');
 	    if (target !== '') {
-	      for (i = 0, limit = 0; i < propertyData.length; i++) {
-	        if (propertyData[i].name.indexOf(target) != -1 || propertyData[i].code.indexOf(target) != -1) {
-	          limit++;
-	          var tag = '#property_system_content .propertyContent:nth-child(' + (i + 2) + ')';
-	          $propertyContainer.find(tag).addClass('searched');
-	        }
-	      }
+	      var who = '#property_system_content .propertyContent';
+	      var searchColumn = ['name', 'code'];
+	      limit = search(propertyData, who, target, searchColumn);
 	    } else {
 	      limit = propertyData.length;
 	      $propertyContainer.find('#property_system_content .propertyContent').addClass('searched');
@@ -932,18 +945,25 @@ webpackJsonp([0],{
 	    showPage(1, Math.ceil(limit / 5), '.property_system');
 	    propertyPageEvent(Math.ceil(limit / 5), '.property_system');
 	  });
-	  showPropertyDeailAndDeleteProperty();
-	  createProperty();
-	  loanProperty(propertyData);
-	  $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
-	    $('#materialize-lean-overlay-30').css('display', 'none');
-	    $('#property_modal').fadeOut();
-	    $('#create_property_modal').fadeOut();
-	    $('#loan_property_modal').fadeOut();
+
+	  $propertyContainer.find('#search_loanData_btn').on('click', function () {
+	    var limit;
+	    var target = $propertyContainer.find('#search_loanData').val();
+	    $propertyContainer.find('#property_manage_content .propertyContent').removeClass('searched');
+	    if (target !== '') {
+	      var who = '#property_manage_content .propertyContent';
+	      var searchColumn = ['property_name', 'code', 'user_id'];
+	      limit = search(loanData, who, target, searchColumn);
+	    } else {
+	      limit = loanData.length;
+	      $propertyContainer.find('#property_manage_content .propertyContent').addClass('searched');
+	    }
+	    showPage(1, Math.ceil(limit / 5), '.manage_system');
+	    propertyPageEvent(Math.ceil(limit / 5), '.manage_system');
 	  });
 	}
 
-	function showPropertyDeailAndDeleteProperty() {
+	function showPropertyDetailAndDeleteProperty() {
 	  var $propertyContainer = $('#property_container');
 	  var $propertyModal = $('#property_modal');
 	  $propertyContainer.find('#property_system_content .modal-trigger').on('click', function (event) {
@@ -978,6 +998,26 @@ webpackJsonp([0],{
 	        location.reload();
 	      }
 	    });
+	  });
+
+	  var $returnPropertyModal = $('#return_property_modal');
+	  $propertyContainer.find('#return_property_content .returnLoanModalTrigger').on('click', function (event) {
+	    if ($(this).hasClass('disabled')) {
+	      return;
+	    }
+
+	    $('#materialize-lean-overlay-30').css('display', 'block');
+	    $returnPropertyModal.fadeIn();
+
+	    var ele = $(this).parent().parent();
+	    $returnPropertyModal.find('.userName').html(ele.data('username'));
+	    $returnPropertyModal.find('.userID').html(ele.data('user_id'));
+	    $returnPropertyModal.find('.phone').html(ele.data('phone'));
+	    $returnPropertyModal.find('.email').html(ele.data('email'));
+	    $returnPropertyModal.find('.propertyName').html(ele.data('name'));
+	    $returnPropertyModal.find('.time').html(ele.data('time'));
+	    $returnPropertyModal.find('.remark').html(ele.data('remark'));
+	    $returnPropertyModal.data('loan_id', ele.data('loan_id'));
 	  });
 	}
 
@@ -1066,17 +1106,32 @@ webpackJsonp([0],{
 	  });
 	}
 
-	function propertyCode2propertyID(code, Data) {
-	  var i;
-	  var property = {};
-	  for (i = 0; i < Object.size(Data); i++) {
-	    if (Data[i].code === code) {
-	      property.id = Data[i].id;
-	      property.name = Data[i].name;
-	      break;
-	    }
-	  }
-	  return property;
+	function returnProperty() {
+	  var $propertyContainer = $('#property_container');
+	  var $returnPropertyModal = $('#return_property_modal');
+	  $propertyContainer.find('#return_property_modal #return_property_btn').on('click', function (event) {
+	    var loanID = $returnPropertyModal.data('loan_id');
+	    console.log('loan id:' + $returnPropertyModal.data('loan_id'));
+	    $.ajax({
+	      url: '/api/manager/loan/other-restitution/' + loanID,
+	      _method: 'put',
+	      type: 'put',
+	      data: {
+	        id: loanID,
+	        status: 'submitted',
+	        _token: $('meta[name="csrf-token"]').attr('content')
+	      },
+	      error: function error(_error2) {
+	        alert('歸還財產失敗!');
+	        console.log('return property error, ', _error2);
+	      },
+	      success: function success(data) {
+	        console.log('return property success!', data);
+	        alert('歸還財產成功!');
+	        location.reload();
+	      }
+	    });
+	  });
 	}
 
 	function propertyPageEvent(limit, who) {
@@ -1103,7 +1158,6 @@ webpackJsonp([0],{
 	}
 
 	function showPage(page, limit, who) {
-	  console.log('who:' + who + ', limit:' + limit);
 	  var $propertyContainer = $('#property_container');
 	  $propertyContainer.find(who).find('.showContent').removeClass('block').addClass('hide');
 	  var i;
@@ -1116,6 +1170,49 @@ webpackJsonp([0],{
 	  $propertyContainer.find(who).find('.pagination li:eq(' + page + ')').addClass('active');
 	  $propertyContainer.find(who).find('.pagination li:lt(' + (limit + 1) + ')').removeClass('hide').addClass('inline-block');
 	  $propertyContainer.find(who).find('.pagination li:last-child').removeClass('hide').addClass('inline-block');
+	}
+
+	function search(Data, who, target, searchColumn) {
+	  var i;
+	  var j;
+	  var limit;
+	  var $propertyContainer = $('#property_container');
+	  for (i = 0, limit = 0; i < Data.length; i++) {
+	    for (j = 0; j < searchColumn.length; j++) {
+	      if (Data[i][searchColumn[j]].indexOf(target) != -1) {
+	        limit++;
+	        var tag = who + ':nth-child(' + (i + 2) + ')';
+	        $propertyContainer.find(tag).addClass('searched');
+	      }
+	    }
+	  }
+	  return limit;
+	}
+
+	function propertyCode2propertyID(code, Data) {
+	  var i;
+	  var property = {};
+	  for (i = 0; i < Object.size(Data); i++) {
+	    if (Data[i].code === code) {
+	      property.id = Data[i].id;
+	      property.name = Data[i].name;
+	      break;
+	    }
+	  }
+	  return property;
+	}
+
+	function propertyID2propertyCode(propertyID, Data) {
+	  var i;
+	  var property = {};
+	  for (i = 0; i < Object.size(Data); i++) {
+	    if (parseInt(Data[i].id) === parseInt(propertyID)) {
+	      property.code = Data[i].code;
+	      property.name = Data[i].name;
+	      break;
+	    }
+	  }
+	  return property;
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
 

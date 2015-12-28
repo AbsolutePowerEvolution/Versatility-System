@@ -42,20 +42,24 @@
         </div>
 
         <div id="return_property_content" class="card">
-            <div>
-                <h4 class="card-content">借用紀錄</h4>
+            <div class="row">
+                <h4 class="card-content center-align">借用紀錄</h4>
+                    <input id="search_loanData" class="offset-s3 col s6" type="text" placeholder="財產名稱或條碼或學號"/>
+                    <span id="search_loanData_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4
+"><i class="material-icons left">search</i>搜尋</a></span>
             </div>
             {{#loanData}}
-            <div class="card showContent searched hide">
-                <div class="row card-content" data-name="{{property_name}}" data-loan_id="{{id}}" data-remark="{{remark}}" data-property_id="{{property_id}}"
-                     data-created_at="user.created_at" data-email="user.email" data-user_id = "user.user_id" data-usernickname="user.nickname" data-phone="user.phone"
-                     data-update_at="user.update_at" data-username="user.username"
+            <div class="card showContent propertyContent searched hide">
+                <div class="row card-content" data-loan_id="{{id}}" data-name="{{property_name}}" data-remark="{{remark}}" data-property_id="{{property_id}}"
+                     data-time="{{time}}" data-created_at="{{user.created_at}}" data-update_at="{{updated_at}}"
+                     data-email="{{user.email}}" data-user_id = "{{user.id}}" data-usernickname="{{user.nickname}}" data-phone="{{user.phone}}"
+                     data-username="{{user.username}}"
                 >
                     <span class="col s2 center-align">{{property_name}}</span>
                     <span class="col s2 center-align">{{user_id}}</span>
                     <span class="col s5 center-align">{{time}}</span>
                     <span class="col s3 center-align">
-                        <a class="waves-effect waves-light btn modal-trigger"><i class="material-icons left">description</i>詳細資料</a>
+                        <a class="waves-effect waves-light btn returnLoanModalTrigger"><i class="material-icons left">description</i>詳細資料</a>
                     </span>
                 </div>
             </div>
@@ -150,7 +154,34 @@
         <div class="modal-content">
             <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
             <h4>歸還財產</h4>
-            <p></p>
+            <div class="row">
+                <span class="col s2">借用人：</span>
+                <span class="userName"></span>
+            </div>
+            <div class="row">
+                <span class="col s2">借用人學號：</span>
+                <span class="userID"></span>
+            </div>
+            <div class="row">
+                <span class="col s2">借用人電話：</span>
+                <span class="phone"></span>
+            </div>
+            <div class="row">
+                <span class="col s2">借用人email：</span>
+                <span class="email"></span>
+            </div>
+            <div class="row">
+                <span class="col s2">財產名稱：</span>
+                <span class="propertyName"></p>
+            </div>
+            <div class="row">
+                <span class="col s2">借用時間：</span>
+                <span class="time"></span>
+            </div>
+            <div class="row">
+                <span class="col s2">借用理由：</span>
+                <span class="remark"></span>
+            </div>
         </div>
         <div class="modal-footer">
             <a id="return_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確定歸還</a>
