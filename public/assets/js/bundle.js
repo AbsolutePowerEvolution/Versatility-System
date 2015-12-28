@@ -79,12 +79,10 @@ webpackJsonp([0],{
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/user/signin', function (context) {
-	    console.log('signin');
 	    context.partial('/templates/user/signin.ms');
 	  });
 
 	  this.post('#/user/signin', function (context) {
-	    console.log(context);
 	    console.log('Username: ' + context.params.username);
 	    console.log('Password: ' + context.params.password);
 	    return false;
@@ -594,7 +592,7 @@ webpackJsonp([0],{
 	        item.time = item.date_began_at + '~' + item.date_ended_at;
 	        return item;
 	      });
-	      context.loadPartials({ menu: '/templates/menu.ms' }).partial('/templates/admin/examine.ms').then(function () {
+	      context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/examine.ms').then(function () {
 	        // Content has been render
 
 	        // Initialize tooltip
@@ -1041,7 +1039,7 @@ webpackJsonp([0],{
 	          context.loanPage[i].pageNum = i + 1;
 	        }
 
-	        context.loadPartitals({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/property.ms').then(function () {
+	        context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/property.ms').then(function () {
 	          propertyBindEvent(context.propertyData, context.loanData);
 	          propertyPageEvent(context.propertyPage.length, '.property_system');
 	          showPage(1, context.propertyPage.length, '.property_system');
