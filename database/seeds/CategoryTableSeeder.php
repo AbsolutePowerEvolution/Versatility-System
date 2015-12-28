@@ -13,12 +13,12 @@ class CategoryTableSeeder extends Seeder
     public function run()
     {
         $static = [
-            'property' => ['classroom', 'others'],
+            'property' => ['classroom', 'others', 'deleted'],
             'property.status' => ['normal', 'maintenance'],
             'repair.type' => ['cleanup', 'maintain'],
             'repair.status' => ['submitted', 'canceled', 'processing', 'finished'],
             'loan.type' => ['meeting', 'course', 'speech', 'interview', 'others'],
-            'loan.status' => ['submitted', 'canceled', 'processing', 'accepted', 'finished', 'refused'],
+            'loan.status' => ['submitted', 'canceled', 'accepted', 'finished', 'refused'],
         ];
 
         foreach ($static as $category => $collections) {
