@@ -62,7 +62,7 @@ class PropertyController extends Controller
                 'category',
                 'status',
                 'loanClassroom' => function ($query) use ($date) {
-                    $query->where('date_ended_at', '<=', $date);
+                    $query->where('date_ended_at', '>=', $date);
                 }
             ])
             ->where('category', Category::getCategoryId('property', 'classroom'))
