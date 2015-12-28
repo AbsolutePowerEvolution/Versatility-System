@@ -23,7 +23,7 @@ Sammy('#main', function() {
         item.time = `${item.date_began_at}~${item.date_ended_at}`;
         return item;
       });
-      context.loadPartials({menu: '/templates/menu.ms'})
+      context.loadPartials({menu: '/templates/admin/menu.ms'})
         .partial('/templates/admin/examine.ms')
         .then(() => {
           // Content has been render
