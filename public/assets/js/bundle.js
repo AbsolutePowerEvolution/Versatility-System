@@ -600,6 +600,7 @@ webpackJsonp([0],{
 	          delay: 50,
 	          position: 'buttom'
 	        });
+	        $('.collapsible').collapsible({ accordion: true });
 
 	        $('.Examine-Item').each(function (idx, ele) {
 	          var item = $(ele);
