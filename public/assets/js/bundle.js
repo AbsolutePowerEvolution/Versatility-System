@@ -129,7 +129,7 @@ webpackJsonp([0],{
 	  this.use('Mustache', 'ms');
 	  this.get('#/user/property', function (context) {
 	    console.log('property');
-	    context.partial('/templates/user/property.ms').then(function () {
+	    context.loadPartial({ menu: '/templates/user/menu.ms' }).partial('/templates/user/property.ms').then(function () {
 	      getPropertyList(1, 10000, 1);
 	      getRepairList(1, 10000);
 	    });
@@ -538,7 +538,7 @@ webpackJsonp([0],{
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/user/loan', function (context) {
-	    context.partial('/templates/user/loan.ms').then(function () {
+	    context.loadPartial({ menu: '/templates/user/menu.ms' }).partial('/templates/user/loan.ms').then(function () {
 	      dateEvent();
 	    });
 	  });
