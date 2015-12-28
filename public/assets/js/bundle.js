@@ -52,7 +52,7 @@ webpackJsonp([0],{
 	__webpack_require__(197);
 	__webpack_require__(247);
 
-	__webpack_require__(258);
+	__webpack_require__(260);
 
 /***/ },
 
@@ -161,7 +161,7 @@ webpackJsonp([0],{
 	  $('#property_system_content').find('.propertyContent').remove();
 	  for (i = 0; i < length; i++) {
 	    var status = searchPropertyData[i].status.id; //3: normal, 4:maintenance
-	    var color = status == 3 ? 'teal' : status == 4 ? 'red' : 'blue';
+	    var color = status == 4 ? 'teal' : status == 3 ? 'red' : 'blue';
 	    var divCard = '<div class="card propertyContent ' + (i < 5 ? 'block' : 'hide') + '">';
 	    var divCardContent = '<div class="row card-content" ' + 'data-name="' + searchPropertyData[i].name + '"' + 'data-propertyid="' + searchPropertyData[i].id + '"' + 'data-describe="' + searchPropertyData[i].describe + '">';
 	    var spanName = '<span class="col s4 center-align">' + searchPropertyData[i].name + '</span>';
@@ -557,8 +557,8 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(248);
-	__webpack_require__(256);
-	__webpack_require__(257);
+	__webpack_require__(258);
+	__webpack_require__(259);
 
 /***/ },
 
@@ -570,6 +570,7 @@ webpackJsonp([0],{
 	var $ = __webpack_require__(194);
 	var Sammy = __webpack_require__(192);
 	var api = __webpack_require__(249);
+	var paginate = __webpack_require__(256);
 
 	Sammy('#main', function () {
 	  this.use('Mustache', 'ms');
@@ -578,22 +579,19 @@ webpackJsonp([0],{
 	    api.browse('manager/loan/classrooms', {
 	      params: { page: context.params.page }
 	    }).then(function (data) {
-	      var currentPage = data.current_page;
+	      var pageEffect = paginate(context, data, '#/admin/examine');
 	      console.log(data);
-	      context.prevUrl = '#/admin/examine?page=' + (currentPage - 1);
-	      context.nextUrl = '#/admin/examine?page=' + (currentPage + 1);
-	      if (data.current_page === 1) {
-	        context.disablePrev = true;
-	      }
-	      if (!data.next_page_url) {
-	        context.disableNext = true;
-	      }
 	      context.list = data.data.map(function (item) {
 	        item.time = item.date_began_at + '~' + item.date_ended_at;
 	        return item;
 	      });
-	      context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/examine.ms').then(function () {
+	      context.loadPartials({
+	        menu: '/templates/admin/menu.ms',
+	        pagination: '/templates/pagination.ms'
+	      }).partial('/templates/admin/examine.ms').then(function () {
 	        // Content has been render
+
+	        pageEffect();
 
 	        // Initialize tooltip
 	        $('.tooltipped').tooltip({
@@ -828,6 +826,47 @@ webpackJsonp([0],{
 /***/ 256:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var _lodash = __webpack_require__(257);
+
+	module.exports = function (context, data, baseUrl) {
+	  if (!data.current_page) {
+	    return;
+	  }
+
+	  var currentPage = data.current_page;
+	  var lastPage = data.last_page;
+	  var prevUrl = data.prev_page_url ? baseUrl + '?page=' + (currentPage - 1) : null;
+	  var nextUrl = data.next_page_url ? baseUrl + '?page=' + (currentPage + 1) : null;
+	  var minPage = currentPage > lastPage - 10 ? lastPage - 10 : currentPage;
+	  var maxPage = Math.min(currentPage + 10, lastPage);
+	  var pages = Array.prototype.map.call((0, _lodash.range)(minPage, maxPage + 1), function (num) {
+	    return { num: num, url: baseUrl + '?page=' + num };
+	  });
+	  (0, _lodash.assign)(context, {
+	    prevUrl: prevUrl,
+	    nextUrl: nextUrl,
+	    pages: pages
+	  });
+	  return function () {
+	    var ele = document.getElementById('pagination-' + currentPage);
+	    ele.className = 'active';
+	  };
+	};
+
+/***/ },
+
+/***/ 257:
+/***/ function(module, exports) {
+
+	module.exports = _;
+
+/***/ },
+
+/***/ 258:
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
@@ -964,7 +1003,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 257:
+/***/ 259:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1069,14 +1108,10 @@ webpackJsonp([0],{
 	  });
 	  $propertyContainer.find('#sub_menu').tabs();
 	  $propertyContainer.find('#property_system').on('click', function (event) {
-	    //$propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
-	    //$propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
 	    $propertyContainer.find('.property_system').css('display', 'block');
 	    $propertyContainer.find('.manage_system').css('display', 'none');
 	  });
 	  $propertyContainer.find('#property_manage').on('click', function (event) {
-	    //$propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
-	    //$propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
 	    $propertyContainer.find('.property_system').css('display', 'none');
 	    $propertyContainer.find('.manage_system').css('display', 'block');
 	  });
@@ -1386,7 +1421,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 258:
+/***/ 260:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
