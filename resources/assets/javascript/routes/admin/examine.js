@@ -33,6 +33,7 @@ Sammy('#main', function() {
             delay: 50,
             position: 'buttom'
           });
+          $('.collapsible').collapsible({accordion: true});
 
           $('.Examine-Item').each((idx, ele) => {
             var item = $(ele);
