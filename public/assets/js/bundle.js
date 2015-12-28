@@ -599,7 +599,6 @@ webpackJsonp([0],{
 	      context.loadPartials({ menu: '/templates/menu.ms' }).partial('/templates/admin/examine.ms').then(function () {
 	        var sendVerifyRequest = function sendVerifyRequest(id, type) {
 	          api.replace('manager/loan/class-verify/' + id, {
-	            credentials: 'include',
 	            body: $.param({
 	              status: type
 	            })
@@ -684,6 +683,13 @@ webpackJsonp([0],{
 	var api = (0, _fetchPlus.connectEndpoint)('/api');
 
 	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
+
+	// Default add cookie default
+	api.addMiddleware(function (request) {
+	  if (request.options.credentials) {
+	    request.options.credentials = 'include';
+	  }
+	});
 
 	// custom JSON middleware
 	api.addMiddleware(function (request) {
