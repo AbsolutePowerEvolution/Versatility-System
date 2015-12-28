@@ -70,13 +70,14 @@ Sammy('#main', function() {
           context.loanPage[i].pageNum = (i + 1);
         }
 
-        context.partial('/templates/admin/property.ms').then(function() {
-          propertyBindEvent(context.propertyData, context.loanData);
-          propertyPageEvent(context.propertyPage.length, '.property_system');
-          showPage(1, context.propertyPage.length, '.property_system');
-          propertyPageEvent(context.loanPage.length, '.manage_system');
-          showPage(1, context.loanPage.length, '.manage_system');
-        });
+        context.loadPartitals({menu: '/templates/admin/menu.ms'})
+          .partial('/templates/admin/property.ms').then(function() {
+            propertyBindEvent(context.propertyData, context.loanData);
+            propertyPageEvent(context.propertyPage.length, '.property_system');
+            showPage(1, context.propertyPage.length, '.property_system');
+            propertyPageEvent(context.loanPage.length, '.manage_system');
+            showPage(1, context.loanPage.length, '.manage_system');
+          });
 
       }).catch(function(response) {
         alert('取得財產借用列表失敗!');

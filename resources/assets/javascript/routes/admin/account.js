@@ -7,7 +7,8 @@ Sammy('#main', function() {
   this.use('Mustache', 'ms');
 
   this.get('#/admin/account', function(context) {
-    context.partial('/templates/admin/account.ms')
+    context.loadPartitals({menu: '/templates/admin/menu.ms'})
+      .partial('/templates/admin/account.ms')
       .then(function() {
         accountButtonEvent();
         accountDataEvent();
