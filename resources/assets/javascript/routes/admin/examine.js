@@ -26,16 +26,12 @@ Sammy('#main', function() {
           item.time = `${item.date_began_at}~${item.date_ended_at}`;
           return item;
         });
-        context
+        context.loadPartials({menu: '/templates/menu.ms'})
           .partial('/templates/admin/examine.ms')
           .then(() => {
             var sendVerifyRequest = (id, type) => {
               api.replace(`manager/loan/class-verify/${id}`, {
                 credentials: 'include',
-                headers: {
-                  'Content-type':
-                    'application/x-www-form-urlencoded; charset=UTF-8'
-                },
                 body: $.param({
                   status: type
                 })
