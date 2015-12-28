@@ -34,6 +34,7 @@ class LoanController extends Controller
                 $join->on('pro_t.id', '=', 'property_id')
                     ->where('pro_t.category', '=', Category::getCategoryId('property', 'others'));
             })
+            ->orderBy('date_ended_at', 'DESC')
             ->paginate($length, [
                 'loans.*',
                 'pro_t.name as property_name'

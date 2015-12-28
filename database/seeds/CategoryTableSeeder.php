@@ -18,7 +18,7 @@ class CategoryTableSeeder extends Seeder
             'repair.type' => ['cleanup', 'maintain'],
             'repair.status' => ['submitted', 'canceled', 'processing', 'finished'],
             'loan.type' => ['meeting', 'course', 'speech', 'interview', 'others'],
-            'loan.status' => ['submitted', 'canceled', 'processing', 'accepted', 'refused'],
+            'loan.status' => ['submitted', 'canceled', 'processing', 'accepted', 'finished', 'refused'],
         ];
 
         foreach ($static as $category => $collections) {
