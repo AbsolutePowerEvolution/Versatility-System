@@ -571,17 +571,15 @@ webpackJsonp([0],{
 
 	var $ = __webpack_require__(194);
 	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(200);
 	var api = __webpack_require__(249);
 
 	Sammy('#main', function () {
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/admin/examine', function (context) {
-	    client({
-	      path: 'manager/loan/classrooms',
+	    api.browse('manager/loan/classrooms', {
 	      params: { page: context.params.page }
-	    }).entity().then(function (data) {
+	    }).then(function (data) {
 	      var currentPage = data.current_page;
 	      console.log(data);
 	      context.prevUrl = '#/admin/examine?page=' + (currentPage - 1);
@@ -597,57 +595,18 @@ webpackJsonp([0],{
 	        return item;
 	      });
 	      context.loadPartials({ menu: '/templates/menu.ms' }).partial('/templates/admin/examine.ms').then(function () {
-	        var sendVerifyRequest = function sendVerifyRequest(id, type) {
-	          api.replace('manager/loan/class-verify/' + id, {
-	            body: $.param({
-	              status: type
-	            })
-	          }).then(function (response) {
-	            console.log('Success', response);
-	          }).catch(function (response) {
-	            console.log('Fail', response);
-	          });
-	        };
-
-	        var sendRefuseVerify = function sendRefuseVerify(id) {
-	          sendVerifyRequest(id, 'refused');
-	        };
-
-	        var sendAcceptVerify = function sendAcceptVerify(id) {
-	          sendVerifyRequest(id, 'accepted');
-	        };
-
 	        // Content has been render
+
+	        // Initialize tooltip
+	        $('.tooltipped').tooltip({
+	          delay: 50,
+	          position: 'buttom'
+	        });
+
 	        $('.Examine-Item').each(function (idx, ele) {
 	          var item = $(ele);
 	          var id = item.data('id');
-
-	          // Initialize tooltip
-	          $('.tooltipped').tooltip({
-	            delay: 50,
-	            position: 'buttom'
-	          });
-
-	          // Re-trigger event for click
-	          item.find('.Examine-Pass').click(function (event) {
-	            event.preventDefault();
-	            item.trigger('examine-pass', id);
-	          });
-	          item.find('.Examine-Reject').click(function (event) {
-	            event.preventDefault();
-	            item.trigger('examine-reject', id);
-	          });
-
-	          // Deal custom event
-	          item.on('examine-pass', function (event, id) {
-	            console.log('Examine pass id: ' + id);
-	            sendAcceptVerify(id);
-	          });
-
-	          item.on('examine-reject', function (event, id) {
-	            console.log('Examine reject id: ' + id);
-	            sendRefuseVerify(id);
-	          });
+	          bindEvent(id, item);
 	        });
 	      });
 	    }).catch(function (response) {
@@ -655,6 +614,49 @@ webpackJsonp([0],{
 	    });
 	  });
 	});
+
+	var bindEvent = function bindEvent(id, item) {
+	  // Re-trigger event for click
+	  item.find('.Examine-Pass').click(function (event) {
+	    event.preventDefault();
+	    item.trigger('examine-pass', id);
+	  });
+	  item.find('.Examine-Reject').click(function (event) {
+	    event.preventDefault();
+	    item.trigger('examine-reject', id);
+	  });
+
+	  // Deal custom event
+	  item.on('examine-pass', function (event, id) {
+	    console.log('Examine pass id: ' + id);
+	    sendAcceptVerify(id);
+	  });
+
+	  item.on('examine-reject', function (event, id) {
+	    console.log('Examine reject id: ' + id);
+	    sendRefuseVerify(id);
+	  });
+	};
+
+	var sendRefuseVerify = function sendRefuseVerify(id) {
+	  sendVerifyRequest(id, 'refused');
+	};
+
+	var sendAcceptVerify = function sendAcceptVerify(id) {
+	  sendVerifyRequest(id, 'accepted');
+	};
+
+	var sendVerifyRequest = function sendVerifyRequest(id, type) {
+	  api.replace('manager/loan/class-verify/' + id, {
+	    body: $.param({
+	      status: type
+	    })
+	  }).then(function (response) {
+	    console.log('Success', response);
+	  }).catch(function (response) {
+	    console.log('Fail', response);
+	  });
+	};
 
 /***/ },
 
@@ -688,6 +690,12 @@ webpackJsonp([0],{
 	api.addMiddleware(function (request) {
 	  if (request.options.credentials) {
 	    request.options.credentials = 'include';
+	  }
+	});
+
+	api.addMiddleware(function (request) {
+	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
+	    request.path = request.path + '?' + $.param(request.options.params);
 	  }
 	});
 
