@@ -1,10 +1,5 @@
 <div id="property_container" class="container">
-    <div id="menu" class="row">
-        <span class="col s2 offset-s6 center-align">首頁</span>
-        <span class="col s2 center-align">教室預借系統</span>
-        <span class="col s2 center-align">財產管理系統</span>
-    </div>
-
+    {{>menu}}
     <div id="sub_menu" class="row">
         <span id="property_system" class="col s6 center-align waves-effect waves-light btn"><i class="material-icons">gavel</i>財產管理系統</span>
         <span id="property_manage" class="col s6 center-align waves-effect waves-light btn"><i class="material-icons">settings</i>管理財產</span>
