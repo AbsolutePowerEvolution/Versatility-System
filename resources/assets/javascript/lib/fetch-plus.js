@@ -9,6 +9,13 @@ var api = connectEndpoint('/api');
 
 api.addMiddleware(plusCsrf('X-CSRF-TOKEN', token));
 
+// Default add cookie default
+api.addMiddleware((request) => {
+  if(request.options.credentials) {
+    request.options.credentials = 'include';
+  }
+});
+
 // custom JSON middleware
 api.addMiddleware((request) => {
   let body = request.options.body;
