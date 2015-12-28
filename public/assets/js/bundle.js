@@ -52,7 +52,7 @@ webpackJsonp([0],{
 	__webpack_require__(197);
 	__webpack_require__(247);
 
-	__webpack_require__(255);
+	__webpack_require__(254);
 
 /***/ },
 
@@ -559,8 +559,8 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(248);
+	__webpack_require__(252);
 	__webpack_require__(253);
-	__webpack_require__(254);
 
 /***/ },
 
@@ -596,13 +596,10 @@ webpackJsonp([0],{
 	        item.time = item.date_began_at + '~' + item.date_ended_at;
 	        return item;
 	      });
-	      context.partial('/templates/admin/examine.ms').then(function () {
+	      context.loadPartials({ menu: '/templates/menu.ms' }).partial('/templates/admin/examine.ms').then(function () {
 	        var sendVerifyRequest = function sendVerifyRequest(id, type) {
 	          api.replace('manager/loan/class-verify/' + id, {
 	            credentials: 'include',
-	            headers: {
-	              'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
-	            },
 	            body: $.param({
 	              status: type
 	            })
@@ -669,26 +666,60 @@ webpackJsonp([0],{
 
 	var _fetchPlus = __webpack_require__(250);
 
-	var _fetchPlusJson = __webpack_require__(251);
-
-	var _fetchPlusJson2 = _interopRequireDefault(_fetchPlusJson);
-
-	var _fetchPlusCsrf = __webpack_require__(252);
+	var _fetchPlusCsrf = __webpack_require__(251);
 
 	var _fetchPlusCsrf2 = _interopRequireDefault(_fetchPlusCsrf);
 
+	var _when = __webpack_require__(206);
+
+	var _when2 = _interopRequireDefault(_when);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
 	var token = $('#csrf-token').attr('content');
-
+	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
+	var JSON_HEADER = 'application/json; charset=UTF-8';
 	var api = (0, _fetchPlus.connectEndpoint)('/api');
-	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
-	api.addMiddleware((0, _fetchPlusJson2.default)());
 
+	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
+
+	// custom JSON middleware
 	api.addMiddleware(function (request) {
+	  var body = request.options.body;
+	  // If options have key named type
+	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
+	    // Stringify body and add header
+	    if (request.options.type === 'form') {
+	      request.options.body = $.param(body);
+	      request.options.headers['Content-Type'] = FORM_HEADER;
+	    } else if (request.options.type === 'json') {
+	      request.options.body = JSON.stringify(body);
+	      request.options.headers['Content-Type'] = JSON_HEADER;
+	    }
+	  } else if (typeof request.options.body === 'string') {
+	    // Just add header
+	    request.options.headers['Content-Type'] = FORM_HEADER;
+	  } else if (_typeof(request.options.body) === 'object') {
+	    // Stringify body and add header
+	    request.options.body = $.param(body);
+	    request.options.headers['Content-Type'] = FORM_HEADER;
+	  }
+
 	  return function (response) {
-	    console.log(request);
-	    console.log(response);
+	    return response.json();
+	  };
+	});
+
+	// P2P-style unjustifed status code check
+	api.addMiddleware(function () {
+	  return function (response) {
+	    if (_typeof(response.body) === 'object' && response.body.status) {
+	      if (response.body.status !== 0) {
+	        return _when2.default.reject(response);
+	      }
+	    }
 	    return response;
 	  };
 	});
@@ -698,7 +729,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 253:
+/***/ 252:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -837,7 +868,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 254:
+/***/ 253:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1257,7 +1288,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 255:
+/***/ 254:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

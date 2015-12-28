@@ -6236,7 +6236,7 @@
 /* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
 	/** @author Brian Cavalier */
 	/** @author John Hann */
 
@@ -10391,12 +10391,6 @@
 
 /***/ },
 /* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	!function(o,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["fetch-plus-json"]=t():o["fetch-plus-json"]=t()}(this,function(){return function(o){function t(n){if(e[n])return e[n].exports;var r=e[n]={exports:{},id:n,loaded:!1};return o[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var e={};return t.m=o,t.c=e,t.p="",t(0)}([function(o,t){"use strict";function e(o){return o&&"undefined"!=typeof Symbol&&o.constructor===Symbol?"symbol":typeof o}Object.defineProperty(t,"__esModule",{value:!0});var n=t.before=function(o){o.options.headers.Accept="application/json",o.options.headers["Content-Type"]="application/json; charset=utf-8","object"===e(o.options.body)&&(o.options.body=JSON.stringify(o.options.body))},r=t.after=function(o){return o.json()};o.exports=function(){return function(o){return n(o),r}},o.exports.handler=function(){return r}}])});
-
-/***/ },
-/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["fetch-plus-csrf"]=t():e["fetch-plus-csrf"]=t()}(this,function(){return function(e){function t(n){if(o[n])return o[n].exports;var r=o[n]={exports:{},id:n,loaded:!1};return e[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var o={};return t.m=e,t.c=o,t.p="",t(0)}([function(e,t,o){"use strict";var n=o(1);e.exports=function(e,t){return function(o){return t&&(o.options.headers[e]=(0,n.compute)(t)),function(o){return o.headers&&o.headers.has&&o.headers.has(e)&&(t=o.headers.get(e)),o}}}},function(e,t){"use strict";function o(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function n(e){return"function"==typeof e?e():e}function r(e){var t={};return e=n(e),Object.keys(e).forEach(function(u){var c=e[u];t[u]="object"===("undefined"==typeof c?"undefined":o(c))?r(c):n(c)}),t}e.exports={compute:n,computeObject:r}}])});
