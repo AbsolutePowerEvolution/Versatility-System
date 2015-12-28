@@ -122,7 +122,7 @@
                 <input id="loan_property_code" class="col s5" type="text"/>
                 <label for="loan_property_code">財產條碼</label>
                 <h5 id="loan_property_name" class="col offset-s1"></h5>
-                <label for="loan_property_name" class="col offset-s5">財產名稱</label>
+                <label for="loan_property_name" class="col offset-s6">財產名稱</label>
             </div>
             <div class="input-field row">
                 <input id="date_began_at" type="date" class="datepicker col s3"/>
