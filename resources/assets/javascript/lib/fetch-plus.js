@@ -16,6 +16,13 @@ api.addMiddleware((request) => {
   }
 });
 
+api.addMiddleware((request) => {
+  if(request.options.method === 'GET' &&
+      typeof request.options.params === 'object') {
+    request.path = `${request.path}?${$.param(request.options.params)}`;
+  }
+});
+
 // custom JSON middleware
 api.addMiddleware((request) => {
   let body = request.options.body;
