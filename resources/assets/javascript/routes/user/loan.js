@@ -7,14 +7,11 @@ Sammy('#main', function() {
     context.loadPartial({menu: '/templates/user/menu.ms'})
       .partial('/templates/user/loan.ms')
       .then(function() {
-        dateEvent();
+        var picker = new Pikaday({
+          field: document.getElementById('datepicker'),
+          bound: false
+        });
       });
   });
 });
 
-function dateEvent() {
-  var picker = new Pikaday({
-    field: document.getElementById('datepicker'),
-    bound: false
-  });
-}

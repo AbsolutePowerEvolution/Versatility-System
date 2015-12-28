@@ -537,17 +537,13 @@ webpackJsonp([0],{
 
 	  this.get('#/user/loan', function (context) {
 	    context.loadPartial({ menu: '/templates/user/menu.ms' }).partial('/templates/user/loan.ms').then(function () {
-	      dateEvent();
+	      var picker = new Pikaday({
+	        field: document.getElementById('datepicker'),
+	        bound: false
+	      });
 	    });
 	  });
 	});
-
-	function dateEvent() {
-	  var picker = new Pikaday({
-	    field: document.getElementById('datepicker'),
-	    bound: false
-	  });
-	}
 
 /***/ },
 
