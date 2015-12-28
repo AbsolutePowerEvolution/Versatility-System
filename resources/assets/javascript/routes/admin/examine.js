@@ -31,7 +31,6 @@ Sammy('#main', function() {
           .then(() => {
             var sendVerifyRequest = (id, type) => {
               api.replace(`manager/loan/class-verify/${id}`, {
-                credentials: 'include',
                 body: $.param({
                   status: type
                 })
