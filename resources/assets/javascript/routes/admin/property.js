@@ -70,7 +70,7 @@ Sammy('#main', function() {
           context.loanPage[i].pageNum = (i + 1);
         }
 
-        context.loadPartitals({menu: '/templates/admin/menu.ms'})
+        context.loadPartials({menu: '/templates/admin/menu.ms'})
           .partial('/templates/admin/property.ms').then(function() {
             propertyBindEvent(context.propertyData, context.loanData);
             propertyPageEvent(context.propertyPage.length, '.property_system');
