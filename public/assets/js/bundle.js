@@ -528,7 +528,7 @@ webpackJsonp([0],{
 /***/ 246:
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
 
@@ -539,11 +539,56 @@ webpackJsonp([0],{
 	    context.loadPartial({ menu: '/templates/user/menu.ms' }).partial('/templates/user/loan.ms').then(function () {
 	      var picker = new Pikaday({
 	        field: document.getElementById('datepicker'),
-	        bound: false
+	        bound: false,
+	        format: 'YYYY-MM-DD'
 	      });
+
+	      loanDataEvent();
 	    });
 	  });
 	});
+
+	Object.size = function (obj) {
+	  var size = 0;
+	  var key;
+	  for (key in obj) {
+	    if (obj.hasOwnProperty(key)) {
+	      size++;
+	    }
+	  }
+	  return size;
+	};
+
+	function loanDataEvent() {
+	  $('#datepicker').unbind('change');
+	  $('#datepicker').change(function () {
+	    var request = {};
+	    request.date = $(this).val();
+	    console.log(request.date);
+
+	    $.get('/api/user/property/classrooms', request, function (result) {
+	      var i;
+	      var j;
+
+	      console.log(result);
+	      for (i = 0; i < result.length; i++) {
+	        for (j = 0; j < result[i]['loan_classroom'].length; j++) {
+	          console.log(result[i]['loan_classroom'][j]);
+	        }
+	      }
+	    });
+	  });
+
+	  $('#loan_classroom').unbind('click');
+	  $('#loan_classroom').click(function () {
+	    var request = {};
+
+	    $.post('/api/user/loan/create', request, function (result) {
+	      console.log(result);
+	    });
+	  });
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
 
 /***/ },
 

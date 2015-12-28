@@ -30,6 +30,7 @@
       <a href="#!"><i class="material-icons">chevron_left</i></a>
     </li>
 
+    <li class="waves-effect account_page">1</li><!-- For init -->
 
     <li class="waves-effect page_next">
       <a href="#!"><i class="material-icons">chevron_right</i></a>
@@ -58,6 +59,5 @@
     </div>
   </div>
   <div class="lean-overlay" id="materialize-lean-overlay-30">
-    <li class="waves-effect account_page">1</li><!-- For init -->
   </div>
 </div>
