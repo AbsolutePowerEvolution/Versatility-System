@@ -137,7 +137,7 @@ class LoanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateClassroomBorrow(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $affect_row = Loan::where('id', '=', $id)
             ->update(['status' => Category::getCategoryId('loan.status', $request->input('status'))]);
