@@ -1066,15 +1066,16 @@ webpackJsonp([0],{
 	    selectYears: 15,
 	    format: 'yyyy-mm-dd'
 	  });
+	  $propertyContainer.find('#sub_menu').tabs();
 	  $propertyContainer.find('#property_system').on('click', function (event) {
-	    $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
-	    $propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
+	    // $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
+	    // $propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
 	    $propertyContainer.find('.property_system').css('display', 'block');
 	    $propertyContainer.find('.manage_system').css('display', 'none');
 	  });
 	  $propertyContainer.find('#property_manage').on('click', function (event) {
-	    $propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
-	    $propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
+	    // $propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
+	    // $propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
 	    $propertyContainer.find('.property_system').css('display', 'none');
 	    $propertyContainer.find('.manage_system').css('display', 'block');
 	  });

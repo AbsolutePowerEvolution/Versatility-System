@@ -1,8 +1,13 @@
 <div id="property_container" class="container">
     {{>menu}}
-    <div id="sub_menu" class="row">
-        <span id="property_system" class="col s6 center-align waves-effect waves-light btn"><i class="material-icons">gavel</i>財產管理系統</span>
-        <span id="property_manage" class="col s6 center-align waves-effect waves-light btn"><i class="material-icons">settings</i>管理財產</span>
+
+    <div class="row">
+        <div class="col s6">
+            <ul id="sub_menu" class="tabs">
+                <li id="property_system" class="tab center"><a><i class="material-icons">gavel</i>財產管理系統</a></li>
+                <li id="property_manage" class="tab center"><a><i class="material-icons">settings</i>管理財產</a></li>
+            </ul>
+        </div>
     </div>
 
     <div id="property_system_content" class="property_system row">
