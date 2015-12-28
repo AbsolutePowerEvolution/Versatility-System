@@ -1,6 +1,7 @@
 var $ = require('jquery');
 var Sammy = require('sammy');
 var api = require('../../lib/fetch-plus');
+var paginate = require('../../lib/paginate');
 
 Sammy('#main', function() {
   this.use('Mustache', 'ms');
@@ -9,24 +10,20 @@ Sammy('#main', function() {
     api.browse('manager/loan/classrooms', {
       params: {page: context.params.page}
     }).then((data) => {
-      let currentPage = data.current_page;
+      var pageEffect = paginate(context, data, '#/admin/examine');
       console.log(data);
-      context.prevUrl = `#/admin/examine?page=${currentPage - 1}`;
-      context.nextUrl = `#/admin/examine?page=${currentPage + 1}`;
-      if(data.current_page === 1) {
-        context.disablePrev = true;
-      }
-      if(!data.next_page_url) {
-        context.disableNext = true;
-      }
       context.list = data.data.map((item) => {
         item.time = `${item.date_began_at}~${item.date_ended_at}`;
         return item;
       });
-      context.loadPartials({menu: '/templates/admin/menu.ms'})
-        .partial('/templates/admin/examine.ms')
+      context.loadPartials({
+        menu: '/templates/admin/menu.ms',
+        pagination: '/templates/pagination.ms'
+      }).partial('/templates/admin/examine.ms')
         .then(() => {
           // Content has been render
+
+          pageEffect();
 
           // Initialize tooltip
           $('.tooltipped').tooltip({
