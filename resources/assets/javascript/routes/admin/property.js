@@ -24,28 +24,61 @@ Sammy('#main', function() {
         page: 1,
         length: 10000
       }
-    }).then(function(response) {
-      context.propertyData = response.entity.data.map((item) => {
-        item.status.color = (item.status.id == 3 ? 'teal' : (item.status.id == 4 ? 'red' : 'blue'));
-        return item;
-      });
-      console.log(context.propertyData);
-
-      context.page = [];
-      var i;
-      for(i = 0; i < Math.ceil(response.entity.total / 5); i++) {
-        context.page[i] = [];
-        context.page[i].classes = '';
-        if(i == 0) {
-          context.page[i].classes = 'active';
+    }).then(function(propertyData) {
+      client({
+        path: 'manager/loan/others',
+        method: 'GET',
+        params: {
+          page: 1,
+          length: 1000000
         }
-        context.page[i].pageNum = (i + 1);
-      }
+      }).then(function(loanData) {
+        console.log('property data:', propertyData);
 
-      context.partial('/templates/admin/property.ms').then(function() {
-        propertyBindEvent(context.propertyData);
-        propertyPageEvent(context.page.length);
-        showPage(1, context.page.length);
+        context.propertyData = propertyData.entity.data.map((item) => {
+          item.status.color = (item.status.id == 3 ? 'teal' : (item.status.id == 4 ? 'red' : 'blue'));
+          return item;
+        });
+
+        context.loanData = loanData.entity.data.map((item) => {
+          item.time = item.date_began_at + (item.time_began_at == null ? '' : item.time_began_at) +
+                      ' ~ ' + item.date_ended_at + (item.time_ended_at == null ? '' : item.time_ended_at);
+          return item;
+        });
+        console.log('loan data:', context.loanData);
+
+        context.propertyPage = [];
+        var i;
+        for(i = 0; i < Math.ceil(propertyData.entity.total / 5); i++) {
+          context.propertyPage[i] = [];
+          context.propertyPage[i].classes = '';
+          if(i == 0) {
+            context.propertyPage[i].classes = 'active';
+          }
+          context.propertyPage[i].pageNum = (i + 1);
+        }
+
+        context.loanPage = [];
+        for(i = 0; i < Math.ceil(loanData.entity.total / 5); i++) {
+          context.loanPage[i] = [];
+          context.loanPage[i].classes = '';
+          if(i == 0) {
+            context.loanPage[i].classes = 'active';
+          }
+          context.loanPage[i].pageNum = (i + 1);
+        }
+
+        context.partial('/templates/admin/property.ms').then(function() {
+          propertyBindEvent(context.propertyData);
+          propertyPageEvent(context.propertyPage.length, '.property_system');
+          showPage(1, context.propertyPage.length, '.property_system');
+          propertyPageEvent(context.loanPage.length, '.manage_system');
+          showPage(1, context.loanPage.length, '.manage_system');
+        });
+
+      }).catch(function(response) {
+        alert('取得財產借用列表失敗!');
+        console.log('get loan other list error, ', response);
       });
     }).catch(function(response) {
       alert('取得財產列表失敗!');
@@ -67,13 +100,13 @@ function propertyBindEvent(propertyData) {
     $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
     $propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
     $propertyContainer.find('.property_system').css('display', 'block');
-    $propertyContainer.find('#property_manage_content').css('display', 'none');
+    $propertyContainer.find('.manage_system').css('display', 'none');
   });
   $propertyContainer.find('#property_manage').on('click', function(event) {
     $propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
     $propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
     $propertyContainer.find('.property_system').css('display', 'none');
-    $propertyContainer.find('#property_manage_content').css('display', 'block');
+    $propertyContainer.find('.manage_system').css('display', 'block');
   });
 
   $propertyContainer.find('#search_property_btn').on('click', function() {
@@ -83,7 +116,7 @@ function propertyBindEvent(propertyData) {
     $propertyContainer.find('#property_system_content .propertyContent').removeClass('searched');
     if(target !== '') {
       for(i = 0, limit = 0; i < propertyData.length; i++) {
-        if(propertyData[i].name.indexOf(target) != -1) {
+        if(propertyData[i].name.indexOf(target) != -1 || propertyData[i].code.indexOf(target) != -1) {
           limit++;
           var tag = '#property_system_content .propertyContent:nth-child(' + (i + 2) + ')';
           $propertyContainer.find(tag).addClass('searched');
@@ -93,8 +126,8 @@ function propertyBindEvent(propertyData) {
       limit = propertyData.length;
       $propertyContainer.find('#property_system_content .propertyContent').addClass('searched');
     }
-    showPage(1, Math.ceil(limit / 5));
-    propertyPageEvent(Math.ceil(limit / 5));
+    showPage(1, Math.ceil(limit / 5), '.property_system');
+    propertyPageEvent(Math.ceil(limit / 5), '.property_system');
   });
   showPropertyDeailAndDeleteProperty();
   createProperty();
@@ -241,10 +274,10 @@ function propertyCode2propertyID(code, Data) {
   return property;
 }
 
-function propertyPageEvent(limit) {
+function propertyPageEvent(limit, who) {
   var $propertyContainer = $('#property_container');
   var nowPage = 1;
-  $propertyContainer.find('.page').unbind('click').on('click', function(event) {
+  $propertyContainer.find(who).find('.page').unbind('click').on('click', function(event) {
     if(nowPage == parseInt($(this).data('pagenum'))) {
       return;
     } else if($(this).data('pagenum') == 'prev') {
@@ -260,21 +293,23 @@ function propertyPageEvent(limit) {
     } else {
       nowPage = $(this).data('pagenum');
     }
-    showPage(nowPage, limit);
+    showPage(nowPage, limit, who);
   });
 }
 
-function showPage(page, limit) {
+function showPage(page, limit, who) {
+  console.log('who:' + who + ', limit:' + limit);
   var $propertyContainer = $('#property_container');
-  $propertyContainer.find('#property_system_content .propertyContent').removeClass('block').addClass('hide');
+  $propertyContainer.find(who).find('.showContent').removeClass('block').addClass('hide');
   var i;
   for(i = 0; i < 5; i++) {
-    var show = '#property_system_content .propertyContent.searched:eq(' + (((page - 1) * 5) + i) + ')';
+    var show = who + ' .showContent.searched:eq(' + (((page - 1) * 5) + i) + ')';
     $propertyContainer.find(show).removeClass('hide').addClass('block');
   }
 
-  $propertyContainer.find('.pagination li').removeClass('inline-block active').addClass('hide');
-  $propertyContainer.find('.pagination li:eq(' + page + ')').addClass('active');
-  $propertyContainer.find('.pagination li:lt(' + (limit + 1) + ')').removeClass('hide').addClass('inline-block');
-  $propertyContainer.find('.pagination li:last-child').removeClass('hide').addClass('inline-block');
+  $propertyContainer.find(who).find('.pagination li').removeClass('inline-block active').addClass('hide');
+  $propertyContainer.find(who).find('.pagination li:eq(' + page + ')').addClass('active');
+  $propertyContainer.find(who).find('.pagination li:lt(' + (limit + 1) + ')')
+                    .removeClass('hide').addClass('inline-block');
+  $propertyContainer.find(who).find('.pagination li:last-child').removeClass('hide').addClass('inline-block');
 }
