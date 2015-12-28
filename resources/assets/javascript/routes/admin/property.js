@@ -36,7 +36,7 @@ Sammy('#main', function() {
         console.log('property data:', propertyData);
 
         context.propertyData = propertyData.entity.data.map((item) => {
-          item.status.color = (item.status.id == 3 ? 'teal' : (item.status.id == 4 ? 'red' : 'blue'));
+          item.status.color = (item.status.id == 4 ? 'teal' : (item.status.id == 3 ? 'red' : 'blue'));
           return item;
         });
 
@@ -101,14 +101,14 @@ function propertyBindEvent(propertyData, loanData) {
   });
   $propertyContainer.find('#sub_menu').tabs();
   $propertyContainer.find('#property_system').on('click', function(event) {
-    // $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
-    // $propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
+    //$propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
+   //$propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
     $propertyContainer.find('.property_system').css('display', 'block');
     $propertyContainer.find('.manage_system').css('display', 'none');
   });
   $propertyContainer.find('#property_manage').on('click', function(event) {
-    // $propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
-    // $propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
+   //$propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
+    //$propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
     $propertyContainer.find('.property_system').css('display', 'none');
     $propertyContainer.find('.manage_system').css('display', 'block');
   });
@@ -181,6 +181,7 @@ function showPropertyDetailAndDeleteProperty() {
     $.ajax({
       url: '/api/manager/property/delete/' + propertyID,
       _method: 'delete',
+      status: 'deleted',
       type: 'delete',
       data: {
         id: propertyID,
@@ -313,7 +314,7 @@ function returnProperty() {
       type: 'put',
       data: {
         id: loanID,
-        status: 'submitted',
+        status: 'finished',
         _token: $('meta[name="csrf-token"]').attr('content')
       },
       error: function(error) {

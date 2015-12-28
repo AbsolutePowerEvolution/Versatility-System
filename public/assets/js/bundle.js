@@ -127,7 +127,7 @@ webpackJsonp([0],{
 	  this.use('Mustache', 'ms');
 	  this.get('#/user/property', function (context) {
 	    console.log('property');
-	    context.loadPartial({ menu: '/templates/user/menu.ms' }).partial('/templates/user/property.ms').then(function () {
+	    context.loadPartials({ menu: '/templates/user/menu.ms' }).partial('/templates/user/property.ms').then(function () {
 	      getPropertyList(1, 10000, 1);
 	      getRepairList(1, 10000);
 	    });
@@ -1006,7 +1006,7 @@ webpackJsonp([0],{
 	        console.log('property data:', propertyData);
 
 	        context.propertyData = propertyData.entity.data.map(function (item) {
-	          item.status.color = item.status.id == 3 ? 'teal' : item.status.id == 4 ? 'red' : 'blue';
+	          item.status.color = item.status.id == 4 ? 'teal' : item.status.id == 3 ? 'red' : 'blue';
 	          return item;
 	        });
 
@@ -1068,14 +1068,14 @@ webpackJsonp([0],{
 	  });
 	  $propertyContainer.find('#sub_menu').tabs();
 	  $propertyContainer.find('#property_system').on('click', function (event) {
-	    // $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
-	    // $propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
+	    //$propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
+	    //$propertyContainer.find('#property_manage').removeClass('purple darken-4').addClass('white').css('color', 'black');
 	    $propertyContainer.find('.property_system').css('display', 'block');
 	    $propertyContainer.find('.manage_system').css('display', 'none');
 	  });
 	  $propertyContainer.find('#property_manage').on('click', function (event) {
-	    // $propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
-	    // $propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
+	    //$propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
+	    //$propertyContainer.find('#property_manage').addClass('purple darken-4').css('color', 'white');
 	    $propertyContainer.find('.property_system').css('display', 'none');
 	    $propertyContainer.find('.manage_system').css('display', 'block');
 	  });
@@ -1150,6 +1150,7 @@ webpackJsonp([0],{
 	    $.ajax({
 	      url: '/api/manager/property/delete/' + propertyID,
 	      _method: 'delete',
+	      status: 'deleted',
 	      type: 'delete',
 	      data: {
 	        id: propertyID,
@@ -1284,7 +1285,7 @@ webpackJsonp([0],{
 	      type: 'put',
 	      data: {
 	        id: loanID,
-	        status: 'submitted',
+	        status: 'finished',
 	        _token: $('meta[name="csrf-token"]').attr('content')
 	      },
 	      error: function error(_error2) {

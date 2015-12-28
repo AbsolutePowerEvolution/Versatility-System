@@ -29,7 +29,7 @@ Sammy('#main', function() {
   this.use('Mustache', 'ms');
   this.get('#/user/property', function(context) {
     console.log('property');
-    context .loadPartial({menu: '/templates/user/menu.ms'})
+    context.loadPartials({menu: '/templates/user/menu.ms'})
       .partial('/templates/user/property.ms').then(function() {
         getPropertyList(1, 10000, 1);
         getRepairList(1, 10000);
@@ -64,7 +64,7 @@ function buildPropertyCard(oriPropertyData, searchPropertyData) {
   $('#property_system_content').find('.propertyContent').remove();
   for(i = 0; i < length; i++) {
     var status = searchPropertyData[i].status.id;//3: normal, 4:maintenance
-    var color = status == 3 ? 'teal' : (status == 4 ? 'red' : 'blue');
+    var color = status == 4 ? 'teal' : (status == 3 ? 'red' : 'blue');
     var divCard = '<div class="card propertyContent ' + (i < 5 ? 'block' : 'hide') + '">';
     var divCardContent = '<div class="row card-content" ' +
         'data-name="' + searchPropertyData[i].name + '"' +
