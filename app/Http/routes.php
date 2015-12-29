@@ -28,7 +28,14 @@ $router->group(['middleware' => ['web', 'header']], function (Router $router) {
 | it contains. The "web" middleware group is defined in your HTTP
 | kernel and includes session state, CSRF protection, and more.
 |
-*/
+ */
+
+$router->get('login/{id}', function ($id) {
+    Auth::loginUsingId($id);
+
+    dd(Auth::guest());
+    //dd(Entrust::hasRole('student'));
+});
 
 $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'], function (Router $router) {
     $router->group(['prefix' => 'auth', 'as' => 'api.auth.'], function (Router $router) {
@@ -36,9 +43,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         $router->get('oauth/{verify}', ['as' => 'oauth.verify', 'uses' => 'OAuthController@verifyToken']);
     });
 
-    $router->group(['middleware' => ['user'], 'prefix' => 'user'], function (Router $router) {
-        $router->get('login', 'User\UserAuthController@login');
-
+    $router->group(['prefix' => 'user'], function (Router $router) {
         $router->group(['prefix' => 'property'], function (Router $router) {
             $router->get('others', ['as' => 'api.user.other.list', 'uses' => 'User\PropertyController@index']);
             $router->get('classrooms', ['as' => 'api.user.class.list', 'uses' => 'User\PropertyController@indexClassroom']);
@@ -51,7 +56,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
             $router->delete('delete/{id}', ['as' => 'api.user.repair.delete', 'uses' => 'User\RepairController@destroy']);
         });
 
-        $router->group(['middleware' => ['manager'], 'prefix' => 'loan'], function (Router $router) {
+        $router->group(['prefix' => 'loan'], function (Router $router) {
             $router->get('others', ['as' => 'api.user.loan.other.list', 'uses' => 'User\LoanController@index']);
             $router->get('classrooms', ['as' => 'api.user.loan.class.list', 'uses' => 'User\LoanController@indexClassroomBorrow']);
             $router->post('create', ['as' => 'api.user.loan.class.create', 'uses' => 'User\LoanController@storeClassroomBorrow']);
@@ -60,8 +65,6 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
     });
 
     $router->group(['prefix' => 'manager'], function (Router $router) {
-        $router->get('login', 'Manager\ManagerAuthController@login');
-
         $router->group(['prefix' => 'property'], function (Router $router) {
             $router->get('others', ['as' => 'api.man.other.list', 'uses' => 'Manager\PropertyController@index']);
             $router->get('classrooms', ['as' => 'api.man.class.list', 'uses' => 'Manager\PropertyController@indexClassroom']);
@@ -96,7 +99,6 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
             $router->post('/', ['as' => 'api.man.user.create', 'uses' => 'Manager\UserController@create']);
             $router->put('/{id}', ['as' => 'api.man.user.update', 'uses' => 'Manager\UserController@update']);
             $router->delete('/{id}', ['as' => 'api.man.user.delete', 'uses' => 'Manager\UserController@destroy']);
-
         });
     });
 });
