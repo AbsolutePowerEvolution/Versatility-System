@@ -160,13 +160,13 @@ webpackJsonp([0],{
 	  var length = Object.size(searchPropertyData);
 	  $('#property_system_content').find('.propertyContent').remove();
 	  for (i = 0; i < length; i++) {
-	    var status = searchPropertyData[i].status.id; //3: normal, 4:maintenance
+	    var status = searchPropertyData[i].status.id; //4: normal, 3:deleted
 	    var color = status == 4 ? 'teal' : status == 3 ? 'red' : 'blue';
 	    var divCard = '<div class="card propertyContent ' + (i < 5 ? 'block' : 'hide') + '">';
 	    var divCardContent = '<div class="row card-content" ' + 'data-name="' + searchPropertyData[i].name + '"' + 'data-propertyid="' + searchPropertyData[i].id + '"' + 'data-describe="' + searchPropertyData[i].describe + '">';
 	    var spanName = '<span class="col s4 center-align">' + searchPropertyData[i].name + '</span>';
 	    var spanStatus = '<span class="col s4 center-align" style="color:' + color + '">' + searchPropertyData[i].status.name + '</span>';
-	    var spanBtn = '<span class="col s4 center-align"><a class="waves-effect waves-light btn modal-trigger ' + (status == 4 ? 'disabled' : '') + '"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
+	    var spanBtn = '<span class="col s4 center-align"><a class="waves-effect waves-light btn modal-trigger ' + (status == 3 ? 'disabled' : '') + '"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
 	    $('#property_system_content').append(divCard + divCardContent + spanName + spanStatus + spanBtn);
 	  }
 	  propertyBindEvent(oriPropertyData);
