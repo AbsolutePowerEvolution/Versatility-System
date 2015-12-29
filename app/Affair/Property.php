@@ -64,7 +64,7 @@ class Property extends Entity
      */
     public function loanClassroom(){
         return $this->hasMany(Loan::class)
-            ->join('categories', 'type', '=', 'categories.id')
+            ->join('categories as ct', 'type', '=', 'ct.id')
             ->whereIn('status', Category::getCategoryIds(['loan.status' => [
                 'accepted',
                 'processing'
