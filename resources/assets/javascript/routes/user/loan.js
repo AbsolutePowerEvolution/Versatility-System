@@ -69,18 +69,15 @@ function loanDataEvent() {
     console.log(request.date);
 
     $.get('/api/user/property/classrooms', request, function(result) {
-      var i;
-      LoanTable = [];
       LoanTablePage = 0;
-
+      LoanTable = [];
+      var i;
       for(i = 0; i < result.length; i++) {
-        if(result[i].loan_classroom.length != 0) {
-          console.log('push');
+        if(result[i].loan_classroom != 0) {
           LoanTable.push(result[i]);
         }
       }
       console.log(LoanTable);
-
       produceClassroomStatus();
     });
   });
@@ -101,12 +98,24 @@ function produceClassroomStatus() {
   var k;
   var temp;
   var group;
+  var selectedDay = new Date($('#datepicker').val());
   var began;
   var ended;
 
+  // Empty Html
+  $('.content1, .content2, .content3, .content4, .content5')
+    .find('div')
+    .remove();
+
   for(i = (LoanTablePage * 5), j = 0; (i < LoanTable.length) && (j < 5); i++, j++) {
     for(k = 0; k < LoanTable[i].loan_classroom.length; k++) {
-      if(LoanTable[i].loan_classroom[k].time_began_at != null) {
+      console.log('here');
+      // examine selected day's status
+      began = new Date(LoanTable[i].loan_classroom[k].date_began_at);
+      ended = new Date(LoanTable[i].loan_classroom[k].date_ended_at);
+      if((LoanTable[i].loan_classroom[k].time_began_at != null) &&
+          (began <= selectedDay && selectedDay <= ended)) {
+
         temp = LoanTable[i].loan_classroom[k].time_began_at.split(':');
         group = groupTool(temp[1]);
 
@@ -122,11 +131,58 @@ function produceClassroomStatus() {
             ended = matchTool(LoanTable[i].loan_classroom[k].time_ended_at, UserPeriodEnd);
             console.log('began = ' + began);
             console.log('ended = ' + ended);
+
+            produceTable(group, began, ended, j);
             break;
           }
         }
       }
     }
+  }
+}
+
+function produceTable(group, began, ended, contentIndex) {
+  var i;
+  var j;
+  var perLineLength;
+  var filedIndex;
+  var parseIndex;
+  var labelFront;
+  var labelAfter;
+
+  switch(group) {
+    case 1: {
+      perLineLength = 3;
+      labelFront = '<div class="number_container number_period';
+      labelAfter = '"></div>';
+      break;
+    }
+
+    case 2: {
+      perLineLength = 2;
+      labelFront = '<div class="english_container english_period';
+      labelAfter = '"></div>';
+      break;
+    }
+
+    case 3: {
+      perLineLength = 6;
+      labelFront = '<div class="user_container user_period';
+      labelAfter = '"></div>';
+      break;
+    }
+  }
+
+  // Parse Html
+  for(i = began, j = 0; j <= (ended - began); i++, j++) {
+    filedIndex = Math.floor(i / perLineLength) + 1;
+    parseIndex = (i % perLineLength) + 1;
+    console.log('filedIndex = ' + filedIndex);
+    console.log('parseIndex = ' + parseIndex);
+
+    $('#table_filed' + filedIndex)
+      .find('.content' + contentIndex)
+      .append(labelFront + parseIndex + labelAfter);
   }
 }
 

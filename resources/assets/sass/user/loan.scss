@@ -12,6 +12,13 @@
   width: 100px;
 }
 
+table {
+  td {
+    padding: 0px;
+    padding-bottom: 2px;
+  }
+}
+
 .period_container {
   display: inline-block;
   position: relative;
@@ -19,23 +26,94 @@
   height: 150px;
   width: 60px;
 
-  .number_period1 {
+  & > div {
     position: absolute;
+    border: solid 1px black;
+    width: 45px;
+  }
+
+  .number_period1 {
     top: 0;
   }
   .number_period2 {
-    position: absolute;
     top: 50px;
   }
   .number_period3 {
-    position: absolute;
     top: 100px;
+  }
+  .english_period1 {
+    top: 0;
+  }
+  .english_period2 {
+    top:70px;
+  }
+}
+
+.content1, .content2, .content3, .content4, .content5 {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  height: 150px;
+  width: 60px;
+
+  & > div {
+    position: absolute;
+    border: solid 1px black;
+    width: 45px;
+  }
+
+  .number_container {
+    height: 50px;
+    background: blue;
+  }
+  .english_container {
+    height: 75px;
+    background: green;
+  }
+  .user_container {
+    height: 25px;
+    background: red;
+  }
+
+  .number_period1 {
+    top: 0;
+  }
+  .number_period2 {
+    top: 50px;
+  }
+  .number_period3 {
+    top: 100px;
+  }
+
+  .english_period1 {
+    top: 0;
+  }
+  .english_period2 {
+    top:70px;
+  }
+
+  .user_period1 {
+    top: 0px;
+  }
+  .user_period2 {
+    top: 25px;
+  }
+  .user_period3 {
+    top: 50px;
+  }
+  .user_period4 {
+    top: 75px;
+  }
+  .user_period5 {
+    top: 100px;
+  }
+  .user_period6 {
+    top: 125px;
   }
 }
 
 .number_container, .english_container {
   width: 40px;
-  border: 1px solid black;
 
   p {
     font-size: 8px;
@@ -43,6 +121,13 @@
     position: relative;
     margin: 0 auto;
   }
+}
+
+.number_container > div {
+  height: 45px;
+}
+.english_container > div {
+  height: 70px;
 }
 
 .pika-single{
