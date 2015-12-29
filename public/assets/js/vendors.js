@@ -5365,29 +5365,29 @@
 	  if (true) {
 	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(194), __webpack_require__(192), __webpack_require__(195)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else {
-	    (window.Sammy = window.Sammy || {}).Mustache = factory(window.jQuery, window.Sammy, window.Mustache);
+	    (window.Sammy = window.Sammy || {}).Hogan = factory(window.jQuery, window.Sammy, window.Hogan);
 	  }
-	}(function ($, Sammy, Mustache) {
+	}(function ($, Sammy) {
 
-	  // <tt>Sammy.Mustache</tt> provides a quick way of using mustache style templates in your app.
-	  // The plugin wraps the awesome mustache.js lib created and maintained by Jan Lehnardt
-	  // at http://github.com/janl/mustache.js
+	  // <tt>Sammy.Hogan</tt> provides a quick way of using hogan.js style templates in your app.
+	  // The plugin wraps the awesome hogan.js lib created and maintained by Twitter
+	  // at http://twitter.github.com/hogan.js/
 	  //
-	  // Note: As of Sammy 0.7 the Mustache lib is not included in the templates source. Please download
-	  // mustache.js and include it before Sammy.Mustache.
+	  // Note: As of Sammy 0.7 the Hogan.js lib is not included in the templates source. Please download
+	  // hogan.js and include it before Sammy.Hogan.
 	  //
-	  // Mustache is a clever templating system that relys on double brackets {{}} for interpolation.
-	  // For full details on syntax check out the original Ruby implementation created by Chris Wanstrath at
-	  // http://github.com/defunkt/mustache
+	  // Hogan.js is a clever templating system that relys on double brackets {{}} for interpolation.
+	  // For full details on syntax check out the documentation at
+	  // http://twitter.github.com/hogan.js/
 	  //
-	  // By default using Sammy.Mustache in your app adds the <tt>mustache()</tt> method to the EventContext
-	  // prototype. However, just like <tt>Sammy.Template</tt> you can change the default name of the method
-	  // by passing a second argument (e.g. you could use the ms() as the method alias so that all the template
-	  // files could be in the form file.ms instead of file.mustache)
+	  // By default using Sammy.Hogan in your app adds the <tt>hogan()</tt> method to the EventContext
+	  // prototype. However, just like <tt>Sammy.Hogan</tt> you can change the default name of the method
+	  // by passing a second argument (e.g. you could use the hg() as the method alias so that all the template
+	  // files could be in the form file.hg instead of file.hogan)
 	  //
 	  // ### Example #1
 	  //
-	  // The template (mytemplate.ms):
+	  // The template (mytemplate.hg):
 	  //
 	  //       <h1>{{title}}<h1>
 	  //
@@ -5396,15 +5396,15 @@
 	  // The app:
 	  //
 	  //       var app = $.sammy(function() {
-	  //         // include the plugin and alias mustache() to ms()
-	  //         this.use('Mustache', 'ms');
+	  //         // include the plugin and alias hogan() to hg()
+	  //         this.use('Hogan', 'hg');
 	  //
 	  //         this.get('#/hello/:name', function() {
 	  //           // set local vars
 	  //           this.title = 'Hello!'
 	  //           this.name = this.params.name;
-	  //           // render the template and pass it through mustache
-	  //           this.partial('mytemplate.ms');
+	  //           // render the template and pass it through hogan
+	  //           this.partial('mytemplate.hg');
 	  //         });
 	  //       });
 	  //
@@ -5419,34 +5419,34 @@
 	  //       Hey, AQ! Welcome to Mustache!
 	  //
 	  //
-	  // ### Example #2 - Mustache partials
+	  // ### Example #2 - Hogan partials
 	  //
-	  // The template (mytemplate.ms)
+	  // The template (mytemplate.hg)
 	  //
 	  //       Hey, {{name}}! {{>hello_friend}}
 	  //
 	  //
-	  // The partial (mypartial.ms)
+	  // The partial (mypartial.hg)
 	  //
 	  //       Say hello to your friend {{friend}}!
 	  //
 	  // The app:
 	  //
 	  //       var app = $.sammy(function() {
-	  //         // include the plugin and alias mustache() to ms()
-	  //         this.use('Mustache', 'ms');
+	  //         // include the plugin and alias hogan() to hg()
+	  //         this.use('Hogan', 'hg');
 	  //
 	  //         this.get('#/hello/:name/to/:friend', function(context) {
-	  //           // fetch mustache-partial first
-	  //           this.load('mypartial.ms')
+	  //           // fetch hogan-partial first
+	  //           this.load('mypartial.hg')
 	  //               .then(function(partial) {
 	  //                 // set local vars
 	  //                 context.partials = {hello_friend: partial};
 	  //                 context.name = context.params.name;
 	  //                 context.friend = context.params.friend;
 	  //
-	  //                 // render the template and pass it through mustache
-	  //                 context.partial('mytemplate.ms');
+	  //                 // render the template and pass it through hogan
+	  //                 context.partial('mytemplate.hg');
 	  //               });
 	  //         });
 	  //       });
@@ -5459,32 +5459,38 @@
 	  //
 	  //       Hey, AQ! Say hello to your friend dP!
 	  //
-	  // Note: You need to include the mustache.js file before this plugin.
+	  // Note: You dont have to include the hogan.js file on top of the plugin as the plugin
+	  // includes the full source.
 	  //
-	  Sammy.Mustache = function(app, method_alias) {
+	  Sammy.Hogan = function(app, method_alias) {
+	    var cached_templates = {};
 
-	    // *Helper* Uses Mustache.js to parse a template and interpolate and work with the passed data
+	    // *Helper* Uses Hogan.js to parse a template and interpolate and work with the passed data
 	    //
 	    // ### Arguments
 	    //
-	    // * `template` A String template. {{}} Tags are evaluated and interpolated by Mustache.js
+	    // * `template` A String template. {{}} Tags are evaluated and interpolated by Hogan.js
 	    // * `data` An Object containing the replacement values for the template.
 	    //   data is extended with the <tt>EventContext</tt> allowing you to call its methods within the template.
 	    // * `partials` An Object containing one or more partials (String templates
 	    //   that are called from the main template).
 	    //
-	    var mustache = function(template, data, partials) {
+	    var hogan = function(template, data, partials) {
+	      var compiled_template = cached_templates[compiled_template];
+	      if (!compiled_template){
+	        compiled_template = Hogan.compile(template);
+	      }
 	      data     = $.extend({}, this, data);
 	      partials = $.extend({}, data.partials, partials);
-	      return Mustache.to_html(template, data, partials);
+	      return compiled_template.render(data, partials);
 	    };
 
 	    // set the default method name/extension
-	    if (!method_alias) { method_alias = 'mustache'; }
-	    app.helper(method_alias, mustache);
+	    if (!method_alias) { method_alias = 'hogan'; }
+	    app.helper(method_alias, hogan);
 	  };
 
-	  return Sammy.Mustache;
+	  return Sammy.Hogan;
 
 	}));
 
@@ -6236,7 +6242,7 @@
 /* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
 	/** @author Brian Cavalier */
 	/** @author John Hann */
 

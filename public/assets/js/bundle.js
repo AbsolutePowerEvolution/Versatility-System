@@ -12,7 +12,7 @@ webpackJsonp([0],{
 
 	__webpack_require__(196);
 
-	Sammy('#main').run('#/');
+	Sammy('#main').use('Hogan', 'ms').run('#/');
 
 /***/ },
 
@@ -40,7 +40,7 @@ webpackJsonp([0],{
 /***/ 195:
 /***/ function(module, exports) {
 
-	module.exports = Mustache;
+	module.exports = Hogan;
 
 /***/ },
 
@@ -75,9 +75,6 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(192);
 
 	Sammy('#main', function () {
-	  console.log('hello');
-	  this.use('Mustache', 'ms');
-
 	  this.get('#/user/signin', function (context) {
 	    context.partial('/templates/user/signin.ms');
 	  });
@@ -98,7 +95,6 @@ webpackJsonp([0],{
 
 	var Sammy = __webpack_require__(192);
 	var client = __webpack_require__(200);
-	__webpack_require__(193);
 
 	var today = new Date();
 	var dd = today.getDate();
@@ -124,7 +120,6 @@ webpackJsonp([0],{
 	};
 
 	Sammy('#main', function () {
-	  this.use('Mustache', 'ms');
 	  this.get('#/user/property', function (context) {
 	    console.log('property');
 	    context.loadPartials({ menu: '/templates/user/menu.ms' }).partial('/templates/user/property.ms').then(function () {
@@ -541,8 +536,6 @@ webpackJsonp([0],{
 	var LoanTablePage;
 
 	Sammy('#main', function () {
-	  this.use('Mustache', 'ms');
-
 	  this.get('#/user/loan', function (context) {
 	    context.loadPartials({ menu: '/templates/user/menu.ms' }).partial('/templates/user/loan.ms').then(function () {
 	      var picker = new Pikaday({
@@ -694,8 +687,6 @@ webpackJsonp([0],{
 	var paginate = __webpack_require__(256);
 
 	Sammy('#main', function () {
-	  this.use('Mustache', 'ms');
-
 	  this.get('#/admin/examine', function (context) {
 	    api.browse('manager/loan/classrooms', {
 	      params: { page: context.params.page }
@@ -996,8 +987,6 @@ webpackJsonp([0],{
 	var TotalPeople = 0;
 
 	Sammy('#main', function () {
-	  this.use('Mustache', 'ms');
-
 	  this.get('#/admin/account', function (context) {
 	    context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/account.ms').then(function () {
 	      accountButtonEvent();
@@ -1134,7 +1123,6 @@ webpackJsonp([0],{
 	var when = __webpack_require__(206);
 
 	Sammy('#main', function () {
-	  this.use('Mustache', 'ms');
 	  this.get('#/admin/property', function (context) {
 	    console.log('admin property');
 	    var propertyPromise = client({
