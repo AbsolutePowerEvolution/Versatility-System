@@ -30,20 +30,17 @@ $router->group(['middleware' => ['web', 'header']], function (Router $router) {
 |
  */
 
-$router->get('login/{id}', function ($id) {
-    Auth::loginUsingId($id);
-
-    dd(Auth::guest());
-    //dd(Entrust::hasRole('student'));
-});
-
 $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'], function (Router $router) {
+    $router->get('login/{id}', function ($id) {
+        Auth::loginUsingId($id);
+    });
+
     $router->group(['prefix' => 'auth', 'as' => 'api.auth.'], function (Router $router) {
         $router->get('oauth', ['as' => 'oauth', 'uses' => 'OAuthController@OAuth']);
         $router->get('oauth/{verify}', ['as' => 'oauth.verify', 'uses' => 'OAuthController@verifyToken']);
     });
 
-    $router->group(['prefix' => 'user'], function (Router $router) {
+    $router->group(['middleware' => ['role:lab|student'], 'prefix' => 'user'], function (Router $router) {
         $router->group(['prefix' => 'property'], function (Router $router) {
             $router->get('others', ['as' => 'api.user.other.list', 'uses' => 'User\PropertyController@index']);
             $router->get('classrooms', ['as' => 'api.user.class.list', 'uses' => 'User\PropertyController@indexClassroom']);
@@ -64,7 +61,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         });
     });
 
-    $router->group(['prefix' => 'manager'], function (Router $router) {
+    $router->group(['middleware' => ['role:manager'], 'prefix' => 'manager'], function (Router $router) {
         $router->group(['prefix' => 'property'], function (Router $router) {
             $router->get('others', ['as' => 'api.man.other.list', 'uses' => 'Manager\PropertyController@index']);
             $router->get('classrooms', ['as' => 'api.man.class.list', 'uses' => 'Manager\PropertyController@indexClassroom']);
