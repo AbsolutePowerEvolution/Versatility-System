@@ -5,6 +5,6 @@
   "devel": true,
   "indent": 2,
   "unused": "vars",
-  "maxlen": 80,
+  "maxlen": 120,
   "globals": ["$", "jQuery", "_", "Sammy"]
 }
