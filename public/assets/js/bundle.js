@@ -999,7 +999,7 @@ webpackJsonp([0],{
 	  this.use('Mustache', 'ms');
 
 	  this.get('#/admin/account', function (context) {
-	    context.loadPartitals({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/account.ms').then(function () {
+	    context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/account.ms').then(function () {
 	      accountButtonEvent();
 	      accountDataEvent();
 	      $('.account_page').click();
