@@ -14,14 +14,14 @@ class PropertyTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Property::class, random_int(50, 100))->create()->each(function (Property $property) {
-            factory(Repair::class, random_int(2, 10))
+        factory(Property::class, mt_rand(50, 100))->create()->each(function (Property $property) {
+            factory(Repair::class, mt_rand(2, 10))
                 ->make()
                 ->each(function (Repair $repair) use ($property) {
                     $property->repairs()->save($repair);
                 });
 
-            factory(Loan::class, random_int(2, 10))
+            factory(Loan::class, mt_rand(2, 10))
                 ->make()
                 ->each(function (Loan $loan) use ($property) {
                     $property->loans()->save($loan);

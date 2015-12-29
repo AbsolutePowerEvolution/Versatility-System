@@ -1,5 +1,6 @@
 <?php
 
+use App\Affair\Role;
 use App\Affair\User;
 use Illuminate\Database\Seeder;
 
@@ -13,16 +14,16 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         if (app()->environment(['local', 'testing'])) {
-            foreach (['test', 'testLab', 'testManager'] as $user) {
-                if (! User::where('username', $user)->exists()) {
+            foreach (['test' => 'student', 'testLab' => 'lab', 'testManager' => 'manager'] as $key => $value) {
+                if (! User::where('username', $key)->exists()) {
                     factory(User::class)->create([
-                        'username' => $user,
+                        'username' => $key,
                         'password' => bcrypt('test'),
-                    ]);
+                    ])->roles()->save(Role::where('name', $value)->first());
                 }
             }
         }
 
-        factory(User::class, random_int(30, 50))->create();
+        factory(User::class, mt_rand(30, 50))->create();
     }
 }

@@ -12,18 +12,12 @@ class RoleTableSeeder extends Seeder
      */
     public function run()
     {
-        $static = [
-            'manager',
-            'lab',
-            'student'
-        ];
-
-        foreach ($static as $ele) {
-            $role = new Role;
-            $role->name = $ele;
-            $role->display_name = str_random(10);
-            $role->description = str_random(10);
-            $role->save();
+        foreach (['manager', 'lab', 'student'] as $role) {
+            Role::create([
+                'name' => $role,
+                'display_name' => str_random(8),
+                'description' => str_random(8),
+            ]);
         }
     }
 }
