@@ -4,8 +4,8 @@
     <div class="row">
         <div class="col s6">
             <ul id="sub_menu" class="tabs">
-                <li id="property_system" class="tab center"><a><i class="material-icons">gavel</i>財產管理系統</a></li>
-                <li id="property_manage" class="tab center"><a><i class="material-icons">settings</i>管理財產</a></li>
+                <li id="property_system" class="tab center"><a herf="#property_system_content"><i class="material-icons">gavel</i>財產管理系統</a></li>
+                <li id="property_manage" class="tab center"><a herf="#property_manage_content"><i class="material-icons">settings</i>管理財產</a></li>
             </ul>
         </div>
     </div>
@@ -57,7 +57,10 @@
                 >
                     <span class="col s2 center-align">{{property_name}}</span>
                     <span class="col s2 center-align">{{user_id}}</span>
-                    <span class="col s5 center-align">{{time}}</span>
+                    <span class="col s5 center-align">
+                      {{date_began_at}} {{time_began_at}} ~
+                       {{date_ended_at}} {{time_ended_at}}
+                    </span>
                     <span class="col s3 center-align">
                         <a class="waves-effect waves-light btn returnLoanModalTrigger"><i class="material-icons left">description</i>詳細資料</a>
                     </span>

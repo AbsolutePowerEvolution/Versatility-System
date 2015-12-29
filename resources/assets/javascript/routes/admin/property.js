@@ -1,70 +1,62 @@
 var Sammy = require('sammy');
 var client = require('../../lib/client');
-require('sammy/lib/plugins/sammy.mustache.js');
-
-Object.size = function(obj) {
-  var size = 0;
-  var key;
-  for(key in obj) {
-    if(obj.hasOwnProperty(key)) {
-      size++;
-    }
-  }
-  return size;
-};
+var when = require('when');
 
 Sammy('#main', function() {
   this.use('Mustache', 'ms');
   this.get('#/admin/property', function(context) {
     console.log('admin property');
-    client({
+    var propertyPromise = client({
       path: 'manager/property/others',
       method: 'GET',
+      name: 'property',
       params: {
         page: 1,
         length: 10000
       }
-    }).then(function(propertyData) {
-      client({
-        path: 'manager/loan/others',
-        method: 'GET',
-        params: {
-          page: 1,
-          length: 1000000
-        }
-      }).then(function(loanData) {
+    });
+    var loanPromise = client({
+      path: 'manager/loan/others',
+      method: 'GET',
+      name: 'loan',
+      params: {
+        page: 1,
+        length: 1000000
+      }
+    });
+    when.all([propertyPromise, loanPromise])
+      .spread((propertyData, loanData) => {
         console.log('property data:', propertyData);
 
         context.propertyData = propertyData.entity.data.map((item) => {
-          item.status.color = (item.status.id == 4 ? 'teal' : (item.status.id == 3 ? 'red' : 'blue'));
+          let colors = {3: 'red', 4: 'teal'};
+          item.status.color = colors[item.status.id] || 'blue';
           return item;
         });
 
         context.loanData = loanData.entity.data.map((item) => {
-          item.time = item.date_began_at + (item.time_began_at == null ? '' : (' ' + item.time_began_at)) +
-                      ' ~ ' + item.date_ended_at + (item.time_ended_at == null ? '' : (' ' + item.time_ended_at));
-          var property = propertyID2propertyCode(item.property_id, context.propertyData);
+          var property = context.propertyData
+            .find((data) => parseInt(item.property_id) === data.id);
           item.code = property.code;
           return item;
         });
         console.log('loan data:', context.loanData);
 
         context.propertyPage = [];
-        var i;
-        for(i = 0; i < Math.ceil(propertyData.entity.total / 5); i++) {
-          context.propertyPage[i] = [];
+        for(let i = 0; i < Math.ceil(propertyData.entity.total / 5); i++) {
+          context.propertyPage.push({});
           context.propertyPage[i].classes = '';
-          if(i == 0) {
+          if(i === 0) {
             context.propertyPage[i].classes = 'active';
           }
           context.propertyPage[i].pageNum = (i + 1);
         }
 
         context.loanPage = [];
-        for(i = 0; i < Math.ceil(loanData.entity.total / 5); i++) {
-          context.loanPage[i] = [];
+        for(let i = 0; i < Math.ceil(loanData.entity.total / 5); i++) {
+          context.loanPage.push({});
           context.loanPage[i].classes = '';
-          if(i == 0) {
+          if(i === 0) {
             context.loanPage[i].classes = 'active';
           }
           context.loanPage[i].pageNum = (i + 1);
@@ -78,15 +70,20 @@ Sammy('#main', function() {
             propertyPageEvent(context.loanPage.length, '.manage_system');
             showPage(1, context.loanPage.length, '.manage_system');
           });
-
-      }).catch(function(response) {
-        alert('取得財產借用列表失敗!');
-        console.log('get loan other list error, ', response);
+      }).catch((response) => {
+        if(response instanceof Error) {
+          console.log(response);
+        }
+        if(response.request) {
+          if(response.request.name === 'loan') {
+            alert('取得財產借用列表失敗!');
+            console.log('get loan other list error, ', response);
+          } else if(response.request.name === 'property') {
+            alert('取得財產列表失敗!');
+            console.log('get property list error, ', response);
+          }
+        }
       });
-    }).catch(function(response) {
-      alert('取得財產列表失敗!');
-      console.log('get property list error, ', response);
-    });
   });
 });
 
@@ -257,7 +254,7 @@ function loanProperty(propertyData) {
   });
   $propertyContainer.find('#loan_property_modal #loan_property_code').on('keyup', function(event) {
     var code = $(this).val();
-    var property = propertyCode2propertyID(code, propertyData);
+    var property = propertyData.find((data) => data.code === code);
     $(this).parent().find('#loan_property_name').html(property.name);
   });
   $propertyContainer.find('#loan_property_btn').on('click', function(event) {
@@ -272,7 +269,7 @@ function loanProperty(propertyData) {
       alert('請確實填寫借用表單！');
       return;
     }
-    var property = propertyCode2propertyID(code, propertyData);
+    var property = propertyData.find((data) => data.code === code);
     if(!property.id || !property.name) {
       alert('沒有此一財產，請從新填寫！');
       return;
@@ -352,12 +349,10 @@ function propertyPageEvent(limit, who) {
 function showPage(page, limit, who) {
   var $propertyContainer = $('#property_container');
   $propertyContainer.find(who).find('.showContent').removeClass('block').addClass('hide');
-  var i;
-  for(i = 0; i < 5; i++) {
+  for(let i = 0; i < 5; i++) {
     var show = who + ' .showContent.searched:eq(' + (((page - 1) * 5) + i) + ')';
     $propertyContainer.find(show).removeClass('hide').addClass('block');
   }
-
   $propertyContainer.find(who).find('.pagination li').removeClass('inline-block active').addClass('hide');
   $propertyContainer.find(who).find('.pagination li:eq(' + page + ')').addClass('active');
   $propertyContainer.find(who).find('.pagination li:lt(' + (limit + 1) + ')')
@@ -380,30 +375,4 @@ function search(Data, who, target, searchColumn) {
     }
   }
   return limit;
-}
-
-function propertyCode2propertyID(code, Data) {
-  var i;
-  var property = {};
-  for(i = 0; i < Object.size(Data); i++) {
-    if(Data[i].code === code) {
-      property.id = Data[i].id;
-      property.name = Data[i].name;
-      break;
-    }
-  }
-  return property;
-}
-
-function propertyID2propertyCode(propertyID, Data) {
-  var i;
-  var property = {};
-  for(i = 0; i < Object.size(Data); i++) {
-    if(parseInt(Data[i].id) === parseInt(propertyID)) {
-      property.code = Data[i].code;
-      property.name = Data[i].name;
-      break;
-    }
-  }
-  return property;
 }
