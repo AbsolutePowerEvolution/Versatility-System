@@ -49,7 +49,7 @@ var getConfigs = function(env) {
       'materialize-css/dist/js/materialize': 'null',
       sammy: 'Sammy',
       lodash: '_',
-      mustache: 'Mustache'
+      hogan: 'Hogan'
     }];
 
     if(env === 'production') {

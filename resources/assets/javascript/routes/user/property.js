@@ -1,6 +1,5 @@
 var Sammy = require('sammy');
 var client = require('../../lib/client');
-require('sammy/lib/plugins/sammy.mustache.js');
 
 var today = new Date();
 var dd = today.getDate();
@@ -26,7 +25,6 @@ Object.size = function(obj) {
 };
 
 Sammy('#main', function() {
-  this.use('Mustache', 'ms');
   this.get('#/user/property', function(context) {
     console.log('property');
     context.loadPartials({menu: '/templates/user/menu.ms'})

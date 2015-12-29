@@ -3,7 +3,6 @@ var client = require('../../lib/client');
 var when = require('when');
 
 Sammy('#main', function() {
-  this.use('Mustache', 'ms');
   this.get('#/admin/property', function(context) {
     console.log('admin property');
     var propertyPromise = client({

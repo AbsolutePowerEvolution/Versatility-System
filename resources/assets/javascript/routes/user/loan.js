@@ -45,8 +45,6 @@ var LoanTable;
 var LoanTablePage;
 
 Sammy('#main', function() {
-  this.use('Mustache', 'ms');
-
   this.get('#/user/loan', function(context) {
     context.loadPartials({menu: '/templates/user/menu.ms'})
       .partial('/templates/user/loan.ms')

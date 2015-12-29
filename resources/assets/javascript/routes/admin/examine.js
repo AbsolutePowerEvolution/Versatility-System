@@ -4,8 +4,6 @@ var api = require('../../lib/fetch-plus');
 var paginate = require('../../lib/paginate');
 
 Sammy('#main', function() {
-  this.use('Mustache', 'ms');
-
   this.get('#/admin/examine', (context) => {
     api.browse('manager/loan/classrooms', {
       params: {page: context.params.page}

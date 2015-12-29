@@ -4,8 +4,6 @@ var PageNow = 1;
 var TotalPeople = 0;
 
 Sammy('#main', function() {
-  this.use('Mustache', 'ms');
-
   this.get('#/admin/account', function(context) {
     context.loadPartials({menu: '/templates/admin/menu.ms'})
       .partial('/templates/admin/account.ms')
