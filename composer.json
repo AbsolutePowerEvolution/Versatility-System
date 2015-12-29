@@ -7,19 +7,19 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "bepsvpt/laravel-security-header": "~1.0",
+        "bepsvpt/laravel-security-header": "~1.1",
         "doctrine/dbal": "~2.5",
-        "nesbot/carbon": "~1.20",
+        "nesbot/carbon": "~1.21",
         "predis/predis": "~1.0",
-        "zizaco/entrust": "~1.4"
+        "zizaco/entrust": "~1.5"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "~2.0",
+        "barryvdh/laravel-debugbar": "~2.1",
         "barryvdh/laravel-ide-helper": "~2.1",
         "fzaninotto/faker": "~1.5",
         "mockery/mockery": "~0.9",
         "phpunit/phpunit": "~4.8",
-        "phpspec/phpspec": "~2.3",
+        "phpspec/phpspec": "~2.4",
         "symfony/css-selector": "~3.0",
         "symfony/dom-crawler": "~3.0"
     },
