@@ -38,14 +38,6 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
         ],
-
-        'user' => [
-            \App\Http\Middleware\UserPremissionCheck::class,
-        ],
-
-        'manager' => [
-            \App\Http\Middleware\ManagerPremissionCheck::class,
-        ],
     ];
 
     /**
@@ -63,5 +55,6 @@ class Kernel extends HttpKernel
         'role' => \Zizaco\Entrust\Middleware\EntrustRole::class,
         'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
         'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
+        'loanable' => \App\Http\Middleware\UserLoanable::class,
     ];
 }

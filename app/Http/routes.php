@@ -33,6 +33,7 @@ $router->group(['middleware' => ['web', 'header']], function (Router $router) {
 $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'], function (Router $router) {
     $router->get('login/{id}', function ($id) {
         Auth::loginUsingId($id);
+        return 0;
     });
 
     $router->group(['prefix' => 'auth', 'as' => 'api.auth.'], function (Router $router) {
@@ -56,8 +57,13 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         $router->group(['prefix' => 'loan'], function (Router $router) {
             $router->get('others', ['as' => 'api.user.loan.other.list', 'uses' => 'User\LoanController@index']);
             $router->get('classrooms', ['as' => 'api.user.loan.class.list', 'uses' => 'User\LoanController@indexClassroomBorrow']);
-            $router->post('create', ['as' => 'api.user.loan.class.create', 'uses' => 'User\LoanController@storeClassroomBorrow']);
             $router->delete('delete/{id}', ['as' => 'api.user.loan.class.delete', 'uses' => 'User\LoanController@destroyClassroomBorrow']);
+
+            // need to check the user is loanable or not.
+            $router->post('create', [
+                'middleware' => ['loanable'],
+                'as' => 'api.user.loan.class.create',
+                'uses' => 'User\LoanController@storeClassroomBorrow']);
         });
     });
 
