@@ -61,8 +61,8 @@ function buildPropertyCard(oriPropertyData, searchPropertyData) {
   var length = Object.size(searchPropertyData);
   $('#property_system_content').find('.propertyContent').remove();
   for(i = 0; i < length; i++) {
-    var status = searchPropertyData[i].status.id;//4: normal, 3:deleted
-    var color = status == 4 ? 'teal' : (status == 3 ? 'red' : 'blue');
+    var status = searchPropertyData[i].status.name;
+    var color = status == 'normal' ? 'teal' : ((status == 'deleted' || status == 'maintenance') ? 'red' : 'blue');
     var divCard = '<div class="card propertyContent ' + (i < 5 ? 'block' : 'hide') + '">';
     var divCardContent = '<div class="row card-content" ' +
         'data-name="' + searchPropertyData[i].name + '"' +
@@ -211,169 +211,98 @@ function postPropertyRepair(propertyId, type, remark) {
 }
 
 function getRepairList(pageNum, pageLength) {
-  var debugData = {
-    0: {
-      id: 1,
-      remark: 'repairReason1',
-      create_at: '2014/12/12',
-      type: {
-        id: 5,
-        name: 'cleanup'
-      },
-      status: {
-        id: 1,
-        name: 'cleaned'
-      },
-      property: {
-        name: 'remote controller 101'
-      }
-    },
-    1: {
-      id: 2,
-      remark: 'repairReason2',
-      create_at: '2015/12/20',
-      type: {
-        id: 6,
-        name: 'maintain'
-      },
-      status: {
-        id: 1,
-        name: 'finished'
-      },
-      property: {
-        name: 'remote controller 206'
-      }
-    }
-  };
-  var sortData = [];
-  var i;
-  var dataLength = Object.size(debugData);
-  for(i = 0; i < dataLength; i++) {
-    sortData[i] = [];
-    sortData[i][0] = i;
-    sortData[i][1] = 0;
-    sortData[i][2] = debugData[i].create_at;
-  }
-  getPropertyLoan(1, 10000, sortData, debugData);
-  /*client({
+  client({
     path: 'user/repair',
     method: 'GET',
     params: {
-      page: pageNum,
-      length: pageLength
+      page: 1,
+      length: 100000
     }
   }).then(function(response) {
-    console.log(response);
-    //buildRepairCard(response.entity.data);
-  }).catch((response) => console.log(response));*/
+    console.log('get repair list ok!', response);
+    var Data = response.entity.data;
+    getPropertyLoan(1, 10000, Data);
+  }).catch(function(response) {
+    alert('個人報修歷史紀錄取得失敗');
+    console.log('get repair list error!', response);
+  });
 }
 
-function getPropertyLoan(pageNum, pageLength, sortData, repairData) {
-  var debugData = {
-    0: {
-      id: 1,
-      property_name: 'air condition remote controller 001',
-      data_began_at: '2015/12/11',
-      data_ended_at: '2015/12/11  ',
-      time_began_at: '10:00',
-      time_ended_at: '12:00',
-      remark: 'weather is hot',
-      type: {
-        id: 5,
-        name: 'cleanup'
-      },
-      status: {
-        id: 1,
-        name: 'refused'
-      }
-    },
-    1: {
-      id: 2,
-      property_name: 'air condition remote controller 206',
-      data_began_at: '3015/03/19',
-      data_ended_at: '3015/03/19',
-      time_began_at: '14:00',
-      time_ended_at: '16:00',
-      remark: 'weather is very hot',
-      type: {
-        id: 6,
-        name: 'maintain'
-      },
-      status: {
-        id: 2,
-        name: 'can be loaned'
-      }
+function getPropertyLoan(pageNum, pageLength, repairData) {
+  client({
+    path: 'user/loan/others',
+    method: 'GET',
+    params: {
+      page: 1,
+      length: 100000
     }
-  };
+  }).then(function(response) {
+    console.log('get user loan log success!', response);
+    var loanData = response.entity.data;
+    buildHistoryCard(repairData, loanData);
+  }).catch(function(response) {
+    alert('取得個人財產借用紀錄錯誤!');
+    console.log('get user loan log error!', response);
+  });
+}
+
+function buildHistoryCard(repairData, propertyData) {
   var i;
   var j;
-  var totalLength = Object.size(sortData);
-  var dataLength = Object.size(debugData);
-  for(i = totalLength, j = 0; i < totalLength + dataLength; i++, j++) {
-    sortData[i] = [];
-    sortData[i][0] = j;
-    sortData[i][1] = 1;
-    sortData[i][2] = debugData[j].data_began_at;
-  }
-  //console.log('before sort: totalData:' + totalData);
-  sortData.sort(function(a, b) {
-    return new Date(a[2]) < new Date(b[2]);
-  });
-  //console.log('after sort: totalData:' + totalData);
-  buildHistoryCard(sortData, repairData, debugData);
+  for(i = 0; i < (Object.size(repairData) + Object.size(propertyData)); i++) {
+    var swit;
+    var oldIndex;
+    var old = '1900/1/1';
+    for(j = 0; j < Object.size(repairData); j++) {
+      if(new Date(old) < new Date(repairData[j].created_at)) {
+        old = repairData[j].created_at;
+        oldIndex = j;
+        swit = 0;
+      }
+    }
+    for(j = 0; j < Object.size(propertyData); j++) {
+      if(new Date(old) < new Date(propertyData[j].date_began_at)) {
+        old = propertyData[j].date_began_at;
+        oldIndex = j;
+        swit = 1;
+      }
+    }
 
-  /*client({
-   path: 'user/loan/others',
-   method: 'GET',
-   params: {
-   page: pageNum,
-   length: pageLength
-   }
-   }).then(function(response) {
-   console.log(response);
-   }).catch((response) => console.log(response));*/
-}
-
-function buildHistoryCard(sortData, repairData, propertyData) {
-  var i;
-  var dataLength = Object.size(sortData);
-  for(i = 0; i < dataLength; i++) {
-    if(sortData[i][1] == 0) { //repair
-      buildRepairHistoryCard(repairData[sortData[i][0]]);
-    } else if(sortData[i][1] == 1) { //property
-      buildPropertyHistoryCard(propertyData[sortData[i][0]]);
+    if(swit === 0) {
+      buildRepairHistoryCard(repairData[oldIndex]);
+      repairData[oldIndex].created_at = '1900/1/1';
+    } else {
+      buildPropertyHistoryCard(propertyData[oldIndex]);
+      propertyData[oldIndex].date_began_at = '1900/1/1';
     }
   }
   historyCardEvent();
 }
 
 function buildRepairHistoryCard(data) {
-  console.log('Repair history:', data);
-  var color = today > data.create_at ? 'teal' : 'red';
+  var color = today > data.created_at ? 'teal' : 'red';
   var divCard = '<div class="card waves-effect"' + 'data-id="' + data.id + '"' +
                                                 'data-name="' + data.property.name + '"' +
-                                                'data-time="' + data.create_at + '"' +
+                                                'data-time="' + data.created_at + '"' +
                                                 'data-remark="' + data.remark + '">';
   var divCardContent = '<div class="row card-content">';
   var spanName = '<span class="col s4 center-align">' + data.property.name + '</span>';
-  var spanDate = '<span class="col s4 center-align " style="color:' + color + '">' + data.create_at +
-                  '</span>';
+  var spanDate = '<span class="col s4 center-align " style="color:' + color + '">' + data.created_at + '</span>';
   var spanType = '<span class="col s4 center-align">' + data.type.name + '</span></div></div>';
   //console.log(divCard + divCardContent + spanName + spanDate + spanType);
   $('#property_history_content').append(divCard + divCardContent + spanName + spanDate + spanType);
 }
 
 function buildPropertyHistoryCard(data) {
-  console.log('Property history:', data);
-  var color = today > data.data_began_at ? 'teal' : 'red';
+  var color = today > data.date_began_at ? 'teal' : 'red';
   var divCard = '<div class="card waves-effect"' + 'data-id="' + data.id + '"' +
-                                                'data-name="' + data.property_name + '"' +
-                                                'data-time="' + data.data_began_at + ' ' + data.time_began_at + ' - ' +
-                                                                data.data_ended_at + ' ' + data.time_ended_at + '"' +
+      'data-name="' + data.property_name + '"' +
+      'data-time="' + data.date_began_at + ' ' + (data.time_began_at == null ? '' : data.time_began_at) + ' - ' +
+                      data.date_ended_at + ' ' + (data.time_ended_at == null ? '' : data.time_ended_at) + '"' +
                                                 'data-remark="' + data.remark + '">';
   var divCardContent = '<div class="row card-content">';
   var spanName = '<span class="col s4 center-align">' + data.property_name + '</span>';
-  var spanDate = '<span class="col s4 center-align" style="color:' + color + '">' + data.data_began_at + '</span>';
+  var spanDate = '<span class="col s4 center-align" style="color:' + color + '">' + data.date_began_at + '</span>';
   var spanType = '<span class="col s4 center-align">' + data.status.name + '</span></div></div>';
   //console.log(divCard + divCardContent + spanName + spanDate + spanType);
   $('#property_history_content').append(divCard + divCardContent + spanName + spanDate + spanType);
@@ -394,3 +323,4 @@ function historyCardEvent() {
     $modalTarget.find('p').html(ele.data('remark'));
   });
 }
+

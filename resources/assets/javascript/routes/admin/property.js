@@ -28,8 +28,8 @@ Sammy('#main', function() {
         console.log('property data:', propertyData);
 
         context.propertyData = propertyData.entity.data.map((item) => {
-          let colors = {3: 'red', 4: 'teal'};
-          item.status.color = colors[item.status.id] || 'blue';
+          let colors = {'deleted': 'red', 'maintenance': 'red', 'normal': 'teal'};
+          item.status.color = colors[item.status.name] || 'blue';
           return item;
         });
 
@@ -37,6 +37,8 @@ Sammy('#main', function() {
           var property = context.propertyData
             .find((data) => parseInt(item.property_id) === data.id);
           item.code = property.code;
+          item.time = item.date_began_at + ' ' + (item.time_began_at == null ? '' : item.time_began_at) + '  -  ' +
+                      item.date_ended_at + ' ' + (item.time_ended_at == null ? '' : item.time_ended_at);
           return item;
         });
         console.log('loan data:', context.loanData);
@@ -259,12 +261,22 @@ function loanProperty(propertyData) {
   $propertyContainer.find('#loan_property_btn').on('click', function(event) {
     var userID = $loanPropertyModal.find('#loan_user_id').val();
     var code = $loanPropertyModal.find('#loan_property_code').val();
-    var dateBeganAt = $loanPropertyModal.find('#date_began_at').val();
-    var dateEndedAt = $loanPropertyModal.find('#date_ended_at').val();
-    var type = $loanPropertyModal.find('#loan_property_type').val();
-    var remark = $loanPropertyModal.find('#loan_property_remark').val();
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd < 10) {
+      dd = '0' + dd;
+    }
+    if(mm < 10) {
+      mm = '0' + mm;
+    }
+    today = yyyy + '/' + mm + '/' + dd;
+    var dateBeganAt = today;
+    var dateEndedAt = today;
+    var type = 'others';
 
-    if(!userID || !code || !dateBeganAt || !dateEndedAt || !type || !remark) {
+    if(!userID || !code) {
       alert('請確實填寫借用表單！');
       return;
     }
@@ -282,7 +294,7 @@ function loanProperty(propertyData) {
         user_id: userID,
         date_began_at: dateBeganAt,
         date_ended_at: dateEndedAt,
-        remark: remark,
+        remark: '',
         type: type
       }
     }).then(function(response) {

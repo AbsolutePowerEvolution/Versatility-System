@@ -57,10 +57,7 @@
                 >
                     <span class="col s2 center-align">{{property_name}}</span>
                     <span class="col s2 center-align">{{user_id}}</span>
-                    <span class="col s5 center-align">
-                      {{date_began_at}} {{time_began_at}} ~
-                       {{date_ended_at}} {{time_ended_at}}
-                    </span>
+                    <span class="col s5 center-align">{{time}}</span>
                     <span class="col s3 center-align">
                         <a class="waves-effect waves-light btn returnLoanModalTrigger"><i class="material-icons left">description</i>詳細資料</a>
                     </span>
@@ -127,7 +124,7 @@
                 <h5 id="loan_property_name" class="col offset-s1"></h5>
                 <label for="loan_property_name" class="col offset-s6">財產名稱</label>
             </div>
-            <div class="input-field row">
+            <!--<div class="input-field row">
                 <input id="date_began_at" type="date" class="datepicker col s3"/>
                 <label for="date_began_at" class="col">借用起始時間</label>
                 <input id="date_ended_at" type="date" class="datepicker offset-s2 col s3"/>
@@ -146,7 +143,7 @@
             <div class="input-field">
                 <textarea id="loan_property_remark" class="materialize-textarea"/>
                 <label for="loan_property_remark">借用理由</label>
-            </div>
+            </div>-->
         </div>
         <div class="modal-footer">
             <a id="loan_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確定新增</a>
