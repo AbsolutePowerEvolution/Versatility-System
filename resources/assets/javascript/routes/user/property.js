@@ -72,7 +72,8 @@ function buildPropertyCard(oriPropertyData, searchPropertyData) {
     var spanStatus = '<span class="col s4 center-align" style="color:' + color + '">' +
         searchPropertyData[i].status.name + '</span>';
     var spanBtn = '<span class="col s4 center-align"><a class="waves-effect waves-light btn modal-trigger ' +
-     (status == 3 ? 'disabled' : '') + '"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
+                  (status !== 'normal' ? 'disabled' : '') +
+                  '"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
     $('#property_system_content').append(divCard + divCardContent + spanName + spanStatus + spanBtn);
   }
   propertyBindEvent(oriPropertyData);

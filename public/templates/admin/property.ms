@@ -50,7 +50,7 @@
             </div>
             {{#loanData}}
             <div class="card showContent propertyContent searched hide">
-                <div class="row card-content" data-loan_id="{{id}}" data-name="{{property_name}}" data-remark="{{remark}}" data-property_id="{{property_id}}"
+                <div class="row card-content" data-loan_id="{{id}}" data-name="{{property_name}}" data-remark="{{remark}}" data-property_id="{{property_id}}" data-status="{{status.name}}"
                      data-time="{{time}}" data-created_at="{{user.created_at}}" data-update_at="{{updated_at}}"
                      data-email="{{user.email}}" data-user_id = "{{user.id}}" data-usernickname="{{user.nickname}}" data-phone="{{user.phone}}"
                      data-username="{{user.username}}"
@@ -71,7 +71,14 @@
         <div class="modal-content">
             <a id="delete_property_btn" class=" modal-action modal-close waves-effect btn red right"><i class="material-icons left">delete</i>刪除財產</a>
             <h4></h4>
-            <p></p>
+            <div>
+                <span>財產條碼：</span>
+                <span class="code"></span>
+            </div>
+            <div>
+                <span>財產描述：</span>
+                <span class="discribe"></span>
+            </div>
         </div>
         <div class="modal-footer">
             <a class=" modal-action modal-close waves-effect waves-green btn-flat">關閉</a>
@@ -124,26 +131,6 @@
                 <h5 id="loan_property_name" class="col offset-s1"></h5>
                 <label for="loan_property_name" class="col offset-s6">財產名稱</label>
             </div>
-            <!--<div class="input-field row">
-                <input id="date_began_at" type="date" class="datepicker col s3"/>
-                <label for="date_began_at" class="col">借用起始時間</label>
-                <input id="date_ended_at" type="date" class="datepicker offset-s2 col s3"/>
-                <label for="date_ended_at" class="col offset-s5">借用歸還時間</label>
-            </div><br/>
-            <div class="input-field col s12">
-                <select id="loan_property_type">
-                    <option value="others">一般財產</option>
-                    <option value="classroom">教室</option>
-                    <option value="course">課程</option>
-                    <option value="interview">面試</option>
-                    <option value="meeting">開會</option>
-                </select>
-                <label for="loan_property_type">借用類別</label>
-            </div><br/>
-            <div class="input-field">
-                <textarea id="loan_property_remark" class="materialize-textarea"/>
-                <label for="loan_property_remark">借用理由</label>
-            </div>-->
         </div>
         <div class="modal-footer">
             <a id="loan_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確定新增</a>
@@ -155,36 +142,37 @@
             <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
             <h4>歸還財產</h4>
             <div class="row">
-                <span class="col s2">借用人：</span>
+                <span class="col s3">借用人：</span>
                 <span class="userName"></span>
             </div>
             <div class="row">
-                <span class="col s2">借用人學號：</span>
+                <span class="col s3">借用人學號：</span>
                 <span class="userID"></span>
             </div>
             <div class="row">
-                <span class="col s2">借用人電話：</span>
+                <span class="col s3">借用人電話：</span>
                 <span class="phone"></span>
             </div>
             <div class="row">
-                <span class="col s2">借用人email：</span>
+                <span class="col s3">借用人email：</span>
                 <span class="email"></span>
             </div>
             <div class="row">
-                <span class="col s2">財產名稱：</span>
+                <span class="col s3">財產名稱：</span>
                 <span class="propertyName"></p>
             </div>
             <div class="row">
-                <span class="col s2">借用時間：</span>
+                <span class="col s3">借用時間：</span>
                 <span class="time"></span>
             </div>
             <div class="row">
-                <span class="col s2">借用理由：</span>
+                <span class="col s3">借用理由：</span>
                 <span class="remark"></span>
             </div>
         </div>
         <div class="modal-footer">
-            <a id="return_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確定歸還</a>
+            <a id="return_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確認歸還</a>
+            <a id="loanOtherAction" class="modal-action modal-close waves-effect waves-green btn-flat"></a>
         </div>
     </div>
 

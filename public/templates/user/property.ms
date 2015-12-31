@@ -21,11 +21,11 @@
             <h4></h4>
             <p></p><br>
             <span>
-                <input id="cleanup" name="clean_type" type="radio" value="5"/>
+                <input id="cleanup" name="clean_type" type="radio" value="cleanup"/>
                 <label for="cleanup">清理</label>
             </span>
             <span>
-                <input id="maintain" name="clean_type" type="radio" value="6"/>
+                <input id="maintain" name="clean_type" type="radio" value="maintain"/>
                 <label for="maintain">報修</label>
             </span>
             <div class="input-field">

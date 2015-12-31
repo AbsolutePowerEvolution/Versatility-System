@@ -161,7 +161,7 @@ webpackJsonp([0],{
 	    var divCardContent = '<div class="row card-content" ' + 'data-name="' + searchPropertyData[i].name + '"' + 'data-propertyid="' + searchPropertyData[i].id + '"' + 'data-describe="' + searchPropertyData[i].describe + '">';
 	    var spanName = '<span class="col s4 center-align">' + searchPropertyData[i].name + '</span>';
 	    var spanStatus = '<span class="col s4 center-align" style="color:' + color + '">' + searchPropertyData[i].status.name + '</span>';
-	    var spanBtn = '<span class="col s4 center-align"><a class="waves-effect waves-light btn modal-trigger ' + (status == 3 ? 'disabled' : '') + '"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
+	    var spanBtn = '<span class="col s4 center-align"><a class="waves-effect waves-light btn modal-trigger ' + (status !== 'normal' ? 'disabled' : '') + '"><i class="material-icons left">build</i>報修/清理' + '</a></span></div></div>';
 	    $('#property_system_content').append(divCard + divCardContent + spanName + spanStatus + spanBtn);
 	  }
 	  propertyBindEvent(oriPropertyData);
@@ -1269,7 +1269,8 @@ webpackJsonp([0],{
 
 	    var ele = $(this).parent().parent();
 	    $propertyModal.find('.modal-content h4').html(ele.data('name'));
-	    $propertyModal.find('p').html(ele.data('describe'));
+	    $propertyModal.find('.modal-content .code').html(ele.data('code'));
+	    $propertyModal.find('.modal-content .discribe').html(ele.data('describe'));
 	    $propertyModal.data('propertyid', ele.data('propertyid'));
 	  });
 	  $propertyContainer.find('#property_modal #delete_property_btn').on('click', function () {
@@ -1299,11 +1300,23 @@ webpackJsonp([0],{
 	    if ($(this).hasClass('disabled')) {
 	      return;
 	    }
-
 	    $('#materialize-lean-overlay-30').css('display', 'block');
 	    $returnPropertyModal.fadeIn();
 
 	    var ele = $(this).parent().parent();
+	    var status = ele.data('status');
+	    $returnPropertyModal.find('#return_property_btn').addClass('hide');
+	    if (status === 'canceled') {
+	      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html('使用者已取消借用該財產');
+	    } else if (status === 'finished') {
+	      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html('使用者已歸還該財產');
+	    } else if (status === 'refused') {
+	      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html('管理者已取消借用該財產');
+	    } else {
+	      $returnPropertyModal.find('#loanOtherAction').addClass('hide');
+	      $returnPropertyModal.find('#return_property_btn').removeClass('hide');
+	    }
+
 	    $returnPropertyModal.find('.userName').html(ele.data('username'));
 	    $returnPropertyModal.find('.userID').html(ele.data('user_id'));
 	    $returnPropertyModal.find('.phone').html(ele.data('phone'));
