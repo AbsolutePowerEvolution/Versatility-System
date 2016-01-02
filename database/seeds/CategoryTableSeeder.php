@@ -13,8 +13,8 @@ class CategoryTableSeeder extends Seeder
     public function run()
     {
         $static = [
-            'property' => ['classroom', 'others', 'deleted'],
-            'property.status' => ['normal', 'maintenance'],
+            'property' => ['classroom', 'others'],
+            'property.status' => ['normal', 'maintenance', 'deleted'],
             'repair.type' => ['cleanup', 'maintain'],
             'repair.status' => ['submitted', 'canceled', 'processing', 'finished'],
             'loan.type' => ['meeting', 'course', 'speech', 'interview', 'others'],
