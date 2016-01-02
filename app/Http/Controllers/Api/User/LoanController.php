@@ -23,8 +23,10 @@ class LoanController extends Controller
     {
         // get length
         $length = ($request->input('length') > 0)? ($request->input('length')):10;
+        $loan_type = Category::getCategoryId('loan.type', $request->input('type'));
 
-        $borrow_list = Loan::with([
+        // get borrow query
+        $borrow_query = Loan::with([
                 'type',
                 'status'
             ])
@@ -32,10 +34,17 @@ class LoanController extends Controller
                 $query->on('pro_t.id', '=', 'property_id')
                     ->where('pro_t.category', '=', Category::getCategoryId('property', 'others'));
             })
-            ->where('user_id', '=', Auth::user()->id)
+            ->where('user_id', '=', Auth::user()->id);
+
+        // if loan type is set
+        $borrow_query = ($loan_type > 0)? $borrow_query->where('type', '=', $loan_type)
+            : $borrow_query;
+
+        // get borrow list
+        $borrow_list = $borrow_query
             ->paginate($length, [
                 'loans.*',
-                'pro_t.name as property_name',
+                'pro_t.name as property_name'
             ]);
 
         return response()->json($borrow_list);
