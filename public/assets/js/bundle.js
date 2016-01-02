@@ -53,6 +53,7 @@ webpackJsonp([0],{
 	__webpack_require__(247);
 
 	__webpack_require__(260);
+	__webpack_require__(261);
 
 /***/ },
 
@@ -1512,6 +1513,51 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 260:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Sammy = __webpack_require__(192);
+	var when = __webpack_require__(206);
+	var lodash = __webpack_require__(257);
+	var api = __webpack_require__(249);
+
+	Sammy('#main', function (app) {
+	  app.get('#/schedule', function (context) {
+	    api.browse('manager/loan/classrooms?type=course').then(function (data) {
+	      var promises = [];
+	      var isCourse = function isCourse(x) {
+	        return x.status.name === 'accepted' && x.type.name === 'course';
+	      };
+	      var convertLongTermToken = function convertLongTermToken(x) {
+	        var token = x.long_term_token;
+	        if (token) {
+	          x.long_term_token = (parseInt(token) >>> 0).toString(2).split('').map(function (y) {
+	            return !!parseInt(y);
+	          });
+	        }
+	        return x;
+	      };
+	      promises.push(when.promise(function (resolve) {
+	        return resolve(data.data.filter(isCourse).map(convertLongTermToken));
+	      }));
+	      lodash.range(2, data.last_page).map(function (i) {
+	        promises.push(api.browse('manager/loan/classrooms?type=course&page=' + i).then(function (data) {
+	          return data.data.filter(isCourse).map(convertLongTermToken);
+	        }));
+	      });
+	      when.reduce(promises, function (datas, data) {
+	        return datas.concat(data);
+	      }, []).then(function (datas) {
+	        console.log(datas);
+	      });
+	    });
+	  });
+	});
+
+/***/ },
+
+/***/ 261:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
