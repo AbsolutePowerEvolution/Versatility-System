@@ -13,7 +13,7 @@ var NumberPeriodEnd = [
   ['17:00:00', '18:00:00', '19:00:00'],
   ['20:00:00', '21:00:00', '22:00:00']
 ];
-var EngilishPeriodStart = [
+var EnglishPeriodStart = [
   ['07:15:00', '08:45:00'],
   ['10:15:00', '11:45:00'],
   ['13:15:00', '14:45:00'],
@@ -43,23 +43,191 @@ var UserPeriodEnd = [
 ];
 var LoanTable;
 var LoanTablePage;
+var Screen;
 
 Sammy('#main', function() {
+  var time = {};
+
   this.get('#/user/loan', function(context) {
+    context.time = {};
+
+    context.time.numberPeriodStart = function() {
+      var result = [];
+      var data = _.flattenDeep(NumberPeriodStart);
+      var i;
+      for(i = 0; i < data.length; i++) {
+        result[i] = {};
+        result[i].index = i;
+        result[i].time = data[i];
+      }
+
+      return result;
+    };
+    context.time.numberPeriodEnd = function() {
+      var result = [];
+      var data = _.flattenDeep(NumberPeriodEnd);
+      var i;
+
+      for(i = 0; i < data.length; i++) {
+        result[i] = {};
+        result[i].index = i;
+        result[i].time = data[i];
+      }
+
+      return result;
+    };
+    context.time.englishPeriodStart = function() {
+      var result = [];
+      var data = _.flattenDeep(EnglishPeriodStart);
+      var i;
+      for(i = 0; i < data.length; i++) {
+        result[i] = {};
+        result[i].index = i;
+        result[i].time = data[i];
+      }
+
+      return result;
+    };
+    context.time.englishPeriodEnd = function() {
+      var result = [];
+      var data = _.flattenDeep(EnglishPeriodEnd);
+      var i;
+
+      for(i = 0; i < data.length; i++) {
+        result[i] = {};
+        result[i].index = i;
+        result[i].time = data[i];
+      }
+
+      return result;
+    };
+    context.time.userPeriodStart = function() {
+      var result = [];
+      var data = _.flattenDeep(UserPeriodStart);
+      var i;
+      for(i = 0; i < data.length; i++) {
+        result[i] = {};
+        result[i].index = i;
+        result[i].time = data[i];
+      }
+
+      return result;
+    };
+    context.time.userPeriodEnd = function() {
+      var result = [];
+      var data = _.flattenDeep(UserPeriodEnd);
+      var i;
+
+      for(i = 0; i < data.length; i++) {
+        result[i] = {};
+        result[i].index = i;
+        result[i].time = data[i];
+      }
+
+      return result;
+    };
     context.loadPartials({menu: '/templates/user/menu.ms'})
       .partial('/templates/user/loan.ms')
       .then(function() {
+        // bind Event
+        loanButtonEvent();
+        loanDataEvent();
+        userLoanInitEvent();
+
+        // new inline display calendar
         var picker = new Pikaday({
           field: document.getElementById('datepicker'),
           bound: false,
           container: document.getElementById('datepicker_container'),
           format: 'YYYY-MM-DD'
         });
-
-        loanDataEvent();
       });
   });
 });
+
+function userLoanInitEvent() {
+  $('#screen_classroom').click();
+  $('.modal #user_btn').click();
+  $('.modal #short').click();
+
+  var request = {};
+  request.date = moment(new Date()).format('YYYY-MM-DD');
+
+  $.get('/api/user/property/classrooms', request, function(result) {
+    console.log(result);
+    var i;
+    var text;
+    for(i = 0; i < result.length; i++) {
+      text =  '<option value=' + result[i].id + '>';
+      text += result[i].describe;
+      text += '</option>';
+
+      $('.modal')
+        .find('#classroom')
+        .find('option:last')
+        .after(text);
+    }
+
+    loanMaterializeEvent();
+  });
+}
+
+function loanMaterializeEvent() {
+  $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15 // Creates a dropdown of 15 years to control year
+  });
+
+  $('.modal').find('select').material_select();
+}
+
+function loanButtonEvent() {
+  var modalTarget;
+  var switchTimeTarget;
+  $('#main').find('.modal-trigger')
+    .on('click', function(event) {
+      $('#materialize-lean-overlay-30').css('display', 'block');
+      modalTarget = $(this).data('modal_target');
+      $('#' + modalTarget).fadeIn();
+    });
+
+  $('#main').find('.modal-close, #materialize-lean-overlay-30')
+    .on('click', function(event) {
+      $('#materialize-lean-overlay-30').css('display', 'none');
+      $('#' + modalTarget).fadeOut();
+    });
+
+  $('#screen_classroom').unbind('click');
+  $('#screen_classroom').click(function() {
+    $('#loan_container').show();
+    $('#history_container').hide();
+  });
+
+  $('#screen_history').unbind('click');
+  $('#screen_history').click(function() {
+    $('#history_container').show();
+    $('#loan_container').hide();
+  });
+
+  $('.modal #short').unbind('click');
+  $('.modal #short').click(function() {
+    $('.modal .long').hide();
+    $('.modal .short').show();
+  });
+
+  $('.modal #long').unbind('click');
+  $('.modal #long').click(function() {
+    $('.modal .short').hide();
+    $('.modal .long').show();
+  });
+
+  $('.modal .switch_time').unbind('click');
+  $('.modal .switch_time').click(function() {
+    switchTimeTarget = $(this).data('switch_time_target');
+    $('.modal .time_container').hide();
+    $('.modal .' + switchTimeTarget).show();
+  });
+}
 
 function loanDataEvent() {
   $('#datepicker').unbind('change');
@@ -79,6 +247,8 @@ function loanDataEvent() {
       }
       console.log(LoanTable);
       produceClassroomStatus();
+    }).fail(function() {
+      alert('資料取得失敗，可能要先登入');
     });
   });
 

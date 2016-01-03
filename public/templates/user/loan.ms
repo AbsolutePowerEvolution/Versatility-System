@@ -1,16 +1,17 @@
-<div id="account_container">
-  {{>menu}}
-  <div id="sub_menu" class="row">
-    <span id="loan_classroom" class="col s6 center-align waves-effect waves-light btn">
-      <i class="material-icons">list</i>
-      借用教室
-    </span>
-    <span id="loan_history" class="col s6 center-align waves-effect waves-light btn">
-      <i class="material-icons">history</i>
-      修改借用
-    </span>
-  </div>
+{{>menu}}
 
+<div id="sub_menu" class="row">
+  <span id="screen_classroom" class="col s6 center-align waves-effect waves-light btn">
+    <i class="material-icons">list</i>
+    借用教室
+  </span>
+  <span id="screen_history" class="col s6 center-align waves-effect waves-light btn">
+    <i class="material-icons">history</i>
+    歷史紀錄
+  </span>
+</div>
+
+<div id="loan_container">
   <div id="loan_container">
     <div id="classroom_status">
       <table>
@@ -67,7 +68,7 @@
           <tr id="table_filed2">
             <td>
               <div class="period_container number_container">
-                 <div class="number_period1">
+                <div class="number_period1">
                   <p>10:10</p>
                   <p>~</p>
                   <p>11:00</p>
@@ -105,7 +106,7 @@
           <tr id="table_filed3">
             <td>
               <div class="period_container number_container">
-                 <div class="number_period1">
+                <div class="number_period1">
                   <p>13:10</p>
                   <p>~</p>
                   <p>14:00</p>
@@ -143,7 +144,7 @@
           <tr id="table_filed4">
             <td>
               <div class="period_container number_container">
-                 <div class="number_period1">
+                <div class="number_period1">
                   <p>16:10</p>
                   <p>~</p>
                   <p>17:00</p>
@@ -181,7 +182,7 @@
           <tr id="table_filed5">
             <td>
               <div class="period_container number_container">
-                 <div class="number_period1">
+                <div class="number_period1">
                   <p>19:10</p>
                   <p>~</p>
                   <p>20:00</p>
@@ -220,29 +221,99 @@
       </table>
     </div>
     <div class="date_container">
+      <div class="add_container">
+        <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class">
+          <i class="material-icons">add</i>
+        </span>
+      </div>
       <input type="text" id="datepicker">
       <div id="datepicker_container"></div>
     </div>
   </div>
+</div>
+<div id="history_container">
+  <div id="search_bar" class="row">
+    <span>搜尋：</span>
+    <input type="text" placeholder="帳號名稱" name="search"/>
+  </div>
+</div>
 
-  <div id="history_container">
-    <div id="search_bar" class="row">
-      <span>搜尋：</span>
-      <input type="text" placeholder="帳號名稱" name="search"/>
+<!-- Modal Structure -->
+<div id="loan_class" class="modal">
+  <div class="modal-content">
+    <div class="switch_type_container">
+      <button id="short">短期</button>
+      <button id="long">長期</button>
     </div>
-  </div>
+    <input type="date" class="datepicker long short" placeholder="選擇借用日期" name="start_date">
+    <input type="date" class="datepicker long" placeholder="選擇借用到期日" name="end_date">
+    <div class="input-field">
+      <select id="classroom" name="classroom">
+        <option value="" disable>教室</option>
+      </select>
+    </div>
 
-  <!-- Modal Structure -->
-  <div id="card_detail" class="modal">
-    <div class="modal-content">
-      <input type="text" name="account" placeholder="account">
-      <input type="text" name="password" placeholder="password">
+    <div class="switch_time_container">
+      <button id="user_btn" class="switch_time" data-switch_time_target="user_period">30分鐘</button>
+      <button id="number_btn" class="switch_time" data-switch_time_target="number_period">數字</button>
+      <button id="english_btn" class="switch_time" data-switch_time_target="english_period">英文</button>
     </div>
-    <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+
+    <div class="input-field user_period time_container">
+      <select name="user_start">
+        <option value="" disable>起始時間</option>
+        {{#time.userPeriodStart}}
+        <option value="{{index}}">{{time}}</option>
+        {{/time.userPeriodStart}}
+      </select>
+      <select name="user_end">
+        <option value="" disable>結束時間</option>
+        {{#time.userPeriodEnd}}
+        <option value="{{index}}">{{time}}</option>
+        {{/time.userPeriodEnd}}
+      </select>
     </div>
+
+    <div class="input-field number_period time_container">
+      <select name="number_start">
+        <option value="" disable>起始時間</option>
+        {{#time.numberPeriodStart}}
+        <option value="{{index}}">{{time}}</option>
+        {{/time.numberPeriodStart}}
+      </select>
+      <select name="number_end">
+        <option value="" disable>結束時間</option>
+        {{#time.numberPeriodEnd}}
+        <option value="{{index}}">{{time}}</option>
+        {{/time.numberPeriodEnd}}
+      </select>
+    </div>
+
+    <div class="input-field english_period time_container">
+      <select name="english_start">
+        <option value="" disable>起始時間</option>
+        {{#time.englishPeriodStart}}
+        <option value="{{index}}">{{time}}</option>
+        {{/time.englishPeriodStart}}
+      </select>
+      <select name="english_end">
+        <option value="" disable>結束時間</option>
+        {{#time.englishPeriodEnd}}
+        <option value="{{index}}">{{time}}</option>
+        {{/time.englishPeriodEnd}}
+      </select>
+    </div>
+
+    <input type="text" name="descrption" placeholder="填寫借用理由">
   </div>
-  <div class="lean-overlay" id="materialize-lean-overlay-30">
+  <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">
+      確認送出
+    </a>
   </div>
+</div>
+
+<div class="lean-overlay" id="materialize-lean-overlay-30">
+</div>
 
 </div>
