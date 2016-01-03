@@ -68,7 +68,8 @@ class Property extends Entity
             ->whereIn('status', Category::getCategoryIds(['loan.status' => [
                 'accepted',
                 'processing'
-            ]]));
+            ]]))
+            ->select('loans.*', 'ct.category', 'ct.name');
     }
 
     /**
