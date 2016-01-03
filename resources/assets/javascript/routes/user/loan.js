@@ -43,7 +43,11 @@ var UserPeriodEnd = [
 ];
 var LoanTable;
 var LoanTablePage;
-var Screen;
+var LoanType;
+var LoanTimeType;
+var LoanHistory;
+var NowPage;
+var AllPage;
 
 Sammy('#main', function() {
   var time = {};
@@ -157,9 +161,10 @@ function userLoanInitEvent() {
     console.log(result);
     var i;
     var text;
+
     for(i = 0; i < result.length; i++) {
       text =  '<option value=' + result[i].id + '>';
-      text += result[i].describe;
+      text += result[i].name;
       text += '</option>';
 
       $('.modal')
@@ -179,6 +184,10 @@ function loanMaterializeEvent() {
   });
 
   $('.modal').find('select').material_select();
+  $('.modal').find('select')
+    .parent()
+    .find('ul li:nth-of-type(2)')
+    .click();
 }
 
 function loanButtonEvent() {
@@ -207,16 +216,21 @@ function loanButtonEvent() {
   $('#screen_history').click(function() {
     $('#history_container').show();
     $('#loan_container').hide();
+
+    NowPage = 1;
+    getLoanHistory();
   });
 
   $('.modal #short').unbind('click');
   $('.modal #short').click(function() {
+    LoanType = 1;
     $('.modal .long').hide();
     $('.modal .short').show();
   });
 
   $('.modal #long').unbind('click');
   $('.modal #long').click(function() {
+    LoanType = 2;
     $('.modal .short').hide();
     $('.modal .long').show();
   });
@@ -226,6 +240,20 @@ function loanButtonEvent() {
     switchTimeTarget = $(this).data('switch_time_target');
     $('.modal .time_container').hide();
     $('.modal .' + switchTimeTarget).show();
+
+    if(switchTimeTarget == 'user_period') {
+      LoanTimeType = 1;
+    }else if(switchTimeTarget == 'number_period') {
+      LoanTimeType = 2;
+    }else {
+      LoanTimeType = 3;
+    }
+  });
+
+  $('.history_btn').unbind('click');
+  $('.history_btn').click(function() {
+    var id = $(this).data('loan_id');
+    InsertDataToModal(id);
   });
 }
 
@@ -252,14 +280,159 @@ function loanDataEvent() {
     });
   });
 
-  $('#loan_classroom').unbind('click');
-  $('#loan_classroom').click(function() {
+  $('#create_loan').unbind('click');
+  $('#create_loan').click(function() {
     var request = {};
+    var temp;
+    var errMsg = '';
+    var LoanTimeTypeList = [
+      'user',
+      'number',
+      'english'
+    ];
 
+    request.property_id = $('.modal').find('#classroom').val();
+
+    switch(LoanType) {
+      case 1: { // 短期
+        temp = $('.modal').find('input[name="start_date"]').val();
+        temp = moment(new Date(temp)).format('YYYY-MM-DD');
+        if(temp != 'Invalid date') {
+          var a = new Date();
+          var b = new Date(temp);
+
+          if(b >= a) {
+            request.date_began_at = temp;
+            request.date_ended_at = temp;
+          }else {
+            errMsg += '日期太早';
+          }
+        }else {
+          errMsg += '還沒選擇日期';
+        }
+
+        break;
+      }
+      case 2: { // 長期
+        temp = $('.modal').find('input[name="start_date"]').val();
+        temp = moment(new Date(temp)).format('YYYY-MM-DD');
+        if(temp != 'Invalid date') {
+          request.date_began_at = temp;
+        }else {
+          errMsg += '還沒選擇開始日期';
+        }
+        temp = $('.modal').find('input[name="end_date"]').val();
+        temp = moment(new Date(temp)).format('YYYY-MM-DD');
+        if(temp != 'Invalid Date') {
+          request.date_ended_at = temp;
+        }else {
+          errMsg += '還沒選擇結束日期';
+        }
+
+        // check date 先後
+        if(errMsg == '') {
+
+        }
+        break;
+      }
+    }
+
+    temp = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period')
+      .find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_start"]')
+      .parent()
+      .find('li.selected span')
+      .html();
+    request.time_began_at = temp;
+
+    temp = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period')
+      .find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_end"]')
+      .parent()
+      .find('li.selected span')
+      .html();
+    request.time_ended_at = temp;
+
+    if(errMsg == '') {
+      var startTime = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period')
+        .find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_start"]')
+        .val();
+      var endTime = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period')
+        .find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_end"]')
+        .val();
+      if(endTime < startTime) {
+        errMsg += '時段前後順序不對，可能太早';
+      }
+    }
+
+    console.log(errMsg);
+    console.log(request);
+    return;
     $.post('/api/user/loan/create', request, function(result) {
       console.log(result);
     });
   });
+
+  $('#edit_loan').unbind('click');
+  $('#edit_loan').click(function() {
+
+  });
+}
+
+function getLoanHistory() {
+  var request = {};
+  request.page = NowPage;
+  request.length = 10;
+  $.get('/api/user/loan/classrooms', request, function(result) {
+    console.log(result);
+    LoanHistory = result.data;
+
+    if(NowPage == 1) {
+      AllPage = result.total;
+    }
+
+    produceLoanHistory();
+  });
+}
+
+function produceLoanHistory() {
+  var i;
+  var j;
+  var text;
+
+  $('#history_card_container').html('');
+  for(i = 0; i < 10 && i < LoanHistory.length; i++) {
+    text =  '<div class="row card-content">';
+    text += '<span class="col s4">' + LoanHistory[i].property_name + '</span>';
+    text += '<span class="col s4">';
+    text += _.trim(LoanHistory[i].time_began_at) + ' ~ ' + _.trim(LoanHistory[i].time_ended_at);
+    text += '</span>';
+    text += '<span class="col s4 history_btn" data-loan_id="' + i + '">';
+    text += '<a class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class">';
+    text += '<i class="material-icons">build</i>更改/刪除</i>';
+    text += '</a></span>';
+    text += '</div>';
+    $('#history_card_container').append(text);
+  }
+
+  loanButtonEvent();
+  produceHistoryPage();
+}
+
+function produceHistoryPage() {
+  var i;
+  var text;
+  for(i = 0; i < AllPage; i++) {
+
+  }
+}
+
+function LoanPageEvent() {
+
+}
+
+function InsertDataToModal(id) {
+  console.log(LoanHistory[id]);
+  $('#classroom option:nth-of-type(3)').prop('selected', true);
+  $('select').material_select();
 }
 
 function produceClassroomStatus() {

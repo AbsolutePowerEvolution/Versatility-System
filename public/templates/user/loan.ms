@@ -232,10 +232,12 @@
   </div>
 </div>
 <div id="history_container">
-  <div id="search_bar" class="row">
-    <span>搜尋：</span>
-    <input type="text" placeholder="帳號名稱" name="search"/>
-  </div>
+  <div id="history_card_container"></div>
+  <ul class="pagination">
+    <li onselectstart="return false">
+      <i class="material-icons">chevorn_left</i>
+    </li>
+  </ul>
 </div>
 
 <!-- Modal Structure -->
@@ -249,8 +251,25 @@
     <input type="date" class="datepicker long" placeholder="選擇借用到期日" name="end_date">
     <div class="input-field">
       <select id="classroom" name="classroom">
-        <option value="" disable>教室</option>
+        <option value="" disabled>教室</option>
       </select>
+    </div>
+    <div class="long checkbox_container">
+      <p>選星期幾</p>
+      <input type="checkbox" value="0" id="day0">
+      <label for="day0">日</label>
+      <input type="checkbox" value="1" id="day1">
+      <label for="day1">一</label>
+      <input type="checkbox" value="2" id="day2">
+      <label for="day2">二</label>
+      <input type="checkbox" value="3" id="day3">
+      <label for="day3">三</label>
+      <input type="checkbox" value="4" id="day4">
+      <label for="day4">四</label>
+      <input type="checkbox" value="5" id="day5">
+      <label for="day5">五</label>
+      <input type="checkbox" value="6" id="day6">
+      <label for="day6">六</label>
     </div>
 
     <div class="switch_time_container">
@@ -261,13 +280,13 @@
 
     <div class="input-field user_period time_container">
       <select name="user_start">
-        <option value="" disable>起始時間</option>
+        <option value="" disabled>起始時間</option>
         {{#time.userPeriodStart}}
         <option value="{{index}}">{{time}}</option>
         {{/time.userPeriodStart}}
       </select>
       <select name="user_end">
-        <option value="" disable>結束時間</option>
+        <option value="" disabled>結束時間</option>
         {{#time.userPeriodEnd}}
         <option value="{{index}}">{{time}}</option>
         {{/time.userPeriodEnd}}
@@ -276,13 +295,13 @@
 
     <div class="input-field number_period time_container">
       <select name="number_start">
-        <option value="" disable>起始時間</option>
+        <option value="" disabled>起始時間</option>
         {{#time.numberPeriodStart}}
         <option value="{{index}}">{{time}}</option>
         {{/time.numberPeriodStart}}
       </select>
       <select name="number_end">
-        <option value="" disable>結束時間</option>
+        <option value="" disabled>結束時間</option>
         {{#time.numberPeriodEnd}}
         <option value="{{index}}">{{time}}</option>
         {{/time.numberPeriodEnd}}
@@ -291,13 +310,13 @@
 
     <div class="input-field english_period time_container">
       <select name="english_start">
-        <option value="" disable>起始時間</option>
+        <option value="" disabled>起始時間</option>
         {{#time.englishPeriodStart}}
         <option value="{{index}}">{{time}}</option>
         {{/time.englishPeriodStart}}
       </select>
       <select name="english_end">
-        <option value="" disable>結束時間</option>
+        <option value="" disabled>結束時間</option>
         {{#time.englishPeriodEnd}}
         <option value="{{index}}">{{time}}</option>
         {{/time.englishPeriodEnd}}
@@ -307,9 +326,9 @@
     <input type="text" name="descrption" placeholder="填寫借用理由">
   </div>
   <div class="modal-footer">
-    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">
+    <button id="create_loan">
       確認送出
-    </a>
+    </button>
   </div>
 </div>
 
