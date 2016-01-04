@@ -51,8 +51,6 @@ Sammy('#main', (app) => {
             ];
             let klass = [];
 
-            console.log(datas);
-
             vars.CLASS_RANGE.forEach(({start, end}) => {
               start = toMoment(start);
               end = toMoment(end);
@@ -78,7 +76,6 @@ Sammy('#main', (app) => {
               }
               klass.push(week);
             });
-            console.log(klass);
             context.list = klass;
             context.partial('/templates/schedule.ms')
               .render(() => {
