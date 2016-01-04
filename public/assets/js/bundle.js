@@ -53,7 +53,7 @@ webpackJsonp([0],{
 	__webpack_require__(247);
 
 	__webpack_require__(260);
-	__webpack_require__(261);
+	__webpack_require__(263);
 
 /***/ },
 
@@ -1937,36 +1937,89 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(192);
 	var when = __webpack_require__(206);
 	var lodash = __webpack_require__(257);
+	var moment = __webpack_require__(261);
 	var api = __webpack_require__(249);
+	var vars = __webpack_require__(262);
+
+	var toMoment = function toMoment(time) {
+	  return moment(time, 'HH:mm:ss');
+	};
 
 	Sammy('#main', function (app) {
 	  app.get('#/schedule', function (context) {
-	    api.browse('manager/loan/classrooms?type=course').then(function (data) {
+	    api.browse('manager/loan/classrooms', {
+	      params: {
+	        type: 'course',
+	        status: 'accepted'
+	      } }).then(function (data) {
 	      var promises = [];
-	      var isCourse = function isCourse(x) {
-	        return x.status.name === 'accepted' && x.type.name === 'course';
-	      };
 	      var convertLongTermToken = function convertLongTermToken(x) {
 	        var token = x.long_term_token;
 	        if (token) {
-	          x.long_term_token = (parseInt(token) >>> 0).toString(2).split('').map(function (y) {
+	          x.token = lodash.padRight((parseInt(token) >>> 0). /* Force to be unsigned */
+	          toString(2), 7, '0').split('').map(function (y) {
 	            return !!parseInt(y);
 	          });
 	        }
 	        return x;
 	      };
+	      var convertTime = function convertTime(x) {
+	        x.start = toMoment(x.time_began_at);
+	        x.end = toMoment(x.time_ended_at);
+	        return x;
+	      };
 	      promises.push(when.promise(function (resolve) {
-	        return resolve(data.data.filter(isCourse).map(convertLongTermToken));
+	        return resolve(data.data.map(convertLongTermToken).map(convertTime));
 	      }));
 	      lodash.range(2, data.last_page).map(function (i) {
-	        promises.push(api.browse('manager/loan/classrooms?type=course&page=' + i).then(function (data) {
-	          return data.data.filter(isCourse).map(convertLongTermToken);
+	        promises.push(api.browse('manager/loan/classrooms', {
+	          params: {
+	            type: 'course',
+	            status: 'accepted',
+	            page: i
+	          } }).then(function (data) {
+	          return data.data.map(convertLongTermToken).map(convertTime);
 	        }));
 	      });
 	      when.reduce(promises, function (datas, data) {
 	        return datas.concat(data);
 	      }, []).then(function (datas) {
+	        var weekName = ['mon', 'tue', 'wed', 'thu', 'fri'];
+	        var klass = [];
+
 	        console.log(datas);
+
+	        vars.CLASS_RANGE.forEach(function (_ref) {
+	          var start = _ref.start;
+	          var end = _ref.end;
+
+	          start = toMoment(start);
+	          end = toMoment(end);
+	          // debugger;
+	          var genWeekSchedule = function genWeekSchedule(week, course) {
+	            weekName.forEach(function (name, idx) {
+	              week.classes[name] = week.classes[name] || [];
+	              if (start.isSameOrAfter(course.start, 'minute') && end.isSameOrBefore(course.end, 'minute') && course.token[idx]) {
+	                week.classes[name].push(course.remark + ':' + course.property_name);
+	              }
+	            });
+	            return week;
+	          };
+
+	          var week = datas.reduce(genWeekSchedule, {
+	            time: start.format('HH:mm:ss') + '~' + end.format('HH:mm:ss'),
+	            classes: Object.create(null)
+	          });
+	          for (var key in week.classes) {
+	            week.classes[key] = week.classes[key].join('<br>');
+	          }
+	          klass.push(week);
+	        });
+	        console.log(klass);
+	        context.list = klass;
+	        context.partial('/templates/schedule.ms').render(function () {
+	          console.log('done');
+	        });
 	      });
 	    });
 	  });
@@ -1975,6 +2028,25 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 261:
+/***/ function(module, exports) {
+
+	module.exports = moment;
+
+/***/ },
+
+/***/ 262:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var CLASS_RANGE = exports.CLASS_RANGE = [{ start: '07:00:00', end: '07:30:00' }, { start: '07:30:00', end: '08:00:00' }, { start: '08:00:00', end: '08:30:00' }, { start: '08:30:00', end: '09:00:00' }, { start: '09:00:00', end: '09:30:00' }, { start: '09:30:00', end: '10:00:00' }, { start: '10:00:00', end: '10:30:00' }, { start: '10:30:00', end: '11:00:00' }, { start: '11:00:00', end: '11:30:00' }, { start: '11:30:00', end: '12:00:00' }, { start: '12:00:00', end: '12:30:00' }, { start: '12:30:00', end: '13:00:00' }, { start: '13:00:00', end: '13:30:00' }, { start: '13:30:00', end: '14:00:00' }, { start: '14:00:00', end: '14:30:00' }, { start: '14:30:00', end: '15:00:00' }, { start: '15:00:00', end: '15:30:00' }, { start: '15:30:00', end: '16:00:00' }, { start: '16:00:00', end: '16:30:00' }, { start: '16:30:00', end: '17:00:00' }, { start: '17:00:00', end: '17:30:00' }, { start: '17:30:00', end: '18:00:00' }, { start: '18:00:00', end: '18:30:00' }, { start: '18:30:00', end: '19:00:00' }, { start: '19:00:00', end: '19:30:00' }, { start: '19:30:00', end: '20:00:00' }, { start: '20:00:00', end: '20:30:00' }, { start: '20:30:00', end: '21:00:00' }, { start: '21:00:00', end: '21:30:00' }, { start: '21:30:00', end: '22:00:00' }];
+
+/***/ },
+
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
