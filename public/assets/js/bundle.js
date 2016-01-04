@@ -1987,8 +1987,6 @@ webpackJsonp([0],{
 	        var weekName = ['mon', 'tue', 'wed', 'thu', 'fri'];
 	        var klass = [];
 
-	        console.log(datas);
-
 	        vars.CLASS_RANGE.forEach(function (_ref) {
 	          var start = _ref.start;
 	          var end = _ref.end;
@@ -2015,7 +2013,6 @@ webpackJsonp([0],{
 	          }
 	          klass.push(week);
 	        });
-	        console.log(klass);
 	        context.list = klass;
 	        context.partial('/templates/schedule.ms').render(function () {
 	          console.log('done');
