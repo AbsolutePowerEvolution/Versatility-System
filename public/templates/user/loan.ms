@@ -222,7 +222,7 @@
     </div>
     <div class="date_container">
       <div class="add_container">
-        <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class">
+        <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class" data-button="add">
           <i class="material-icons">add</i>
         </span>
       </div>
@@ -244,8 +244,8 @@
 <div id="loan_class" class="modal">
   <div class="modal-content">
     <div class="switch_type_container">
-      <button id="short">短期</button>
-      <button id="long">長期</button>
+      <button id="short" class="btn">短期</button>
+      <button id="long" class="btn">長期</button>
     </div>
     <input type="date" class="datepicker long short" placeholder="選擇借用日期" name="start_date">
     <input type="date" class="datepicker long" placeholder="選擇借用到期日" name="end_date">
@@ -273,22 +273,22 @@
     </div>
 
     <div class="switch_time_container">
-      <button id="user_btn" class="switch_time" data-switch_time_target="user_period">30分鐘</button>
-      <button id="number_btn" class="switch_time" data-switch_time_target="number_period">數字</button>
-      <button id="english_btn" class="switch_time" data-switch_time_target="english_period">英文</button>
+      <button id="user_btn" class="btn switch_time" data-switch_time_target="user_period">30分鐘</button>
+      <button id="number_btn" class="btn switch_time" data-switch_time_target="number_period">數字</button>
+      <button id="english_btn" class="btn switch_time" data-switch_time_target="english_period">英文</button>
     </div>
 
     <div class="input-field user_period time_container">
       <select name="user_start">
         <option value="" disabled>起始時間</option>
         {{#time.userPeriodStart}}
-        <option value="{{index}}">{{time}}</option>
+        <option value="{{time}}">{{time}}</option>
         {{/time.userPeriodStart}}
       </select>
       <select name="user_end">
         <option value="" disabled>結束時間</option>
         {{#time.userPeriodEnd}}
-        <option value="{{index}}">{{time}}</option>
+        <option value="{{time}}">{{time}}</option>
         {{/time.userPeriodEnd}}
       </select>
     </div>
@@ -297,13 +297,13 @@
       <select name="number_start">
         <option value="" disabled>起始時間</option>
         {{#time.numberPeriodStart}}
-        <option value="{{index}}">{{time}}</option>
+        <option value="{{time}}">{{time}}</option>
         {{/time.numberPeriodStart}}
       </select>
       <select name="number_end">
         <option value="" disabled>結束時間</option>
         {{#time.numberPeriodEnd}}
-        <option value="{{index}}">{{time}}</option>
+        <option value="{{time}}">{{time}}</option>
         {{/time.numberPeriodEnd}}
       </select>
     </div>
@@ -312,22 +312,28 @@
       <select name="english_start">
         <option value="" disabled>起始時間</option>
         {{#time.englishPeriodStart}}
-        <option value="{{index}}">{{time}}</option>
+        <option value="{{time}}">{{time}}</option>
         {{/time.englishPeriodStart}}
       </select>
       <select name="english_end">
         <option value="" disabled>結束時間</option>
         {{#time.englishPeriodEnd}}
-        <option value="{{index}}">{{time}}</option>
+        <option value="{{time}}">{{time}}</option>
         {{/time.englishPeriodEnd}}
       </select>
     </div>
 
-    <input type="text" name="descrption" placeholder="填寫借用理由">
+    <input type="text" name="remark" placeholder="填寫借用理由(可以不填)">
   </div>
   <div class="modal-footer">
-    <button id="create_loan">
+    <button id="create_loan" class="belong_loan">
       確認送出
+    </button>
+    <button id="edit_loan" class="belong_history">
+      更改
+    </button>
+    <button id="delete_loan" class="belong_history">
+      刪除
     </button>
   </div>
 </div>
