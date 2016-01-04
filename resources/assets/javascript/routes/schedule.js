@@ -54,7 +54,6 @@ Sammy('#main', (app) => {
             vars.CLASS_RANGE.forEach(({start, end}) => {
               start = toMoment(start);
               end = toMoment(end);
-              // debugger;
               let genWeekSchedule = (week, course) => {
                 weekName.forEach((name, idx) => {
                   week.classes[name] = week.classes[name] || [];
