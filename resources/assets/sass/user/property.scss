@@ -23,6 +23,11 @@
   display:none;
 }
 
+#property_container #property_manage_content .isReturn {
+  position: absolute;
+  color: red;
+}
+
 #property_container #property_modal, #property_container #history_modal,
 #property_container #create_property_modal, #property_container #loan_property_modal,
 #property_container #return_property_modal{

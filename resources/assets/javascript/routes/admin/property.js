@@ -39,6 +39,9 @@ Sammy('#main', function() {
           item.code = property.code;
           item.time = item.date_began_at + ' ' + (item.time_began_at == null ? '' : item.time_began_at) + '  -  ' +
                       item.date_ended_at + ' ' + (item.time_ended_at == null ? '' : item.time_ended_at);
+          let isReturn = {'canceled': 'hide', 'finished': 'hide', 'refused': 'hide',
+                          'submit': 'block', 'accepted': 'block'};
+          item.isReturn = isReturn[item.status.name] || 'hide';
           return item;
         });
         console.log('loan data:', context.loanData);
@@ -159,7 +162,7 @@ function searchData(propertyData, loanData) {
 function showPropertyDetailAndDeleteProperty() {
   var $propertyContainer = $('#property_container');
   var $propertyModal = $('#property_modal');
-  $propertyContainer.find('#property_system_content .modal-trigger').on('click', function(event) {
+  $propertyContainer.find('#property_system_content #property_content .modal-trigger').on('click', function(event) {
     if($(this).hasClass('disabled')) { return; }
 
     $('#materialize-lean-overlay-30').css('display', 'block');
@@ -227,7 +230,7 @@ function showPropertyDetailAndDeleteProperty() {
 function createProperty() {
   var $propertyContainer = $('#property_container');
   var $createPropertyModal = $('#create_property_modal');
-  $propertyContainer.find('#property_manage_content #create_property').on('click', function(event) {
+  $propertyContainer.find('#property_system_content #create_property').on('click', function(event) {
     $('#materialize-lean-overlay-30').css('display', 'block');
     $createPropertyModal.fadeIn();
   });
@@ -262,7 +265,7 @@ function createProperty() {
 function loanProperty(propertyData) {
   var $propertyContainer = $('#property_container');
   var $loanPropertyModal = $('#loan_property_modal');
-  $propertyContainer.find('#property_manage_content #loan_property').on('click', function(event) {
+  $propertyContainer.find('#property_system_content #loan_property').on('click', function(event) {
     $('#materialize-lean-overlay-30').css('display', 'block');
     $loanPropertyModal.fadeIn();
   });

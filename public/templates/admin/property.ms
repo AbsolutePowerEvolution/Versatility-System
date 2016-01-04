@@ -4,33 +4,14 @@
     <div class="row">
         <div class="col s6">
             <ul id="sub_menu" class="tabs">
-                <li id="property_system" class="tab center"><a herf="#property_system_content"><i class="material-icons">gavel</i>財產管理系統</a></li>
-                <li id="property_manage" class="tab center"><a herf="#property_manage_content"><i class="material-icons">settings</i>管理財產</a></li>
+                <li id="property_system" class="tab center"><a herf="#property_system_content"><i class="material-icons">gavel</i>財產列表</a></li>
+                <li id="property_manage" class="tab center"><a herf="#property_manage_content"><i class="material-icons">settings</i>財產借用紀錄</a></li>
             </ul>
         </div>
     </div>
 
     <div id="property_system_content" class="property_system row">
         <div class="row">
-            <input id="search_property" class="offset-s3 col s6" type="text" placeholder="財產名稱或條碼"/>
-            <span id="search_property_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4
-"><i class="material-icons left">search</i>搜尋</a></span>
-        </div>
-        {{#propertyData}}
-        <div class="card showContent propertyContent searched hide">
-            <div class="row card-content" data-name="{{name}}" data-propertyid="{{id}}" data-describe="{{describe}}" data-code="{{code}}">
-                <span class="col s4 center-align">{{name}}</span>
-                <span class="col s4 center-align" style="color: {{status.color}}">{{status.name}}</span>
-                <span class="col s4 center-align">
-                    <a class="waves-effect waves-light btn modal-trigger"><i class="material-icons left">description</i>詳細資料</a>
-                </span>
-            </div>
-        </div>
-        {{/propertyData}}
-    </div>
-
-    <div id="property_manage_content" class="manage_system row">
-        <div class="">
             <div class="row card-content">
                 <span class="col s6 center-align">
                     <a id="create_property" class=" center-align waves-effect waves-light btn modal-trigger s4"><i class="material-icons left">add_circle</i>新增財產</a>
@@ -40,13 +21,33 @@
                 </span>
             </div>
         </div>
+        <div id="property_content" class="card">
+            <div class="row">
+                <h4 class="card-content center-align">財產列表</h4>
+                <input id="search_property" class="offset-s3 col s6" type="text" placeholder="財產名稱或條碼"/>
+                <span id="search_property_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4
+    "><i class="material-icons left">search</i>搜尋</a></span>
+            </div>
+            {{#propertyData}}
+            <div class="card showContent propertyContent searched hide">
+                <div class="row card-content" data-name="{{name}}" data-propertyid="{{id}}" data-describe="{{describe}}" data-code="{{code}}">
+                    <span class="col s4 center-align">{{name}}</span>
+                    <span class="col s4 center-align" style="color: {{status.color}}">{{status.name}}</span>
+                    <span class="col s4 center-align">
+                        <a class="waves-effect waves-light btn modal-trigger"><i class="material-icons left">description</i>詳細資料</a>
+                    </span>
+                </div>
+            </div>
+            {{/propertyData}}
+        </div>
+    </div>
 
+    <div id="property_manage_content" class="manage_system row">
         <div id="return_property_content" class="card">
             <div class="row">
                 <h4 class="card-content center-align">借用紀錄</h4>
-                    <input id="search_loanData" class="offset-s3 col s6" type="text" placeholder="財產名稱或條碼或學號"/>
-                    <span id="search_loanData_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4
-"><i class="material-icons left">search</i>搜尋</a></span>
+                <input id="search_loanData" class="offset-s3 col s6" type="text" placeholder="財產名稱或條碼或學號"/>
+                <span id="search_loanData_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4"><i class="material-icons left">search</i>搜尋</a></span>
             </div>
             {{#loanData}}
             <div class="card showContent propertyContent searched hide">
@@ -55,6 +56,7 @@
                      data-email="{{user.email}}" data-user_id = "{{user.id}}" data-usernickname="{{user.nickname}}" data-phone="{{user.phone}}"
                      data-username="{{user.username}}"
                 >
+                    <i class="{{isReturn}} isReturn material-icons left">assignment_late</i>
                     <span class="col s2 center-align">{{property_name}}</span>
                     <span class="col s2 center-align">{{user_id}}</span>
                     <span class="col s5 center-align">{{time}}</span>
