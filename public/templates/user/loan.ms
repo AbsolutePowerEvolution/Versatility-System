@@ -1,14 +1,12 @@
 {{>menu}}
 
-<div id="sub_menu" class="row">
-  <span id="screen_classroom" class="col s6 center-align waves-effect waves-light btn">
-    <i class="material-icons">list</i>
-    借用教室
-  </span>
-  <span id="screen_history" class="col s6 center-align waves-effect waves-light btn">
-    <i class="material-icons">history</i>
-    歷史紀錄
-  </span>
+<div class="row">
+    <div class="col s6 right">
+        <ul id="sub_menu" class="tabs">
+            <li id="screen_classroom" class="tab center"><a herf=""><i class="material-icons">list</i>借用教室</a></li>
+            <li id="screen_history" class="tab center"><a herf=""><i class="material-icons">history</i>歷史紀錄</a></li>
+        </ul>
+    </div>
 </div>
 
 <div id="loan_container">

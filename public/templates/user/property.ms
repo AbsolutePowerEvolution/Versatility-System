@@ -1,10 +1,14 @@
-<div id="property_container" class="container">
-    {{>menu}}
-    <div id="sub_menu" class="row">
-        <span id="property_system" class="col s6 center-align waves-effect waves-light btn"><i class="material-icons">gavel</i>財產管理系統</span>
-        <span id="property_history" class="col s6 center-align waves-effect waves-light btn"><i class="material-icons">history</i>歷史紀錄</span>
+{{>menu}}
+<div id="property_container" class="container">    
+    <div class="row">
+        <div class="col s6 right">
+            <ul id="sub_menu" class="tabs">
+                <li id="property_system" class="tab center"><a herf=""><i class="material-icons">gavel</i>財產管理系統</a></li>
+                <li id="property_history" class="tab center"><a herf=""><i class="material-icons">history</i>歷史紀錄</a></li>
+            </ul>
+        </div>
     </div>
-
+    
     <div id="property_system_content" class="property_system row">
         <div class="row">
             <input id="search_property" class="offset-s3 col s6" type="text" placeholder="財產名稱"/>

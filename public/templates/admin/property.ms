@@ -2,10 +2,14 @@
     {{>menu}}
 
     <div class="row">
-        <div class="col s6">
+        <div class="col s6 right">
             <ul id="sub_menu" class="tabs">
-                <li id="property_system" class="tab center"><a herf="#property_system_content"><i class="material-icons">gavel</i>財產列表</a></li>
-                <li id="property_manage" class="tab center"><a herf="#property_manage_content"><i class="material-icons">settings</i>財產借用紀錄</a></li>
+                <li id="property_system" class="tab center">
+                    <a herf="#property_system_content"><i class="material-icons">gavel</i>財產列表</a>
+                </li>
+                <li id="property_manage" class="tab center">
+                    <a herf="#property_manage_content"><i class="material-icons">settings</i>財產借用紀錄</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -25,8 +29,7 @@
             <div class="row">
                 <h4 class="card-content center-align">財產列表</h4>
                 <input id="search_property" class="offset-s3 col s6" type="text" placeholder="財產名稱或條碼"/>
-                <span id="search_property_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4
-    "><i class="material-icons left">search</i>搜尋</a></span>
+                <span id="search_property_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4"><i class="material-icons left">search</i>搜尋</a></span>
             </div>
             {{#propertyData}}
             <div class="card showContent propertyContent searched hide">
