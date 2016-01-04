@@ -1993,7 +1993,6 @@ webpackJsonp([0],{
 
 	          start = toMoment(start);
 	          end = toMoment(end);
-	          // debugger;
 	          var genWeekSchedule = function genWeekSchedule(week, course) {
 	            weekName.forEach(function (name, idx) {
 	              week.classes[name] = week.classes[name] || [];
