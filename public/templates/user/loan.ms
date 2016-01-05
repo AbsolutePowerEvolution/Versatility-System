@@ -1,70 +1,89 @@
 {{>menu}}
 
-<div class="row">
-    <div class="col s6 right">
-        <ul id="sub_menu" class="tabs">
-            <li id="screen_classroom" class="tab center"><a herf=""><i class="material-icons">list</i>借用教室</a></li>
-            <li id="screen_history" class="tab center"><a herf=""><i class="material-icons">history</i>歷史紀錄</a></li>
-        </ul>
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col s6 right">
+                <ul id="sub_menu" class="tabs">
+                    <li id="screen_classroom" class="tab center"><a herf=""><i class="material-icons">list</i>借用教室</a></li>
+                    <li id="screen_history" class="tab center"><a herf=""><i class="material-icons">history</i>歷史紀錄</a></li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>
 
 <div id="loan_container" class="container">
-  <table class="row-table centered">
-    <thead>
-      <tr>
-        <th>時段</th>
-        <th>1</th>
-        <th>2</th>
-        <th>3</th>
-        <th>4</th>
-        <th>5</th>
-        <th>6</th>
-        <th>7</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><i class="material-icons">chevron_left</i></td>
-      </tr>
-      <tr>
-        <td>教室0</td>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-      </tr>
-      <tr>
-        <td>教室1</td>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-      </tr>
-      <tr></tr>
-      <tr></tr>
-      <tr></tr>
-      <tr></tr>
-      <tr>
-        <td><i class="material-icons">chevron_right</i></td>
-      </tr>
-      
-    </tbody>
-  </table>
-  <div class="date_container">
-    <div class="add_container">
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class" data-button="add">
-        <i class="material-icons">add</i>
-      </span>
+  <div class="row">
+    <div class="col s9">
+      <table class="row-table centered">
+        <thead>
+          <tr>
+            <th>時段</th>
+            <th>0700~0730</th>
+            <th>0730~0800</th>
+            <th>0800~0830</th>
+            <th>0830~0900</th>
+            <th>0900~0930</th>
+            <th>0930~1000</th>
+            <th>1000~1030</th>
+            <th>1030~1100</th>
+            <th>1100~1130</th>
+            <th>1130~1200</th>
+            <th>1200~1230</th>
+            <th>1230~1300</th>
+            <th>1300~1330</th>
+            <th>1330~1400</th>
+            <th>1400~1430</th>
+            <th>1430~1500</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><i class="material-icons">chevron_left</i></td>
+          </tr>
+          <tr>
+            <td>教室0</td>
+            <td>DEMO</td>
+            <td>O</td>
+            <td>O</td>
+            <td>O</td>
+            <td>O</td>
+            <td>O</td>
+            <td>O</td>
+            <td>X</td>
+            <td>X</td>
+            <td>X</td>
+            <td>O</td>
+            <td>O</td>
+            <td>O</td>
+            <td>O</td>
+            <td>O</td>
+            <td>O</td>
+          </tr>
+          <tr></tr>
+          <tr></tr>
+          <tr></tr>
+          <tr></tr>
+          <tr></tr>
+          <tr>
+            <td><i class="material-icons">chevron_right</i></td>
+          </tr>
+          
+        </tbody>
+      </table>
     </div>
-    <input type="text" id="datepicker">
-    <div id="datepicker_container"></div>
+    <div class="col s3">
+      <div class="date_container">
+        <input type="text" id="datepicker">
+        <div id="datepicker_container"></div>
+      </div>
+      <div class="add_container">
+        <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class" data-button="add">
+          新增借用
+        </span>
+      </div>
+    </div>
   </div>
 </div>
 

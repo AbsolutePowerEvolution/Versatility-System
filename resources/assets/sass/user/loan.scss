@@ -157,24 +157,29 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   position: relative;
+  
   thead {
     display: block;
     float: left;
+    
     tr {
       display: block;
     }
   }
+  
   tbody {
     display:block;
     width:auto;
     position:relative;
     overflow-x:auto;
     white-space:nowrap;
+    
     tr {
       display: inline-block;
       vertical-align: top;
     }
   }
+  
   th, td {
     line-height: 2em;
     height: 36px;
@@ -192,7 +197,6 @@ table {
   max-width: 768px;
   margin: 0px auto;
   opacity: 1;
-  transform: translate3d(0px, 64px, 0px), scale(0.9);
 
   .pika-lendar{
     .pika-prev, .pika-next{

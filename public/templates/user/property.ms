@@ -1,5 +1,6 @@
 {{>menu}}
-<div id="property_container" class="container">    
+
+<div class="container">
     <div class="row">
         <div class="col s6 right">
             <ul id="sub_menu" class="tabs">
@@ -8,7 +9,9 @@
             </ul>
         </div>
     </div>
-    
+</div>
+
+<div id="property_container" class="container">    
     <div id="property_system_content" class="property_system row">
         <div class="row">
             <input id="search_property" class="offset-s3 col s6" type="text" placeholder="財產名稱"/>
