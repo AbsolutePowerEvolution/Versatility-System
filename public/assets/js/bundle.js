@@ -1107,7 +1107,6 @@ webpackJsonp([0],{
 	      params: { page: context.params.page }
 	    }).then(function (data) {
 	      var pageEffect = paginate(context, data, '#/admin/examine');
-	      console.log(data);
 	      context.list = data.data.map(function (item) {
 	        item.time = item.date_began_at + '~' + item.date_ended_at;
 	        return item;
@@ -1152,12 +1151,10 @@ webpackJsonp([0],{
 
 	  // Deal custom event
 	  item.on('examine-pass', function (event, id) {
-	    console.log('Examine pass id: ' + id);
 	    sendAcceptVerify(id);
 	  });
 
 	  item.on('examine-reject', function (event, id) {
-	    console.log('Examine reject id: ' + id);
 	    sendRefuseVerify(id);
 	  });
 	};
@@ -1176,9 +1173,10 @@ webpackJsonp([0],{
 	      status: type
 	    })
 	  }).then(function (response) {
-	    console.log('Success', response);
+	    Materialize.toast('更新成功');
 	  }).catch(function (response) {
 	    console.log('Fail', response);
+	    Materialize.toast('更新失敗');
 	  });
 	};
 
@@ -2208,7 +2206,6 @@ webpackJsonp([0],{
 
 	var Sammy = __webpack_require__(192);
 	var when = __webpack_require__(197);
-	var lodash = __webpack_require__(259);
 	var moment = __webpack_require__(263);
 	var api = __webpack_require__(251);
 	var vars = __webpack_require__(266);
@@ -2219,43 +2216,16 @@ webpackJsonp([0],{
 
 	Sammy('#main', function (app) {
 	  app.get('#/schedule', function (context) {
-	    api.browse('manager/loan/classrooms', {
-	      params: {
-	        type: 'course',
-	        status: 'accepted'
-	      } }).then(function (data) {
-	      var promises = [];
-	      var convertLongTermToken = function convertLongTermToken(x) {
-	        var token = x.long_term_token;
-	        if (token) {
-	          x.token = lodash.padRight((parseInt(token) >>> 0). /* Force to be unsigned */
-	          toString(2), 7, '0').split('').map(function (y) {
-	            return !!parseInt(y);
-	          });
-	        }
-	        return x;
-	      };
-	      var convertTime = function convertTime(x) {
+	    api.browse('manager/loan/courses').then(function (data) {
+	      var convertData = function convertData(x) {
 	        x.start = toMoment(x.time_began_at);
 	        x.end = toMoment(x.time_ended_at);
+	        x.token = x.long_term_token;
 	        return x;
 	      };
-	      promises.push(when.promise(function (resolve) {
-	        return resolve(data.data.map(convertLongTermToken).map(convertTime));
-	      }));
-	      lodash.range(2, data.last_page).map(function (i) {
-	        promises.push(api.browse('manager/loan/classrooms', {
-	          params: {
-	            type: 'course',
-	            status: 'accepted',
-	            page: i
-	          } }).then(function (data) {
-	          return data.data.map(convertLongTermToken).map(convertTime);
-	        }));
-	      });
-	      when.reduce(promises, function (datas, data) {
-	        return datas.concat(data);
-	      }, []).then(function (datas) {
+	      when.promise(function (resolve) {
+	        return resolve(data.map(convertData));
+	      }).then(function (datas) {
 	        var weekName = ['mon', 'tue', 'wed', 'thu', 'fri'];
 	        var klass = [];
 
