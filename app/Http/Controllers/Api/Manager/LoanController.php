@@ -83,6 +83,35 @@ class LoanController extends Controller
     }
 
     /**
+     * Display a listing of the course borrow list
+     *
+     * @return Json
+     */
+    public function indexCourse()
+    {
+        // get course list
+        $course_list = Loan::join('properties as pro_t', function ($join) {
+                $join->on('pro_t.id', '=', 'property_id')
+                    ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
+            })
+            ->where('loans.type', '=', Category::getCategoryId('loan.type', 'course'))
+            ->where('loans.status', '=', Category::getCategoryId('loan.status', 'accepted'))
+            ->get(['loans.*', 'pro_t.name as property_name']);
+
+        // translate long-term-token from int to TF array
+        foreach ($course_list as $key => $value) {
+            $token = str_split( substr( decbin($value->long_term_token + 128), 1, 7) );
+            $token = array_map(function ($token) {
+                return $token === '1';
+            }, $token);
+
+            $course_list[$key]->long_term_token = $token;
+        }
+
+        return response()->json($course_list);
+    }
+
+    /**
      * Store a newly created other property borrow in storage.
      *
      * @param Request $request
