@@ -377,9 +377,9 @@ function loanDataEvent() {
             temp[i] = 0;
           }
         }
-        request.long_term_token = '' + temp[6];
+        request.long_term_token = temp[6].toString();
         for(i = 5; i >= 0; i--) {
-          request.long_term_token += '' + temp[i];
+          request.long_term_token += temp[i].toString();
         }
 
         break;
@@ -535,7 +535,6 @@ function InsertDataToModal(id) {
   }
   // update select status
   $('.modal select').material_select();
-
 
   $('.modal').find('input[name="remark"]')
     .val(LoanHistory[id].remark);

@@ -83,15 +83,11 @@ function propertyBindEvent(propertyData) {
   var $propertyContainer = $('#property_container');
   $propertyContainer.find('#sub_menu').tabs();
   $propertyContainer.find('#property_system').on('click', function(event) {
-    /*$propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
-    $propertyContainer.find('#property_history').removeClass('purple darken-4').addClass('white').css('color', 'black');*/
     $propertyContainer.find('.property_system').css('display', 'block');
     $propertyContainer.find('#property_history_content').css('display', 'none');
   });
 
   $propertyContainer.find('#property_history').on('click', function(event) {
-    /*$propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
-    $propertyContainer.find('#property_history').addClass('purple darken-4').css('color', 'white');*/
     $propertyContainer.find('.property_system').css('display', 'none');
     $propertyContainer.find('#property_history_content').css('display', 'block');
   });
@@ -299,8 +295,8 @@ function buildPropertyHistoryCard(data) {
   var color = today > data.date_began_at ? 'teal' : 'red';
   var divCard = '<div class="card waves-effect"' + 'data-id="' + data.id + '"' +
       'data-name="' + data.property_name + '"' +
-      'data-time="' + data.date_began_at + ' ' + (data.time_began_at == null ? '' : data.time_began_at) + ' - ' +
-                      data.date_ended_at + ' ' + (data.time_ended_at == null ? '' : data.time_ended_at) + '"' +
+      'data-time="' + data.date_began_at + ' ' + (data.time_began_at ? '' : data.time_began_at) + ' - ' +
+                      data.date_ended_at + ' ' + (data.time_ended_at ? '' : data.time_ended_at) + '"' +
                                                 'data-remark="' + data.remark + '">';
   var divCardContent = '<div class="row card-content">';
   var spanName = '<span class="col s4 center-align">' + data.property_name + '</span>';
