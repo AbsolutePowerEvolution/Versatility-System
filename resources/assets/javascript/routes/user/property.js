@@ -81,16 +81,17 @@ function buildPropertyCard(oriPropertyData, searchPropertyData) {
 
 function propertyBindEvent(propertyData) {
   var $propertyContainer = $('#property_container');
+  $propertyContainer.find('#sub_menu').tabs();
   $propertyContainer.find('#property_system').on('click', function(event) {
-    $propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
-    $propertyContainer.find('#property_history').removeClass('purple darken-4').addClass('white').css('color', 'black');
+    /*$propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
+    $propertyContainer.find('#property_history').removeClass('purple darken-4').addClass('white').css('color', 'black');*/
     $propertyContainer.find('.property_system').css('display', 'block');
     $propertyContainer.find('#property_history_content').css('display', 'none');
   });
 
   $propertyContainer.find('#property_history').on('click', function(event) {
-    $propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
-    $propertyContainer.find('#property_history').addClass('purple darken-4').css('color', 'white');
+    /*$propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
+    $propertyContainer.find('#property_history').addClass('purple darken-4').css('color', 'white');*/
     $propertyContainer.find('.property_system').css('display', 'none');
     $propertyContainer.find('#property_history_content').css('display', 'block');
   });
