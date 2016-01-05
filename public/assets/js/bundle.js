@@ -53,7 +53,7 @@ webpackJsonp([0],{
 	__webpack_require__(247);
 
 	__webpack_require__(260);
-	__webpack_require__(261);
+	__webpack_require__(263);
 
 /***/ },
 
@@ -461,11 +461,11 @@ webpackJsonp([0],{
 	var EnglishPeriodEnd = [['08:30:00', '10:00:00'], ['11:30:00', '13:00:00'], ['14:30:00', '16:00:00'], ['17:30:00', '19:00:00'], ['20:30:00', '22:00:00']];
 	var UserPeriodStart = [['07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00'], ['10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00'], ['13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00'], ['16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00'], ['19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00']];
 	var UserPeriodEnd = [['07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00'], ['10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00'], ['13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00'], ['16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00'], ['19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00']];
-	var LoanTable;
+	var LoanTable; // Table Data
 	var LoanTablePage;
-	var LoanType;
-	var LoanTimeType;
-	var LoanHistory;
+	var LoanType; // short or long
+	var LoanTimeType; // number, english, user
+	var LoanHistory; // History Data
 	var NowPage;
 	var AllPage;
 
@@ -597,15 +597,24 @@ webpackJsonp([0],{
 	    selectMonths: true, // Creates a dropdown to control month
 	    selectYears: 15 // Creates a dropdown of 15 years to control year
 	  });
+	}
 
+	function initModal() {
+	  $('.modal').find('#input[name="start_date"]').val('');
+	  $('.modal').find('#input[name="end_date"]').val('');
+	  $('.modal').find('input[type="checkbox"]').prop('checked', false);
+	  $('.modal').find('select').find('option:nth-of-type(2)').prop('selected', true);
 	  $('.modal').find('select').material_select();
-	  $('.modal').find('select').parent().find('ul li:nth-of-type(2)').click();
 	}
 
 	function loanButtonEvent() {
 	  var modalTarget;
 	  var switchTimeTarget;
 	  $('#main').find('.modal-trigger').on('click', function (event) {
+	    if ($(this).data('button') == 'add') {
+	      initModal();
+	    }
+
 	    $('#materialize-lean-overlay-30').css('display', 'block');
 	    modalTarget = $(this).data('modal_target');
 	    $('#' + modalTarget).fadeIn();
@@ -620,12 +629,16 @@ webpackJsonp([0],{
 	  $('#screen_classroom').click(function () {
 	    $('#loan_container').show();
 	    $('#history_container').hide();
+	    $('.modal').find('.belong_loan').show();
+	    $('.modal').find('.belong_history').hide();
 	  });
 
 	  $('#screen_history').unbind('click');
 	  $('#screen_history').click(function () {
 	    $('#history_container').show();
 	    $('#loan_container').hide();
+	    $('.modal').find('.belong_loan').hide();
+	    $('.modal').find('.belong_history').show();
 
 	    NowPage = 1;
 	    getLoanHistory();
@@ -634,6 +647,8 @@ webpackJsonp([0],{
 	  $('.modal #short').unbind('click');
 	  $('.modal #short').click(function () {
 	    LoanType = 1;
+	    $(this).parent().find('button').removeClass('active');
+	    $(this).addClass('active');
 	    $('.modal .long').hide();
 	    $('.modal .short').show();
 	  });
@@ -641,12 +656,17 @@ webpackJsonp([0],{
 	  $('.modal #long').unbind('click');
 	  $('.modal #long').click(function () {
 	    LoanType = 2;
+	    $(this).parent().find('button').removeClass('active');
+	    $(this).addClass('active');
 	    $('.modal .short').hide();
 	    $('.modal .long').show();
 	  });
 
 	  $('.modal .switch_time').unbind('click');
 	  $('.modal .switch_time').click(function () {
+	    $(this).parent().find('button').removeClass('active');
+	    $(this).addClass('active');
+
 	    switchTimeTarget = $(this).data('switch_time_target');
 	    $('.modal .time_container').hide();
 	    $('.modal .' + switchTimeTarget).show();
@@ -690,10 +710,20 @@ webpackJsonp([0],{
 	    });
 	  });
 
+	  $('#delete_loan').unbind('click');
+	  $('#delete_loan').click(function () {
+	    var request = {};
+	    request.id = $(this).data('loan_id');
+	    $.post('/api/user/loan/delete/' + request.id, request, function (result) {
+	      console.log(result);
+	    });
+	  });
+
 	  $('#create_loan').unbind('click');
 	  $('#create_loan').click(function () {
 	    var request = {};
 	    var temp;
+	    var i;
 	    var errMsg = '';
 	    var LoanTimeTypeList = ['user', 'number', 'english'];
 
@@ -741,16 +771,29 @@ webpackJsonp([0],{
 
 	          // check date 先後
 	          if (errMsg == '') {}
+
+	          temp = [];
+	          for (i = 0; i < 7; i++) {
+	            if ($('#day' + i).prop('checked')) {
+	              temp[i] = 1;
+	            } else {
+	              temp[i] = 0;
+	            }
+	          }
+	          request.long_term_token = '' + temp[6];
+	          for (i = 5; i >= 0; i--) {
+	            request.long_term_token += '' + temp[i];
+	          }
+
 	          break;
 	        }
 	    }
 
-	    temp = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period').find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_start"]').parent().find('li.selected span').html();
-	    request.time_began_at = temp;
+	    request.time_began_at = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period').find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_start"]').val();
 
-	    temp = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period').find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_end"]').parent().find('li.selected span').html();
-	    request.time_ended_at = temp;
+	    request.time_ended_at = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period').find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_end"]').val();
 
+	    // check start and end date diff
 	    if (errMsg == '') {
 	      var startTime = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period').find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_start"]').val();
 	      var endTime = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period').find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_end"]').val();
@@ -758,6 +801,8 @@ webpackJsonp([0],{
 	        errMsg += '時段前後順序不對，可能太早';
 	      }
 	    }
+
+	    request.remark = $('input[name="remark"]').val();
 
 	    console.log(errMsg);
 	    console.log(request);
@@ -820,9 +865,63 @@ webpackJsonp([0],{
 	function LoanPageEvent() {}
 
 	function InsertDataToModal(id) {
+	  var temp;
+	  var group;
+	  var start;
+	  var end;
+	  var i;
 	  console.log(LoanHistory[id]);
-	  $('#classroom option:nth-of-type(3)').prop('selected', true);
-	  $('select').material_select();
+	  if (LoanHistory[id].long_term_token != null) {
+	    $('.modal #long').click();
+	    $('input[name="start_date"]').val(LoanHistory[id].date_began_at);
+	    $('input[name="end_date"]').val(LoanHistory[id].date_ended_at);
+
+	    $('.modal input[type="checkbox"]').prop('checked', false);
+	    temp = LoanHistory[id].long_term_token.split('').reverse();
+	    for (i = 0; i < 7; i++) {
+	      if (temp[i] == 1) {
+	        $('.modal').find('#day' + i).prop('checked', true);
+	      }
+	    }
+	  } else {
+	    $('.modal #short').click();
+	    $('input[name="start_date"]').val(LoanHistory[id].date_began_at);
+	  }
+
+	  $('#classroom option[value="' + LoanHistory[id].property_id + '"]').prop('selected', true);
+
+	  temp = LoanHistory[id].time_began_at.split(':');
+	  group = groupTool(temp[1]);
+	  start = LoanHistory[id].time_began_at;
+	  end = LoanHistory[id].time_ended_at;
+
+	  switch (group) {
+	    case 3:
+	      {
+	        $('.switch_time_container').find('#user_btn').click();
+	        console.log(start + end);
+	        $('.modal select[name="user_start"]').find('[value="' + start + '"]').prop('selected', true);
+	        $('.modal select[name="user_end"]').find('[value="' + end + '"]').prop('selected', true);
+	        break;
+	      }
+	    case 1:
+	      {
+	        $('.switch_time_container').find('#number_btn').click();
+	        break;
+	      }
+	    case 2:
+	      {
+	        $('.switch_time_container').find('#english_btn').click();
+	        break;
+	      }
+	  }
+	  // update select status
+	  $('.modal select').material_select();
+
+	  $('.modal').find('input[name="remark"]').val(LoanHistory[id].remark);
+
+	  $('#edit_loan').attr('data-loan_id', id);
+	  $('#delete_loan').attr('data-loan_id', id);
 	}
 
 	function produceClassroomStatus() {
@@ -1876,36 +1975,85 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(192);
 	var when = __webpack_require__(206);
 	var lodash = __webpack_require__(257);
+	var moment = __webpack_require__(261);
 	var api = __webpack_require__(249);
+	var vars = __webpack_require__(262);
+
+	var toMoment = function toMoment(time) {
+	  return moment(time, 'HH:mm:ss');
+	};
 
 	Sammy('#main', function (app) {
 	  app.get('#/schedule', function (context) {
-	    api.browse('manager/loan/classrooms?type=course').then(function (data) {
+	    api.browse('manager/loan/classrooms', {
+	      params: {
+	        type: 'course',
+	        status: 'accepted'
+	      } }).then(function (data) {
 	      var promises = [];
-	      var isCourse = function isCourse(x) {
-	        return x.status.name === 'accepted' && x.type.name === 'course';
-	      };
 	      var convertLongTermToken = function convertLongTermToken(x) {
 	        var token = x.long_term_token;
 	        if (token) {
-	          x.long_term_token = (parseInt(token) >>> 0).toString(2).split('').map(function (y) {
+	          x.token = lodash.padRight((parseInt(token) >>> 0). /* Force to be unsigned */
+	          toString(2), 7, '0').split('').map(function (y) {
 	            return !!parseInt(y);
 	          });
 	        }
 	        return x;
 	      };
+	      var convertTime = function convertTime(x) {
+	        x.start = toMoment(x.time_began_at);
+	        x.end = toMoment(x.time_ended_at);
+	        return x;
+	      };
 	      promises.push(when.promise(function (resolve) {
-	        return resolve(data.data.filter(isCourse).map(convertLongTermToken));
+	        return resolve(data.data.map(convertLongTermToken).map(convertTime));
 	      }));
 	      lodash.range(2, data.last_page).map(function (i) {
-	        promises.push(api.browse('manager/loan/classrooms?type=course&page=' + i).then(function (data) {
-	          return data.data.filter(isCourse).map(convertLongTermToken);
+	        promises.push(api.browse('manager/loan/classrooms', {
+	          params: {
+	            type: 'course',
+	            status: 'accepted',
+	            page: i
+	          } }).then(function (data) {
+	          return data.data.map(convertLongTermToken).map(convertTime);
 	        }));
 	      });
 	      when.reduce(promises, function (datas, data) {
 	        return datas.concat(data);
 	      }, []).then(function (datas) {
-	        console.log(datas);
+	        var weekName = ['mon', 'tue', 'wed', 'thu', 'fri'];
+	        var klass = [];
+
+	        vars.CLASS_RANGE.forEach(function (_ref) {
+	          var start = _ref.start;
+	          var end = _ref.end;
+
+	          start = toMoment(start);
+	          end = toMoment(end);
+	          var genWeekSchedule = function genWeekSchedule(week, course) {
+	            weekName.forEach(function (name, idx) {
+	              week.classes[name] = week.classes[name] || [];
+	              if (start.isSameOrAfter(course.start, 'minute') && end.isSameOrBefore(course.end, 'minute') && course.token[idx]) {
+	                week.classes[name].push(course.remark + ':' + course.property_name);
+	              }
+	            });
+	            return week;
+	          };
+
+	          var week = datas.reduce(genWeekSchedule, {
+	            time: start.format('HH:mm:ss') + '~' + end.format('HH:mm:ss'),
+	            classes: Object.create(null)
+	          });
+	          for (var key in week.classes) {
+	            week.classes[key] = week.classes[key].join('<br>');
+	          }
+	          klass.push(week);
+	        });
+	        context.list = klass;
+	        context.partial('/templates/schedule.ms').render(function () {
+	          console.log('done');
+	        });
 	      });
 	    });
 	  });
@@ -1914,6 +2062,25 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 261:
+/***/ function(module, exports) {
+
+	module.exports = moment;
+
+/***/ },
+
+/***/ 262:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var CLASS_RANGE = exports.CLASS_RANGE = [{ start: '07:00:00', end: '07:30:00' }, { start: '07:30:00', end: '08:00:00' }, { start: '08:00:00', end: '08:30:00' }, { start: '08:30:00', end: '09:00:00' }, { start: '09:00:00', end: '09:30:00' }, { start: '09:30:00', end: '10:00:00' }, { start: '10:00:00', end: '10:30:00' }, { start: '10:30:00', end: '11:00:00' }, { start: '11:00:00', end: '11:30:00' }, { start: '11:30:00', end: '12:00:00' }, { start: '12:00:00', end: '12:30:00' }, { start: '12:30:00', end: '13:00:00' }, { start: '13:00:00', end: '13:30:00' }, { start: '13:30:00', end: '14:00:00' }, { start: '14:00:00', end: '14:30:00' }, { start: '14:30:00', end: '15:00:00' }, { start: '15:00:00', end: '15:30:00' }, { start: '15:30:00', end: '16:00:00' }, { start: '16:00:00', end: '16:30:00' }, { start: '16:30:00', end: '17:00:00' }, { start: '17:00:00', end: '17:30:00' }, { start: '17:30:00', end: '18:00:00' }, { start: '18:00:00', end: '18:30:00' }, { start: '18:30:00', end: '19:00:00' }, { start: '19:00:00', end: '19:30:00' }, { start: '19:30:00', end: '20:00:00' }, { start: '20:00:00', end: '20:30:00' }, { start: '20:30:00', end: '21:00:00' }, { start: '21:00:00', end: '21:30:00' }, { start: '21:30:00', end: '22:00:00' }];
+
+/***/ },
+
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

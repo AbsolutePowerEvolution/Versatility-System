@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="card-content black-text center-align">
-            <span class="card-title">資訊工程學系 系務系統</span>
+            <span class="card-title">資訊工程學系<br>系務系統</span>
           </div>
           <form method="post" action="#/user/signin">
             <div class="input-field">
