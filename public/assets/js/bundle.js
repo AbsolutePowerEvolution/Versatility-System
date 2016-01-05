@@ -199,15 +199,11 @@ webpackJsonp([0],{
 	  var $propertyContainer = $('#property_container');
 	  $propertyContainer.find('#sub_menu').tabs();
 	  $propertyContainer.find('#property_system').on('click', function (event) {
-	    /*$propertyContainer.find('#property_system').addClass('purple darken-4').css('color', 'white');
-	    $propertyContainer.find('#property_history').removeClass('purple darken-4').addClass('white').css('color', 'black');*/
 	    $propertyContainer.find('.property_system').css('display', 'block');
 	    $propertyContainer.find('#property_history_content').css('display', 'none');
 	  });
 
 	  $propertyContainer.find('#property_history').on('click', function (event) {
-	    /*$propertyContainer.find('#property_system').removeClass('purple darken-4').addClass('white').css('color', 'black');
-	    $propertyContainer.find('#property_history').addClass('purple darken-4').css('color', 'white');*/
 	    $propertyContainer.find('.property_system').css('display', 'none');
 	    $propertyContainer.find('#property_history_content').css('display', 'block');
 	  });
@@ -410,7 +406,7 @@ webpackJsonp([0],{
 
 	function buildPropertyHistoryCard(data) {
 	  var color = today > data.date_began_at ? 'teal' : 'red';
-	  var divCard = '<div class="card waves-effect"' + 'data-id="' + data.id + '"' + 'data-name="' + data.property_name + '"' + 'data-time="' + data.date_began_at + ' ' + (data.time_began_at == null ? '' : data.time_began_at) + ' - ' + data.date_ended_at + ' ' + (data.time_ended_at == null ? '' : data.time_ended_at) + '"' + 'data-remark="' + data.remark + '">';
+	  var divCard = '<div class="card waves-effect"' + 'data-id="' + data.id + '"' + 'data-name="' + data.property_name + '"' + 'data-time="' + data.date_began_at + ' ' + (data.time_began_at ? '' : data.time_began_at) + ' - ' + data.date_ended_at + ' ' + (data.time_ended_at ? '' : data.time_ended_at) + '"' + 'data-remark="' + data.remark + '">';
 	  var divCardContent = '<div class="row card-content">';
 	  var spanName = '<span class="col s4 center-align">' + data.property_name + '</span>';
 	  var spanDate = '<span class="col s4 center-align" style="color:' + color + '">' + data.date_began_at + '</span>';
@@ -801,9 +797,9 @@ webpackJsonp([0],{
 	              temp[i] = 0;
 	            }
 	          }
-	          request.long_term_token = '' + temp[6];
+	          request.long_term_token = temp[6].toString();
 	          for (i = 5; i >= 0; i--) {
-	            request.long_term_token += '' + temp[i];
+	            request.long_term_token += temp[i].toString();
 	          }
 
 	          break;
