@@ -1,6 +1,5 @@
 var Sammy = require('sammy');
 var when = require('when');
-var lodash = require('lodash');
 var moment = require('moment');
 var api = require('../lib/fetch-plus.js');
 var vars = require('../lib/vars.js');
@@ -11,16 +10,13 @@ Sammy('#main', (app) => {
   app.get('#/schedule', (context) => {
     api.browse('manager/loan/courses')
       .then((data) => {
-        let convertLongTermToken = (x) => {
+        let convertData = (x) => {
+          x.start = toMoment(x.time_began_at);
+          x.end = toMoment(x.time_ended_at);
           x.token = x.long_term_token;
           return x;
         };
-        let convertTime = (x) => {
-          x.start = toMoment(x.time_began_at);
-          x.end = toMoment(x.time_ended_at);
-          return x;
-        };
-        when.promise((resolve) => resolve(data.map(convertLongTermToken).map(convertTime)))
+        when.promise((resolve) => resolve(data.map(convertData)))
           .then((datas) => {
             let weekName = [
               'mon',
