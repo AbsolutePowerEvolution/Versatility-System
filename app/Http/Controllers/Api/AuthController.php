@@ -33,8 +33,8 @@ class AuthController extends Controller
         }
 
         $response = [
-            'is_student' => \Entrust::hasRole('manager'),
-            'is_manager' => \Entrust::hasRole('student'),
+            'is_student' => \Entrust::hasRole('student'),
+            'is_manager' => \Entrust::hasRole('manager'),
             'status' => Auth::check()
         ];
 
