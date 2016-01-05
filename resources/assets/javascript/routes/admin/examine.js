@@ -9,7 +9,6 @@ Sammy('#main', function() {
       params: {page: context.params.page}
     }).then((data) => {
       var pageEffect = paginate(context, data, '#/admin/examine');
-      console.log(data);
       context.list = data.data.map((item) => {
         item.time = `${item.date_began_at}~${item.date_ended_at}`;
         return item;
@@ -58,12 +57,10 @@ var bindEvent = (id, item) => {
 
   // Deal custom event
   item.on('examine-pass', (event, id) => {
-    console.log(`Examine pass id: ${id}`);
     sendAcceptVerify(id);
   });
 
   item.on('examine-reject', (event, id) => {
-    console.log(`Examine reject id: ${id}`);
     sendRefuseVerify(id);
   });
 };
@@ -83,9 +80,10 @@ var sendVerifyRequest = (id, type) => {
     })
   })
   .then((response) => {
-    console.log('Success', response);
+    Materialize.toast('更新成功');
   })
   .catch((response) => {
     console.log('Fail', response);
+    Materialize.toast('更新失敗');
   });
 };
