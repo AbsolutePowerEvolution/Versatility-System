@@ -81,19 +81,26 @@ Sammy('#main', (app) => {
   });
 
   app.put('#/admin/setting', (context) => {
-    console.log(context);
     $('input').removeClass('validate invalid');
     validate.async(context.params, SETTING_RULE, {wrapErrors: ValidationError})
       .then(() => {
+        let params = lodash.assign({}, context.params);
+        params.began_time = params.begin_time_submit;
+        params.ended_time = params.ended_time_submit;
         console.log('Validation setting');
+        api.replace('manager/setting', {
+          body: $.param(params)
+        }).then(() => {
+          Materialize.toast('更新成功');
+        }).catch((error) => {
+          Materialize.toast('更新失敗');
+        });
       })
       .catch((err) => err.name === 'ValidationError', (error) => {
-        console.log('Validation error', error.errors);
         lodash.each(error.errors, (val, key) => {
           if(key === 'begin_date_submit' || key === 'ended_date_submit') {
             key = key.slice(0, -7);
           }
-          console.log(key);
           $(`#${key}`).addClass('validate invalid')
             .parent().find('label').attr('data-error', val[0]);
         });
