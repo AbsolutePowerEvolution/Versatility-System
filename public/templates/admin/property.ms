@@ -6,6 +6,7 @@
             <ul id="sub_menu" class="tabs">
                 <li id="property_system" class="tab center"><a herf="#property_system_content"><i class="material-icons">gavel</i>財產列表</a></li>
                 <li id="property_manage" class="tab center"><a herf="#property_manage_content"><i class="material-icons">settings</i>財產借用紀錄</a></li>
+                <li id="property_repair" class="tab center"><a herf="#property_repair_content"><i class="material-icons left">build</i>財產報修紀錄</a></li>
             </ul>
         </div>
     </div>
@@ -66,6 +67,31 @@
                 </div>
             </div>
             {{/loanData}}
+        </div>
+    </div>
+
+    <div id="property_repair_content" class="repair_system row">
+        <div class="card">
+            <div class="row">
+                <h4 class="card-content center-align">報修紀錄</h4>
+            </div>
+            {{#repairData}}
+            <div class="card showContent propertyContent searched">
+                <div class="row card-content" data-repair_id="{{id}}" data-name="{{property_name}}" data-remark="{{remark}}" data-property_id="{{property_id}}" data-status="{{status.name}}"
+                     data-created_at="{{user.created_at}}"
+                     data-email="{{user.email}}" data-user_id = "{{user.id}}" data-usernickname="{{user.nickname}}" data-phone="{{user.phone}}"
+                     data-username="{{user.username}}"
+                >
+                    <i class="{{isReturn}} isReturn material-icons left">assignment_late</i>
+                    <span class="col s2 center-align">{{property.name}}</span>
+                    <span class="col s2 center-align">{{user.id}}</span>
+                    <span class="col s5 center-align">{{created_at}}</span>
+                    <span class="col s3 center-align">
+                        <a class="waves-effect waves-light btn returnLoanModalTrigger"><i class="material-icons left">description</i>詳細資料</a>
+                    </span>
+                </div>
+            </div>
+            {{/repairData}}
         </div>
     </div>
 
@@ -206,6 +232,22 @@
                 <a class="page" data-pagenum="{{pageNum}}">{{pageNum}}</a>
             </li>
             {{/loanPage}}
+            <li onselectstart="return false">
+                <a class="page" data-pagenum="next"><i class="material-icons">chevron_right</i></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="repair_system">
+        <ul class="pagination center-align">
+            <li onselectstart="return false">
+                <a class="page" data-pagenum="prev"><i class="material-icons">chevron_left</i></a>
+            </li>
+            {{#repairPage}}
+            <li onselectstart="return false" class="{{classes}}">
+                <a class="page" data-pagenum="{{pageNum}}">{{pageNum}}</a>
+            </li>
+            {{/repairPage}}
             <li onselectstart="return false">
                 <a class="page" data-pagenum="next"><i class="material-icons">chevron_right</i></a>
             </li>

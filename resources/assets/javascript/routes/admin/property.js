@@ -23,8 +23,17 @@ Sammy('#main', function() {
         length: 1000000
       }
     });
-    when.all([propertyPromise, loanPromise])
-      .spread((propertyData, loanData) => {
+    var RepairPromise = client({
+      path: 'manager/repair',
+      method: 'GET',
+      name: 'repair',
+      params: {
+        page: 1,
+        length: 1000000
+      }
+    });
+    when.all([propertyPromise, loanPromise, RepairPromise])
+      .spread((propertyData, loanData, repairData) => {
         console.log('property data:', propertyData);
 
         context.propertyData = propertyData.entity.data.map((item) => {
@@ -46,6 +55,13 @@ Sammy('#main', function() {
         });
         console.log('loan data:', context.loanData);
 
+        context.repairData = repairData.entity.data.map((item) => {
+          let isReturn = {'finished': 'hide', 'submitted': 'block', 'processing': 'block'};
+          item.isReturn = isReturn[item.status.name] || 'hide';
+          return item;
+        });
+        console.log('repair data:', context.repairData);
+
         context.propertyPage = [];
         for(let i = 0; i < Math.ceil(propertyData.entity.total / 5); i++) {
           context.propertyPage.push({});
@@ -66,6 +82,16 @@ Sammy('#main', function() {
           context.loanPage[i].pageNum = (i + 1);
         }
 
+        context.repairPage = [];
+        for(let i = 0; i < Math.ceil(repairData.entity.total / 5); i++) {
+          context.repairPage.push({});
+          context.repairPage[i].classes = '';
+          if(i === 0) {
+            context.repairPage[i].classes = 'active';
+          }
+          context.repairPage[i].pageNum = (i + 1);
+        }
+
         context.loadPartials({menu: '/templates/admin/menu.ms'})
           .partial('/templates/admin/property.ms').then(function() {
             propertyBindEvent(context.propertyData, context.loanData);
@@ -73,6 +99,8 @@ Sammy('#main', function() {
             showPage(1, context.propertyPage.length, '.property_system');
             propertyPageEvent(context.loanPage.length, '.manage_system');
             showPage(1, context.loanPage.length, '.manage_system');
+            propertyPageEvent(context.repairPage.length, '.repair_system');
+            showPage(1, context.repairPage.length, '.repair_system');
           });
       }).catch((response) => {
         if(response instanceof Error) {
@@ -85,6 +113,9 @@ Sammy('#main', function() {
           } else if(response.request.name === 'property') {
             alert('取得財產列表失敗!');
             console.log('get property list error, ', response);
+          } else if(response.request.name === 'repair') {
+            alert('取得財產報修列表失敗!');
+            console.log('get repair list error, ', response);
           }
         }
       });
@@ -104,10 +135,17 @@ function propertyBindEvent(propertyData, loanData) {
   $propertyContainer.find('#property_system').on('click', function(event) {
     $propertyContainer.find('.property_system').css('display', 'block');
     $propertyContainer.find('.manage_system').css('display', 'none');
+    $propertyContainer.find('.repair_system').css('display', 'none');
   });
   $propertyContainer.find('#property_manage').on('click', function(event) {
     $propertyContainer.find('.property_system').css('display', 'none');
     $propertyContainer.find('.manage_system').css('display', 'block');
+    $propertyContainer.find('.repair_system').css('display', 'none');
+  });
+  $propertyContainer.find('#property_repair').on('click', function(event) {
+    $propertyContainer.find('.property_system').css('display', 'none');
+    $propertyContainer.find('.manage_system').css('display', 'none');
+    $propertyContainer.find('.repair_system').css('display', 'block');
   });
 
   searchData(propertyData, loanData);

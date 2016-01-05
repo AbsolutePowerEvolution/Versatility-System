@@ -19,11 +19,12 @@
   background-color: white;
   color: black;
 }
-#property_container #property_history_content, #property_container .manage_system{
+#property_container #property_history_content, #property_container .manage_system,
+#property_container .repair_system{
   display:none;
 }
 
-#property_container #property_manage_content .isReturn {
+#property_container .isReturn {
   position: absolute;
   color: red;
 }

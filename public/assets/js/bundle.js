@@ -1441,7 +1441,16 @@ webpackJsonp([0],{
 	        length: 1000000
 	      }
 	    });
-	    when.all([propertyPromise, loanPromise]).spread(function (propertyData, loanData) {
+	    var RepairPromise = client({
+	      path: 'manager/repair',
+	      method: 'GET',
+	      name: 'repair',
+	      params: {
+	        page: 1,
+	        length: 1000000
+	      }
+	    });
+	    when.all([propertyPromise, loanPromise, RepairPromise]).spread(function (propertyData, loanData, repairData) {
 	      console.log('property data:', propertyData);
 
 	      context.propertyData = propertyData.entity.data.map(function (item) {
@@ -1463,6 +1472,13 @@ webpackJsonp([0],{
 	      });
 	      console.log('loan data:', context.loanData);
 
+	      context.repairData = repairData.entity.data.map(function (item) {
+	        var isReturn = { 'finished': 'hide', 'submitted': 'block', 'processing': 'block' };
+	        item.isReturn = isReturn[item.status.name] || 'hide';
+	        return item;
+	      });
+	      console.log('repair data:', context.repairData);
+
 	      context.propertyPage = [];
 	      for (var i = 0; i < Math.ceil(propertyData.entity.total / 5); i++) {
 	        context.propertyPage.push({});
@@ -1483,12 +1499,24 @@ webpackJsonp([0],{
 	        context.loanPage[i].pageNum = i + 1;
 	      }
 
+	      context.repairPage = [];
+	      for (var i = 0; i < Math.ceil(repairData.entity.total / 5); i++) {
+	        context.repairPage.push({});
+	        context.repairPage[i].classes = '';
+	        if (i === 0) {
+	          context.repairPage[i].classes = 'active';
+	        }
+	        context.repairPage[i].pageNum = i + 1;
+	      }
+
 	      context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/property.ms').then(function () {
 	        propertyBindEvent(context.propertyData, context.loanData);
 	        propertyPageEvent(context.propertyPage.length, '.property_system');
 	        showPage(1, context.propertyPage.length, '.property_system');
 	        propertyPageEvent(context.loanPage.length, '.manage_system');
 	        showPage(1, context.loanPage.length, '.manage_system');
+	        propertyPageEvent(context.repairPage.length, '.repair_system');
+	        showPage(1, context.repairPage.length, '.repair_system');
 	      });
 	    }).catch(function (response) {
 	      if (response instanceof Error) {
@@ -1501,6 +1529,9 @@ webpackJsonp([0],{
 	        } else if (response.request.name === 'property') {
 	          alert('取得財產列表失敗!');
 	          console.log('get property list error, ', response);
+	        } else if (response.request.name === 'repair') {
+	          alert('取得財產報修列表失敗!');
+	          console.log('get repair list error, ', response);
 	        }
 	      }
 	    });
@@ -1520,10 +1551,17 @@ webpackJsonp([0],{
 	  $propertyContainer.find('#property_system').on('click', function (event) {
 	    $propertyContainer.find('.property_system').css('display', 'block');
 	    $propertyContainer.find('.manage_system').css('display', 'none');
+	    $propertyContainer.find('.repair_system').css('display', 'none');
 	  });
 	  $propertyContainer.find('#property_manage').on('click', function (event) {
 	    $propertyContainer.find('.property_system').css('display', 'none');
 	    $propertyContainer.find('.manage_system').css('display', 'block');
+	    $propertyContainer.find('.repair_system').css('display', 'none');
+	  });
+	  $propertyContainer.find('#property_repair').on('click', function (event) {
+	    $propertyContainer.find('.property_system').css('display', 'none');
+	    $propertyContainer.find('.manage_system').css('display', 'none');
+	    $propertyContainer.find('.repair_system').css('display', 'block');
 	  });
 
 	  searchData(propertyData, loanData);
