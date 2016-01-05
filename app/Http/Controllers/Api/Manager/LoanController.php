@@ -119,6 +119,8 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
+        $user = User::where('username', '=', $request->input('user_id'))->first();
+
         // Borrow out other property, no check for user should borrow property by going to the office personally.
         Loan::create(array_merge(array_only($request->all(), [
                 'property_id',
@@ -126,7 +128,7 @@ class LoanController extends Controller
                 'date_ended_at',
                 'remark'
             ]), [
-                'user_id' => $request->input('user_id'),
+                'user_id' => $user->id,
                 'type' => Category::getCategoryId('loan.type', $request->input('type', 'others')),
                 'status' => Category::getCategoryId('loan.status', 'accepted')
             ]));
