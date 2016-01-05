@@ -5820,7 +5820,7 @@
 /* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
 	/** @author Brian Cavalier */
 	/** @author John Hann */
 
@@ -7906,8 +7906,25 @@
 /* 219 */,
 /* 220 */,
 /* 221 */,
-/* 222 */,
+/* 222 */
+/***/ function(module, exports, __webpack_require__) {
+
+	!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["fetch-plus"]=t():e["fetch-plus"]=t()}(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var o=n[r]={exports:{},id:r,loaded:!1};return e[r].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function u(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}function i(e){return e.toString().replace(/(^\/+|\/+$)/g,"")}function a(e){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1],n=arguments.length<=2||void 0===arguments[2]?[]:arguments[2],r={url:e,options:t,middlewares:{}};return r.browse=l.bind(null,r),r.read=g.bind(null,r),r.edit=p.bind(null,r),r.replace=h.bind(null,r),r.add=v.bind(null,r),r.destroy=y.bind(null,r),r.addMiddleware=c.bind(null,r),r.removeMiddleware=d.bind(null,r),n.length&&n.forEach(r.addMiddleware),r}function c(e,t){return t._middlewareId||(t._middlewareId=O++),e.middlewares[t._middlewareId]=t,e}function d(e,t){return t._middlewareId?(e.middlewares[t._middlewareId]&&delete e.middlewares[t._middlewareId],e):void 0}function s(e){var t=arguments.length<=1||void 0===arguments[1]?"":arguments[1],n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3],a=[],c=[],d=void 0;return new Promise(function(r,o){var u=i((0,x.compute)(e.url));if(t=(0,x.compute)(t),t instanceof Array||(t=[t]),t=i(t.map(x.compute).map(encodeURI).join("/")),t&&(t="/"+t),"function"==typeof n.fetch)d=n.fetch;else if("function"==typeof e.options.fetch)d=e.options.fetch;else{if("function"!=typeof fetch)throw new TypeError("fetch() function not available");d=fetch}n=w({headers:{}},(0,x.computeObject)(e.options),(0,x.computeObject)(n)),r({url:u,path:t,options:n})}).then(function(t){var n=[];Object.keys(e.middlewares).forEach(function(t){n.push(e.middlewares[t])}),[].concat(n,u(r)).forEach(function(e){var n=e(t);if("function"==typeof n)a.push(n);else if("object"===("undefined"==typeof n?"undefined":o(n))){var r=n.after,u=void 0===r?null:r,i=n.error,d=void 0===i?null:i;"function"==typeof u&&a.push(u),"function"==typeof d&&c.push(d)}});var i=t.options.query||"";return"object"===("undefined"==typeof i?"undefined":o(i))?i="?"+encodeURI(E["default"].stringify((0,x.computeObject)(i))):""!==i&&(i="?"+(0,x.compute)(i)),d(t.url+t.path+i,t.options)}).then(function(e){if(!e.ok)throw e;if(!a.length)return e;var t=Promise.resolve(e)["catch"](function(e){throw e});return a.forEach(function(e){t=t.then(e)}),t})["catch"](function(e){if(!c.length)throw e;var t=c.some(function(t){try{return t(e),!0}catch(n){e=n}});if(!t)throw e})}function f(e){if(e=(0,x.compute)(e),e instanceof Array&&e.length%2!==0)throw new RangeError("Expected even array");return e}function m(e){if(e=(0,x.compute)(e),e instanceof Array&&e.length%2!==1)throw new RangeError("Expected odd array");return e}function l(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return m(t)},w({action:"browse",method:"GET"},n),r)}function g(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return f(t)},w({action:"read",method:"GET"},n),r)}function p(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return f(t)},w({action:"edit",method:"PATCH"},n),r)}function h(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return f(t)},w({action:"replace",method:"PUT"},n),r)}function v(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return m(t)},w({action:"add",method:"POST"},n),r)}function y(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return f(t)},w({action:"destroy",method:"DELETE"},n),r)}function b(e){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1],n=arguments.length<=2||void 0===arguments[2]?[]:arguments[2];return s({url:e,options:t,middlewares:{}},"",{},n)}var w=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},j=n(2),E=r(j),x=n(1),O=23e3;e.exports={connectEndpoint:a,addMiddleware:c,removeMiddleware:d,fetch:b,browse:l,read:g,edit:p,add:v,destroy:y,compute:x.compute,computeObject:x.computeObject}},function(e,t){"use strict";function n(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function r(e){return"function"==typeof e?e():e}function o(e){var t={};return e=r(e),Object.keys(e).forEach(function(u){var i=e[u];t[u]="object"===("undefined"==typeof i?"undefined":n(i))?o(i):r(i)}),t}e.exports={compute:r,computeObject:o}},function(e,t,n){"use strict";var r=n(3);t.extract=function(e){return e.split("?")[1]||""},t.parse=function(e){return"string"!=typeof e?{}:(e=e.trim().replace(/^(\?|#|&)/,""),e?e.split("&").reduce(function(e,t){var n=t.replace(/\+/g," ").split("="),r=n.shift(),o=n.length>0?n.join("="):void 0;return r=decodeURIComponent(r),o=void 0===o?null:decodeURIComponent(o),e.hasOwnProperty(r)?Array.isArray(e[r])?e[r].push(o):e[r]=[e[r],o]:e[r]=o,e},{}):{})},t.stringify=function(e){return e?Object.keys(e).sort().map(function(t){var n=e[t];return void 0===n?"":null===n?t:Array.isArray(n)?n.sort().map(function(e){return r(t)+"="+r(e)}).join("&"):r(t)+"="+r(n)}).filter(function(e){return e.length>0}).join("&"):""}},function(e,t){"use strict";e.exports=function(e){return encodeURIComponent(e).replace(/[!'()*]/g,function(e){return"%"+e.charCodeAt(0).toString(16)})}}])});
+
+/***/ },
 /* 223 */
+/***/ function(module, exports, __webpack_require__) {
+
+	!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["fetch-plus-csrf"]=t():e["fetch-plus-csrf"]=t()}(this,function(){return function(e){function t(n){if(o[n])return o[n].exports;var r=o[n]={exports:{},id:n,loaded:!1};return e[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var o={};return t.m=e,t.c=o,t.p="",t(0)}([function(e,t,o){"use strict";var n=o(1);e.exports=function(e,t){return function(o){return t&&(o.options.headers[e]=(0,n.compute)(t)),function(o){return o.headers&&o.headers.has&&o.headers.has(e)&&(t=o.headers.get(e)),o}}}},function(e,t){"use strict";function o(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function n(e){return"function"==typeof e?e():e}function r(e){var t={};return e=n(e),Object.keys(e).forEach(function(u){var c=e[u];t[u]="object"===("undefined"==typeof c?"undefined":o(c))?r(c):n(c)}),t}e.exports={compute:n,computeObject:r}}])});
+
+/***/ },
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -7922,8 +7939,8 @@
 
 		!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-			var rest = __webpack_require__(224),
-			    browser = __webpack_require__(226);
+			var rest = __webpack_require__(231),
+			    browser = __webpack_require__(233);
 
 			rest.setPlatformDefaultClient(browser);
 
@@ -7938,7 +7955,7 @@
 
 
 /***/ },
-/* 224 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8013,7 +8030,7 @@
 
 			var client, target, platformDefault;
 
-			client = __webpack_require__(225);
+			client = __webpack_require__(232);
 
 			/**
 			 * Make a request with the default client
@@ -8068,7 +8085,7 @@
 
 
 /***/ },
-/* 225 */
+/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8138,7 +8155,7 @@
 
 
 /***/ },
-/* 226 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8156,10 +8173,10 @@
 			var when, UrlBuilder, normalizeHeaderName, responsePromise, client, headerSplitRE;
 
 			when = __webpack_require__(197);
-			UrlBuilder = __webpack_require__(227);
-			normalizeHeaderName = __webpack_require__(229);
-			responsePromise = __webpack_require__(230);
-			client = __webpack_require__(225);
+			UrlBuilder = __webpack_require__(234);
+			normalizeHeaderName = __webpack_require__(236);
+			responsePromise = __webpack_require__(237);
+			client = __webpack_require__(232);
 
 			// according to the spec, the line break is '\r\n', but doesn't hold true in practice
 			headerSplitRE = /[\r|\n]+/;
@@ -8318,7 +8335,7 @@
 
 
 /***/ },
-/* 227 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8337,7 +8354,7 @@
 
 			var mixin, origin, urlRE, absoluteUrlRE, fullyQualifiedUrlRE;
 
-			mixin = __webpack_require__(228);
+			mixin = __webpack_require__(235);
 
 			urlRE = /([a-z][a-z0-9\+\-\.]*:)\/\/([^@]+@)?(([^:\/]+)(:([0-9]+))?)?(\/[^?#]*)?(\?[^#]*)?(#\S*)?/i;
 			absoluteUrlRE = /^([a-z][a-z0-9\-\+\.]*:\/\/|\/)/i;
@@ -8553,7 +8570,7 @@
 
 
 /***/ },
-/* 228 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8607,7 +8624,7 @@
 
 
 /***/ },
-/* 229 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8651,7 +8668,7 @@
 
 
 /***/ },
-/* 230 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8667,7 +8684,7 @@
 		!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
 			var when = __webpack_require__(197),
-				normalizeHeaderName = __webpack_require__(229);
+				normalizeHeaderName = __webpack_require__(236);
 
 			function property(promise, name) {
 				return promise.then(
@@ -8797,7 +8814,7 @@
 
 
 /***/ },
-/* 231 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8814,8 +8831,8 @@
 
 			var interceptor, UrlBuilder;
 
-			interceptor = __webpack_require__(232);
-			UrlBuilder = __webpack_require__(227);
+			interceptor = __webpack_require__(239);
+			UrlBuilder = __webpack_require__(234);
 
 			function startsWith(str, prefix) {
 				return str.indexOf(prefix) === 0;
@@ -8862,7 +8879,7 @@
 
 
 /***/ },
-/* 232 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -8879,10 +8896,10 @@
 
 			var defaultClient, mixin, responsePromise, client, when;
 
-			defaultClient = __webpack_require__(224);
-			mixin = __webpack_require__(228);
-			responsePromise = __webpack_require__(230);
-			client = __webpack_require__(225);
+			defaultClient = __webpack_require__(231);
+			mixin = __webpack_require__(235);
+			responsePromise = __webpack_require__(237);
+			client = __webpack_require__(232);
 			when = __webpack_require__(197);
 
 			/**
@@ -9033,7 +9050,7 @@
 
 
 /***/ },
-/* 233 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9050,7 +9067,7 @@
 
 			var interceptor, when;
 
-			interceptor = __webpack_require__(232);
+			interceptor = __webpack_require__(239);
 			when = __webpack_require__(197);
 
 			/**
@@ -9086,7 +9103,7 @@
 
 
 /***/ },
-/* 234 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9103,9 +9120,9 @@
 
 			var interceptor, mime, registry, noopConverter, when;
 
-			interceptor = __webpack_require__(232);
-			mime = __webpack_require__(235);
-			registry = __webpack_require__(236);
+			interceptor = __webpack_require__(239);
+			mime = __webpack_require__(242);
+			registry = __webpack_require__(243);
 			when = __webpack_require__(197);
 
 			noopConverter = {
@@ -9202,7 +9219,7 @@
 
 
 /***/ },
-/* 235 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9261,7 +9278,7 @@
 
 
 /***/ },
-/* 236 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9278,7 +9295,7 @@
 
 			var mime, when, registry;
 
-			mime = __webpack_require__(235);
+			mime = __webpack_require__(242);
 			when = __webpack_require__(197);
 
 			function Registry(mimes) {
@@ -9363,11 +9380,11 @@
 			registry = new Registry({});
 
 			// include provided serializers
-			registry.register('application/hal', __webpack_require__(237));
-			registry.register('application/json', __webpack_require__(243));
-			registry.register('application/x-www-form-urlencoded', __webpack_require__(244));
-			registry.register('multipart/form-data', __webpack_require__(245));
-			registry.register('text/plain', __webpack_require__(246));
+			registry.register('application/hal', __webpack_require__(244));
+			registry.register('application/json', __webpack_require__(250));
+			registry.register('application/x-www-form-urlencoded', __webpack_require__(251));
+			registry.register('multipart/form-data', __webpack_require__(252));
+			registry.register('text/plain', __webpack_require__(253));
 
 			registry.register('+json', registry.delegate('application/json'));
 
@@ -9382,7 +9399,7 @@
 
 
 /***/ },
-/* 237 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9399,11 +9416,11 @@
 
 			var pathPrefix, template, find, lazyPromise, responsePromise, when;
 
-			pathPrefix = __webpack_require__(231);
-			template = __webpack_require__(238);
-			find = __webpack_require__(241);
-			lazyPromise = __webpack_require__(242);
-			responsePromise = __webpack_require__(230);
+			pathPrefix = __webpack_require__(238);
+			template = __webpack_require__(245);
+			find = __webpack_require__(248);
+			lazyPromise = __webpack_require__(249);
+			responsePromise = __webpack_require__(237);
 			when = __webpack_require__(197);
 
 			function defineProperty(obj, name, value) {
@@ -9527,7 +9544,7 @@
 
 
 /***/ },
-/* 238 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9544,9 +9561,9 @@
 
 			var interceptor, uriTemplate, mixin;
 
-			interceptor = __webpack_require__(232);
-			uriTemplate = __webpack_require__(239);
-			mixin = __webpack_require__(228);
+			interceptor = __webpack_require__(239);
+			uriTemplate = __webpack_require__(246);
+			mixin = __webpack_require__(235);
 
 			/**
 			 * Applies request params to the path as a URI Template
@@ -9587,7 +9604,7 @@
 
 
 /***/ },
-/* 239 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9606,7 +9623,7 @@
 
 			var uriEncoder, operations, prefixRE;
 
-			uriEncoder = __webpack_require__(240);
+			uriEncoder = __webpack_require__(247);
 
 			prefixRE = /^([^:]*):([0-9]+)$/;
 			operations = {
@@ -9765,7 +9782,7 @@
 
 
 /***/ },
-/* 240 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9950,7 +9967,7 @@
 
 
 /***/ },
-/* 241 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -9997,7 +10014,7 @@
 
 
 /***/ },
-/* 242 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10058,7 +10075,7 @@
 
 
 /***/ },
-/* 243 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10111,7 +10128,7 @@
 
 
 /***/ },
-/* 244 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10207,7 +10224,7 @@
 
 
 /***/ },
-/* 245 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10286,7 +10303,7 @@
 
 
 /***/ },
-/* 246 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10321,7 +10338,7 @@
 
 
 /***/ },
-/* 247 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -10338,7 +10355,7 @@
 
 			var interceptor;
 
-			interceptor = __webpack_require__(232);
+			interceptor = __webpack_require__(239);
 
 			/**
 			 * Applies a Cross-Site Request Forgery protection header to a request
@@ -10386,22 +10403,6 @@
 		// Boilerplate for AMD and Node
 	));
 
-
-/***/ },
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["fetch-plus"]=t():e["fetch-plus"]=t()}(this,function(){return function(e){function t(r){if(n[r])return n[r].exports;var o=n[r]={exports:{},id:r,loaded:!1};return e[r].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var n={};return t.m=e,t.c=n,t.p="",t(0)}([function(e,t,n){"use strict";function r(e){return e&&e.__esModule?e:{"default":e}}function o(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function u(e){if(Array.isArray(e)){for(var t=0,n=Array(e.length);t<e.length;t++)n[t]=e[t];return n}return Array.from(e)}function i(e){return e.toString().replace(/(^\/+|\/+$)/g,"")}function a(e){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1],n=arguments.length<=2||void 0===arguments[2]?[]:arguments[2],r={url:e,options:t,middlewares:{}};return r.browse=l.bind(null,r),r.read=g.bind(null,r),r.edit=p.bind(null,r),r.replace=h.bind(null,r),r.add=v.bind(null,r),r.destroy=y.bind(null,r),r.addMiddleware=c.bind(null,r),r.removeMiddleware=d.bind(null,r),n.length&&n.forEach(r.addMiddleware),r}function c(e,t){return t._middlewareId||(t._middlewareId=O++),e.middlewares[t._middlewareId]=t,e}function d(e,t){return t._middlewareId?(e.middlewares[t._middlewareId]&&delete e.middlewares[t._middlewareId],e):void 0}function s(e){var t=arguments.length<=1||void 0===arguments[1]?"":arguments[1],n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3],a=[],c=[],d=void 0;return new Promise(function(r,o){var u=i((0,x.compute)(e.url));if(t=(0,x.compute)(t),t instanceof Array||(t=[t]),t=i(t.map(x.compute).map(encodeURI).join("/")),t&&(t="/"+t),"function"==typeof n.fetch)d=n.fetch;else if("function"==typeof e.options.fetch)d=e.options.fetch;else{if("function"!=typeof fetch)throw new TypeError("fetch() function not available");d=fetch}n=w({headers:{}},(0,x.computeObject)(e.options),(0,x.computeObject)(n)),r({url:u,path:t,options:n})}).then(function(t){var n=[];Object.keys(e.middlewares).forEach(function(t){n.push(e.middlewares[t])}),[].concat(n,u(r)).forEach(function(e){var n=e(t);if("function"==typeof n)a.push(n);else if("object"===("undefined"==typeof n?"undefined":o(n))){var r=n.after,u=void 0===r?null:r,i=n.error,d=void 0===i?null:i;"function"==typeof u&&a.push(u),"function"==typeof d&&c.push(d)}});var i=t.options.query||"";return"object"===("undefined"==typeof i?"undefined":o(i))?i="?"+encodeURI(E["default"].stringify((0,x.computeObject)(i))):""!==i&&(i="?"+(0,x.compute)(i)),d(t.url+t.path+i,t.options)}).then(function(e){if(!e.ok)throw e;if(!a.length)return e;var t=Promise.resolve(e)["catch"](function(e){throw e});return a.forEach(function(e){t=t.then(e)}),t})["catch"](function(e){if(!c.length)throw e;var t=c.some(function(t){try{return t(e),!0}catch(n){e=n}});if(!t)throw e})}function f(e){if(e=(0,x.compute)(e),e instanceof Array&&e.length%2!==0)throw new RangeError("Expected even array");return e}function m(e){if(e=(0,x.compute)(e),e instanceof Array&&e.length%2!==1)throw new RangeError("Expected odd array");return e}function l(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return m(t)},w({action:"browse",method:"GET"},n),r)}function g(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return f(t)},w({action:"read",method:"GET"},n),r)}function p(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return f(t)},w({action:"edit",method:"PATCH"},n),r)}function h(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return f(t)},w({action:"replace",method:"PUT"},n),r)}function v(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return m(t)},w({action:"add",method:"POST"},n),r)}function y(e,t){var n=arguments.length<=2||void 0===arguments[2]?{}:arguments[2],r=arguments.length<=3||void 0===arguments[3]?[]:arguments[3];return s(e,function(){return f(t)},w({action:"destroy",method:"DELETE"},n),r)}function b(e){var t=arguments.length<=1||void 0===arguments[1]?{}:arguments[1],n=arguments.length<=2||void 0===arguments[2]?[]:arguments[2];return s({url:e,options:t,middlewares:{}},"",{},n)}var w=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var n=arguments[t];for(var r in n)Object.prototype.hasOwnProperty.call(n,r)&&(e[r]=n[r])}return e},j=n(2),E=r(j),x=n(1),O=23e3;e.exports={connectEndpoint:a,addMiddleware:c,removeMiddleware:d,fetch:b,browse:l,read:g,edit:p,add:v,destroy:y,compute:x.compute,computeObject:x.computeObject}},function(e,t){"use strict";function n(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function r(e){return"function"==typeof e?e():e}function o(e){var t={};return e=r(e),Object.keys(e).forEach(function(u){var i=e[u];t[u]="object"===("undefined"==typeof i?"undefined":n(i))?o(i):r(i)}),t}e.exports={compute:r,computeObject:o}},function(e,t,n){"use strict";var r=n(3);t.extract=function(e){return e.split("?")[1]||""},t.parse=function(e){return"string"!=typeof e?{}:(e=e.trim().replace(/^(\?|#|&)/,""),e?e.split("&").reduce(function(e,t){var n=t.replace(/\+/g," ").split("="),r=n.shift(),o=n.length>0?n.join("="):void 0;return r=decodeURIComponent(r),o=void 0===o?null:decodeURIComponent(o),e.hasOwnProperty(r)?Array.isArray(e[r])?e[r].push(o):e[r]=[e[r],o]:e[r]=o,e},{}):{})},t.stringify=function(e){return e?Object.keys(e).sort().map(function(t){var n=e[t];return void 0===n?"":null===n?t:Array.isArray(n)?n.sort().map(function(e){return r(t)+"="+r(e)}).join("&"):r(t)+"="+r(n)}).filter(function(e){return e.length>0}).join("&"):""}},function(e,t){"use strict";e.exports=function(e){return encodeURIComponent(e).replace(/[!'()*]/g,function(e){return"%"+e.charCodeAt(0).toString(16)})}}])});
-
-/***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-	!function(e,t){ true?module.exports=t():"function"==typeof define&&define.amd?define([],t):"object"==typeof exports?exports["fetch-plus-csrf"]=t():e["fetch-plus-csrf"]=t()}(this,function(){return function(e){function t(n){if(o[n])return o[n].exports;var r=o[n]={exports:{},id:n,loaded:!1};return e[n].call(r.exports,r,r.exports,t),r.loaded=!0,r.exports}var o={};return t.m=e,t.c=o,t.p="",t(0)}([function(e,t,o){"use strict";var n=o(1);e.exports=function(e,t){return function(o){return t&&(o.options.headers[e]=(0,n.compute)(t)),function(o){return o.headers&&o.headers.has&&o.headers.has(e)&&(t=o.headers.get(e)),o}}}},function(e,t){"use strict";function o(e){return e&&"undefined"!=typeof Symbol&&e.constructor===Symbol?"symbol":typeof e}function n(e){return"function"==typeof e?e():e}function r(e){var t={};return e=n(e),Object.keys(e).forEach(function(u){var c=e[u];t[u]="object"===("undefined"==typeof c?"undefined":o(c))?r(c):n(c)}),t}e.exports={compute:n,computeObject:r}}])});
 
 /***/ }
 /******/ ]);

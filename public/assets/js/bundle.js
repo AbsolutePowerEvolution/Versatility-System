@@ -77,7 +77,7 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(219);
-	__webpack_require__(249);
+	__webpack_require__(256);
 
 	__webpack_require__(265);
 	__webpack_require__(267);
@@ -90,17 +90,18 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(220);
-	__webpack_require__(221);
-	__webpack_require__(248);
+	__webpack_require__(228);
+	__webpack_require__(255);
 
 /***/ },
 
 /***/ 220:
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
+	var api = __webpack_require__(221);
 
 	Sammy('#main', function () {
 	  this.get('#/user/signin', function (context) {
@@ -108,21 +109,203 @@ webpackJsonp([0],{
 	  });
 
 	  this.post('#/user/signin', function (context) {
-	    console.log('Username: ' + context.params.username);
-	    console.log('Password: ' + context.params.password);
+	    var params = Object.assign({}, context.params);
+	    api.add('auth/login', {
+	      body: $.param(params)
+	    }).then(function (data) {
+	      console.log(data);
+	      if (data.status) {
+	        if (data.is_manager) {
+	          context.redirect('#/admin/examine');
+	        } else if (data.is_student) {
+	          context.redirect('#/user/loan');
+	        }
+	      } else {
+	        Materialize.toast('帳號 or 密碼錯誤');
+	      }
+	    }).catch(function (response) {
+	      Materialize.toast('伺服器錯誤');
+	    });
 	    return false;
 	  });
 	});
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
 
 /***/ },
 
 /***/ 221:
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var _jquery = __webpack_require__(194);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _fetchPlus = __webpack_require__(222);
+
+	var _fetchPlusCsrf = __webpack_require__(223);
+
+	var _fetchPlusCsrf2 = _interopRequireDefault(_fetchPlusCsrf);
+
+	var _cookie = __webpack_require__(224);
+
+	var _cookie2 = _interopRequireDefault(_cookie);
+
+	var _param = __webpack_require__(225);
+
+	var _param2 = _interopRequireDefault(_param);
+
+	var _header = __webpack_require__(226);
+
+	var _header2 = _interopRequireDefault(_header);
+
+	var _statusCode = __webpack_require__(227);
+
+	var _statusCode2 = _interopRequireDefault(_statusCode);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var token = (0, _jquery2.default)('#csrf-token').attr('content');
+	var api = (0, _fetchPlus.connectEndpoint)('/api');
+
+	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
+	api.addMiddleware(_cookie2.default);
+	api.addMiddleware(_param2.default);
+	api.addMiddleware(_header2.default);
+	api.addMiddleware(_statusCode2.default);
+
+	module.exports = api;
+
+/***/ },
+
+/***/ 224:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	// Default add cookie
+
+	exports.default = function (request) {
+	  if (!request.options.credentials) {
+	    request.options.credentials = 'include';
+	  }
+	};
+
+/***/ },
+
+/***/ 225:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(194);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+	exports.default = function (request) {
+	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
+	    request.path = request.path + '?' + _jquery2.default.param(request.options.params);
+	  }
+	};
+
+/***/ },
+
+/***/ 226:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
+	var JSON_HEADER = 'application/json; charset=UTF-8';
+
+	// custom JSON middleware
+
+	exports.default = function (request) {
+	  var body = request.options.body;
+	  // If options have key named type
+	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
+	    // Stringify body and add header
+	    if (request.options.type === 'form') {
+	      request.options.body = $.param(body);
+	      request.options.headers['Content-Type'] = FORM_HEADER;
+	    } else if (request.options.type === 'json') {
+	      request.options.body = JSON.stringify(body);
+	      request.options.headers['Content-Type'] = JSON_HEADER;
+	    }
+	  } else if (typeof request.options.body === 'string') {
+	    // Just add header
+	    request.options.headers['Content-Type'] = FORM_HEADER;
+	  } else if (_typeof(request.options.body) === 'object') {
+	    // Stringify body and add header
+	    request.options.body = $.param(body);
+	    request.options.headers['Content-Type'] = FORM_HEADER;
+	  }
+
+	  return function (response) {
+	    return response.json();
+	  };
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+
+/***/ },
+
+/***/ 227:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _when = __webpack_require__(197);
+
+	var _when2 = _interopRequireDefault(_when);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+	// P2P-style unjustifed status code check
+
+	exports.default = function () {
+	  return function (response) {
+	    if (_typeof(response.body) === 'object' && response.body.status) {
+	      if (response.body.status !== 0) {
+	        return _when2.default.reject(response);
+	      }
+	    }
+	    return response;
+	  };
+	};
+
+/***/ },
+
+/***/ 228:
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(222);
+	var client = __webpack_require__(229);
 
 	var today = new Date();
 	var dd = today.getDate();
@@ -436,19 +619,19 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 222:
+/***/ 229:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(194);
-	var rest = __webpack_require__(223);
-	var pathPrefix = __webpack_require__(231);
-	var errorCode = __webpack_require__(233);
-	var mime = __webpack_require__(234);
-	var csrf = __webpack_require__(247);
+	var rest = __webpack_require__(230);
+	var pathPrefix = __webpack_require__(238);
+	var errorCode = __webpack_require__(240);
+	var mime = __webpack_require__(241);
+	var csrf = __webpack_require__(254);
 	var when = __webpack_require__(197);
-	var interceptor = __webpack_require__(232);
+	var interceptor = __webpack_require__(239);
 
 	var statusCheck = interceptor({
 	  response: function response(_response, config) {
@@ -466,7 +649,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 248:
+/***/ 255:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1079,26 +1262,26 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 249:
+/***/ 256:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(250);
+	__webpack_require__(257);
 	__webpack_require__(260);
 	__webpack_require__(261);
 	__webpack_require__(262);
 
 /***/ },
 
-/***/ 250:
+/***/ 257:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(194);
 	var Sammy = __webpack_require__(192);
-	var api = __webpack_require__(251);
+	var api = __webpack_require__(221);
 	var paginate = __webpack_require__(258);
 
 	Sammy('#main', function () {
@@ -1178,172 +1361,6 @@ webpackJsonp([0],{
 	    console.log('Fail', response);
 	    Materialize.toast('更新失敗');
 	  });
-	};
-
-/***/ },
-
-/***/ 251:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _jquery = __webpack_require__(194);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	var _fetchPlus = __webpack_require__(252);
-
-	var _fetchPlusCsrf = __webpack_require__(253);
-
-	var _fetchPlusCsrf2 = _interopRequireDefault(_fetchPlusCsrf);
-
-	var _cookie = __webpack_require__(254);
-
-	var _cookie2 = _interopRequireDefault(_cookie);
-
-	var _param = __webpack_require__(255);
-
-	var _param2 = _interopRequireDefault(_param);
-
-	var _header = __webpack_require__(256);
-
-	var _header2 = _interopRequireDefault(_header);
-
-	var _statusCode = __webpack_require__(257);
-
-	var _statusCode2 = _interopRequireDefault(_statusCode);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var token = (0, _jquery2.default)('#csrf-token').attr('content');
-	var api = (0, _fetchPlus.connectEndpoint)('/api');
-
-	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
-	api.addMiddleware(_cookie2.default);
-	api.addMiddleware(_param2.default);
-	api.addMiddleware(_header2.default);
-	api.addMiddleware(_statusCode2.default);
-
-	module.exports = api;
-
-/***/ },
-
-/***/ 254:
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	// Default add cookie
-
-	exports.default = function (request) {
-	  if (!request.options.credentials) {
-	    request.options.credentials = 'include';
-	  }
-	};
-
-/***/ },
-
-/***/ 255:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _jquery = __webpack_require__(194);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-
-	exports.default = function (request) {
-	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
-	    request.path = request.path + '?' + _jquery2.default.param(request.options.params);
-	  }
-	};
-
-/***/ },
-
-/***/ 256:
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-
-	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
-	var JSON_HEADER = 'application/json; charset=UTF-8';
-
-	// custom JSON middleware
-
-	exports.default = function (request) {
-	  var body = request.options.body;
-	  // If options have key named type
-	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
-	    // Stringify body and add header
-	    if (request.options.type === 'form') {
-	      request.options.body = $.param(body);
-	      request.options.headers['Content-Type'] = FORM_HEADER;
-	    } else if (request.options.type === 'json') {
-	      request.options.body = JSON.stringify(body);
-	      request.options.headers['Content-Type'] = JSON_HEADER;
-	    }
-	  } else if (typeof request.options.body === 'string') {
-	    // Just add header
-	    request.options.headers['Content-Type'] = FORM_HEADER;
-	  } else if (_typeof(request.options.body) === 'object') {
-	    // Stringify body and add header
-	    request.options.body = $.param(body);
-	    request.options.headers['Content-Type'] = FORM_HEADER;
-	  }
-
-	  return function (response) {
-	    return response.json();
-	  };
-	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
-
-/***/ },
-
-/***/ 257:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _when = __webpack_require__(197);
-
-	var _when2 = _interopRequireDefault(_when);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
-
-	// P2P-style unjustifed status code check
-
-	exports.default = function () {
-	  return function (response) {
-	    if (_typeof(response.body) === 'object' && response.body.status) {
-	      if (response.body.status !== 0) {
-	        return _when2.default.reject(response);
-	      }
-	    }
-	    return response;
-	  };
 	};
 
 /***/ },
@@ -1532,7 +1549,7 @@ webpackJsonp([0],{
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(222);
+	var client = __webpack_require__(229);
 	var when = __webpack_require__(197);
 
 	Sammy('#main', function () {
@@ -2050,7 +2067,7 @@ webpackJsonp([0],{
 	var validate = __webpack_require__(217);
 	var moment = __webpack_require__(263);
 	var when = __webpack_require__(197);
-	var api = __webpack_require__(251);
+	var api = __webpack_require__(221);
 	var ValidationError = __webpack_require__(264);
 
 	validate.validators.daterange = function (value, opts) {
@@ -2207,7 +2224,7 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(192);
 	var when = __webpack_require__(197);
 	var moment = __webpack_require__(263);
-	var api = __webpack_require__(251);
+	var api = __webpack_require__(221);
 	var vars = __webpack_require__(266);
 
 	var toMoment = function toMoment(time) {
