@@ -1,5 +1,5 @@
+{{>menu}}
 <div id="account_container">
-    {{>menu}}
     <div class="row">
         <div class="col s6 right">
             <ul id="sub_menu" class="tabs">
@@ -14,7 +14,6 @@
             <span>搜尋：</span>
             <input type="text" placeholder="帳號名稱" name="search"/>
         </div>
-
         <div id="first_row" class="row">
             <span class="waves-effect waves-light btn modal-trigger" data-modal_target="add_card">
                 <i class="material-icons">add</i>

@@ -1,5 +1,5 @@
+{{>menu}}
 <div id="Examine" class="container Examine">
-  {{>menu}}
   <span>教室審核</span>
   <ul class="collapsible popout" data-collapsible="accordion">
     {{#list}}

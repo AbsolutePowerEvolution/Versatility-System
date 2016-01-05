@@ -1,6 +1,5 @@
+{{>menu}}
 <div id="property_container" class="container">
-    {{>menu}}
-
     <div class="row">
         <div class="col s6 right">
             <ul id="sub_menu" class="tabs">
