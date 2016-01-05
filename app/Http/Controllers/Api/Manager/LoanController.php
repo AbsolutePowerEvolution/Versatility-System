@@ -119,7 +119,11 @@ class LoanController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::where('username', '=', $request->input('user_id'))->first();
+        $user = User::where('username', '=', $request->input('username'))->first();
+
+        if ($user === null) {
+            return response()->json(['status' => 2]);
+        }
 
         // Borrow out other property, no check for user should borrow property by going to the office personally.
         Loan::create(array_merge(array_only($request->all(), [
