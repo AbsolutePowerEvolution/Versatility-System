@@ -26,13 +26,19 @@ class AuthController extends Controller
         // if login failed
         if (
             !Auth::attempt(['username' => $username, 'password' => $password ]) &&
-            true // check with center.
+            false // check with center.
         ) {
             $user = User::where('username', '=', $username)->first();
             Auth::login($user);
         }
 
-        return response()->json(['status' => Auth::check()]);
+        $response = [
+            'is_student' => \Entrust::hasRole('manager'),
+            'is_manager' => \Entrust::hasRole('student'),
+            'status' => Auth::check()
+        ];
+
+        return response()->json($response);
     }
 
     /**
