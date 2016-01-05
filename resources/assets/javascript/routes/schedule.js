@@ -9,19 +9,10 @@ var toMoment = (time) => moment(time, 'HH:mm:ss');
 
 Sammy('#main', (app) => {
   app.get('#/schedule', (context) => {
-    api.browse('manager/loan/classrooms', {
-        params: {
-          type: 'course',
-          status: 'accepted'
-        }})
+    api.browse('manager/loan/courses')
       .then((data) => {
-        let promises = [];
         let convertLongTermToken = (x) => {
-          let token = x.long_term_token;
-          if(token) {
-            x.token = lodash.padRight((parseInt(token) >>> 0) /* Force to be unsigned */
-              .toString(2), 7, '0').split('').map((y) => !!parseInt(y));
-          }
+          x.token = x.long_term_token;
           return x;
         };
         let convertTime = (x) => {
@@ -29,18 +20,7 @@ Sammy('#main', (app) => {
           x.end = toMoment(x.time_ended_at);
           return x;
         };
-        promises.push(when.promise((resolve) => resolve(data.data.map(convertLongTermToken).map(convertTime))));
-        lodash.range(2, data.last_page).map((i) => {
-          promises.push(api.browse(`manager/loan/classrooms`, {
-            params: {
-              type: 'course',
-              status: 'accepted',
-              page: i
-            }}).then((data) => {
-              return data.data.map(convertLongTermToken).map(convertTime);
-            }));
-        });
-        when.reduce(promises, (datas, data) => datas.concat(data), [])
+        when.promise((resolve) => resolve(data.map(convertLongTermToken).map(convertTime)))
           .then((datas) => {
             let weekName = [
               'mon',
