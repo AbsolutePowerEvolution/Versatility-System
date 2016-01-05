@@ -153,12 +153,14 @@ function propertyBindEvent(propertyData, loanData) {
   createProperty();
   loanProperty(propertyData);
   returnProperty();
+  repairProperty();
   $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function(event) {
     $('#materialize-lean-overlay-30').css('display', 'none');
     $('#property_modal').fadeOut();
     $('#create_property_modal').fadeOut();
     $('#loan_property_modal').fadeOut();
     $('#return_property_modal').fadeOut();
+    $('#repair_property_modal').fadeOut();
   });
 }
 
@@ -235,23 +237,21 @@ function showPropertyDetailAndDeleteProperty() {
   });
 
   var $returnPropertyModal = $('#return_property_modal');
-  $propertyContainer.find('#return_property_content .returnLoanModalTrigger').on('click', function(event) {
+  $propertyContainer.find('#property_manage_content .returnLoanModalTrigger').on('click', function(event) {
     if($(this).hasClass('disabled')) { return; }
     $('#materialize-lean-overlay-30').css('display', 'block');
     $returnPropertyModal.fadeIn();
 
     var ele = $(this).parent().parent();
     var status = ele.data('status');
-    $returnPropertyModal.find('#return_property_btn').addClass('hide');
-    if(status === 'canceled') {
-      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html('使用者已取消借用該財產');
-    } else if(status === 'finished') {
-      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html('使用者已歸還該財產');
-    } else if(status === 'refused') {
-      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html('管理者已取消借用該財產');
-    } else {
+    let statusName = {'canceled': '使用者已取消借用該財產', 'finished': '使用者已歸還該財產',
+                      'refused': '管理者已取消借用該財產'};
+    if(status === 'accepted' || status === 'submitted') {
       $returnPropertyModal.find('#loanOtherAction').addClass('hide');
       $returnPropertyModal.find('#return_property_btn').removeClass('hide');
+    } else {
+      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html(statusName);
+      $returnPropertyModal.find('#return_property_btn').addClass('hide');
     }
 
     $returnPropertyModal.find('.userName').html(ele.data('username'));
@@ -262,6 +262,32 @@ function showPropertyDetailAndDeleteProperty() {
     $returnPropertyModal.find('.time').html(ele.data('time'));
     $returnPropertyModal.find('.remark').html(ele.data('remark'));
     $returnPropertyModal.data('loan_id', ele.data('loan_id'));
+  });
+
+  var $repairPropertyModal = $('#repair_property_modal');
+  $propertyContainer.find('#property_repair_content .repairModalTrigger').on('click', function(event) {
+    if($(this).hasClass('disabled')) { return; }
+    $('#materialize-lean-overlay-30').css('display', 'block');
+    $repairPropertyModal.fadeIn();
+
+    var ele = $(this).parent().parent();
+    var status = ele.data('status');
+    let statusName = {'submitted': '', 'processing': 'hide', 'finished': '已報修/清理'};
+    if(status === 'submitted'  || status === 'processing') {
+      $repairPropertyModal.find('#repairOtherAction').addClass('hide');
+      $repairPropertyModal.find('#repair_property_btn').removeClass('hide');
+    } else {
+      $repairPropertyModal.find('#repairOtherAction').removeClass('hide').html(statusName);
+      $repairPropertyModal.find('#repair_property_btn').addClass('hide');
+    }
+    $repairPropertyModal.find('.userName').html(ele.data('username'));
+    $repairPropertyModal.find('.userID').html(ele.data('user_id'));
+    $repairPropertyModal.find('.phone').html(ele.data('phone'));
+    $repairPropertyModal.find('.email').html(ele.data('email'));
+    $repairPropertyModal.find('.propertyName').html(ele.data('name'));
+    $repairPropertyModal.find('.time').html(ele.data('time'));
+    $repairPropertyModal.find('.remark').html(ele.data('remark'));
+    $repairPropertyModal.data('repair_id', ele.data('repair_id'));
   });
 }
 
@@ -382,6 +408,35 @@ function returnProperty() {
       success: function(data) {
         console.log('return property success!', data);
         alert('歸還財產成功!');
+        location.reload();
+      }
+    });
+  });
+}
+
+function repairProperty() {
+  var $propertyContainer = $('#property_container');
+  var $repairPropertyModal = $('#repair_property_modal');
+  $propertyContainer.find('#repair_property_modal #repair_property_btn').on('click', function(event) {
+    var repairList = [];
+    repairList[0] = $repairPropertyModal.data('repair_id');
+    $.ajax({
+      url: '/api/manager/repair',
+      _method: 'put',
+      type: 'put',
+      data: {
+        repair_list: repairList,
+        status: 'finished',
+        _token: $('meta[name="csrf-token"]').attr('content')
+      },
+      error: function(error) {
+        alert('報修/清理完成財產失敗!');
+        console.log('repair property error, ', error);
+      },
+      success: function(data) {
+        console.log('repair property success!', data);
+        alert('報修/清理財產成功!');
+        console.log(data);
         location.reload();
       }
     });

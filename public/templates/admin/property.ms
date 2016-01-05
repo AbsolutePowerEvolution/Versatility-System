@@ -82,8 +82,8 @@
             </div>
             {{#repairData}}
             <div class="card showContent propertyContent searched">
-                <div class="row card-content" data-repair_id="{{id}}" data-name="{{property_name}}" data-remark="{{remark}}" data-property_id="{{property_id}}" data-status="{{status.name}}"
-                     data-created_at="{{user.created_at}}"
+                <div class="row card-content" data-repair_id="{{id}}" data-name="{{property.name}}" data-remark="{{remark}}" data-property_id="{{property_id}}" data-status="{{status.name}}"
+                     data-time="{{user.created_at}}"
                      data-email="{{user.email}}" data-user_id = "{{user.id}}" data-usernickname="{{user.nickname}}" data-phone="{{user.phone}}"
                      data-username="{{user.username}}"
                 >
@@ -92,7 +92,7 @@
                     <span class="col s2 center-align">{{user.id}}</span>
                     <span class="col s5 center-align">{{created_at}}</span>
                     <span class="col s3 center-align">
-                        <a class="waves-effect waves-light btn returnLoanModalTrigger"><i class="material-icons left">description</i>詳細資料</a>
+                        <a class="waves-effect waves-light btn repairModalTrigger"><i class="material-icons left">description</i>詳細資料</a>
                     </span>
                 </div>
             </div>
@@ -206,6 +206,45 @@
         <div class="modal-footer">
             <a id="return_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確認歸還</a>
             <a id="loanOtherAction" class="modal-action modal-close waves-effect waves-green btn-flat"></a>
+        </div>
+    </div>
+
+    <div id="repair_property_modal" class="modal">
+        <div class="modal-content">
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
+            <h4>歸還財產</h4>
+            <div class="row">
+                <span class="col s3">報修者：</span>
+                <span class="userName"></span>
+            </div>
+            <div class="row">
+                <span class="col s3">報修者學號：</span>
+                <span class="userID"></span>
+            </div>
+            <div class="row">
+                <span class="col s3">報修者電話：</span>
+                <span class="phone"></span>
+            </div>
+            <div class="row">
+                <span class="col s3">報修者email：</span>
+                <span class="email"></span>
+            </div>
+            <div class="row">
+                <span class="col s3">財產名稱：</span>
+                <span class="propertyName"></p>
+            </div>
+            <div class="row">
+                <span class="col s3">申請時間：</span>
+                <span class="time"></span>
+            </div>
+            <div class="row">
+                <span class="col s3">報修理由：</span>
+                <span class="remark"></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="repair_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">報修/清理完成</a>
+            <a id="repairOtherAction" class="modal-action modal-close waves-effect waves-green btn-flat"></a>
         </div>
     </div>
 
