@@ -39,6 +39,9 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
     $router->group(['prefix' => 'auth', 'as' => 'api.auth.'], function (Router $router) {
         $router->get('oauth', ['as' => 'oauth', 'uses' => 'OAuthController@OAuth']);
         $router->get('oauth/{verify}', ['as' => 'oauth.verify', 'uses' => 'OAuthController@verifyToken']);
+
+        $router->post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
+        $router->get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
     });
 
     $router->group(['middleware' => ['role:lab|student'], 'prefix' => 'user'], function (Router $router) {
