@@ -4,6 +4,7 @@ namespace Tests\Api;
 
 use App\Affair\Category;
 use App\Affair\Property;
+use App\Affair\Role;
 use App\Affair\User;
 use Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +21,21 @@ class ApiTest extends TestCase
     {
         parent::setUp();
 
+        $this->seeds();
+
         $this->ensureTestUsersCreated();
+    }
+
+    /**
+     * 確保核心資料已產生
+     *
+     * @return void
+     */
+    protected function seeds()
+    {
+        $this->seed('CategoryTableSeeder');
+
+        $this->seed('RoleTableSeeder');
     }
 
     /**
@@ -30,16 +45,14 @@ class ApiTest extends TestCase
      */
     protected function ensureTestUsersCreated()
     {
-        if (! User::where('username', 'test')->exists()) {
-            factory(User::class)->create(['username' => 'test']);
-        }
+        $userList = ['test' => 'student', 'testLab' => 'lab', 'testManager' => 'manager'];
 
-        if (! User::where('username', 'testLab')->exists()) {
-            factory(User::class)->create(['username' => 'testLab']);
-        }
-
-        if (! User::where('username', 'testManager')->exists()) {
-            factory(User::class)->create(['username' => 'testManager']);
+        foreach ($userList as $username => $role) {
+            if (! User::where('username', $username)->exists()) {
+                factory(User::class)->create(['username' => $username])
+                    ->roles()
+                    ->save(Role::where('name', $role)->first());
+            }
         }
     }
 
