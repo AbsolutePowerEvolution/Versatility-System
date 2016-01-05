@@ -50,7 +50,9 @@ var getConfigs = function(env) {
       sammy: 'Sammy',
       lodash: '_',
       hogan: 'Hogan',
-      moment: 'moment'
+      moment: 'moment',
+      pikaday: 'Pikaday',
+      'validate.js': 'validate'
     }];
 
     if(env === 'production') {
