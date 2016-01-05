@@ -39,6 +39,9 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
     $router->group(['prefix' => 'auth', 'as' => 'api.auth.'], function (Router $router) {
         $router->get('oauth', ['as' => 'oauth', 'uses' => 'OAuthController@OAuth']);
         $router->get('oauth/{verify}', ['as' => 'oauth.verify', 'uses' => 'OAuthController@verifyToken']);
+
+        $router->post('login', ['as' => 'login', 'uses' => 'AuthController@login']);
+        $router->get('logout', ['as' => 'logout', 'uses' => 'AuthController@logout']);
     });
 
     $router->group(['middleware' => ['role:lab|student'], 'prefix' => 'user'], function (Router $router) {
@@ -85,6 +88,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         $router->group(['prefix' => 'loan'], function (Router $router) {
             $router->get('others', ['as' => 'api.man.loan.other.list', 'uses' => 'Manager\LoanController@index']);
             $router->get('classrooms', ['as' => 'api.man.loan.class.list', 'uses' => 'Manager\LoanController@indexClassroomBorrow']);
+            $router->get('courses', ['as' => 'api.man.loan.course.list', 'uses' => 'Manager\LoanController@indexCourse']);
             $router->post('other-create', ['as' => 'api.user.loan.other.create', 'uses' => 'Manager\LoanController@store']);
             $router->post('class-create', ['as' => 'api.user.loan.class.create', 'uses' => 'Manager\LoanController@storeClassroomBorrow']);
             $router->put('class-verify/{id}', ['as' => 'api.user.loan.class.verify', 'uses' => 'Manager\LoanController@update']);

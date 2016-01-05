@@ -9,8 +9,9 @@ webpackJsonp([0],{
 	__webpack_require__(191);
 	var Sammy = __webpack_require__(192);
 	__webpack_require__(193);
-
 	__webpack_require__(196);
+
+	__webpack_require__(218);
 
 	Sammy('#main').use('Hogan', 'ms').run('#/');
 
@@ -49,26 +50,52 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	__webpack_require__(197);
-	__webpack_require__(247);
+	var when = __webpack_require__(197);
+	var validate = __webpack_require__(217);
 
-	__webpack_require__(260);
-	__webpack_require__(263);
+	validate.Promise = when.Promise;
 
 /***/ },
 
-/***/ 197:
+/***/ 200:
+/***/ function(module, exports) {
+
+	/* (ignored) */
+
+/***/ },
+
+/***/ 217:
+/***/ function(module, exports) {
+
+	module.exports = validate;
+
+/***/ },
+
+/***/ 218:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(198);
-	__webpack_require__(199);
-	__webpack_require__(246);
+	__webpack_require__(219);
+	__webpack_require__(249);
+
+	__webpack_require__(265);
+	__webpack_require__(267);
 
 /***/ },
 
-/***/ 198:
+/***/ 219:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(220);
+	__webpack_require__(221);
+	__webpack_require__(248);
+
+/***/ },
+
+/***/ 220:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -89,13 +116,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 199:
+/***/ 221:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(200);
+	var client = __webpack_require__(222);
 
 	var today = new Date();
 	var dd = today.getDate();
@@ -412,19 +439,19 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 200:
+/***/ 222:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(194);
-	var rest = __webpack_require__(201);
-	var pathPrefix = __webpack_require__(229);
-	var errorCode = __webpack_require__(231);
-	var mime = __webpack_require__(232);
-	var csrf = __webpack_require__(245);
-	var when = __webpack_require__(206);
-	var interceptor = __webpack_require__(230);
+	var rest = __webpack_require__(223);
+	var pathPrefix = __webpack_require__(231);
+	var errorCode = __webpack_require__(233);
+	var mime = __webpack_require__(234);
+	var csrf = __webpack_require__(247);
+	var when = __webpack_require__(197);
+	var interceptor = __webpack_require__(232);
 
 	var statusCheck = interceptor({
 	  response: function response(_response, config) {
@@ -442,14 +469,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 209:
-/***/ function(module, exports) {
-
-	/* (ignored) */
-
-/***/ },
-
-/***/ 246:
+/***/ 248:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1062,26 +1082,27 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 247:
+/***/ 249:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(248);
-	__webpack_require__(258);
-	__webpack_require__(259);
+	__webpack_require__(250);
+	__webpack_require__(260);
+	__webpack_require__(261);
+	__webpack_require__(262);
 
 /***/ },
 
-/***/ 248:
+/***/ 250:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(194);
 	var Sammy = __webpack_require__(192);
-	var api = __webpack_require__(249);
-	var paginate = __webpack_require__(256);
+	var api = __webpack_require__(251);
+	var paginate = __webpack_require__(258);
 
 	Sammy('#main', function () {
 	  this.get('#/admin/examine', function (context) {
@@ -1166,7 +1187,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 249:
+/***/ 251:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1175,25 +1196,25 @@ webpackJsonp([0],{
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _fetchPlus = __webpack_require__(250);
+	var _fetchPlus = __webpack_require__(252);
 
-	var _fetchPlusCsrf = __webpack_require__(251);
+	var _fetchPlusCsrf = __webpack_require__(253);
 
 	var _fetchPlusCsrf2 = _interopRequireDefault(_fetchPlusCsrf);
 
-	var _cookie = __webpack_require__(252);
+	var _cookie = __webpack_require__(254);
 
 	var _cookie2 = _interopRequireDefault(_cookie);
 
-	var _param = __webpack_require__(253);
+	var _param = __webpack_require__(255);
 
 	var _param2 = _interopRequireDefault(_param);
 
-	var _header = __webpack_require__(254);
+	var _header = __webpack_require__(256);
 
 	var _header2 = _interopRequireDefault(_header);
 
-	var _statusCode = __webpack_require__(255);
+	var _statusCode = __webpack_require__(257);
 
 	var _statusCode2 = _interopRequireDefault(_statusCode);
 
@@ -1212,7 +1233,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 252:
+/***/ 254:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1230,7 +1251,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 253:
+/***/ 255:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1255,7 +1276,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 254:
+/***/ 256:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1300,7 +1321,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 255:
+/***/ 257:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1309,7 +1330,7 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _when = __webpack_require__(206);
+	var _when = __webpack_require__(197);
 
 	var _when2 = _interopRequireDefault(_when);
 
@@ -1332,12 +1353,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 256:
+/***/ 258:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _lodash = __webpack_require__(257);
+	var _lodash = __webpack_require__(259);
 
 	module.exports = function (context, data, baseUrl) {
 	  if (!data.current_page) {
@@ -1366,14 +1387,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 257:
+/***/ 259:
 /***/ function(module, exports) {
 
 	module.exports = _;
 
 /***/ },
 
-/***/ 258:
+/***/ 260:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1510,14 +1531,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 259:
+/***/ 261:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(200);
-	var when = __webpack_require__(206);
+	var client = __webpack_require__(222);
+	var when = __webpack_require__(197);
 
 	Sammy('#main', function () {
 	  this.get('#/admin/property', function (context) {
@@ -2024,17 +2045,169 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 260:
+/***/ 262:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	var Sammy = __webpack_require__(192);
+	var lodash = __webpack_require__(259);
+	var validate = __webpack_require__(217);
+	var moment = __webpack_require__(263);
+	var when = __webpack_require__(197);
+	var api = __webpack_require__(251);
+	var ValidationError = __webpack_require__(264);
+
+	validate.validators.daterange = function (value, opts) {
+	  return new when.Promise(function (resolve) {
+	    if (opts.latest) {
+	      var lastestDate = moment($('#' + opts.latest).val());
+	      if (lastestDate.isSameOrBefore(value)) {
+	        resolve();
+	      } else {
+	        resolve('^必須大於等於開始時間');
+	      }
+	    }
+	  });
+	};
+
+	var SETTING_RULE = {
+	  time_name: {
+	    presence: {
+	      message: '^必填'
+	    }
+	  },
+	  begin_date_submit: {
+	    presence: {
+	      message: '^必填'
+	    }
+	  },
+	  ended_date_submit: {
+	    presence: {
+	      message: '^必填'
+	    },
+	    daterange: {
+	      latest: 'begin_date'
+	    }
+	  },
+	  stu_start: {
+	    presence: {
+	      message: '^必填'
+	    },
+	    daterange: {
+	      latest: 'begin_date'
+	    }
+	  },
+	  lab_start: {
+	    presence: {
+	      message: '^必填'
+	    },
+	    daterange: {
+	      latest: 'begin_date'
+	    }
+	  }
+	};
+
+	Sammy('#main', function (app) {
+	  app.get('#/admin/setting', function (context) {
+	    api.read('manager/setting').then(function (data) {
+	      console.log(data);
+	      lodash.assign(context, lodash.omit(data, function (x) {
+	        return !!!x;
+	      }));
+	      context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/setting.ms').render(function () {
+	        $('.datepicker').each(function (_idx, ele) {
+	          $(ele).pickadate({
+	            format: 'yyyy-mm-dd',
+	            formatSubmit: 'yyyy-mm-dd',
+	            closeOnSelect: true,
+	            closeOnClear: true,
+	            onClose: function onClose() {
+	              console.log('Close');
+	              ele.blur();
+	            } });
+	        });
+	      });
+	    });
+	  });
+
+	  app.put('#/admin/setting', function (context) {
+	    console.log(context);
+	    $('input').removeClass('validate invalid');
+	    validate.async(context.params, SETTING_RULE, { wrapErrors: ValidationError }).then(function () {
+	      console.log('Validation setting');
+	    }).catch(function (err) {
+	      return err.name === 'ValidationError';
+	    }, function (error) {
+	      console.log('Validation error', error.errors);
+	      lodash.each(error.errors, function (val, key) {
+	        if (key === 'begin_date_submit' || key === 'ended_date_submit') {
+	          key = key.slice(0, -7);
+	        }
+	        console.log(key);
+	        $('#' + key).addClass('validate invalid').parent().find('label').attr('data-error', val[0]);
+	      });
+	    }).catch(function (error) {
+	      console.log('System error', error);
+	    });
+	    return false;
+	  });
+	});
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+
+/***/ },
+
+/***/ 263:
+/***/ function(module, exports) {
+
+	module.exports = moment;
+
+/***/ },
+
+/***/ 264:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	module.exports = (function (_Error) {
+	  _inherits(ValidationError, _Error);
+
+	  function ValidationError(errors, options, attributes, constraints) {
+	    _classCallCheck(this, ValidationError);
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ValidationError).call(this, 'Validation error'));
+
+	    Error.captureStackTrace(_this, _this.constructor);
+	    _this.name = 'ValidationError';
+	    _this.errors = errors;
+	    _this.options = options;
+	    _this.attributes = attributes;
+	    _this.constraints = constraints;
+	    return _this;
+	  }
+
+	  return ValidationError;
+	})(Error);
+
+/***/ },
+
+/***/ 265:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var when = __webpack_require__(206);
-	var lodash = __webpack_require__(257);
-	var moment = __webpack_require__(261);
-	var api = __webpack_require__(249);
-	var vars = __webpack_require__(262);
+	var when = __webpack_require__(197);
+	var lodash = __webpack_require__(259);
+	var moment = __webpack_require__(263);
+	var api = __webpack_require__(251);
+	var vars = __webpack_require__(266);
 
 	var toMoment = function toMoment(time) {
 	  return moment(time, 'HH:mm:ss');
@@ -2118,14 +2291,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 261:
-/***/ function(module, exports) {
-
-	module.exports = moment;
-
-/***/ },
-
-/***/ 262:
+/***/ 266:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2137,7 +2303,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 263:
+/***/ 267:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
