@@ -35,6 +35,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         Auth::loginUsingId($id);
         return 0;
     });
+    $router->post('login/sso', ['as' => 'api.user.login.login', 'uses' => 'User\LoginController@login']);
 
     $router->group(['prefix' => 'auth', 'as' => 'api.auth.'], function (Router $router) {
         $router->get('oauth', ['as' => 'oauth', 'uses' => 'OAuthController@OAuth']);
