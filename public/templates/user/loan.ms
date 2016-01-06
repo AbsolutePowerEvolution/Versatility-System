@@ -5,8 +5,12 @@
         <div class="row">
             <div class="col s6 right">
                 <ul id="sub_menu" class="tabs">
-                    <li id="screen_classroom" class="tab center"><a herf=""><i class="material-icons">list</i>借用教室</a></li>
-                    <li id="screen_history" class="tab center"><a herf=""><i class="material-icons">history</i>歷史紀錄</a></li>
+                  <li class="tab center switch_screen" data-screen_type="loan">
+                    <a herf=""><i class="material-icons">list</i>借用教室</a>
+                  </li>
+                  <li class="tab center switch_screen" data-screen_type="history">
+                    <a herf=""><i class="material-icons">history</i>歷史紀錄</a>
+                  </li>
                 </ul>
             </div>
         </div>
@@ -36,40 +40,38 @@
             <th>1330~1400</th>
             <th>1400~1430</th>
             <th>1430~1500</th>
+            <th>1500~1530</th>
+            <th>1530~1600</th>
+            <th>1600~1630</th>
+            <th>1630~1700</th>
+            <th>1700~1730</th>
+            <th>1730~1800</th>
+            <th>1800~1830</th>
+            <th>1830~1900</th>
+            <th>1900~1930</th>
+            <th>1930~2000</th>
+            <th>2000~2030</th>
+            <th>2030~2100</th>
+            <th>2100~2130</th>
+            <th>2130~2200</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td><i class="material-icons">chevron_left</i></td>
           </tr>
-          <tr>
-            <td>教室0</td>
-            <td>DEMO</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>X</td>
-            <td>X</td>
-            <td>X</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
+          {{#FiveTimes}}
+          <tr class="tr_classroom">
+            <td class="td_classroom_name"></td>
+            {{#ThirtyTimes}}
+            <td class="td_time_period"></td>
+            {{/ThirtyTimes}}
           </tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
+          {{/FiveTimes}}
           <tr>
             <td><i class="material-icons">chevron_right</i></td>
           </tr>
-          
+
         </tbody>
       </table>
     </div>
@@ -79,7 +81,7 @@
         <div id="datepicker_container"></div>
       </div>
       <div class="add_container">
-        <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class" data-button="add">
+        <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_form">
           新增借用
         </span>
       </div>
@@ -96,21 +98,22 @@
   </ul>
 </div>
 
-<!-- Modal Structure -->
-<div id="loan_class" class="modal">
+<!-- Create Loan Modal -->
+<div id="loan_form" class="modal materialize_modal">
   <div class="modal-content">
     <div class="switch_type_container">
-      <button id="short" class="btn">短期</button>
-      <button id="long" class="btn">長期</button>
+      <button class="btn switch_date" data-date_type="one_day">短期(一天)</button>
+      <button class="btn switch_date" data-date_type="few_days">短期(多天)</button>
+      <button class="btn switch_date" data-date_type="many_days">長期</button>
     </div>
-    <input type="date" class="datepicker long short" placeholder="選擇借用日期" name="start_date">
-    <input type="date" class="datepicker long" placeholder="選擇借用到期日" name="end_date">
+    <input type="date" class="datepicker days for_many_days for_few_days for_one_day" placeholder="選擇借用日期" name="start_date">
+    <input type="date" class="datepicker days for_many_days for_few_days" placeholder="選擇借用到期日" name="end_date">
     <div class="input-field">
       <select id="classroom" name="classroom">
         <option value="" disabled>教室</option>
       </select>
     </div>
-    <div class="long checkbox_container">
+    <div class="checkbox_container days for_many_days">
       <p>選星期幾</p>
       <input type="checkbox" value="0" id="day0">
       <label for="day0">日</label>
@@ -129,70 +132,69 @@
     </div>
 
     <div class="switch_time_container">
-      <button id="user_btn" class="btn switch_time" data-switch_time_target="user_period">30分鐘</button>
-      <button id="number_btn" class="btn switch_time" data-switch_time_target="number_period">數字</button>
-      <button id="english_btn" class="btn switch_time" data-switch_time_target="english_period">英文</button>
+      <button class="btn switch_time" data-time_period="thirty_minutes">30分鐘區間</button>
+      <button class="btn switch_time" data-time_period="all_day">整天</button>
     </div>
 
     <div class="input-field user_period time_container">
-      <select name="user_start">
+      <select name="time_start">
         <option value="" disabled>起始時間</option>
-        {{#time.userPeriodStart}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.userPeriodStart}}
+        {{#time.PeriodStart}}
+          <option value="{{.}}">{{.}}</option>
+        {{/time.PeriodStart}}
       </select>
-      <select name="user_end">
+      <select name="time_end">
         <option value="" disabled>結束時間</option>
-        {{#time.userPeriodEnd}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.userPeriodEnd}}
-      </select>
-    </div>
-
-    <div class="input-field number_period time_container">
-      <select name="number_start">
-        <option value="" disabled>起始時間</option>
-        {{#time.numberPeriodStart}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.numberPeriodStart}}
-      </select>
-      <select name="number_end">
-        <option value="" disabled>結束時間</option>
-        {{#time.numberPeriodEnd}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.numberPeriodEnd}}
-      </select>
-    </div>
-
-    <div class="input-field english_period time_container">
-      <select name="english_start">
-        <option value="" disabled>起始時間</option>
-        {{#time.englishPeriodStart}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.englishPeriodStart}}
-      </select>
-      <select name="english_end">
-        <option value="" disabled>結束時間</option>
-        {{#time.englishPeriodEnd}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.englishPeriodEnd}}
+        {{#time.PeriodEnd}}
+          <option value="{{.}}">{{.}}</option>
+        {{/time.PeriodEnd}}
       </select>
     </div>
 
     <input type="text" name="remark" placeholder="填寫借用理由(可以不填)">
   </div>
   <div class="modal-footer">
-    <button id="create_loan" class="belong_loan">
+    <button id="create_loan">
       確認送出
     </button>
-    <button id="edit_loan" class="belong_history">
-      更改
-    </button>
-    <button id="delete_loan" class="belong_history">
+  </div>
+</div>
+
+<!-- Loan Detail Modal -->
+<div id="loan_detail" class="modal materialize_modal">
+  <div class="modal-content">
+    <div class="date_type">
+      <span>類型：</span>
+      <span class="content"></span>
+    </div>
+    <div class="start_date">
+      <span>日期</span>
+      <span class="content"></span>
+    </div>
+    <div class="end_date">
+      <span>日期</span>
+      <span class="content"></span>
+    </div>
+    <div class="long_term_token">
+      <span>星期</span>
+      <span class="content"></span>
+    </div>
+    <div class="start_time">
+      <span>開始時間</span>
+      <span class="content"></span>
+    </div>
+    <div class="end_time">
+      <span>結束時間</span>
+      <span class="content"></span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="delete_loan">
       刪除
     </button>
   </div>
 </div>
+
 
 <div class="lean-overlay" id="materialize-lean-overlay-30">
 </div>
