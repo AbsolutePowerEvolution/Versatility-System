@@ -690,7 +690,9 @@ webpackJsonp([0],{
 	        container: document.getElementById('datepicker_container'),
 	        format: 'YYYY-MM-DD'
 	      });
-	      picker.gotoToday();
+
+	      var today = new moment(new Date()).format('YYYY-MM-DD');
+	      $('#datepicker').val(today).change();
 	    });
 	  });
 	});
@@ -1008,6 +1010,8 @@ webpackJsonp([0],{
 
 	  // init X
 	  $('table').find('.tr_classroom').eq(index).find('.td_time_period').html('X');
+
+	  console.log(id + ', ' + index);
 	  for (var i = 0; i < LoanTable[id].loan_classroom.length; i++) {
 	    // examine selected day's status
 	    began = new Date(LoanTable[id].loan_classroom[i].date_began_at); // date began
@@ -1015,14 +1019,17 @@ webpackJsonp([0],{
 	    if (began <= selectedDay && selectedDay <= ended) {
 	      if (LoanTable[id].loan_classroom[i].time_began_at != null) {
 	        began = LoanTable[id].loan_classroom[i].time_began_at;
-	        ended = LoanTable[id].loan_classroom[i].time_began_at;
-	        began = matchTool(began, PeriodStart) + 1; // add one, because nth-of-type start from 1
-	        ended = matchTool(ended, PeriodEnd) + 1;
+	        ended = LoanTable[id].loan_classroom[i].time_ended_at;
+	        console.log(began + '~' + ended);
+	        began = matchTool(began, PeriodStart); // add one, because nth-of-type start from 1
+	        ended = matchTool(ended, PeriodEnd);
+
 	        for (var j = began; j <= ended; j++) {
 	          $('table').find('.tr_classroom').eq(index).find('.td_time_period').eq(j).html('O');
 	        }
 	      } else {
 	        // all days
+	        console.log(id + ', ' + index + 'all day [i = ' + i);
 	        $('table').find('.tr_classroom').eq(index).find('.td_time_period').html('O');
 	      }
 	    }
