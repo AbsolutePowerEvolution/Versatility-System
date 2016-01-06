@@ -1,135 +1,38 @@
 var Sammy = require('sammy');
-var NumberPeriodStart = [
-  ['07:10:00', '08:10:00', '09:10:00'],
-  ['10:10:00', '11:10:00', '12:10:00'],
-  ['13:10:00', '14:10:00', '15:10:00'],
-  ['16:10:00', '17:10:00', '18:10:00'],
-  ['19:10:00', '20:10:00', '21:10:00']
+var PeriodStart = [
+  '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00',
+  '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00',
+  '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00',
+  '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00',
+  '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00'
 ];
-var NumberPeriodEnd = [
-  ['08:00:00', '09:00:00', '10:00:00'],
-  ['11:00:00', '12:00:00', '13:00:00'],
-  ['14:00:00', '15:00:00', '16:00:00'],
-  ['17:00:00', '18:00:00', '19:00:00'],
-  ['20:00:00', '21:00:00', '22:00:00']
-];
-var EnglishPeriodStart = [
-  ['07:15:00', '08:45:00'],
-  ['10:15:00', '11:45:00'],
-  ['13:15:00', '14:45:00'],
-  ['16:15:00', '17:45:00'],
-  ['19:15:00', '20:45:00']
-];
-var EnglishPeriodEnd = [
-  ['08:30:00', '10:00:00'],
-  ['11:30:00', '13:00:00'],
-  ['14:30:00', '16:00:00'],
-  ['17:30:00', '19:00:00'],
-  ['20:30:00', '22:00:00']
-];
-var UserPeriodStart = [
-  ['07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00'],
-  ['10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00'],
-  ['13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00'],
-  ['16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00'],
-  ['19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00']
-];
-var UserPeriodEnd = [
-  ['07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00'],
-  ['10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00'],
-  ['13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00'],
-  ['16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00'],
-  ['19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00']
+var PeriodEnd = [
+  '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00',
+  '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00',
+  '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00',
+  '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00',
+  '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00'
 ];
 var LoanTable; // Table Data
 var LoanTablePage;
-var LoanType; // short or long
-var LoanTimeType; // number, english, user
+var AllLoanTablePage;
+
 var LoanHistory; // History Data
-var NowPage;
-var AllPage;
+var HistoryPage;
+var AllHistoryPage;
+
+var LoanType; // one_day, few_days, many_days
+var LoanTimeType; // 30 minutes, all day
 
 Sammy('#main', function() {
-  var time = {};
-
   this.get('#/user/loan', function(context) {
     context.time = {};
+    context.time.PeriodStart = PeriodStart;
+    context.time.PeriodEnd = PeriodEnd;
+    context.FiveTimes = _.times(5);
+    context.ThirtyTimes = _.times(30);
+    // context.thirty_times = _.times(30, _.uniqueId.bind(null, 'ball'));
 
-    context.time.numberPeriodStart = function() {
-      var result = [];
-      var data = _.flattenDeep(NumberPeriodStart);
-      var i;
-      for(i = 0; i < data.length; i++) {
-        result[i] = {};
-        result[i].index = i;
-        result[i].time = data[i];
-      }
-
-      return result;
-    };
-    context.time.numberPeriodEnd = function() {
-      var result = [];
-      var data = _.flattenDeep(NumberPeriodEnd);
-      var i;
-
-      for(i = 0; i < data.length; i++) {
-        result[i] = {};
-        result[i].index = i;
-        result[i].time = data[i];
-      }
-
-      return result;
-    };
-    context.time.englishPeriodStart = function() {
-      var result = [];
-      var data = _.flattenDeep(EnglishPeriodStart);
-      var i;
-      for(i = 0; i < data.length; i++) {
-        result[i] = {};
-        result[i].index = i;
-        result[i].time = data[i];
-      }
-
-      return result;
-    };
-    context.time.englishPeriodEnd = function() {
-      var result = [];
-      var data = _.flattenDeep(EnglishPeriodEnd);
-      var i;
-
-      for(i = 0; i < data.length; i++) {
-        result[i] = {};
-        result[i].index = i;
-        result[i].time = data[i];
-      }
-
-      return result;
-    };
-    context.time.userPeriodStart = function() {
-      var result = [];
-      var data = _.flattenDeep(UserPeriodStart);
-      var i;
-      for(i = 0; i < data.length; i++) {
-        result[i] = {};
-        result[i].index = i;
-        result[i].time = data[i];
-      }
-
-      return result;
-    };
-    context.time.userPeriodEnd = function() {
-      var result = [];
-      var data = _.flattenDeep(UserPeriodEnd);
-      var i;
-
-      for(i = 0; i < data.length; i++) {
-        result[i] = {};
-        result[i].index = i;
-        result[i].time = data[i];
-      }
-
-      return result;
-    };
     context.loadPartials({menu: '/templates/user/menu.ms'})
       .partial('/templates/user/loan.ms')
       .then(function() {
@@ -159,10 +62,9 @@ function userLoanInitEvent() {
 
   $.get('/api/user/property/classrooms', request, function(result) {
     console.log(result);
-    var i;
     var text;
 
-    for(i = 0; i < result.length; i++) {
+    for(let i = 0; i < result.length; i++) {
       text =  '<option value=' + result[i].id + '>';
       text += result[i].name;
       text += '</option>';
@@ -185,13 +87,15 @@ function loanMaterializeEvent() {
 }
 
 function initModal() {
+  $('.modal').find('.switch_date:first').click();
+  $('.modal').find('.switch_time:first').click();
   $('.modal').find('#input[name="start_date"]').val('');
   $('.modal').find('#input[name="end_date"]').val('');
   $('.modal').find('input[type="checkbox"]').prop('checked', false);
   $('.modal').find('select')
     .find('option:nth-of-type(2)')
     .prop('selected', true);
-  $('.modal').find('select').material_select();
+  $('.modal').find('select').material_select(); // refresh select
 }
 
 function loanButtonEvent() {
@@ -199,9 +103,7 @@ function loanButtonEvent() {
   var switchTimeTarget;
   $('#main').find('.modal-trigger')
     .on('click', function(event) {
-      if($(this).data('button') == 'add') {
-        initModal();
-      }
+      initModal();
 
       $('#materialize-lean-overlay-30').css('display', 'block');
       modalTarget = $(this).data('modal_target');
@@ -214,71 +116,63 @@ function loanButtonEvent() {
       $('#' + modalTarget).fadeOut();
     });
 
-  $('#screen_classroom').unbind('click');
-  $('#screen_classroom').click(function() {
-    $('#loan_container').show();
-    $('#history_container').hide();
-    $('.modal').find('.belong_loan').show();
-    $('.modal').find('.belong_history').hide();
+  $('.switch_screen').unbind('click');
+  $('.switch_screen').click(function() {
+    var screenType = $(this).data('switch_screen');
+    if(screenType == 'loan') {
+      $('#loan_container').hide();
+      $('#history_container').show();
+    }else {
+      $('#loan_container').show();
+      $('#history_container').hide();
+
+      NowPage = 1;
+      getLoanHistory();
+    }
   });
 
-  $('#screen_history').unbind('click');
-  $('#screen_history').click(function() {
-    $('#history_container').show();
-    $('#loan_container').hide();
-    $('.modal').find('.belong_loan').hide();
-    $('.modal').find('.belong_history').show();
+  $('.modal .swtich_date').unbind('click');
+  $('.modal .switch_date').click(function() {
+    var dateType = $(this).data('date_type');
+    if(dateType == 'many_days') {
+      LoanType = 3;
+    }else if(dateType == 'few_days') {
+      LoanType = 2;
+    }else {
+      LoanType = 1;
+    }
 
-    NowPage = 1;
-    getLoanHistory();
-  });
+    $('.modal .days').hide();
+    $('.modal .for_' + dateType).show();
 
-  $('.modal #short').unbind('click');
-  $('.modal #short').click(function() {
-    LoanType = 1;
+    // button color
     $(this).parent()
       .find('button')
-      .removeClass('active');
-    $(this).addClass('active');
-    $('.modal .long').hide();
-    $('.modal .short').show();
-  });
-
-  $('.modal #long').unbind('click');
-  $('.modal #long').click(function() {
-    LoanType = 2;
-    $(this).parent()
-      .find('button')
-      .removeClass('active');
-    $(this).addClass('active');
-    $('.modal .short').hide();
-    $('.modal .long').show();
+      .removeClass('pink darken-4');
+    $(this).addClass('pink darken-4');
   });
 
   $('.modal .switch_time').unbind('click');
   $('.modal .switch_time').click(function() {
     $(this).parent()
       .find('button')
-      .removeClass('active');
-    $(this).addClass('active');
+      .removeClass('pink darken-4');
+    $(this).addClass('pink darken-4');
 
-    switchTimeTarget = $(this).data('switch_time_target');
-    $('.modal .time_container').hide();
-    $('.modal .' + switchTimeTarget).show();
-
-    if(switchTimeTarget == 'user_period') {
+    switchTimeTarget = $(this).data('time_period');
+    if(switchTimeTarget == 'thirty_minutes') {
+      $('.modal .time_container').show();
       LoanTimeType = 1;
-    }else if(switchTimeTarget == 'number_period') {
-      LoanTimeType = 2;
     }else {
-      LoanTimeType = 3;
+      $('.modal .time_container').hide();
+      LoanTimeType = 2;
     }
   });
 
   $('.history_btn').unbind('click');
   $('.history_btn').click(function() {
     var id = $(this).data('loan_id');
-    InsertDataToModal(id);
+    $('#delete_loan').attr('data-loan_id', id);
   });
 }
 
@@ -291,15 +185,12 @@ function loanDataEvent() {
 
     $.get('/api/user/property/classrooms', request, function(result) {
       LoanTablePage = 0;
+      AllLoanTablePage = result.length;
       LoanTable = [];
-      var i;
-      for(i = 0; i < result.length; i++) {
-        if(result[i].loan_classroom != 0) {
-          LoanTable.push(result[i]);
-        }
-      }
+      LoanTable = result;
+
+      produceLoanTable();
       console.log(LoanTable);
-      produceClassroomStatus();
     }).fail(function() {
       alert('資料取得失敗，可能要先登入');
     });
@@ -309,32 +200,32 @@ function loanDataEvent() {
   $('#delete_loan').click(function() {
     var request = {};
     request.id = $(this).data('loan_id');
+
     $.post('/api/user/loan/delete/' + request.id, request, function(result) {
       console.log(result);
+    }).fail(function() {
+      alert('刪除失敗');
     });
   });
 
   $('#create_loan').unbind('click');
   $('#create_loan').click(function() {
     var request = {};
-    var temp;
     var i;
+    var a; // for temp
+    var b; // for temp
+    var temp;
     var errMsg = '';
-    var LoanTimeTypeList = [
-      'user',
-      'number',
-      'english'
-    ];
 
     request.property_id = $('.modal').find('#classroom').val();
 
     switch(LoanType) {
-      case 1: { // 短期
+      case 1: { // one_day
         temp = $('.modal').find('input[name="start_date"]').val();
         temp = moment(new Date(temp)).format('YYYY-MM-DD');
         if(temp != 'Invalid date') {
-          var a = new Date();
-          var b = new Date(temp);
+          a = new Date();
+          b = new Date(temp);
 
           if(b >= a) {
             request.date_began_at = temp;
@@ -348,7 +239,17 @@ function loanDataEvent() {
 
         break;
       }
-      case 2: { // 長期
+      case 2: { // few_days
+        request.time_began_at =  $('.modal')
+          .find('select[name="time_start"]')
+          .val();
+        request.time_ended_at = $('.modal')
+          .find('select[name="time_end"]')
+          .val();
+
+        break;
+      }
+      case 3: { // many_days
         temp = $('.modal').find('input[name="start_date"]').val();
         temp = moment(new Date(temp)).format('YYYY-MM-DD');
         if(temp != 'Invalid date') {
@@ -386,21 +287,13 @@ function loanDataEvent() {
       }
     }
 
-    request.time_began_at =  $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period')
-      .find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_start"]')
-      .val();
-
-    request.time_ended_at = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period')
-      .find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_end"]')
-      .val();
-
     // check start and end date diff
     if(errMsg == '') {
-      var startTime = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period')
-        .find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_start"]')
+      var startTime = $('.modal')
+        .find('select[name="time_start"]')
         .val();
-      var endTime = $('.modal').find('.' + LoanTimeTypeList[LoanTimeType - 1] + '_period')
-        .find('select[name="' + LoanTimeTypeList[LoanTimeType - 1] + '_end"]')
+      var endTime = $('.modal')
+        .find('select[name="time_end"]')
         .val();
       if(endTime < startTime) {
         errMsg += '時段前後順序不對，可能太早';
@@ -415,11 +308,6 @@ function loanDataEvent() {
     $.post('/api/user/loan/create', request, function(result) {
       console.log(result);
     });
-  });
-
-  $('#edit_loan').unbind('click');
-  $('#edit_loan').click(function() {
-
   });
 }
 
@@ -449,11 +337,15 @@ function produceLoanHistory() {
     text =  '<div class="row card-content">';
     text += '<span class="col s4">' + LoanHistory[i].property_name + '</span>';
     text += '<span class="col s4">';
-    text += _.trim(LoanHistory[i].time_began_at) + ' ~ ' + _.trim(LoanHistory[i].time_ended_at);
+    if(LoanHistory[i].time_began_at == null) {
+      text += 整天;
+    }else {
+      text += LoanHistory[i].time_began_at + ' ~ ' + LoanHistory[i].time_ended_at;
+    }
     text += '</span>';
     text += '<span class="col s4 history_btn" data-loan_id="' + i + '">';
     text += '<a class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class">';
-    text += '<i class="material-icons">build</i>更改/刪除</i>';
+    text += '<i class="material-icons">build</i>查看/刪除</i>';
     text += '</a></span>';
     text += '</div>';
     $('#history_card_container').append(text);
@@ -475,64 +367,15 @@ function LoanPageEvent() {
 
 }
 
-function InsertDataToModal(id) {
-  var temp;
-  var group;
-  var start;
-  var end;
-  var i;
-  console.log(LoanHistory[id]);
-  if(LoanHistory[id].long_term_token != null) {
-    $('.modal #long').click();
-    $('input[name="start_date"]').val(LoanHistory[id].date_began_at);
-    $('input[name="end_date"]').val(LoanHistory[id].date_ended_at);
-
-    $('.modal input[type="checkbox"]').prop('checked', false);
-    temp = LoanHistory[id].long_term_token.split('').reverse();
-    for(i = 0; i < 7; i++) {
-      if(temp[i] == 1) {
-        $('.modal').find('#day' + i).prop('checked', true);
-      }
-    }
-  }else {
-    $('.modal #short').click();
-    $('input[name="start_date"]').val(LoanHistory[id].date_began_at);
+function produceLoanTable() {
+  for(let i = (LoanTablePage * 5), j = 0; (i < LoanTable.length) && (j < 5); i++, j++) {
+    $('table').find('.tr_classroom')
+        .eq(j)
+        .find('.td_classroom_name')
+        .html(LoanTable[i].name);
+    colorLoanTable(i, j);
   }
-
-  $('#classroom option[value="' + LoanHistory[id].property_id + '"]').prop('selected', true);
-
-  temp = LoanHistory[id].time_began_at.split(':');
-  group = groupTool(temp[1]);
-  start = LoanHistory[id].time_began_at;
-  end = LoanHistory[id].time_ended_at;
-
-  switch(group){
-    case 3: {
-      $('.switch_time_container')
-        .find('#user_btn')
-        .click();
-      console.log(start + end);
-      $('.modal select[name="user_start"]')
-        .find('[value="' + start + '"]')
-        .prop('selected', true);
-      $('.modal select[name="user_end"]')
-        .find('[value="' + end + '"]')
-        .prop('selected', true);
-      break;
-    }
-    case 1: {
-      $('.switch_time_container')
-        .find('#number_btn')
-        .click();
-      break;
-    }
-    case 2: {
-      $('.switch_time_container')
-        .find('#english_btn')
-        .click();
-      break;
-    }
-  }
+<<<<<<< Updated upstream
   // update select status
   $('.modal select').material_select();
 
@@ -541,130 +384,58 @@ function InsertDataToModal(id) {
 
   $('#edit_loan').attr('data-loan_id', id);
   $('#delete_loan').attr('data-loan_id', id);
+=======
+>>>>>>> Stashed changes
 }
 
-function produceClassroomStatus() {
-  var i;
-  var j;
-  var k;
-  var temp;
-  var group;
+function colorLoanTable(id, index) {
   var selectedDay = new Date($('#datepicker').val());
   var began;
   var ended;
 
   // Empty Html
-  $('.content1, .content2, .content3, .content4, .content5')
-    .find('div')
-    .remove();
 
-  for(i = (LoanTablePage * 5), j = 0; (i < LoanTable.length) && (j < 5); i++, j++) {
-    for(k = 0; k < LoanTable[i].loan_classroom.length; k++) {
-      console.log('here');
-      // examine selected day's status
-      began = new Date(LoanTable[i].loan_classroom[k].date_began_at);
-      ended = new Date(LoanTable[i].loan_classroom[k].date_ended_at);
-      if((LoanTable[i].loan_classroom[k].time_began_at != null) &&
-          (began <= selectedDay && selectedDay <= ended)) {
-
-        temp = LoanTable[i].loan_classroom[k].time_began_at.split(':');
-        group = groupTool(temp[1]);
-
-        switch(group){
-          case 1: {// NumberPeriod
-            break;
-          }
-          case 2: {// EnglishPeriod
-            break;
-          }
-          case 3: {// UserPeriod
-            began = matchTool(LoanTable[i].loan_classroom[k].time_began_at, UserPeriodStart);
-            ended = matchTool(LoanTable[i].loan_classroom[k].time_ended_at, UserPeriodEnd);
-            console.log('began = ' + began);
-            console.log('ended = ' + ended);
-
-            produceTable(group, began, ended, j);
-            break;
-          }
+  console.log('id = ' + id);
+  for(let i = 0; i < LoanTable[id].loan_classroom.length; i++) {
+    // examine selected day's status
+    began = new Date(LoanTable[id].loan_classroom[i].date_began_at); // date began
+    ended = new Date(LoanTable[id].loan_classroom[i].date_ended_at); // date ended
+    if(began <= selectedDay && selectedDay <= ended) {
+      if(LoanTable[id].loan_classroom[i].time_began_at != null) {
+        began = LoanTable[id].loan_classroom[i].time_began_at;
+        ended = LoanTable[id].loan_classroom[i].time_began_at;
+        began = matchTool(began, PeriodStart) + 1; // add one, because nth-of-type start from 1
+        ended = matchTool(ended, PeriodEnd) + 1;
+        for(let j = began; j <= ended; j++) {
+          $('table').find('.tr_classroom')
+              .eq(index)
+              .find('.td_time_period')
+              .eq(j)
+              .addClass('red darken-3');
         }
+      }else { // all days
+        $('table').find('.tr_classroom')
+            .eq(index)
+            .find('.td_time_period')
+            .addClass('red darken-3');
       }
     }
-  }
-}
-
-function produceTable(group, began, ended, contentIndex) {
-  var i;
-  var j;
-  var perLineLength;
-  var filedIndex;
-  var parseIndex;
-  var labelFront;
-  var labelAfter;
-
-  switch(group) {
-    case 1: {
-      perLineLength = 3;
-      labelFront = '<div class="number_container number_period';
-      labelAfter = '"></div>';
-      break;
-    }
-
-    case 2: {
-      perLineLength = 2;
-      labelFront = '<div class="english_container english_period';
-      labelAfter = '"></div>';
-      break;
-    }
-
-    case 3: {
-      perLineLength = 6;
-      labelFront = '<div class="user_container user_period';
-      labelAfter = '"></div>';
-      break;
-    }
-  }
-
-  // Parse Html
-  for(i = began, j = 0; j <= (ended - began); i++, j++) {
-    filedIndex = Math.floor(i / perLineLength) + 1;
-    parseIndex = (i % perLineLength) + 1;
-    console.log('filedIndex = ' + filedIndex);
-    console.log('parseIndex = ' + parseIndex);
-
-    $('#table_filed' + filedIndex)
-      .find('.content' + contentIndex)
-      .append(labelFront + parseIndex + labelAfter);
   }
 }
 
 function matchTool(time, table) {
-  var i;
-  var j;
   var result;
 
-  for(i = 0; i < table.length; i++) {
-    for(j = 0; j < table[i].length; j++) {
-      if(time === table[i][j]) {
-        result = (i * table[i].length) + j;
-        break;
-      }
+  for(let i = 0; i < table.length; i++) {
+    if(time === table[i]) {
+      result = i;
+      break;
     }
   }
 
   return result;
 }
 
-function groupTool(value) {
-  switch(value) {
-    case '10': {// NumberPeriod
-      return 1;
-    }
-    case '15': // EnglishPeriod
-    case '45': {
-      return 2;
-    }
-    default: {// UserPeriod
-      return 3;
-    }
-  }
+function validateData(type) {
+
 }

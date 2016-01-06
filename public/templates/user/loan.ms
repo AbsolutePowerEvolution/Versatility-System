@@ -1,5 +1,6 @@
 {{>menu}}
 
+<<<<<<< Updated upstream
 <div>
     <div class="container">
         <div class="row">
@@ -10,10 +11,23 @@
                 </ul>
             </div>
         </div>
+=======
+<div class="row">
+    <div class="col s6 right">
+        <ul id="sub_menu" class="tabs">
+          <li class="tab center switch_screen" data-screen_type="loan">
+            <a herf=""><i class="material-icons">list</i>借用教室</a>
+          </li>
+          <li class="tab center switch_screen" data-screen_type="history">
+            <a herf=""><i class="material-icons">history</i>歷史紀錄</a>
+          </li>
+        </ul>
+>>>>>>> Stashed changes
     </div>
 </div>
 
 <div id="loan_container" class="container">
+<<<<<<< Updated upstream
   <div class="row">
     <div class="col s9">
       <table class="row-table centered">
@@ -83,6 +97,43 @@
           新增借用
         </span>
       </div>
+=======
+  <table class="row-table centered">
+    <thead>
+      <tr>
+        <th>時段</th>
+        <th>1</th>
+        <th>2</th>
+        <th>3</th>
+        <th>4</th>
+        <th>5</th>
+        <th>6</th>
+        <th>7</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><i class="material-icons">chevron_left</i></td>
+      </tr>
+      {{#FiveTimes}}
+      <tr class="tr_classroom">
+        <td class="td_classroom_name"></td>
+        {{#ThirtyTimes}}
+        <td class="td_time_period"></td>
+        {{/ThirtyTimes}}
+      </tr>
+      {{/FiveTimes}}
+      <tr>
+        <td><i class="material-icons">chevron_right</i></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="date_container">
+    <div class="add_container">
+      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_form">
+        <i class="material-icons">add</i>
+      </span>
+>>>>>>> Stashed changes
     </div>
   </div>
 </div>
@@ -96,21 +147,22 @@
   </ul>
 </div>
 
-<!-- Modal Structure -->
-<div id="loan_class" class="modal">
+<!-- Create Loan Modal -->
+<div id="loan_form" class="modal materialize_modal">
   <div class="modal-content">
     <div class="switch_type_container">
-      <button id="short" class="btn">短期</button>
-      <button id="long" class="btn">長期</button>
+      <button class="btn switch_date" data-date_type="one_day">短期(一天)</button>
+      <button class="btn switch_date" data-date_type="few_days">短期(多天)</button>
+      <button class="btn switch_date" data-date_type="many_days">長期</button>
     </div>
-    <input type="date" class="datepicker long short" placeholder="選擇借用日期" name="start_date">
-    <input type="date" class="datepicker long" placeholder="選擇借用到期日" name="end_date">
+    <input type="date" class="datepicker days for_many_days for_few_days for_one_day" placeholder="選擇借用日期" name="start_date">
+    <input type="date" class="datepicker days for_many_days for_few_days" placeholder="選擇借用到期日" name="end_date">
     <div class="input-field">
       <select id="classroom" name="classroom">
         <option value="" disabled>教室</option>
       </select>
     </div>
-    <div class="long checkbox_container">
+    <div class="checkbox_container days for_many_days">
       <p>選星期幾</p>
       <input type="checkbox" value="0" id="day0">
       <label for="day0">日</label>
@@ -129,70 +181,53 @@
     </div>
 
     <div class="switch_time_container">
-      <button id="user_btn" class="btn switch_time" data-switch_time_target="user_period">30分鐘</button>
-      <button id="number_btn" class="btn switch_time" data-switch_time_target="number_period">數字</button>
-      <button id="english_btn" class="btn switch_time" data-switch_time_target="english_period">英文</button>
+      <button class="btn switch_time" data-time_period="thirty_minutes">30分鐘區間</button>
+      <button class="btn switch_time" data-time_period="all_day">整天</button>
     </div>
 
     <div class="input-field user_period time_container">
-      <select name="user_start">
+      <select name="time_start">
         <option value="" disabled>起始時間</option>
-        {{#time.userPeriodStart}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.userPeriodStart}}
+        {{#time.PeriodStart}}
+          <option value="{{.}}">{{.}}</option>
+        {{/time.PeriodStart}}
       </select>
-      <select name="user_end">
+      <select name="time_end">
         <option value="" disabled>結束時間</option>
-        {{#time.userPeriodEnd}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.userPeriodEnd}}
-      </select>
-    </div>
-
-    <div class="input-field number_period time_container">
-      <select name="number_start">
-        <option value="" disabled>起始時間</option>
-        {{#time.numberPeriodStart}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.numberPeriodStart}}
-      </select>
-      <select name="number_end">
-        <option value="" disabled>結束時間</option>
-        {{#time.numberPeriodEnd}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.numberPeriodEnd}}
-      </select>
-    </div>
-
-    <div class="input-field english_period time_container">
-      <select name="english_start">
-        <option value="" disabled>起始時間</option>
-        {{#time.englishPeriodStart}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.englishPeriodStart}}
-      </select>
-      <select name="english_end">
-        <option value="" disabled>結束時間</option>
-        {{#time.englishPeriodEnd}}
-        <option value="{{time}}">{{time}}</option>
-        {{/time.englishPeriodEnd}}
+        {{#time.PeriodEnd}}
+          <option value="{{.}}">{{.}}</option>
+        {{/time.PeriodEnd}}
       </select>
     </div>
 
     <input type="text" name="remark" placeholder="填寫借用理由(可以不填)">
   </div>
   <div class="modal-footer">
-    <button id="create_loan" class="belong_loan">
+    <button id="create_loan">
       確認送出
     </button>
-    <button id="edit_loan" class="belong_history">
-      更改
-    </button>
-    <button id="delete_loan" class="belong_history">
+  </div>
+</div>
+
+<!-- Loan Detail Modal -->
+<div id="loan_detail" class="modal materialize_modal">
+  <div class="modal-content">
+    <div>
+      <span>類型：</span>
+      <span></span>
+    </div>
+    <div>
+      <span>日期</span>
+      <span></span>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="delete_loan">
       刪除
     </button>
   </div>
 </div>
+
 
 <div class="lean-overlay" id="materialize-lean-overlay-30">
 </div>
