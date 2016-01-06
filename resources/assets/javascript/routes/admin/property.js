@@ -49,7 +49,7 @@ Sammy('#main', function() {
           item.time = item.date_began_at + ' ' + (item.time_began_at == null ? '' : item.time_began_at) + '  -  ' +
                       item.date_ended_at + ' ' + (item.time_ended_at == null ? '' : item.time_ended_at);
           let isReturn = {'canceled': 'hide', 'finished': 'hide', 'refused': 'hide',
-                          'submit': 'block', 'accepted': 'block'};
+                          'submitted': 'block', 'accepted': 'block'};
           item.isReturn = isReturn[item.status.name] || 'hide';
           return item;
         });
@@ -250,7 +250,7 @@ function showPropertyDetailAndDeleteProperty() {
       $returnPropertyModal.find('#loanOtherAction').addClass('hide');
       $returnPropertyModal.find('#return_property_btn').removeClass('hide');
     } else {
-      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html(statusName);
+      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html(statusName[status]);
       $returnPropertyModal.find('#return_property_btn').addClass('hide');
     }
 
@@ -277,7 +277,7 @@ function showPropertyDetailAndDeleteProperty() {
       $repairPropertyModal.find('#repairOtherAction').addClass('hide');
       $repairPropertyModal.find('#repair_property_btn').removeClass('hide');
     } else {
-      $repairPropertyModal.find('#repairOtherAction').removeClass('hide').html(statusName);
+      $repairPropertyModal.find('#repairOtherAction').removeClass('hide').html(statusName[status]);
       $repairPropertyModal.find('#repair_property_btn').addClass('hide');
     }
     $repairPropertyModal.find('.userName').html(ele.data('username'));
