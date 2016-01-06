@@ -247,6 +247,7 @@ function getPropertyLoan(pageNum, pageLength, repairData) {
 function buildHistoryCard(repairData, propertyData) {
   var i;
   var j;
+
   for(i = 0; i < (Object.size(repairData) + Object.size(propertyData)); i++) {
     var swit;
     var oldIndex;
@@ -321,4 +322,5 @@ function historyCardEvent() {
     $modalTarget.find('p').html(ele.data('remark'));
   });
 }
+
 

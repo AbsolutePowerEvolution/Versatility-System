@@ -546,6 +546,9 @@ webpackJsonp([0],{
 	function buildHistoryCard(repairData, propertyData) {
 	  var i;
 	  var j;
+	  console.log(repairData);
+	  console.log(propertyData);
+
 	  for (i = 0; i < Object.size(repairData) + Object.size(propertyData); i++) {
 	    var swit;
 	    var oldIndex;
