@@ -4,3 +4,4 @@ require('./js');
 require('./lint');
 require('./watch');
 require('./browser-sync');
+require('./test');
