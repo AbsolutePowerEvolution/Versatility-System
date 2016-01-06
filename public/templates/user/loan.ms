@@ -5,8 +5,12 @@
         <div class="row">
             <div class="col s6 right">
                 <ul id="sub_menu" class="tabs">
-                    <li id="screen_classroom" class="tab center"><a herf=""><i class="material-icons">list</i>借用教室</a></li>
-                    <li id="screen_history" class="tab center"><a herf=""><i class="material-icons">history</i>歷史紀錄</a></li>
+                  <li class="tab center switch_screen" data-screen_type="loan">
+                    <a herf=""><i class="material-icons">list</i>借用教室</a>
+                  </li>
+                  <li class="tab center switch_screen" data-screen_type="history">
+                    <a herf=""><i class="material-icons">history</i>歷史紀錄</a>
+                  </li>
                 </ul>
             </div>
         </div>
@@ -36,6 +40,20 @@
             <th>1330~1400</th>
             <th>1400~1430</th>
             <th>1430~1500</th>
+            <th>1500~1530</th>
+            <th>1530~1600</th>
+            <th>1600~1630</th>
+            <th>1630~1700</th>
+            <th>1700~1730</th>
+            <th>1730~1800</th>
+            <th>1800~1830</th>
+            <th>1830~1900</th>
+            <th>1900~1930</th>
+            <th>1930~2000</th>
+            <th>2000~2030</th>
+            <th>2030~2100</th>
+            <th>2100~2130</th>
+            <th>2130~2200</th>
           </tr>
         </thead>
         <tbody>
@@ -63,7 +81,7 @@
         <div id="datepicker_container"></div>
       </div>
       <div class="add_container">
-        <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class" data-button="add">
+        <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_form">
           新增借用
         </span>
       </div>
@@ -145,13 +163,29 @@
 <!-- Loan Detail Modal -->
 <div id="loan_detail" class="modal materialize_modal">
   <div class="modal-content">
-    <div>
+    <div class="date_type">
       <span>類型：</span>
-      <span></span>
+      <span class="content"></span>
     </div>
-    <div>
+    <div class="start_date">
       <span>日期</span>
-      <span></span>
+      <span class="content"></span>
+    </div>
+    <div class="end_date">
+      <span>日期</span>
+      <span class="content"></span>
+    </div>
+    <div class="long_term_token">
+      <span>星期</span>
+      <span class="content"></span>
+    </div>
+    <div class="start_time">
+      <span>開始時間</span>
+      <span class="content"></span>
+    </div>
+    <div class="end_time">
+      <span>結束時間</span>
+      <span class="content"></span>
     </div>
   </div>
   <div class="modal-footer">

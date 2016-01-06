@@ -690,6 +690,7 @@ webpackJsonp([0],{
 	        container: document.getElementById('datepicker_container'),
 	        format: 'YYYY-MM-DD'
 	      });
+	      picker.gotoToday();
 	    });
 	  });
 	});
@@ -753,13 +754,13 @@ webpackJsonp([0],{
 
 	  $('.switch_screen').unbind('click');
 	  $('.switch_screen').click(function () {
-	    var screenType = $(this).data('switch_screen');
+	    var screenType = $(this).data('screen_type');
 	    if (screenType == 'loan') {
-	      $('#loan_container').hide();
-	      $('#history_container').show();
-	    } else {
 	      $('#loan_container').show();
 	      $('#history_container').hide();
+	    } else {
+	      $('#loan_container').hide();
+	      $('#history_container').show();
 
 	      HistoryPage = 1;
 	      getLoanHistory();
@@ -947,7 +948,7 @@ webpackJsonp([0],{
 	    LoanHistory = result.data;
 
 	    if (HistoryPage == 1) {
-	      AllPage = result.total;
+	      AllHistoryPage = result.total;
 	    }
 
 	    produceLoanHistory();
@@ -965,13 +966,13 @@ webpackJsonp([0],{
 	    text += '<span class="col s4">' + LoanHistory[i].property_name + '</span>';
 	    text += '<span class="col s4">';
 	    if (LoanHistory[i].time_began_at == null) {
-	      text += 整天;
+	      text += '整天';
 	    } else {
 	      text += LoanHistory[i].time_began_at + ' ~ ' + LoanHistory[i].time_ended_at;
 	    }
 	    text += '</span>';
 	    text += '<span class="col s4 history_btn" data-loan_id="' + i + '">';
-	    text += '<a class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_class">';
+	    text += '<a class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_detail">';
 	    text += '<i class="material-icons">build</i>查看/刪除</i>';
 	    text += '</a></span>';
 	    text += '</div>';
@@ -991,6 +992,9 @@ webpackJsonp([0],{
 	function LoanPageEvent() {}
 
 	function produceLoanTable() {
+	  // empty td
+	  $('table').find('.tr_classroom').find('.td_time_period').html('');
+
 	  for (var i = LoanTablePage * 5, j = 0; i < LoanTable.length && j < 5; i++, j++) {
 	    $('table').find('.tr_classroom').eq(j).find('.td_classroom_name').html(LoanTable[i].name);
 	    colorLoanTable(i, j);
@@ -1002,9 +1006,8 @@ webpackJsonp([0],{
 	  var began;
 	  var ended;
 
-	  // Empty Html
-
-	  console.log('id = ' + id);
+	  // init X
+	  $('table').find('.tr_classroom').eq(index).find('.td_time_period').html('X');
 	  for (var i = 0; i < LoanTable[id].loan_classroom.length; i++) {
 	    // examine selected day's status
 	    began = new Date(LoanTable[id].loan_classroom[i].date_began_at); // date began
@@ -1016,11 +1019,11 @@ webpackJsonp([0],{
 	        began = matchTool(began, PeriodStart) + 1; // add one, because nth-of-type start from 1
 	        ended = matchTool(ended, PeriodEnd) + 1;
 	        for (var j = began; j <= ended; j++) {
-	          $('table').find('.tr_classroom').eq(index).find('.td_time_period').eq(j).addClass('red darken-3');
+	          $('table').find('.tr_classroom').eq(index).find('.td_time_period').eq(j).html('O');
 	        }
 	      } else {
 	        // all days
-	        $('table').find('.tr_classroom').eq(index).find('.td_time_period').addClass('red darken-3');
+	        $('table').find('.tr_classroom').eq(index).find('.td_time_period').html('O');
 	      }
 	    }
 	  }
