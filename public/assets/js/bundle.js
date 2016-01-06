@@ -1939,8 +1939,8 @@ webpackJsonp([0],{
 	    $('input').removeClass('validate invalid');
 	    validate.async(context.params, SETTING_RULE, { wrapErrors: ValidationError }).then(function () {
 	      var params = lodash.assign({}, context.params);
-	      params.began_time = params.begin_time_submit;
-	      params.ended_time = params.ended_time_submit;
+	      params.began_date = params.begin_date_submit;
+	      params.ended_date = params.ended_date_submit;
 	      console.log('Validation setting');
 	      api.replace('manager/setting', {
 	        body: $.param(params)
