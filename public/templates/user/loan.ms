@@ -1,6 +1,5 @@
 {{>menu}}
 
-<<<<<<< Updated upstream
 <div>
     <div class="container">
         <div class="row">
@@ -11,23 +10,10 @@
                 </ul>
             </div>
         </div>
-=======
-<div class="row">
-    <div class="col s6 right">
-        <ul id="sub_menu" class="tabs">
-          <li class="tab center switch_screen" data-screen_type="loan">
-            <a herf=""><i class="material-icons">list</i>借用教室</a>
-          </li>
-          <li class="tab center switch_screen" data-screen_type="history">
-            <a herf=""><i class="material-icons">history</i>歷史紀錄</a>
-          </li>
-        </ul>
->>>>>>> Stashed changes
     </div>
 </div>
 
 <div id="loan_container" class="container">
-<<<<<<< Updated upstream
   <div class="row">
     <div class="col s9">
       <table class="row-table centered">
@@ -56,34 +42,18 @@
           <tr>
             <td><i class="material-icons">chevron_left</i></td>
           </tr>
-          <tr>
-            <td>教室0</td>
-            <td>DEMO</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>X</td>
-            <td>X</td>
-            <td>X</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
-            <td>O</td>
+          {{#FiveTimes}}
+          <tr class="tr_classroom">
+            <td class="td_classroom_name"></td>
+            {{#ThirtyTimes}}
+            <td class="td_time_period"></td>
+            {{/ThirtyTimes}}
           </tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
-          <tr></tr>
+          {{/FiveTimes}}
           <tr>
             <td><i class="material-icons">chevron_right</i></td>
           </tr>
-          
+
         </tbody>
       </table>
     </div>
@@ -97,43 +67,6 @@
           新增借用
         </span>
       </div>
-=======
-  <table class="row-table centered">
-    <thead>
-      <tr>
-        <th>時段</th>
-        <th>1</th>
-        <th>2</th>
-        <th>3</th>
-        <th>4</th>
-        <th>5</th>
-        <th>6</th>
-        <th>7</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><i class="material-icons">chevron_left</i></td>
-      </tr>
-      {{#FiveTimes}}
-      <tr class="tr_classroom">
-        <td class="td_classroom_name"></td>
-        {{#ThirtyTimes}}
-        <td class="td_time_period"></td>
-        {{/ThirtyTimes}}
-      </tr>
-      {{/FiveTimes}}
-      <tr>
-        <td><i class="material-icons">chevron_right</i></td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="date_container">
-    <div class="add_container">
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="loan_form">
-        <i class="material-icons">add</i>
-      </span>
->>>>>>> Stashed changes
     </div>
   </div>
 </div>

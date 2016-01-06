@@ -761,7 +761,7 @@ webpackJsonp([0],{
 	      $('#loan_container').show();
 	      $('#history_container').hide();
 
-	      NowPage = 1;
+	      HistoryPage = 1;
 	      getLoanHistory();
 	    }
 	  });
@@ -940,13 +940,13 @@ webpackJsonp([0],{
 
 	function getLoanHistory() {
 	  var request = {};
-	  request.page = NowPage;
+	  request.page = HistoryPage;
 	  request.length = 10;
 	  $.get('/api/user/loan/classrooms', request, function (result) {
 	    console.log(result);
 	    LoanHistory = result.data;
 
-	    if (NowPage == 1) {
+	    if (HistoryPage == 1) {
 	      AllPage = result.total;
 	    }
 
@@ -985,7 +985,7 @@ webpackJsonp([0],{
 	function produceHistoryPage() {
 	  var i;
 	  var text;
-	  for (i = 0; i < AllPage; i++) {}
+	  for (i = 0; i < AllHistoryPage; i++) {}
 	}
 
 	function LoanPageEvent() {}
