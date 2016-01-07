@@ -1,13 +1,13 @@
-import $ from 'jquery';
-import { connectEndpoint } from 'fetch-plus';
-import plusCsrf from 'fetch-plus-csrf';
+var $ =  require('jquery');
+var connectEndpoint = require('fetch-plus').connectEndpoint;
+var plusCsrf = require('fetch-plus-csrf');
 
-import cookie from './middleware/cookie';
-import param from './middleware/param';
-import header from './middleware/header';
-import statusCode from './middleware/status-code';
+var cookie = require('./middleware/cookie');
+var param = require('./middleware/param');
+var header = require('./middleware/header');
+var statusCode = require('./middleware/status-code');
 
-let token = $('#csrf-token').attr('content');
+var token = $('#csrf-token').attr('content');
 var api = connectEndpoint('/api');
 
 api.addMiddleware(plusCsrf('X-CSRF-TOKEN', token));

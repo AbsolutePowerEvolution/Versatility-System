@@ -100,35 +100,41 @@ webpackJsonp([0],{
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var Sammy = __webpack_require__(192);
-	var api = __webpack_require__(221);
+	(function () {
+	  'use strict';
 
-	Sammy('#main', function () {
-	  this.get('#/user/signin', function (context) {
-	    context.partial('/templates/user/signin.ms');
-	  });
+	  var Sammy = __webpack_require__(192);
+	  var api = __webpack_require__(221);
 
-	  this.post('#/user/signin', function (context) {
-	    var params = Object.assign({}, context.params);
-	    api.add('auth/login', {
-	      body: $.param(params)
-	    }).then(function (data) {
-	      console.log(data);
-	      if (data.status) {
-	        if (data.is_manager) {
-	          context.redirect('#/admin/examine');
-	        } else if (data.is_student) {
-	          context.redirect('#/user/loan');
-	        }
-	      } else {
-	        Materialize.toast('帳號 or 密碼錯誤');
-	      }
-	    }).catch(function (response) {
-	      Materialize.toast('伺服器錯誤');
+	  Sammy('#main', function (app) {
+	    app.get('#/user/signin', function (context) {
+	      context.partial('/templates/user/signin.ms').then(function () {
+	        console.log('render');
+	      });
 	    });
-	    return false;
+
+	    app.post('#/user/signin', function (context) {
+	      var params = Object.assign({}, context.params);
+	      api.add('auth/login', {
+	        body: $.param(params)
+	      }).then(function (data) {
+	        console.log(data);
+	        if (data.status) {
+	          if (data.is_manager) {
+	            context.redirect('#/admin/examine');
+	          } else if (data.is_student) {
+	            context.redirect('#/user/loan');
+	          }
+	        } else {
+	          Materialize.toast('帳號 or 密碼錯誤');
+	        }
+	      }).catch(function (response) {
+	        Materialize.toast('伺服器錯誤');
+	      });
+	      return false;
+	    });
 	  });
-	});
+	}).call(undefined);
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
 
 /***/ },
@@ -138,42 +144,23 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var _jquery = __webpack_require__(194);
+	var $ = __webpack_require__(194);
+	var connectEndpoint = __webpack_require__(222).connectEndpoint;
+	var plusCsrf = __webpack_require__(223);
 
-	var _jquery2 = _interopRequireDefault(_jquery);
+	var cookie = __webpack_require__(224);
+	var param = __webpack_require__(225);
+	var header = __webpack_require__(226);
+	var statusCode = __webpack_require__(227);
 
-	var _fetchPlus = __webpack_require__(222);
+	var token = $('#csrf-token').attr('content');
+	var api = connectEndpoint('/api');
 
-	var _fetchPlusCsrf = __webpack_require__(223);
-
-	var _fetchPlusCsrf2 = _interopRequireDefault(_fetchPlusCsrf);
-
-	var _cookie = __webpack_require__(224);
-
-	var _cookie2 = _interopRequireDefault(_cookie);
-
-	var _param = __webpack_require__(225);
-
-	var _param2 = _interopRequireDefault(_param);
-
-	var _header = __webpack_require__(226);
-
-	var _header2 = _interopRequireDefault(_header);
-
-	var _statusCode = __webpack_require__(227);
-
-	var _statusCode2 = _interopRequireDefault(_statusCode);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var token = (0, _jquery2.default)('#csrf-token').attr('content');
-	var api = (0, _fetchPlus.connectEndpoint)('/api');
-
-	api.addMiddleware((0, _fetchPlusCsrf2.default)('X-CSRF-TOKEN', token));
-	api.addMiddleware(_cookie2.default);
-	api.addMiddleware(_param2.default);
-	api.addMiddleware(_header2.default);
-	api.addMiddleware(_statusCode2.default);
+	api.addMiddleware(plusCsrf('X-CSRF-TOKEN', token));
+	api.addMiddleware(cookie);
+	api.addMiddleware(param);
+	api.addMiddleware(header);
+	api.addMiddleware(statusCode);
 
 	module.exports = api;
 
@@ -184,12 +171,8 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
 	// Default add cookie
-
-	exports.default = function (request) {
+	module.exports = function (request) {
 	  if (!request.options.credentials) {
 	    request.options.credentials = 'include';
 	  }
@@ -202,21 +185,13 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _jquery = __webpack_require__(194);
-
-	var _jquery2 = _interopRequireDefault(_jquery);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
-	exports.default = function (request) {
+	var $ = __webpack_require__(194);
+
+	module.exports = function (request) {
 	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
-	    request.path = request.path + '?' + _jquery2.default.param(request.options.params);
+	    request.path = request.path + '?' + $.param(request.options.params);
 	  }
 	};
 
@@ -227,18 +202,13 @@ webpackJsonp([0],{
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
 	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
 	var JSON_HEADER = 'application/json; charset=UTF-8';
 
 	// custom JSON middleware
-
-	exports.default = function (request) {
+	module.exports = function (request) {
 	  var body = request.options.body;
 	  // If options have key named type
 	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
@@ -272,25 +242,17 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _when = __webpack_require__(197);
-
-	var _when2 = _interopRequireDefault(_when);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+
+	var when = __webpack_require__(197);
 
 	// P2P-style unjustifed status code check
 
-	exports.default = function () {
+	module.exports = function () {
 	  return function (response) {
 	    if (_typeof(response.body) === 'object' && response.body.status) {
 	      if (response.body.status !== 0) {
-	        return _when2.default.reject(response);
+	        return when.reject(response);
 	      }
 	    }
 	    return response;
@@ -1942,8 +1904,8 @@ webpackJsonp([0],{
 	    $('input').removeClass('validate invalid');
 	    validate.async(context.params, SETTING_RULE, { wrapErrors: ValidationError }).then(function () {
 	      var params = lodash.assign({}, context.params);
-	      params.began_time = params.begin_time_submit;
-	      params.ended_time = params.ended_time_submit;
+	      params.began_date = params.begin_date_submit;
+	      params.ended_date = params.ended_date_submit;
 	      console.log('Validation setting');
 	      api.replace('manager/setting', {
 	        body: $.param(params)

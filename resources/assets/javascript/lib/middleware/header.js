@@ -1,9 +1,9 @@
-const FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
-const JSON_HEADER = 'application/json; charset=UTF-8';
+var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
+var JSON_HEADER = 'application/json; charset=UTF-8';
 
 // custom JSON middleware
-export default ((request) => {
-  let body = request.options.body;
+module.exports = ((request) => {
+  var body = request.options.body;
   // If options have key named type
   if(request.options.type && typeof body === 'object') {
     // Stringify body and add header
