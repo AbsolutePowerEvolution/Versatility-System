@@ -1,5 +1,7 @@
-系務系統
-====
+#系務系統
+
+[![Build Status](https://travis-ci.org/AbsolutePowerEvolution/VersatilitySystem.svg?branch=master)](https://travis-ci.org/AbsolutePowerEvolution/VersatilitySystem)
+
 
 ## OAuth
 
