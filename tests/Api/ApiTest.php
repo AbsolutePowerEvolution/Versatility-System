@@ -6,7 +6,6 @@ use App\Affair\Category;
 use App\Affair\Property;
 use App\Affair\Role;
 use App\Affair\User;
-use Auth;
 use Symfony\Component\HttpFoundation\Response;
 use Tests\TestCase;
 
@@ -63,7 +62,7 @@ class ApiTest extends TestCase
      */
     public function signIn($username = 'test')
     {
-        Auth::loginUsingId(User::where('username', $username)->first()->getAttribute('id'));
+        $this->actingAs(User::where('username', $username)->first());
     }
 
     /**
