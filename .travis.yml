@@ -13,6 +13,8 @@ services:
 
 # Commands to be run before your environment runs.
 before_script:
+  - cp .env.travis .env
+  - mysql -e 'create database cms;'
   - composer self-update
   - composer install --no-interaction
 
