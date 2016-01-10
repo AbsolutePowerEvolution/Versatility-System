@@ -17,6 +17,8 @@ before_script:
   - mysql -e 'create database cms;'
   - composer self-update
   - composer install --no-interaction
+  - php artisan key:generate
+  - php artisan migrate
 
 # Commands you want to run that will verify your build.
 script: phpunit
