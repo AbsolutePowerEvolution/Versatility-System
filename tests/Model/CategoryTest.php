@@ -3,10 +3,25 @@
 namespace Tests\Model;
 
 use App\Affair\Category;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
+    use DatabaseTransactions;
+
+    /**
+     * Setup the test environment.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->seed('CategoryTableSeeder');
+    }
+
     /** @test */
     public function it_should_get_all_categories_if_no_parameter()
     {
