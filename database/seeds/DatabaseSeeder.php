@@ -18,5 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
 
         $this->call(PropertyTableSeeder::class);
+
+        $this->call(RepairTableSeeder::class);
     }
 }

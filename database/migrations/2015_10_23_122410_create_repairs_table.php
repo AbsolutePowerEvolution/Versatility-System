@@ -15,7 +15,7 @@ class CreateRepairsTable extends Migration
         Schema::create('repairs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable()->comment('報修帳號id');
-            $table->integer('property_id')->unsigned()->comment('財產id');
+            $table->string('title')->nullable();
             $table->integer('type')->unsigned()->comment('報修類型');
             $table->string('remark')->nullable()->comment('附註');
             $table->integer('status')->unsigned()->comment('報修狀態');
@@ -23,14 +23,12 @@ class CreateRepairsTable extends Migration
             $table->softDeletes();
 
             $table->index('user_id');
-            $table->index('property_id');
             $table->index('type');
             $table->index('status');
             $table->index('created_at');
             $table->index('deleted_at');
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('set null');
-            $table->foreign('property_id')->references('id')->on('properties')->onUpdate('cascade');
             $table->foreign('type')->references('id')->on('categories')->onUpdate('cascade');
             $table->foreign('status')->references('id')->on('categories')->onUpdate('cascade');
         });
@@ -45,7 +43,6 @@ class CreateRepairsTable extends Migration
     {
         Schema::table('repairs', function (Blueprint $table) {
             $table->dropForeign('repairs_user_id_foreign');
-            $table->dropForeign('repairs_property_id_foreign');
             $table->dropForeign('repairs_type_foreign');
             $table->dropForeign('repairs_status_foreign');
         });

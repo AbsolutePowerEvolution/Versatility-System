@@ -28,17 +28,7 @@ class Repair extends Entity
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'property_id', 'type', 'remark', 'status'];
-
-    /**
-     * 取得報修之財產
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function property()
-    {
-        return $this->belongsTo(Property::class);
-    }
+    protected $fillable = ['user_id', 'title', 'type', 'remark', 'status'];
 
     /**
      * 取得報修狀態
