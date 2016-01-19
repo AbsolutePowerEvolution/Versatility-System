@@ -25,7 +25,6 @@ class RepairController extends Controller
         $length = ($request->input('length') > 0)? ($request->input('length')):10;
 
         $repair_list = Repair::with([
-                'property',
                 'type',
                 'status'
             ])
@@ -43,24 +42,15 @@ class RepairController extends Controller
      */
     public function store(Request $request)
     {
-        $repair_property = Property::find($request->input('property_id'));
-
         // To avoid user to request for repair two or more times.
-        if ($repair_property === null || $repair_property->status != Category::getCategoryId('property.status', 'normal')) {
-            return response()->json(['status' => 2]);
-        } else {
-            Repair::create(array_merge(array_only($request->all(), [
-                    'property_id',
-                    'remark'
-                ]),[
-                    'user_id' => Auth::user()->id,
-                    'type' => Category::getCategoryId('repair.type', $request->input('type')),
-                    'status' => Category::getCategoryId('repair.status', 'submitted')
-                ]));
-
-            $repair_property->status = Category::getCategoryId('property.status', 'maintenance');
-            $repair_property->save();
-        }
+        Repair::create(array_merge(array_only($request->all(), [
+                'title',
+                'remark'
+            ]), [
+                'user_id' => Auth::user()->id,
+                'type' => Category::getCategoryId('repair.type', $request->input('type')),
+                'status' => Category::getCategoryId('repair.status', 'submitted')
+            ]));
 
         return response()->json(['status' => 0]);
     }
@@ -80,11 +70,8 @@ class RepairController extends Controller
         }
 
         $repair->status = Category::getCategoryId('repair.status', 'canceled');
-        $repair->save();
+        $result = $repair->save();
 
-        $affect_rows = Property::where('id', $repair->property_id)
-            ->update(['status' => Category::getCategoryId('property.status', 'normal')]);
-
-        return response()->json(['status' => ($affect_rows==1)? 0:2]);
+        return response()->json(['status' => ($result === true)? 0:2]);
     }
 }

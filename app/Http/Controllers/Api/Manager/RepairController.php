@@ -24,7 +24,6 @@ class RepairController extends Controller
         $length = ($request->input('length') > 0)? $request->input('length'):10;
 
         $repair_list = Repair::with([
-                'property',
                 'status',
                 'type',
                 'user'
@@ -59,10 +58,6 @@ class RepairController extends Controller
         // update repair status
         $affect_repairs = Repair::whereIn('id', $repair_list)
             ->update(['status' => Category::getCategoryId('repair.status', 'finished')]);
-
-        // update property status
-        $affect_properties = Property::whereIn('id', $property_list)
-            ->update(['status' => Category::getCategoryId('property.status', 'normal')]);
 
         return response()->json(['status' => 0]);
     }

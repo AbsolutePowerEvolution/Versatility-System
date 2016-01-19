@@ -48,6 +48,7 @@ $factory->define(\App\Affair\Repair::class, function () {
 
     return [
         'user_id' => User::all()->random()->getAttribute('id'),
+        'title' => mt_rand(0, 1)? $faker->realText(mt_rand(10, 15)):'',
         'type' => Category::getCategories('repair.type')->random()->getAttribute('id'),
         'remark' => $faker->realText(32),
         'status' => Category::getCategories('repair.status')->random()->getAttribute('id'),
