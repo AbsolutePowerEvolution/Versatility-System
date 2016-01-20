@@ -14,7 +14,7 @@ class CategoryTableSeeder extends Seeder
     {
         $static = [
             'property' => ['classroom', 'others'],
-            'property.status' => ['normal', 'maintenance', 'deleted'],
+            'property.status' => ['normal', 'deleted'],
             'repair.type' => ['cleanup', 'maintain'],
             'repair.status' => ['submitted', 'canceled', 'processing', 'finished'],
             'loan.type' => ['meeting', 'course', 'speech', 'interview', 'others'],
