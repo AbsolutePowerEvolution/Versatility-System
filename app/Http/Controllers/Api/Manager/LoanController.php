@@ -8,8 +8,10 @@ use Cache;
 use App\Affair\Loan;
 use App\Affair\Category;
 use App\Affair\User;
+use App\Affair\Timezone;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class LoanController extends Controller
 {
@@ -198,15 +200,15 @@ class LoanController extends Controller
      */
     public function getClassroomBorrowInfo()
     {
-        $borrow_info = Cache::get([
-                'time_name',
-                'began_date',
-                'ended_date',
-                'stu_start',
-                'lab_start'
-            ]);
+        // get all timezone data with now date
+        $day = Carbon::now()->toDateString();
+        $timezones_info = Timezone::with(['type'])
+            ->where('date_began_at', '>=', $day)
+            ->where('date_ended_at', '<=', $day)
+            ->orWhere('date_began_at', '>', $day)
+            ->get();
 
-        return response()->json($borrow_info);
+        return response()->json($timezones_info);
     }
 
     /**
@@ -217,18 +219,18 @@ class LoanController extends Controller
      */
     public function setClassroomBorrowInfo(Request $request)
     {
-
-        $borrow_info = array_only($request->all(), [
-                'time_name',
-                'began_date',
-                'ended_date',
-                'stu_start',
-                'lab_start'
+        // parse timezone info
+        $timezone_info = array_only($request->all(), [
+                'zone_name',
+                'date_began_at',
+                'date_ended_at',
+                'stu_date_began_at',
+                'lab_date_began_at',
             ]);
 
-        foreach ($borrow_info as $key => $value) {
-            Cache::forever($key, $value);
-        }
+        Timezone::create(array_merge($timezone_info, [
+            'type' => Category::getCategoryId('time.type', $request->input('type'))
+        ]));
 
         return response()->json(['status' => 0]);
     }
