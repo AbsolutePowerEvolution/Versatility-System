@@ -6,12 +6,6 @@
                 <li id="property_system" class="tab center"><a herf="#property_system_content"><i class="material-icons">gavel</i>財產列表</a></li>
                 <li id="property_manage" class="tab center"><a herf="#property_manage_content"><i class="material-icons">settings</i>財產借用紀錄</a></li>
                 <li id="property_repair" class="tab center"><a herf="#property_repair_content"><i class="material-icons left">build</i>財產報修紀錄</a></li>
-                <!--<li id="property_system" class="tab center">
-                    <a herf="#property_system_content"><i class="material-icons">gavel</i>財產列表</a>
-                </li>
-                <li id="property_manage" class="tab center">
-                    <a herf="#property_manage_content"><i class="material-icons">settings</i>財產借用紀錄</a>
-                </li>-->
             </ul>
         </div>
     </div>
@@ -19,11 +13,14 @@
     <div id="property_system_content" class="property_system row">
         <div class="row">
             <div class="row card-content">
-                <span class="col s6 center-align">
+                <span class="col s4 center-align">
                     <a id="create_property" class=" center-align waves-effect waves-light btn modal-trigger s4"><i class="material-icons left">add_circle</i>新增財產</a>
                 </span>
-                <span class="col s6 center-align">
+                <span class="col s4 center-align">
                     <a id="loan_property" class=" center-align waves-effect waves-light btn modal-trigger s4"><i class="material-icons left">alarm</i>財產借用</a>
+                </span>
+                <span class="col s4 center-align">
+                    <a id="return_property" class=" center-align waves-effect waves-light btn modal-trigger s4"><i class="material-icons left">alarm</i>財產歸還</a>
                 </span>
             </div>
         </div>
@@ -58,12 +55,12 @@
             <div class="card showContent propertyContent searched hide">
                 <div class="row card-content" data-loan_id="{{id}}" data-name="{{property_name}}" data-remark="{{remark}}" data-property_id="{{property_id}}" data-status="{{status.name}}"
                      data-time="{{time}}" data-created_at="{{user.created_at}}" data-update_at="{{updated_at}}"
-                     data-email="{{user.email}}" data-user_id = "{{user.id}}" data-usernickname="{{user.nickname}}" data-phone="{{user.phone}}"
+                     data-email="{{user.email}}" data-user_id = "{{user.id}}" data-user_nickname="{{user.nickname}}" data-phone="{{user.phone}}"
                      data-username="{{user.username}}"
                 >
                     <i class="{{isReturn}} isReturn material-icons left">assignment_late</i>
                     <span class="col s2 center-align">{{property_name}}</span>
-                    <span class="col s2 center-align">{{user_id}}</span>
+                    <span class="col s2 center-align">{{user.username}}</span>
                     <span class="col s5 center-align">{{time}}</span>
                     <span class="col s3 center-align">
                         <a class="waves-effect waves-light btn returnLoanModalTrigger"><i class="material-icons left">description</i>詳細資料</a>
@@ -154,18 +151,46 @@
             <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
             <h4>財產借用</h4><br/>
             <div class="input-field">
-                <input id="loan_user_id" type="text"/>
-                <label for="loan_user_id">學號</label>
+                <input id="loan_username" type="text"/>
+                <label for="loan_username">學號</label>
             </div>
             <div class="input-field row">
                 <input id="loan_property_code" class="col s5" type="text"/>
                 <label for="loan_property_code">財產條碼</label>
-                <h5 id="loan_property_name" class="col offset-s1"></h5>
-                <label for="loan_property_name" class="col offset-s6">財產名稱</label>
+            </div>
+            <div id="loan_property_content">
+                <div class="row">
+                    <h5 class="property_code col offset-s1"></h5>
+                    <h5 class="property_name col offset-s6"></h5>
+                </div>
             </div>
         </div>
         <div class="modal-footer">
             <a id="loan_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確定新增</a>
+        </div>
+    </div>
+
+    <div id="total_return_property_modal" class="modal">
+        <div class="modal-content">
+            <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
+            <h4>財產歸還</h4><br/>
+            <div class="input-field">
+                <input id="total_return_username" type="text"/>
+                <label for="total_return_username">學號</label>
+            </div>
+            <div class="input-field row">
+                <input id="total_return_property_code" class="col s5" type="text"/>
+                <label for="total_return_property_code">財產條碼</label>
+            </div>
+            <div id="total_return_property_content">
+                <div class="row">
+                    <h5 class="property_code col offset-s1"></h5>
+                    <h5 class="property_name col offset-s6"></h5>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a id="total_return_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確定歸還</a>
         </div>
     </div>
 

@@ -508,8 +508,6 @@ webpackJsonp([0],{
 	function buildHistoryCard(repairData, propertyData) {
 	  var i;
 	  var j;
-	  console.log(repairData);
-	  console.log(propertyData);
 
 	  for (i = 0; i < Object.size(repairData) + Object.size(propertyData); i++) {
 	    var swit;
@@ -1352,6 +1350,7 @@ webpackJsonp([0],{
 	        var property = context.propertyData.find(function (data) {
 	          return parseInt(item.property_id) === data.id;
 	        });
+	        item.username = item.user.username;
 	        item.code = property.code;
 	        item.time = item.date_began_at + ' ' + (item.time_began_at == null ? '' : item.time_began_at) + '  -  ' + item.date_ended_at + ' ' + (item.time_ended_at == null ? '' : item.time_ended_at);
 	        var isReturn = { 'canceled': 'hide', 'finished': 'hide', 'refused': 'hide',
@@ -1457,7 +1456,7 @@ webpackJsonp([0],{
 	  showPropertyDetailAndDeleteProperty();
 	  createProperty();
 	  loanProperty(propertyData);
-	  returnProperty();
+	  returnProperty(loanData);
 	  repairProperty();
 	  $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function (event) {
 	    $('#materialize-lean-overlay-30').css('display', 'none');
@@ -1465,6 +1464,7 @@ webpackJsonp([0],{
 	    $('#create_property_modal').fadeOut();
 	    $('#loan_property_modal').fadeOut();
 	    $('#return_property_modal').fadeOut();
+	    $('#total_return_property_modal').fadeOut();
 	    $('#repair_property_modal').fadeOut();
 	  });
 	}
@@ -1493,7 +1493,7 @@ webpackJsonp([0],{
 	    $propertyContainer.find('#property_manage_content .propertyContent').removeClass('searched');
 	    if (target !== '') {
 	      var who = '#property_manage_content .propertyContent';
-	      var searchColumn = ['property_name', 'code', 'user_id'];
+	      var searchColumn = ['property_name', 'code', 'username'];
 	      limit = search(loanData, who, target, searchColumn);
 	    } else {
 	      limit = loanData.length;
@@ -1563,8 +1563,8 @@ webpackJsonp([0],{
 	      $returnPropertyModal.find('#return_property_btn').addClass('hide');
 	    }
 
-	    $returnPropertyModal.find('.userName').html(ele.data('username'));
-	    $returnPropertyModal.find('.userID').html(ele.data('user_id'));
+	    $returnPropertyModal.find('.userName').html(ele.data('user_nickname'));
+	    $returnPropertyModal.find('.userID').html(ele.data('username'));
 	    $returnPropertyModal.find('.phone').html(ele.data('phone'));
 	    $returnPropertyModal.find('.email').html(ele.data('email'));
 	    $returnPropertyModal.find('.propertyName').html(ele.data('name'));
@@ -1572,7 +1572,6 @@ webpackJsonp([0],{
 	    $returnPropertyModal.find('.remark').html(ele.data('remark'));
 	    $returnPropertyModal.data('loan_id', ele.data('loan_id'));
 	  });
-
 	  var $repairPropertyModal = $('#repair_property_modal');
 	  $propertyContainer.find('#property_repair_content .repairModalTrigger').on('click', function (event) {
 	    if ($(this).hasClass('disabled')) {
@@ -1591,8 +1590,8 @@ webpackJsonp([0],{
 	      $repairPropertyModal.find('#repairOtherAction').removeClass('hide').html(statusName[status]);
 	      $repairPropertyModal.find('#repair_property_btn').addClass('hide');
 	    }
-	    $repairPropertyModal.find('.userName').html(ele.data('username'));
-	    $repairPropertyModal.find('.userID').html(ele.data('user_id'));
+	    $repairPropertyModal.find('.userName').html(ele.data('user_nickname'));
+	    $repairPropertyModal.find('.userID').html(ele.data('username'));
 	    $repairPropertyModal.find('.phone').html(ele.data('phone'));
 	    $repairPropertyModal.find('.email').html(ele.data('email'));
 	    $repairPropertyModal.find('.propertyName').html(ele.data('name'));
@@ -1640,20 +1639,36 @@ webpackJsonp([0],{
 	function loanProperty(propertyData) {
 	  var $propertyContainer = $('#property_container');
 	  var $loanPropertyModal = $('#loan_property_modal');
+	  var propertyIdContent = [];
 	  $propertyContainer.find('#property_system_content #loan_property').on('click', function (event) {
 	    $('#materialize-lean-overlay-30').css('display', 'block');
 	    $loanPropertyModal.fadeIn();
+	    $loanPropertyModal.find('#loan_property_content div').remove('.remove');
+	    $loanPropertyModal.find('#loan_username').val('').focus();
+	    $loanPropertyModal.find('#loan_property_code').val('');
+	    propertyIdContent = [];
+	  });
+
+	  $propertyContainer.find('#loan_property_modal #loan_username').on('keyup', function (event) {
+	    $loanPropertyModal.find('#loan_property_code').focus();
 	  });
 	  $propertyContainer.find('#loan_property_modal #loan_property_code').on('keyup', function (event) {
 	    var code = $(this).val();
-	    var property = propertyData.find(function (data) {
+	    var property;
+	    if (property = propertyData.find(function (data) {
 	      return data.code === code;
-	    });
-	    $(this).parent().find('#loan_property_name').html(property.name);
+	    })) {
+	      $loanPropertyModal.find('#loan_property_content').find('.property_code').html(code).removeClass('property_code').parent().addClass('remove');
+	      $loanPropertyModal.find('#loan_property_content').find('.property_name').html(property.name).removeClass('property_name');
+	      var data = '<div class="row"><h5 class="property_code col offset-s1"></h5>' + '<h5 class="property_name col offset-s6"></h5></div>';
+	      $loanPropertyModal.find('#loan_property_content').append(data);
+	      propertyIdContent.push(property.id);
+	      $(this).val('');
+	    }
 	  });
+
 	  $propertyContainer.find('#loan_property_btn').on('click', function (event) {
-	    var userID = $loanPropertyModal.find('#loan_user_id').val();
-	    var code = $loanPropertyModal.find('#loan_property_code').val();
+	    var username = $loanPropertyModal.find('#loan_username').val();
 	    var today = new Date();
 	    var dd = today.getDate();
 	    var mm = today.getMonth() + 1; //January is 0!
@@ -1669,45 +1684,53 @@ webpackJsonp([0],{
 	    var dateEndedAt = today;
 	    var type = 'others';
 
-	    if (!userID || !code) {
+	    if (!username) {
 	      alert('請確實填寫借用表單！');
 	      return;
 	    }
-	    var property = propertyData.find(function (data) {
-	      return data.code === code;
-	    });
-	    if (!property.id || !property.name) {
-	      alert('沒有此一財產，請從新填寫！');
-	      return;
-	    }
 
-	    client({
-	      path: 'manager/loan/other-create',
-	      method: 'POST',
-	      params: {
-	        property_id: property.id,
-	        user_id: userID,
-	        date_began_at: dateBeganAt,
-	        date_ended_at: dateEndedAt,
-	        remark: '',
-	        type: type
-	      }
-	    }).then(function (response) {
+	    var propertyID;
+	    var swit = 0;
+	    while (propertyID = propertyIdContent.pop()) {
+	      console.log(propertyID);
+	      client({
+	        path: 'manager/loan/other-create',
+	        method: 'POST',
+	        params: {
+	          property_id: propertyID,
+	          username: username,
+	          date_began_at: dateBeganAt,
+	          date_ended_at: dateEndedAt,
+	          remark: '',
+	          type: type
+	        }
+	      }).then(function (response) {}).catch(function (response) {
+	        alert('借用財產失敗!');
+	        console.log('loan property error, ', response);
+	        swit = 1;
+	      });
+	    }
+	    if (!swit) {
 	      alert('借用財產成功!');
-	    }).catch(function (response) {
-	      alert('借用財產失敗!');
-	      console.log('loan property error, ', response);
-	    });
+	    }
 	  });
 	}
 
-	function returnProperty() {
+	function returnProperty(loanData) {
 	  var $propertyContainer = $('#property_container');
 	  var $returnPropertyModal = $('#return_property_modal');
+	  var $totalReturnPropertyModal = $('#total_return_property_modal');
 	  $propertyContainer.find('#return_property_modal #return_property_btn').on('click', function (event) {
 	    var loanID = $returnPropertyModal.data('loan_id');
-	    console.log('loan id:' + $returnPropertyModal.data('loan_id'));
-	    $.ajax({
+	    var swit = 1;
+	    returnPropertyAjax(loanID, swit);
+	    if (swit) {
+	      alert('歸還財產成功!');
+	      location.reload();
+	    } else {
+	      alert('歸還財產失敗!');
+	    }
+	    /*$.ajax({
 	      url: '/api/manager/loan/other-restitution/' + loanID,
 	      _method: 'put',
 	      type: 'put',
@@ -1716,16 +1739,82 @@ webpackJsonp([0],{
 	        status: 'finished',
 	        _token: $('meta[name="csrf-token"]').attr('content')
 	      },
-	      error: function error(_error2) {
+	      error: function(error) {
 	        alert('歸還財產失敗!');
-	        console.log('return property error, ', _error2);
+	        console.log('return property error, ', error);
 	      },
-	      success: function success(data) {
+	      success: function(data) {
 	        console.log('return property success!', data);
 	        alert('歸還財產成功!');
 	        location.reload();
 	      }
-	    });
+	    });*/
+	  });
+
+	  var loanIdContent = [];
+	  $propertyContainer.find('#property_system_content #return_property').on('click', function (event) {
+	    $('#materialize-lean-overlay-30').css('display', 'block');
+	    $totalReturnPropertyModal.fadeIn();
+	    $totalReturnPropertyModal.find('#total_return_property_content div').remove('.remove');
+	    $totalReturnPropertyModal.find('#total_return_username').val('').focus();
+	    $totalReturnPropertyModal.find('#total_return_property_code').val('');
+	    loanIdContent = [];
+	  });
+	  $totalReturnPropertyModal.find('#total_return_username').on('keyup', function (event) {
+	    $totalReturnPropertyModal.find('#total_return_property_code').focus();
+	  });
+	  $totalReturnPropertyModal.find('#total_return_property_code').on('keyup', function (event) {
+	    var code = $(this).val();
+	    var username = $totalReturnPropertyModal.find('#total_return_username').val();
+	    var loan;
+	    if (loan = loanData.find(function (data) {
+	      return data.code === code && data.user.username === username && (data.status.name === 'accepted' || data.status.name === 'submitted');
+	    })) {
+	      $totalReturnPropertyModal.find('#total_return_property_content').find('.property_code').html(code).removeClass('property_code').parent().addClass('remove');
+	      $totalReturnPropertyModal.find('#total_return_property_content').find('.property_name').html(loan.property_name).removeClass('property_name');
+	      var data = '<div class="row"><h5 class="property_code col offset-s1"></h5>' + '<h5 class="property_name col offset-s6"></h5></div>';
+	      $totalReturnPropertyModal.find('#total_return_property_content').append(data);
+	      loanIdContent.push(loan.id);
+	      $(this).val('');
+	    }
+	  });
+
+	  $propertyContainer.find('#total_return_property_modal #total_return_property_btn').on('click', function (event) {
+	    var swit = 1;
+	    var loanID;
+	    while (loanID = loanIdContent.pop()) {
+	      returnPropertyAjax(loanID, swit);
+	    }
+
+	    if (swit) {
+	      alert('歸還財產成功!');
+	      location.reload();
+	    } else {
+	      alert('歸還財產失敗!');
+	    }
+	  });
+	}
+
+	function returnPropertyAjax(loanID, swit) {
+	  $.ajax({
+	    url: '/api/manager/loan/other-restitution/' + loanID,
+	    _method: 'put',
+	    type: 'put',
+	    data: {
+	      id: loanID,
+	      status: 'finished',
+	      _token: $('meta[name="csrf-token"]').attr('content')
+	    },
+	    error: function error(_error2) {
+	      console.log('return property error, ', _error2);
+	      swit = 0;
+	    },
+	    success: function success(data) {
+	      console.log('return property success!', data);
+	      if (data.status !== 0) {
+	        swit = 0;
+	      }
+	    }
 	  });
 	}
 

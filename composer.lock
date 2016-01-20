@@ -880,11 +880,7 @@
                 "framework",
                 "laravel"
             ],
-<<<<<<< HEAD
-            "time": "2016-01-07 13:54:34"
-=======
             "time": "2016-01-13 20:29:10"
->>>>>>> b15e56df0ab3a57a07d0d113dc3d2f2659436965
         },
         {
             "name": "league/flysystem",

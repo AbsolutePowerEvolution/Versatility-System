@@ -322,5 +322,3 @@ function historyCardEvent() {
     $modalTarget.find('p').html(ele.data('remark'));
   });
 }
-
-

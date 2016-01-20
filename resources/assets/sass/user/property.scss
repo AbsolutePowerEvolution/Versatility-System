@@ -34,7 +34,8 @@
 
 #property_container #property_modal, #property_container #history_modal,
 #property_container #create_property_modal, #property_container #loan_property_modal,
-#property_container #return_property_modal, #property_container #repair_property_modal{
+#property_container #return_property_modal, #property_container #repair_property_modal,
+#property_container #total_return_property_modal{
   z-index: 1003;
   opacity: 1;
   transform: scaleX(1);
