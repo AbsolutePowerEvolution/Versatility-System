@@ -72,3 +72,26 @@ $factory->define(\App\Affair\Loan::class, function () {
         'long_term_token' => $time ? mt_rand(0, 127) : null,
     ];
 });
+
+$factory->define(\App\Affair\Timezone::class, function () {
+    $faker = Faker\Factory::create('zh_TW');
+    $day = Carbon::now()->startOfDay()->addDays(mt_rand(1, 365));
+    $stu_start = clone $day;
+    $lab_start = clone $day;
+
+    if(mt_rand(0, 1) === 1) {
+        $type = Category::getCategoryId('time.type', 'semester');
+    } else {
+        $type = Category::getCategoryId('time.type', 'vacation');
+        $stu_start->subDays(7);
+    }
+
+    return [
+        'zone_name' => $faker->realText(mt_rand(10, 15)),
+        'type' => $type,
+        'date_began_at' => $day->toDateString(),
+        'date_ended_at' => $day->addDays(mt_rand(30, 150))->toDateString(),
+        'stu_date_began_at' => $stu_start->toDateString(),
+        'lab_date_began_at' => $lab_start->toDateString(),
+    ];
+});

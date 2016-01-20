@@ -20,5 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PropertyTableSeeder::class);
 
         $this->call(RepairTableSeeder::class);
+
+        $this->call(TimezoneTableSeeder::class);
     }
 }
