@@ -4,6 +4,9 @@ namespace App\Http\Middleware;
 
 use Cache;
 use Closure;
+use Carbon\Carbon;
+use App\Affair\Category;
+
 
 class UserLoanable
 {
@@ -16,17 +19,23 @@ class UserLoanable
      */
     public function handle($request, Closure $next)
     {
-        $date = date('Y-m-d', time());
-        $bad = '9000-01-01';
-
-        if (
-            \Entrust::hasRole('lab')     && Cache::get('lab_start', $bad) <= $date ||
-            \Entrust::hasRole('student') && Cache::get('stu_start', $bad) <= $date
+        if(
+            \Entrust::hasRole('student') &&
+            $request->input('type') == Category::getCategoryId('loan.type', 'interview')
         ) {
+            $judge_column = 'stu_date_began_at';
+        } else {
+            $judge_column = 'date_began_at';
+        }
+
+        $timezone = Timezone::where($judge_column, '>=', $request->input('date_began_at'))
+            ->where('date_ended_at', '<=', $request->input('date_ended_at'))
+            ->first();
+
+        if($timezone != null) {
             return $next($request);
         } else {
             return abort(403);
         }
-
     }
 }
