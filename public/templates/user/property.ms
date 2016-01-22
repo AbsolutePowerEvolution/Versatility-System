@@ -14,34 +14,19 @@
     <div id="property_system_content" class="property_system row">
         <div class="row">
             <input id="search_property" class="offset-s3 col s6" type="text" placeholder="財產名稱"/>
-            <span id="search_property_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4
-"><i class="material-icons left">search</i>搜尋</a></span>
+            <span id="search_property_btn" class="col s3 left-align"><a class="waves-effect waves-light btn blue darken-4"><i class="material-icons left">search</i>搜尋</a></span>
         </div>
+        <ul class="collapsible popout" data-collapsible="accordion">
+            {{#propertyData}}
+                <li class="showContent propertyContent searched row hide">
+                    <span class="collapsible-header s4" style="color:{{status.color}}">{{status.name}}<span class="s4 col" style="color:black">{{name}}</span></span>
+                    <span class="collapsible-body col s4 center-align">{{describe}}</span>
+                </li>
+            {{/propertyData}}
+        </ul>
     </div>
 
     <div id="property_history_content" class="row" style="display:none">
-    </div>
-
-    <div id="property_modal" class="modal">
-        <div class="modal-content">
-            <h4></h4>
-            <p></p><br>
-            <span>
-                <input id="cleanup" name="clean_type" type="radio" value="cleanup"/>
-                <label for="cleanup">清理</label>
-            </span>
-            <span>
-                <input id="maintain" name="clean_type" type="radio" value="maintain"/>
-                <label for="maintain">報修</label>
-            </span>
-            <div class="input-field">
-                <textarea id="reason" class="materialize-textarea"></textarea>
-                <label for="reason">理由</label>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a id="property_repair_submit" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">確認送出</a>
-        </div>
     </div>
 
     <div id="history_modal" class="modal">
@@ -57,7 +42,20 @@
     </div>
     <div class="lean-overlay" id="materialize-lean-overlay-30"></div>
 
-    <ul class="property_system pagination center-align">
-    </ul>
+    <div class="property_system">
+        <ul class="pagination center-align">
+            <li onselectstart="return false">
+                <a class="page" data-pagenum="prev"><i class="material-icons">chevron_left</i></a>
+            </li>
+            {{#propertyPage}}
+            <li onselectstart="return false" class="{{classes}}">
+                <a class="page" data-pagenum="{{pageNum}}">{{pageNum}}</a>
+            </li>
+            {{/propertyPage}}
+            <li onselectstart="return false">
+                <a class="page" data-pagenum="next"><i class="material-icons">chevron_right</i></a>
+            </li>
+        </ul>
+    </div>
 
 </div>
