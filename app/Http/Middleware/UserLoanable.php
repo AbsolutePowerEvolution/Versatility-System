@@ -28,11 +28,15 @@ class UserLoanable
             $judge_column = 'date_began_at';
         }
 
-        $timezone = Timezone::where($judge_column, '>=', $request->input('date_began_at'))
-            ->where('date_ended_at', '<=', $request->input('date_ended_at'))
+        $timezone = Timezone::where($judge_column, '<=', $request->input('date_began_at'))
+            ->where('date_ended_at', '>=', $request->input('date_ended_at'))
             ->first();
 
         if($timezone != null) {
+            $request->merge([
+                'timezone' => $timezone,
+                'long_term_token' => bindec($request->input('long_term_token'))
+            ]);
             return $next($request);
         } else {
             return abort(403);

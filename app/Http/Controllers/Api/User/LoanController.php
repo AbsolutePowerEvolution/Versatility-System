@@ -86,10 +86,16 @@ class LoanController extends Controller
      */
     public function storeClassroomBorrow(Request $request)
     {
-        $p_id = $request->input('property_id');
+        $p_id      = $request->input('property_id');
+        $LTK       = $request->input('long_term_token');
+        $timezone  = $request->input('timezone');
         $date_info = [$request->input('date_began_at'), $request->input('date_ended_at')];
         $time_info = [$request->input('time_began_at'), $request->input('time_ended_at')];
-        $LTK = bindec($request->input('long_term_token'));
+
+        // return if the loan duration is bad
+        if (!Loan::checkDuration($date_info, $time_info, $timezone)) {
+            return response()->json(['status' => 3]);
+        }
 
         // return if time provided conflict
         if (Loan::checkConflict($p_id, $date_info, $time_info, $LTK)) {
@@ -108,7 +114,7 @@ class LoanController extends Controller
                 'user_id' => Auth::user()->id,
                 'type' => Category::getCategoryId('loan.type', $request->input('type')),
                 'status' => Category::getCategoryId('loan.status', 'processing'),
-                'long_term_token' => bindec($request->input('long_term_token'))
+                'long_term_token' => $request->input('long_term_token')
             ]));
 
         return response()->json(['status' => 0]);
