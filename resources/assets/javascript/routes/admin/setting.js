@@ -6,6 +6,9 @@ var when = require('when');
 var api = require('../../lib/fetch-plus');
 var ValidationError = require('../../lib/validation-error');
 
+import Vue from 'vue';
+import Setting from '../../../components/setting.vue';
+
 validate.validators.daterange = (value, opts) => {
   return new when.Promise((resolve) => {
     if(opts.latest) {
@@ -58,25 +61,17 @@ const SETTING_RULE = {
 
 Sammy('#main', (app) => {
   app.get('#/admin/setting', (context) => {
-    api.read('manager/setting')
-      .then((data) => {
-        console.log(data);
-        lodash.assign(context, lodash.omit(data, (x) => !!!x));
-        context.loadPartials({menu: '/templates/admin/menu.ms'})
-          .partial('/templates/admin/setting.ms')
-          .render(() => {
-            $('.datepicker').each((_idx, ele) => {
-              $(ele).pickadate({
-                format: 'yyyy-mm-dd',
-                formatSubmit: 'yyyy-mm-dd',
-                closeOnSelect: true,
-                closeOnClear: true,
-                onClose: () => {
-                  console.log('Close');
-                  ele.blur();
-                }});
-            });
-          });
+    context.partial('/templates/vue.ms')
+      .render(() => {
+        new Vue({
+          el: '#main',
+          components: {
+            app: {
+              template: '<setting></setting>',
+              components: { Setting }
+            }
+          }
+        });
       });
   });
 
