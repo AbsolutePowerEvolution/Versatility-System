@@ -2081,9 +2081,9 @@ webpackJsonp([0],{
 
 	var _adminMenu2 = _interopRequireDefault(_adminMenu);
 
-	var _datePicker = __webpack_require__(270);
+	var _dateField = __webpack_require__(270);
 
-	var _datePicker2 = _interopRequireDefault(_datePicker);
+	var _dateField2 = _interopRequireDefault(_dateField);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2105,7 +2105,7 @@ webpackJsonp([0],{
 	      console.log(this.$data);
 	    }
 	  },
-	  components: { AdminMenu: _adminMenu2.default, DateField: _datePicker2.default }
+	  components: { AdminMenu: _adminMenu2.default, DateField: _dateField2.default }
 	};
 
 /***/ },
@@ -2164,7 +2164,7 @@ webpackJsonp([0],{
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] resources/assets/components/date-picker.vue: named exports in *.vue files are ignored.")}
+	  console.warn("[vue-loader] resources/assets/components/date-field.vue: named exports in *.vue files are ignored.")}
 	__vue_template__ = __webpack_require__(272)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
@@ -2173,7 +2173,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-picker.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
