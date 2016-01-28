@@ -27,7 +27,7 @@
 
 <script>
   import AdminMenu from './admin-menu.vue';
-  import DateField from './date-picker.vue';
+  import DateField from './date-field.vue';
   let data = {
     time_name: '',
     began_date: '',
