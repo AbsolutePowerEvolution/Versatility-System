@@ -23,7 +23,15 @@ var getDefaultConfigs = function() {
       }, {
         test: /\.scss$/,
         loader: 'style!css!sass'
+      }, {
+        test: /\.vue$/,
+        loader: 'vue'
       }]
+    },
+    vue: {
+      js: {
+        loaders: 'js'
+      }
     },
     plugins: [
       new SplitByPathPlugin([{
@@ -52,7 +60,9 @@ var getConfigs = function(env) {
       hogan: 'Hogan',
       moment: 'moment',
       pikaday: 'Pikaday',
-      'validate.js': 'validate'
+      'validate.js': 'validate',
+      vue: 'Vue',
+      'vue-resource': 'VueResource'
     }];
 
     if(env === 'production') {

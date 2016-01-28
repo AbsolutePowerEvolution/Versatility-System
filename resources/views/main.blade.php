@@ -18,6 +18,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/hogan.js/3.0.2/hogan.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sammy.js/0.7.6/sammy.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.15/vue.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.0/moment.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/pikaday.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/validate.js/0.9.0/validate.js" defer></script>
