@@ -3,6 +3,7 @@
 namespace App\Affair;
 
 use DB;
+use App\Affair\Timezone;
 use App\Affair\Core\Entity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -99,5 +100,40 @@ class Loan extends Entity
             ->count();
 
         return ($conflict_num > 0);
+    }
+
+    /**
+     * check the loan duration is bad or not
+     *
+     * @param array $date_info
+     * @param array $time_info
+     * @param App\Affair\Timezone
+     * @return bool
+     */
+    public static function checkDuration($date_info, $time_info, $timezone) {
+        if ($date_info[0] > $date_info[1] || $time_info[0] >= $time_info[1]) {
+            return false;
+        }
+
+        // is student?
+        if (\Entrust::hasRole('student')) {
+            // is in special time?
+            if ($timezone->date_began_at < $date_info[0]) {
+                // is start/end date equal or the time duration bigger than 3 hours
+                if (
+                    $date_info[0] != $date_info[1] ||
+                    (strtotime($time_info[1]) - strtotime($time_info[0])) > 3600 * 3
+                ) {
+                    return false;
+                }
+            } else {
+                // is the duration longer than two weeks?
+                if ((strtotime($date_info[1]) - strtotime($date_info[0])) > 3600 * 24 * 14) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

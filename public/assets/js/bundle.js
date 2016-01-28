@@ -185,7 +185,7 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var $ = __webpack_require__(194);
 
@@ -202,7 +202,7 @@ webpackJsonp([0],{
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
 	var JSON_HEADER = 'application/json; charset=UTF-8';
@@ -242,7 +242,7 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var when = __webpack_require__(197);
 
@@ -1912,7 +1912,7 @@ webpackJsonp([0],{
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	module.exports = (function (_Error) {
+	module.exports = function (_Error) {
 	  _inherits(ValidationError, _Error);
 
 	  function ValidationError(errors, options, attributes, constraints) {
@@ -1930,7 +1930,7 @@ webpackJsonp([0],{
 	  }
 
 	  return ValidationError;
-	})(Error);
+	}(Error);
 
 /***/ },
 
