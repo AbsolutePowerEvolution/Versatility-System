@@ -8,10 +8,13 @@ webpackJsonp([0],{
 	__webpack_require__(1);
 	__webpack_require__(191);
 	var Sammy = __webpack_require__(192);
-	__webpack_require__(193);
-	__webpack_require__(196);
+	var Vue = __webpack_require__(193);
+	__webpack_require__(194);
+	__webpack_require__(197);
 
-	__webpack_require__(218);
+	Vue.use(__webpack_require__(219));
+
+	__webpack_require__(220);
 
 	Sammy('#main').use('Hogan', 'ms').run('#/');
 
@@ -31,71 +34,85 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 194:
+/***/ 193:
 /***/ function(module, exports) {
 
-	module.exports = jQuery;
+	module.exports = Vue;
 
 /***/ },
 
 /***/ 195:
 /***/ function(module, exports) {
 
-	module.exports = Hogan;
+	module.exports = jQuery;
 
 /***/ },
 
 /***/ 196:
+/***/ function(module, exports) {
+
+	module.exports = Hogan;
+
+/***/ },
+
+/***/ 197:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var when = __webpack_require__(197);
-	var validate = __webpack_require__(217);
+	var when = __webpack_require__(198);
+	var validate = __webpack_require__(218);
 
 	validate.Promise = when.Promise;
 
 /***/ },
 
-/***/ 200:
+/***/ 201:
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
 
-/***/ 217:
+/***/ 218:
 /***/ function(module, exports) {
 
 	module.exports = validate;
 
 /***/ },
 
-/***/ 218:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(219);
-	__webpack_require__(256);
-
-	__webpack_require__(265);
-	__webpack_require__(267);
-
-/***/ },
-
 /***/ 219:
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
-
-	__webpack_require__(220);
-	__webpack_require__(228);
-	__webpack_require__(255);
+	module.exports = VueResource;
 
 /***/ },
 
 /***/ 220:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(221);
+	__webpack_require__(258);
+
+	__webpack_require__(276);
+	__webpack_require__(278);
+
+/***/ },
+
+/***/ 221:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	__webpack_require__(222);
+	__webpack_require__(230);
+	__webpack_require__(257);
+
+/***/ },
+
+/***/ 222:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -104,7 +121,7 @@ webpackJsonp([0],{
 	  'use strict';
 
 	  var Sammy = __webpack_require__(192);
-	  var api = __webpack_require__(221);
+	  var api = __webpack_require__(223);
 
 	  Sammy('#main', function (app) {
 	    app.get('#/user/signin', function (context) {
@@ -135,23 +152,23 @@ webpackJsonp([0],{
 	    });
 	  });
 	}).call(undefined);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(195)))
 
 /***/ },
 
-/***/ 221:
+/***/ 223:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $ = __webpack_require__(194);
-	var connectEndpoint = __webpack_require__(222).connectEndpoint;
-	var plusCsrf = __webpack_require__(223);
+	var $ = __webpack_require__(195);
+	var connectEndpoint = __webpack_require__(224).connectEndpoint;
+	var plusCsrf = __webpack_require__(225);
 
-	var cookie = __webpack_require__(224);
-	var param = __webpack_require__(225);
-	var header = __webpack_require__(226);
-	var statusCode = __webpack_require__(227);
+	var cookie = __webpack_require__(226);
+	var param = __webpack_require__(227);
+	var header = __webpack_require__(228);
+	var statusCode = __webpack_require__(229);
 
 	var token = $('#csrf-token').attr('content');
 	var api = connectEndpoint('/api');
@@ -166,7 +183,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 224:
+/***/ 226:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -180,14 +197,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 225:
+/***/ 227:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var $ = __webpack_require__(194);
+	var $ = __webpack_require__(195);
 
 	module.exports = function (request) {
 	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
@@ -197,7 +214,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 226:
+/***/ 228:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -233,18 +250,18 @@ webpackJsonp([0],{
 	    return response.json();
 	  };
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(195)))
 
 /***/ },
 
-/***/ 227:
+/***/ 229:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var when = __webpack_require__(197);
+	var when = __webpack_require__(198);
 
 	// P2P-style unjustifed status code check
 
@@ -261,13 +278,13 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 228:
+/***/ 230:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(229);
+	var client = __webpack_require__(231);
 
 	var today = new Date();
 	var dd = today.getDate();
@@ -578,23 +595,23 @@ webpackJsonp([0],{
 	    $modalTarget.find('p').html(ele.data('remark'));
 	  });
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(195)))
 
 /***/ },
 
-/***/ 229:
+/***/ 231:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $ = __webpack_require__(194);
-	var rest = __webpack_require__(230);
-	var pathPrefix = __webpack_require__(238);
-	var errorCode = __webpack_require__(240);
-	var mime = __webpack_require__(241);
-	var csrf = __webpack_require__(254);
-	var when = __webpack_require__(197);
-	var interceptor = __webpack_require__(239);
+	var $ = __webpack_require__(195);
+	var rest = __webpack_require__(232);
+	var pathPrefix = __webpack_require__(240);
+	var errorCode = __webpack_require__(242);
+	var mime = __webpack_require__(243);
+	var csrf = __webpack_require__(256);
+	var when = __webpack_require__(198);
+	var interceptor = __webpack_require__(241);
 
 	var statusCheck = interceptor({
 	  response: function response(_response, config) {
@@ -612,7 +629,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 255:
+/***/ 257:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1013,31 +1030,31 @@ webpackJsonp([0],{
 	}
 
 	function validateData(type) {}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(195)))
 
 /***/ },
 
-/***/ 256:
+/***/ 258:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(257);
-	__webpack_require__(260);
-	__webpack_require__(261);
+	__webpack_require__(259);
 	__webpack_require__(262);
+	__webpack_require__(263);
+	__webpack_require__(264);
 
 /***/ },
 
-/***/ 257:
+/***/ 259:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $ = __webpack_require__(194);
+	var $ = __webpack_require__(195);
 	var Sammy = __webpack_require__(192);
-	var api = __webpack_require__(221);
-	var paginate = __webpack_require__(258);
+	var api = __webpack_require__(223);
+	var paginate = __webpack_require__(260);
 
 	Sammy('#main', function () {
 	  this.get('#/admin/examine', function (context) {
@@ -1120,12 +1137,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 258:
+/***/ 260:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _lodash = __webpack_require__(259);
+	var _lodash = __webpack_require__(261);
 
 	module.exports = function (context, data, baseUrl) {
 	  if (!data.current_page) {
@@ -1154,14 +1171,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 259:
+/***/ 261:
 /***/ function(module, exports) {
 
 	module.exports = _;
 
 /***/ },
 
-/***/ 260:
+/***/ 262:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1294,18 +1311,18 @@ webpackJsonp([0],{
 	  }
 	  $('#account_container').find('.page_prev').after(text);
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(195)))
 
 /***/ },
 
-/***/ 261:
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(229);
-	var when = __webpack_require__(197);
+	var client = __webpack_require__(231);
+	var when = __webpack_require__(198);
 
 	Sammy('#main', function () {
 	  this.get('#/admin/property', function (context) {
@@ -1899,22 +1916,32 @@ webpackJsonp([0],{
 	  }
 	  return limit;
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(195)))
 
 /***/ },
 
-/***/ 262:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
+	var _vue = __webpack_require__(193);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _setting = __webpack_require__(265);
+
+	var _setting2 = _interopRequireDefault(_setting);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	var Sammy = __webpack_require__(192);
-	var lodash = __webpack_require__(259);
-	var validate = __webpack_require__(217);
-	var moment = __webpack_require__(263);
-	var when = __webpack_require__(197);
-	var api = __webpack_require__(221);
-	var ValidationError = __webpack_require__(264);
+	var lodash = __webpack_require__(261);
+	var validate = __webpack_require__(218);
+	var moment = __webpack_require__(274);
+	var when = __webpack_require__(198);
+	var api = __webpack_require__(223);
+	var ValidationError = __webpack_require__(275);
 
 	validate.validators.daterange = function (value, opts) {
 	  return new when.Promise(function (resolve) {
@@ -1968,23 +1995,15 @@ webpackJsonp([0],{
 
 	Sammy('#main', function (app) {
 	  app.get('#/admin/setting', function (context) {
-	    api.read('manager/setting').then(function (data) {
-	      console.log(data);
-	      lodash.assign(context, lodash.omit(data, function (x) {
-	        return !!!x;
-	      }));
-	      context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/setting.ms').render(function () {
-	        $('.datepicker').each(function (_idx, ele) {
-	          $(ele).pickadate({
-	            format: 'yyyy-mm-dd',
-	            formatSubmit: 'yyyy-mm-dd',
-	            closeOnSelect: true,
-	            closeOnClear: true,
-	            onClose: function onClose() {
-	              console.log('Close');
-	              ele.blur();
-	            } });
-	        });
+	    context.partial('/templates/vue.ms').render(function () {
+	      new _vue2.default({
+	        el: '#main',
+	        components: {
+	          app: {
+	            template: '<setting></setting>',
+	            components: { Setting: _setting2.default }
+	          }
+	        }
 	      });
 	    });
 	  });
@@ -2018,18 +2037,217 @@ webpackJsonp([0],{
 	    return false;
 	  });
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(195)))
 
 /***/ },
 
-/***/ 263:
+/***/ 265:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(266)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/setting.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(273)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 266:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _adminMenu = __webpack_require__(267);
+
+	var _adminMenu2 = _interopRequireDefault(_adminMenu);
+
+	var _datePicker = __webpack_require__(270);
+
+	var _datePicker2 = _interopRequireDefault(_datePicker);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _data = {
+	  time_name: '',
+	  began_date: '',
+	  ended_date: '',
+	  stu_start: '',
+	  lab_start: ''
+	};
+	exports.default = {
+	  data: function data() {
+	    return _data;
+	  },
+
+	  methods: {
+	    applySetting: function applySetting(event) {
+	      event.preventDefault();
+	      console.log(this.$data);
+	    }
+	  },
+	  components: { AdminMenu: _adminMenu2.default, DateField: _datePicker2.default }
+	};
+
+/***/ },
+
+/***/ 267:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(268)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/admin-menu.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(269)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 268:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {};
+
+/***/ },
+
+/***/ 269:
+/***/ function(module, exports) {
+
+	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
+
+/***/ },
+
+/***/ 270:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(271)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/date-picker.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(272)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-picker.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 271:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(195);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  props: {
+	    date: {
+	      type: String,
+	      required: true,
+	      twoWay: true
+	    },
+	    name: {
+	      type: String,
+	      required: true
+	    },
+	    className: {
+	      type: String,
+	      required: true
+	    }
+	  },
+	  compiled: function compiled() {
+	    (0, _jquery2.default)(this.$el).find('.datepicker').pickadate({
+	      format: 'yyyy-mm-dd',
+	      formatSubmit: 'yyyy-mm-dd',
+	      closeOnSelect: true,
+	      closeOnClear: true
+	    });
+	  }
+	};
+
+/***/ },
+
+/***/ 272:
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"input-field\">\n  <label :for=\"name\" :class=\"{active: date}\">\n    <slot></slot>\n  </label>\n  <input :id=\"name\" v-model=\"date\" :data-value=\"date\"\n     class=\"datepicker Setting-DateField {{className}}\" type=\"date\" :name=\"name\">\n</div>\n";
+
+/***/ },
+
+/***/ 273:
+/***/ function(module, exports) {
+
+	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container\">\n  <form @submit=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n    <div class=\"input-field\">\n      <input id=\"time_name\" class=\"validate Setting-TimeName\" type=\"text\" name=\"time_name\" v-model=\"time_name\">\n      <label for=\"time_name\" :class=\"{active: time_name}\">名稱 (ex: 104上學期):</label>\n    </div>\n    <date-field :date.sync=\"began_date\" name=\"began_date\" class-name=\"Setting-BeganDate\">\n      開始時間：\n    </date-field>\n    <date-field :date.sync=\"ended_date\" name=\"ended_date\" class-name=\"Setting-EndedDate\">\n      結束時間：\n    </date-field>\n    <date-field :date.sync=\"stu_start\" name=\"stu_start\" class-name=\"Setting-StuStart\">\n      學生借用開始時間：\n    </date-field>\n    <date-field :date.sync=\"lab_start\" name=\"lab_start\" class-name=\"Setting-LabStart\">\n      Lab 借用開始時間：\n    </date-field>\n    <button id=\"apply-btn\" type=\"submit\" class=\"waves-effect waves-light btn\">\n      <i class=\"material-icons left\">done</i>套用設定\n    </button>\n  </form>\n</div>\n";
+
+/***/ },
+
+/***/ 274:
 /***/ function(module, exports) {
 
 	module.exports = moment;
 
 /***/ },
 
-/***/ 264:
+/***/ 275:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2062,16 +2280,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 265:
+/***/ 276:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var Sammy = __webpack_require__(192);
-	var when = __webpack_require__(197);
-	var moment = __webpack_require__(263);
-	var api = __webpack_require__(221);
-	var vars = __webpack_require__(266);
+	var when = __webpack_require__(198);
+	var moment = __webpack_require__(274);
+	var api = __webpack_require__(223);
+	var vars = __webpack_require__(277);
 
 	var toMoment = function toMoment(time) {
 	  return moment(time, 'HH:mm:ss');
@@ -2128,7 +2346,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 266:
+/***/ 277:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2140,7 +2358,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 267:
+/***/ 278:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
