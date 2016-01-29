@@ -1,5 +1,4 @@
 var Sammy = require('sammy');
-var api = require('../../lib/fetch-plus');
 
 import Signin from '../../../components/signin.vue';
 
