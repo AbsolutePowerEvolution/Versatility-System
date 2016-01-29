@@ -554,7 +554,7 @@ webpackJsonp([0],{
 	        format: 'YYYY-MM-DD'
 	      });
 
-	      var today = new moment(new Date()).format('YYYY-MM-DD');
+	      var today = moment(new Date()).format('YYYY-MM-DD');
 	      $('#datepicker').val(today).change();
 	    });
 	  });
