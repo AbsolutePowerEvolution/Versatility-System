@@ -104,7 +104,7 @@ webpackJsonp([0],{
 	__webpack_require__(285);
 
 	__webpack_require__(310);
-	__webpack_require__(312);
+	__webpack_require__(316);
 
 /***/ },
 
@@ -2224,60 +2224,31 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var Sammy = __webpack_require__(193);
-	var when = __webpack_require__(198);
-	var moment = __webpack_require__(308);
-	var api = __webpack_require__(287);
-	var vars = __webpack_require__(311);
+	var _sammy = __webpack_require__(193);
 
-	var toMoment = function toMoment(time) {
-	  return moment(time, 'HH:mm:ss');
-	};
+	var _sammy2 = _interopRequireDefault(_sammy);
 
-	Sammy('#main', function (app) {
+	var _vue = __webpack_require__(194);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _schedule = __webpack_require__(311);
+
+	var _schedule2 = _interopRequireDefault(_schedule);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(0, _sammy2.default)('#main', function (app) {
 	  app.get('#/schedule', function (context) {
-	    api.browse('manager/loan/courses').then(function (data) {
-	      var convertData = function convertData(x) {
-	        x.start = toMoment(x.time_began_at);
-	        x.end = toMoment(x.time_ended_at);
-	        x.token = x.long_term_token;
-	        return x;
-	      };
-	      when.promise(function (resolve) {
-	        return resolve(data.map(convertData));
-	      }).then(function (datas) {
-	        var weekName = ['mon', 'tue', 'wed', 'thu', 'fri'];
-	        var klass = [];
+	    context.partial('/templates/vue.ms').then(function () {
+	      var App = _vue2.default.extend({
+	        template: '<schedule></schedule>',
+	        components: { Schedule: _schedule2.default }
+	      });
 
-	        vars.CLASS_RANGE.forEach(function (_ref) {
-	          var start = _ref.start;
-	          var end = _ref.end;
-
-	          start = toMoment(start);
-	          end = toMoment(end);
-	          var genWeekSchedule = function genWeekSchedule(week, course) {
-	            weekName.forEach(function (name, idx) {
-	              week.classes[name] = week.classes[name] || [];
-	              if (start.isSameOrAfter(course.start, 'minute') && end.isSameOrBefore(course.end, 'minute') && course.token[idx]) {
-	                week.classes[name].push(course.remark + ':' + course.property_name);
-	              }
-	            });
-	            return week;
-	          };
-
-	          var week = datas.reduce(genWeekSchedule, {
-	            time: start.format('HH:mm:ss') + '~' + end.format('HH:mm:ss'),
-	            classes: Object.create(null)
-	          });
-	          for (var key in week.classes) {
-	            week.classes[key] = week.classes[key].join('<br>');
-	          }
-	          klass.push(week);
-	        });
-	        context.list = klass;
-	        context.partial('/templates/schedule.ms').render(function () {
-	          console.log('done');
-	        });
+	      new _vue2.default({
+	        el: '#main',
+	        components: { App: App }
 	      });
 	    });
 	  });
@@ -2286,6 +2257,151 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 311:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(312)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/schedule.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(315)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/schedule.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 312:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _when = __webpack_require__(198);
+
+	var _when2 = _interopRequireDefault(_when);
+
+	var _transformSchedule = __webpack_require__(313);
+
+	var _transformSchedule2 = _interopRequireDefault(_transformSchedule);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var schedules = {};
+	exports.default = {
+	  data: function data() {
+	    return { schedules: schedules };
+	  },
+	  compiled: function compiled() {
+	    var self = this;
+	    (0, _when2.default)(self.$http.get('manager/loan/courses')).then(function (response) {
+	      return (0, _transformSchedule2.default)(response.data);
+	    }).then(function (schedules) {
+	      console.log(schedules);
+	      self.$set('schedules', schedules);
+	    }).catch(function (error) {
+	      if (error instanceof Error) {
+	        console.warn(error);
+	        throw error;
+	      } else {
+	        console.warn(error);
+	      }
+	    });
+	  }
+	};
+
+/***/ },
+
+/***/ 313:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _when = __webpack_require__(198);
+
+	var _when2 = _interopRequireDefault(_when);
+
+	var _moment = __webpack_require__(308);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	var _vars = __webpack_require__(314);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var toMoment = function toMoment(time) {
+	  return (0, _moment2.default)(time, 'HH:mm:ss');
+	};
+
+	var convertData = function convertData(x) {
+	  x.start = toMoment(x.time_began_at);
+	  x.end = toMoment(x.time_ended_at);
+	  x.token = x.long_term_token;
+	  return x;
+	};
+
+	var weekName = ['mon', 'tue', 'wed', 'thu', 'fri'];
+
+	exports.default = function (data) {
+	  return _when2.default.promise(function (resolve) {
+	    return resolve(data.map(convertData));
+	  }).then(function (datas) {
+	    var klass = [];
+
+	    _vars.CLASS_RANGE.forEach(function (_ref) {
+	      var start = _ref.start;
+	      var end = _ref.end;
+
+	      start = toMoment(start);
+	      end = toMoment(end);
+
+	      var genWeekSchedule = function genWeekSchedule(week, course) {
+	        weekName.forEach(function (name, idx) {
+	          week[name] = week[name] || [];
+	          if (start.isSameOrAfter(course.start, 'minute') && end.isSameOrBefore(course.end, 'minute') && course.token[idx]) {
+	            week[name].push(course.remark + ':' + course.property_name);
+	          }
+	        });
+	        return week;
+	      };
+
+	      var week = datas.reduce(genWeekSchedule, {
+	        time: start.format('HH:mm:ss') + '~' + end.format('HH:mm:ss')
+	      });
+
+	      weekName.forEach(function (key) {
+	        week[key] = week[key].join('<br>');
+	      });
+
+	      klass.push(week);
+	    });
+	    console.log(klass);
+	    return klass;
+	  });
+	};
+
+/***/ },
+
+/***/ 314:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2297,7 +2413,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 312:
+/***/ 315:
+/***/ function(module, exports) {
+
+	module.exports = "\n<table>\n  <thead>\n    <tr>\n      <td>Time</td>\n      <td>Mon</td>\n      <td>Tue</td>\n      <td>Wed</td>\n      <td>Thu</td>\n      <td>Fri</td>\n    </tr>\n  </thead>\n  <tbody>\n    <tr v-for=\"schedule in schedules\">\n      <td>\n        {{schedule.time}}\n      </td>\n      <td>\n        {{{schedule.mon}}}\n      </td>\n      <td>\n        {{{schedule.tue}}}\n      </td>\n      <td>\n        {{{schedule.wed}}}\n      </td>\n      <td>\n        {{{schedule.thu}}}\n      </td>\n      <td>\n        {{{schedule.fri}}}\n      </td>\n    </tr>\n  </tbody>\n</table>\n";
+
+/***/ },
+
+/***/ 316:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
