@@ -67,6 +67,18 @@ Sammy('#main', function() {
           context.propertyPage[i].pageNum = (i + 1);
         }
 
+        context.loanData = loanData.entity.data.map((item) => {
+          let colors = {'canceled': 'teal', 'refused': 'teal', 'finished': 'teal'};
+          item.status.color = colors[item.status.name] || 'red';
+          return item;
+        });
+
+        context.repairData = repairData.entity.data.map((item) => {
+          let colors = {'canceled': 'teal', 'finished': 'teal'};
+          item.status.color = colors[item.status.name] || 'red';
+          return item;
+        });
+
         context.loadPartials({menu: '/templates/user/menu.ms'})
           .partial('/templates/user/property.ms').then(function() {
             showPage(1, context.propertyPage.length, '.property_system');
@@ -91,14 +103,11 @@ Sammy('#main', function() {
 function propertyBindEvent(propertyData) {
   var $propertyContainer = $('#property_container');
   $propertyContainer.find('#sub_menu').tabs();
-  $propertyContainer.find('#property_system').on('click', function(event) {
-    $propertyContainer.find('.property_system').css('display', 'block');
-    $propertyContainer.find('#property_history_content').css('display', 'none');
-  });
-
-  $propertyContainer.find('#property_history').on('click', function(event) {
-    $propertyContainer.find('.property_system').css('display', 'none');
-    $propertyContainer.find('#property_history_content').css('display', 'block');
+  $propertyContainer.find('#repair_remark').trigger('autoresize');
+  $propertyContainer.find('#sub_menu li').on('click', function(event) {
+    var id = $(this).attr('id');
+    $propertyContainer.find('.property').css('display', 'none');
+    $propertyContainer.find('.' + id).css('display', 'block');
   });
 
   $propertyContainer.find('.collapsible').collapsible({
@@ -106,6 +115,37 @@ function propertyBindEvent(propertyData) {
   });
 
   searchData(propertyData);
+  repairProperty();
+}
+
+function repairProperty() {
+  var $propertyContainer = $('#property_container');
+  $propertyContainer.find('#repair_property_btn').on('click', function() {
+    var type = $('#property_repair_form input:radio:checked[name="repair_type"]').val();
+    var title = $('#repair_title').val();
+    var remark = $('#repair_remark').val();
+    if(!title || !remark || !type) {
+      Materialize.toast($('<span>請確實填寫每個欄位內容!</span>'), 5000);
+      return;
+    }
+
+    client({
+      path: 'user/repair/create',
+      method: 'post',
+      params: {
+        type: type,
+        title: title,
+        remark: remark
+      }
+    }).then(function(response) {
+      console.log(response);
+      Materialize.toast($('<span>報修財產成功!</span>'), 5000);
+    }).catch(function(response) {
+      console.log(response);
+      Materialize.toast($('<span>報修財產失敗!</span>'), 10000);
+    });
+
+  });
 }
 
 function searchData(propertyData) {

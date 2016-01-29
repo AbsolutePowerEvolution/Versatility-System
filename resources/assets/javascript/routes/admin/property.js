@@ -1,6 +1,16 @@
 var Sammy = require('sammy');
 var client = require('../../lib/client');
 var when = require('when');
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth() + 1;
+var yyyy = today.getFullYear();
+if(dd < 10) {
+  dd = '0' + dd;
+}
+if(mm < 10) {
+  mm = '0' + mm;
+}
 
 Sammy('#main', function() {
   this.get('#/admin/property', function(context) {
@@ -36,6 +46,11 @@ Sammy('#main', function() {
       .spread((propertyData, loanData, repairData) => {
         console.log('property data:', propertyData);
 
+        context.date = {};
+        context.date.year = yyyy - 1911;
+        context.date.month = mm;
+        context.date.day = dd;
+
         context.propertyData = propertyData.entity.data.map((item) => {
           let colors = {'deleted': 'red', 'maintenance': 'red', 'normal': 'teal'};
           item.status.color = colors[item.status.name] || 'blue';
@@ -59,6 +74,8 @@ Sammy('#main', function() {
         context.repairData = repairData.entity.data.map((item) => {
           let isReturn = {'finished': 'hide', 'submitted': 'block', 'processing': 'block'};
           item.isReturn = isReturn[item.status.name] || 'hide';
+          let type = {'cleanup': '清潔', 'maintain': '維修'};
+          item.type.cname = type[item.type.name] || item.type.name;
           return item;
         });
         console.log('repair data:', context.repairData);
@@ -287,7 +304,7 @@ function showPropertyDetailAndDeleteProperty() {
     $repairPropertyModal.find('.email').html(ele.data('email'));
     $repairPropertyModal.find('.propertyName').html(ele.data('name'));
     $repairPropertyModal.find('.time').html(ele.data('time'));
-    $repairPropertyModal.find('.remark').html(ele.data('remark'));
+    $repairPropertyModal.find('.remark').html(ele.data('type') + ', ' + ele.data('remark'));
     $repairPropertyModal.data('repair_id', ele.data('repair_id'));
   });
 }
@@ -361,16 +378,6 @@ function loanProperty(propertyData) {
 
   $propertyContainer.find('#loan_property_btn').on('click', function(event) {
     var username = $loanPropertyModal.find('#loan_username').val();
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth() + 1; //January is 0!
-    var yyyy = today.getFullYear();
-    if(dd < 10) {
-      dd = '0' + dd;
-    }
-    if(mm < 10) {
-      mm = '0' + mm;
-    }
     today = yyyy + '/' + mm + '/' + dd;
     var dateBeganAt = today;
     var dateEndedAt = today;
@@ -423,25 +430,6 @@ function returnProperty(loanData) {
     } else {
       alert('歸還財產失敗!');
     }
-    /*$.ajax({
-      url: '/api/manager/loan/other-restitution/' + loanID,
-      _method: 'put',
-      type: 'put',
-      data: {
-        id: loanID,
-        status: 'finished',
-        _token: $('meta[name="csrf-token"]').attr('content')
-      },
-      error: function(error) {
-        alert('歸還財產失敗!');
-        console.log('return property error, ', error);
-      },
-      success: function(data) {
-        console.log('return property success!', data);
-        alert('歸還財產成功!');
-        location.reload();
-      }
-    });*/
   });
 
   var loanIdContent = [];
@@ -519,6 +507,16 @@ function repairProperty() {
   $propertyContainer.find('#repair_property_modal #repair_property_btn').on('click', function(event) {
     var repairList = [];
     repairList[0] = $repairPropertyModal.data('repair_id');
+    var title = $repairPropertyModal.find('.propertyName').html();
+    var remark = $repairPropertyModal.find('.remark').html();
+
+    $propertyContainer.find('#repair_printer').css('display', 'block');
+    $propertyContainer.find('#repair_printer').find('.repair_title').html(title);
+    $propertyContainer.find('#repair_printer').find('.repair_remark').html(remark);
+    window.print();
+    $propertyContainer.find('#repair_printer').css('display', 'none');
+
+    return;
     $.ajax({
       url: '/api/manager/repair',
       _method: 'put',

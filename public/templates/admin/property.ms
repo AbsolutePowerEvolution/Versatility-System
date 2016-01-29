@@ -78,14 +78,12 @@
             </div>
             {{#repairData}}
             <div class="card showContent propertyContent searched">
-                <div class="row card-content" data-repair_id="{{id}}" data-name="{{property.name}}" data-remark="{{remark}}" data-property_id="{{property_id}}" data-status="{{status.name}}"
-                     data-time="{{user.created_at}}"
-                     data-email="{{user.email}}" data-user_id = "{{user.id}}" data-usernickname="{{user.nickname}}" data-phone="{{user.phone}}"
-                     data-username="{{user.username}}"
+                <div class="row card-content" data-repair_id="{{id}}" data-name="{{title}}" data-remark="{{remark}}" data-status="{{status.name}}" data-time="{{created_at}}" data-type="{{type.cname}}"
+                     data-email="{{user.email}}" data-user_id = "{{user.id}}" data-user_nickname="{{user.nickname}}" data-phone="{{user.phone}}" data-username="{{user.username}}"
                 >
                     <i class="{{isReturn}} isReturn material-icons left">assignment_late</i>
-                    <span class="col s2 center-align">{{property.name}}</span>
-                    <span class="col s2 center-align">{{user.id}}</span>
+                    <span class="col s2 center-align">{{title}}</span>
+                    <span class="col s2 center-align">{{user.username}}</span>
                     <span class="col s5 center-align">{{created_at}}</span>
                     <span class="col s3 center-align">
                         <a class="waves-effect waves-light btn repairModalTrigger"><i class="material-icons left">description</i>詳細資料</a>
@@ -236,7 +234,19 @@
     <div id="repair_property_modal" class="modal">
         <div class="modal-content">
             <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
-            <h4>歸還財產</h4>
+            <h4>報修財產</h4>
+            <div class="row">
+                <span class="col s3">申請地點：</span>
+                <span class="propertyName"></p>
+            </div>
+            <div class="row">
+                <span class="col s3">申請項目：</span>
+                <span class="remark"></span>
+            </div>
+            <div class="row">
+                <span class="col s3">申請時間：</span>
+                <span class="time"></span>
+            </div>
             <div class="row">
                 <span class="col s3">報修者：</span>
                 <span class="userName"></span>
@@ -253,21 +263,9 @@
                 <span class="col s3">報修者email：</span>
                 <span class="email"></span>
             </div>
-            <div class="row">
-                <span class="col s3">財產名稱：</span>
-                <span class="propertyName"></p>
-            </div>
-            <div class="row">
-                <span class="col s3">申請時間：</span>
-                <span class="time"></span>
-            </div>
-            <div class="row">
-                <span class="col s3">報修理由：</span>
-                <span class="remark"></span>
-            </div>
         </div>
         <div class="modal-footer">
-            <a id="repair_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">報修/清理完成</a>
+            <a id="repair_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">列印</a>
             <a id="repairOtherAction" class="modal-action modal-close waves-effect waves-green btn-flat"></a>
         </div>
     </div>
@@ -320,6 +318,176 @@
                 <a class="page" data-pagenum="next"><i class="material-icons">chevron_right</i></a>
             </li>
         </ul>
+    </div>
+
+    <div id="repair_printer">
+        <div class="row">
+            <h5 class="col">國立中正大學</h5>
+            <p  class="col">修繕/庶務申請單</p>
+            {{#date}}
+                <p class="col">填單日期：中華民國{{year}}年{{month}}月{{day}}日</p>
+            {{/date}}
+        </div>
+        <div class="row">
+            <table style="line-height: 1;">
+                <tr>
+                    <td rowspan="6" width="10%">
+                        <p align="center">類別</p>
+                        <p align="center">（打V）</p>
+                    </td>
+                    <td rowspan="6" width="37%" style="vertical-align: top;">
+                        <p>□土木建築修繕 □水電空調消防修繕 □一般庶務</p>
+                    </td>
+                    <td rowspan="7" width="10%">
+                        <p align="center">申</p>
+                        <p align="center">請</p>
+                        <p align="center">單</p>
+                        <p align="center">位</p>
+                    </td>
+                    <td width="13%">
+                        <p>申請單位</p>
+                    </td>
+                    <td width="20%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="13%">
+                        <p>申請人</p>
+                    </td>
+                    <td width="20%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="13%">
+                        <p>聯絡電話（或分機）</p>
+                    </td>
+                    <td width="20%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="13%">
+                        <p>管理員</p>
+                    </td>
+                    <td width="20%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="13%">
+                        <p>經費來源</p>
+                    </td>
+                    <td width="20%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="13%">
+                        <p>經費來源單位會簽</p>
+                    </td>
+                    <td width="20%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%">
+                        <p align="center">申</p>
+                        <p align="center">請</p>
+                        <p align="center">地</p>
+                        <p align="center">點</p>
+                    </td>
+                    <td class="repair_title" width="37%" valign="top" style="vertical-align: top;">
+                        <p>□學人宿舍區請先送保管組會核。（是者打V）</p>
+                    </td>
+                    <td width="13%">
+                        <p>主管或其授權人</p>
+                    </td>
+                    <td width="20%">
+                    </td>
+                </tr>
+                <tr>
+                    <td rowspan="2" width="10%">
+                        <p align="center"><br/>
+
+                        </p>
+                        <p align="center">申</p>
+                        <p align="center">請</p>
+                        <p align="center">項</p>
+                        <p align="center">目</p>
+                    </td>
+                    <td class="repair_remark" rowspan="2" width="37%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                    <td rowspan="2" width="10%">
+                        <p align="center"><br/>
+
+                        </p>
+                        <p align="center">會</p>
+                        <p align="center">核</p>
+                        <p align="center">單</p>
+                        <p align="center">位</p>
+                    </td>
+                    <td width="13%">
+                        <p>經辦人</p>
+                    </td>
+                    <td width="20%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="13%">
+                        <p>主管或其授權人</p>
+                    </td>
+                    <td width="20%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="10%">
+                        <p align="center">承</p>
+                        <p align="center">辦</p>
+                        <p align="center">單</p>
+                        <p align="center">位</p>
+                        <p align="center">登</p>
+                        <p align="center">錄</p>
+                    </td>
+                    <td width="37%">
+                        <p><br/>
+
+                        </p>
+                    </td>
+                    <td width="10%">
+                        <p align="center">申確</p>
+                        <p align="center">請認</p>
+                        <p align="center">單完</p>
+                        <p align="center">位成</p>
+                    </td>
+                    <td colspan="2" width="34%" valign="top" style="vertical-align: top;">
+                        <p>（請確認數量或功能是否相符後簽章）</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 
 </div>

@@ -185,7 +185,7 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	var $ = __webpack_require__(194);
 
@@ -202,7 +202,7 @@ webpackJsonp([0],{
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
 	var JSON_HEADER = 'application/json; charset=UTF-8';
@@ -242,7 +242,7 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
 
 	var when = __webpack_require__(197);
 
@@ -281,17 +281,6 @@ webpackJsonp([0],{
 	  mm = '0' + mm;
 	}
 	today = yyyy + '/' + mm + '/' + dd;
-
-	Object.size = function (obj) {
-	  var size = 0;
-	  var key;
-	  for (key in obj) {
-	    if (obj.hasOwnProperty(key)) {
-	      size++;
-	    }
-	  }
-	  return size;
-	};
 
 	Sammy('#main', function () {
 	  this.get('#/user/property', function (context) {
@@ -345,6 +334,18 @@ webpackJsonp([0],{
 	        context.propertyPage[i].pageNum = i + 1;
 	      }
 
+	      context.loanData = loanData.entity.data.map(function (item) {
+	        var colors = { 'canceled': 'teal', 'refused': 'teal', 'finished': 'teal' };
+	        item.status.color = colors[item.status.name] || 'red';
+	        return item;
+	      });
+
+	      context.repairData = repairData.entity.data.map(function (item) {
+	        var colors = { 'canceled': 'teal', 'finished': 'teal' };
+	        item.status.color = colors[item.status.name] || 'red';
+	        return item;
+	      });
+
 	      context.loadPartials({ menu: '/templates/user/menu.ms' }).partial('/templates/user/property.ms').then(function () {
 	        showPage(1, context.propertyPage.length, '.property_system');
 	        propertyPageEvent(context.propertyPage.length, '.property_system');
@@ -368,14 +369,11 @@ webpackJsonp([0],{
 	function propertyBindEvent(propertyData) {
 	  var $propertyContainer = $('#property_container');
 	  $propertyContainer.find('#sub_menu').tabs();
-	  $propertyContainer.find('#property_system').on('click', function (event) {
-	    $propertyContainer.find('.property_system').css('display', 'block');
-	    $propertyContainer.find('#property_history_content').css('display', 'none');
-	  });
-
-	  $propertyContainer.find('#property_history').on('click', function (event) {
-	    $propertyContainer.find('.property_system').css('display', 'none');
-	    $propertyContainer.find('#property_history_content').css('display', 'block');
+	  $propertyContainer.find('#repair_remark').trigger('autoresize');
+	  $propertyContainer.find('#sub_menu li').on('click', function (event) {
+	    var id = $(this).attr('id');
+	    $propertyContainer.find('.property').css('display', 'none');
+	    $propertyContainer.find('.' + id).css('display', 'block');
 	  });
 
 	  $propertyContainer.find('.collapsible').collapsible({
@@ -383,6 +381,36 @@ webpackJsonp([0],{
 	  });
 
 	  searchData(propertyData);
+	  repairProperty();
+	}
+
+	function repairProperty() {
+	  var $propertyContainer = $('#property_container');
+	  $propertyContainer.find('#repair_property_btn').on('click', function () {
+	    var type = $('#property_repair_form input:radio:checked[name="repair_type"]').val();
+	    var title = $('#repair_title').val();
+	    var remark = $('#repair_remark').val();
+	    if (!title || !remark || !type) {
+	      Materialize.toast($('<span>請確實填寫每個欄位內容!</span>'), 5000);
+	      return;
+	    }
+
+	    client({
+	      path: 'user/repair/create',
+	      method: 'post',
+	      params: {
+	        type: type,
+	        title: title,
+	        remark: remark
+	      }
+	    }).then(function (response) {
+	      console.log(response);
+	      Materialize.toast($('<span>報修財產成功!</span>'), 5000);
+	    }).catch(function (response) {
+	      console.log(response);
+	      Materialize.toast($('<span>報修財產失敗!</span>'), 10000);
+	    });
+	  });
 	}
 
 	function searchData(propertyData) {
@@ -1178,6 +1206,16 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(192);
 	var client = __webpack_require__(229);
 	var when = __webpack_require__(197);
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1;
+	var yyyy = today.getFullYear();
+	if (dd < 10) {
+	  dd = '0' + dd;
+	}
+	if (mm < 10) {
+	  mm = '0' + mm;
+	}
 
 	Sammy('#main', function () {
 	  this.get('#/admin/property', function (context) {
@@ -1212,6 +1250,11 @@ webpackJsonp([0],{
 	    when.all([propertyPromise, loanPromise, RepairPromise]).spread(function (propertyData, loanData, repairData) {
 	      console.log('property data:', propertyData);
 
+	      context.date = {};
+	      context.date.year = yyyy - 1911;
+	      context.date.month = mm;
+	      context.date.day = dd;
+
 	      context.propertyData = propertyData.entity.data.map(function (item) {
 	        var colors = { 'deleted': 'red', 'maintenance': 'red', 'normal': 'teal' };
 	        item.status.color = colors[item.status.name] || 'blue';
@@ -1235,6 +1278,8 @@ webpackJsonp([0],{
 	      context.repairData = repairData.entity.data.map(function (item) {
 	        var isReturn = { 'finished': 'hide', 'submitted': 'block', 'processing': 'block' };
 	        item.isReturn = isReturn[item.status.name] || 'hide';
+	        var type = { 'cleanup': '清潔', 'maintain': '維修' };
+	        item.type.cname = type[item.type.name] || item.type.name;
 	        return item;
 	      });
 	      console.log('repair data:', context.repairData);
@@ -1468,7 +1513,7 @@ webpackJsonp([0],{
 	    $repairPropertyModal.find('.email').html(ele.data('email'));
 	    $repairPropertyModal.find('.propertyName').html(ele.data('name'));
 	    $repairPropertyModal.find('.time').html(ele.data('time'));
-	    $repairPropertyModal.find('.remark').html(ele.data('remark'));
+	    $repairPropertyModal.find('.remark').html(ele.data('type') + ', ' + ele.data('remark'));
 	    $repairPropertyModal.data('repair_id', ele.data('repair_id'));
 	  });
 	}
@@ -1541,16 +1586,6 @@ webpackJsonp([0],{
 
 	  $propertyContainer.find('#loan_property_btn').on('click', function (event) {
 	    var username = $loanPropertyModal.find('#loan_username').val();
-	    var today = new Date();
-	    var dd = today.getDate();
-	    var mm = today.getMonth() + 1; //January is 0!
-	    var yyyy = today.getFullYear();
-	    if (dd < 10) {
-	      dd = '0' + dd;
-	    }
-	    if (mm < 10) {
-	      mm = '0' + mm;
-	    }
 	    today = yyyy + '/' + mm + '/' + dd;
 	    var dateBeganAt = today;
 	    var dateEndedAt = today;
@@ -1602,25 +1637,6 @@ webpackJsonp([0],{
 	    } else {
 	      alert('歸還財產失敗!');
 	    }
-	    /*$.ajax({
-	      url: '/api/manager/loan/other-restitution/' + loanID,
-	      _method: 'put',
-	      type: 'put',
-	      data: {
-	        id: loanID,
-	        status: 'finished',
-	        _token: $('meta[name="csrf-token"]').attr('content')
-	      },
-	      error: function(error) {
-	        alert('歸還財產失敗!');
-	        console.log('return property error, ', error);
-	      },
-	      success: function(data) {
-	        console.log('return property success!', data);
-	        alert('歸還財產成功!');
-	        location.reload();
-	      }
-	    });*/
 	  });
 
 	  var loanIdContent = [];
@@ -1696,6 +1712,16 @@ webpackJsonp([0],{
 	  $propertyContainer.find('#repair_property_modal #repair_property_btn').on('click', function (event) {
 	    var repairList = [];
 	    repairList[0] = $repairPropertyModal.data('repair_id');
+	    var title = $repairPropertyModal.find('.propertyName').html();
+	    var remark = $repairPropertyModal.find('.remark').html();
+
+	    $propertyContainer.find('#repair_printer').css('display', 'block');
+	    $propertyContainer.find('#repair_printer').find('.repair_title').html(title);
+	    $propertyContainer.find('#repair_printer').find('.repair_remark').html(remark);
+	    window.print();
+	    $propertyContainer.find('#repair_printer').css('display', 'none');
+
+	    return;
 	    $.ajax({
 	      url: '/api/manager/repair',
 	      _method: 'put',
@@ -1912,7 +1938,7 @@ webpackJsonp([0],{
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	module.exports = function (_Error) {
+	module.exports = (function (_Error) {
 	  _inherits(ValidationError, _Error);
 
 	  function ValidationError(errors, options, attributes, constraints) {
@@ -1930,7 +1956,7 @@ webpackJsonp([0],{
 	  }
 
 	  return ValidationError;
-	}(Error);
+	})(Error);
 
 /***/ },
 
