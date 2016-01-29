@@ -3,28 +3,45 @@ webpackJsonp([0],{
 /***/ 0:
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	__webpack_require__(1);
-	__webpack_require__(191);
-	var Sammy = __webpack_require__(192);
-	__webpack_require__(193);
-	__webpack_require__(196);
+	__webpack_require__(2);
+	__webpack_require__(192);
+	var Sammy = __webpack_require__(193);
+	var Vue = __webpack_require__(194);
+	__webpack_require__(195);
+	__webpack_require__(197);
 
-	__webpack_require__(218);
+	Vue.use(__webpack_require__(219));
+
+	// Http config
+	var token = $('#csrf-token').attr('content');
+	Vue.http.options.root = '/api';
+	Vue.http.headers.common['X-CSRF-TOKEN'] = token;
+	Vue.http.options.emulateJSON = true;
+
+	__webpack_require__(220);
 
 	Sammy('#main').use('Hogan', 'ms').run('#/');
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 
-/***/ 191:
+/***/ 1:
+/***/ function(module, exports) {
+
+	module.exports = jQuery;
+
+/***/ },
+
+/***/ 192:
 /***/ function(module, exports) {
 
 	module.exports = null;
 
 /***/ },
 
-/***/ 192:
+/***/ 193:
 /***/ function(module, exports) {
 
 	module.exports = Sammy;
@@ -34,108 +51,60 @@ webpackJsonp([0],{
 /***/ 194:
 /***/ function(module, exports) {
 
-	module.exports = jQuery;
+	module.exports = Vue;
 
 /***/ },
 
-/***/ 195:
+/***/ 196:
 /***/ function(module, exports) {
 
 	module.exports = Hogan;
 
 /***/ },
 
-/***/ 196:
+/***/ 197:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var when = __webpack_require__(197);
-	var validate = __webpack_require__(217);
+	var when = __webpack_require__(198);
+	var validate = __webpack_require__(218);
 
 	validate.Promise = when.Promise;
 
 /***/ },
 
-/***/ 200:
+/***/ 201:
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
 
-/***/ 217:
+/***/ 218:
 /***/ function(module, exports) {
 
 	module.exports = validate;
 
 /***/ },
 
-/***/ 218:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	__webpack_require__(219);
-	__webpack_require__(256);
-
-	__webpack_require__(265);
-	__webpack_require__(267);
-
-/***/ },
-
 /***/ 219:
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	'use strict';
-
-	__webpack_require__(220);
-	__webpack_require__(228);
-	__webpack_require__(255);
+	module.exports = VueResource;
 
 /***/ },
 
 /***/ 220:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	'use strict';
 
-	(function () {
-	  'use strict';
+	__webpack_require__(221);
+	__webpack_require__(292);
 
-	  var Sammy = __webpack_require__(192);
-	  var api = __webpack_require__(221);
-
-	  Sammy('#main', function (app) {
-	    app.get('#/user/signin', function (context) {
-	      context.partial('/templates/user/signin.ms').then(function () {
-	        console.log('render');
-	      });
-	    });
-
-	    app.post('#/user/signin', function (context) {
-	      var params = Object.assign({}, context.params);
-	      api.add('auth/login', {
-	        body: $.param(params)
-	      }).then(function (data) {
-	        console.log(data);
-	        if (data.status) {
-	          if (data.is_manager) {
-	            context.redirect('#/admin/examine');
-	          } else if (data.is_student) {
-	            context.redirect('#/user/loan');
-	          }
-	        } else {
-	          Materialize.toast('帳號 or 密碼錯誤');
-	        }
-	      }).catch(function (response) {
-	        Materialize.toast('伺服器錯誤');
-	      });
-	      return false;
-	    });
-	  });
-	}).call(undefined);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	__webpack_require__(310);
+	__webpack_require__(312);
 
 /***/ },
 
@@ -144,14 +113,170 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var $ = __webpack_require__(194);
-	var connectEndpoint = __webpack_require__(222).connectEndpoint;
-	var plusCsrf = __webpack_require__(223);
+	__webpack_require__(222);
+	__webpack_require__(264);
+	__webpack_require__(291);
 
-	var cookie = __webpack_require__(224);
-	var param = __webpack_require__(225);
-	var header = __webpack_require__(226);
-	var statusCode = __webpack_require__(227);
+/***/ },
+
+/***/ 222:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _signin = __webpack_require__(223);
+
+	var _signin2 = _interopRequireDefault(_signin);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Sammy = __webpack_require__(193);
+	var api = __webpack_require__(257);
+
+	Sammy('#main', function (app) {
+	  app.get('#/user/signin', function (context) {
+	    context.partial('/templates/vue.ms').then(function () {
+	      var App = Vue.extend({
+	        template: '<signin v-ref:signin></signin>',
+	        components: { Signin: _signin2.default },
+	        compiled: function compiled() {
+	          var signin = this.$refs.signin;
+	          signin.$on('login', function (type) {
+	            if (type === signin.USER) {
+	              context.redirect('#/user/loan');
+	            } else {
+	              context.redirect('#/admin/examine');
+	            }
+	          });
+
+	          signin.$on('fail', function () {
+	            Materialize.toast('帳號 or 密碼錯誤', 500);
+	          });
+
+	          signin.$on('error', function () {
+	            Materialize.toast('伺服器錯誤', 500);
+	          });
+	        }
+	      });
+
+	      new Vue({
+	        el: '#main',
+	        components: { App: App }
+	      });
+	    });
+	  });
+	});
+
+/***/ },
+
+/***/ 223:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(224)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/signin.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(256)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/signin.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 224:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _symbol = __webpack_require__(225);
+
+	var _symbol2 = _interopRequireDefault(_symbol);
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var userSym = (0, _symbol2.default)('user');
+	var managerSym = (0, _symbol2.default)('manager');
+	exports.default = {
+	  data: function data() {
+	    return {
+	      username: '',
+	      password: '',
+	      USER: userSym,
+	      MANAGER: managerSym
+	    };
+	  },
+
+	  methods: {
+	    doSignin: function doSignin(event) {
+	      var _this = this;
+
+	      var username = this.$data.username;
+	      var password = this.$data.password;
+	      var data = {
+	        username: username,
+	        password: password
+	      };
+	      this.$http.post('/api/auth/login', data).then(function (response) {
+	        console.log(response);
+	        if (response.data.status) {
+	          var sym = response.data.is_student ? userSym : managerSym;
+	          _this.$emit('login', sym);
+	        } else {
+	          _this.$emit('fail');
+	        }
+	      }, function (response) {
+	        console.log(response);
+	        _this.$emit('error', response);
+	      });
+	    }
+	  }
+	};
+
+/***/ },
+
+/***/ 256:
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"signin-card\">\n  <div class=\"row\">\n    <div class=\"col s12 m4 offset-m4\">\n      <div class=\"card z-depth-3\">\n        <div class=\"container\">\n          <div class=\"row\">\n            <div class=\"card-content black-text center-align\">\n              <span class=\"card-title\">資訊工程學系<br>系務系統</span>\n            </div>\n            <form @submit.prevent=\"doSignin\">\n              <div class=\"input-field\">\n                <i class=\"material-icons prefix\">account_box</i>\n                <input type=\"text\"\n                  id=\"username\"\n                  name=\"username\"\n                  v-model=\"username\">\n                <label for=\"username\">Username</label>\n              </div>\n              <div class=\"input-field\">\n                <i class=\"material-icons prefix\">lock</i>\n                <input type=\"password\"\n                  id=\"password\"\n                  name=\"password\"\n                  v-model=\"password\">\n                <label for=\"password\">Password</label>\n              </div>\n              <div class=\"card-action center\">\n                <button class=\"waves-effect btn\" type=\"button\" @click.stop=\"doSignin\">Login</button>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n";
+
+/***/ },
+
+/***/ 257:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var $ = __webpack_require__(1);
+	var connectEndpoint = __webpack_require__(258).connectEndpoint;
+	var plusCsrf = __webpack_require__(259);
+
+	var cookie = __webpack_require__(260);
+	var param = __webpack_require__(261);
+	var header = __webpack_require__(262);
+	var statusCode = __webpack_require__(263);
 
 	var token = $('#csrf-token').attr('content');
 	var api = connectEndpoint('/api');
@@ -166,7 +291,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 224:
+/***/ 260:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -180,14 +305,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 225:
+/***/ 261:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var $ = __webpack_require__(194);
+	var $ = __webpack_require__(1);
 
 	module.exports = function (request) {
 	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
@@ -197,12 +322,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 226:
+/***/ 262:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
 	var JSON_HEADER = 'application/json; charset=UTF-8';
@@ -233,18 +358,18 @@ webpackJsonp([0],{
 	    return response.json();
 	  };
 	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 
-/***/ 227:
+/***/ 263:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	function _typeof(obj) { return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj; }
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-	var when = __webpack_require__(197);
+	var when = __webpack_require__(198);
 
 	// P2P-style unjustifed status code check
 
@@ -261,14 +386,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 228:
+/***/ 264:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(229);
-	var when = __webpack_require__(197);
+	var Sammy = __webpack_require__(193);
+	var client = __webpack_require__(265);
+	var when = __webpack_require__(198);
 
 	var today = new Date();
 	var dd = today.getDate();
@@ -478,23 +603,23 @@ webpackJsonp([0],{
 	  $propertyContainer.find(who).find('.pagination li:lt(' + (limit + 1) + ')').removeClass('hide').addClass('inline-block');
 	  $propertyContainer.find(who).find('.pagination li:last-child').removeClass('hide').addClass('inline-block');
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 
-/***/ 229:
+/***/ 265:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $ = __webpack_require__(194);
-	var rest = __webpack_require__(230);
-	var pathPrefix = __webpack_require__(238);
-	var errorCode = __webpack_require__(240);
-	var mime = __webpack_require__(241);
-	var csrf = __webpack_require__(254);
-	var when = __webpack_require__(197);
-	var interceptor = __webpack_require__(239);
+	var $ = __webpack_require__(1);
+	var rest = __webpack_require__(266);
+	var pathPrefix = __webpack_require__(274);
+	var errorCode = __webpack_require__(276);
+	var mime = __webpack_require__(277);
+	var csrf = __webpack_require__(290);
+	var when = __webpack_require__(198);
+	var interceptor = __webpack_require__(275);
 
 	var statusCheck = interceptor({
 	  response: function response(_response, config) {
@@ -512,12 +637,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 255:
+/***/ 291:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var Sammy = __webpack_require__(192);
+	var Sammy = __webpack_require__(193);
 	var PeriodStart = ['07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00'];
 	var PeriodEnd = ['07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00'];
 	var LoanTable; // Table Data
@@ -913,31 +1038,31 @@ webpackJsonp([0],{
 	}
 
 	function validateData(type) {}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 
-/***/ 256:
+/***/ 292:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(257);
-	__webpack_require__(260);
-	__webpack_require__(261);
-	__webpack_require__(262);
+	__webpack_require__(293);
+	__webpack_require__(296);
+	__webpack_require__(297);
+	__webpack_require__(298);
 
 /***/ },
 
-/***/ 257:
+/***/ 293:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var $ = __webpack_require__(194);
-	var Sammy = __webpack_require__(192);
-	var api = __webpack_require__(221);
-	var paginate = __webpack_require__(258);
+	var $ = __webpack_require__(1);
+	var Sammy = __webpack_require__(193);
+	var api = __webpack_require__(257);
+	var paginate = __webpack_require__(294);
 
 	Sammy('#main', function () {
 	  this.get('#/admin/examine', function (context) {
@@ -1020,12 +1145,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 258:
+/***/ 294:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _lodash = __webpack_require__(259);
+	var _lodash = __webpack_require__(295);
 
 	module.exports = function (context, data, baseUrl) {
 	  if (!data.current_page) {
@@ -1054,19 +1179,19 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 259:
+/***/ 295:
 /***/ function(module, exports) {
 
 	module.exports = _;
 
 /***/ },
 
-/***/ 260:
+/***/ 296:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var Sammy = __webpack_require__(192);
+	var Sammy = __webpack_require__(193);
 	var PageLength;
 	var PageNow = 1;
 	var TotalPeople = 0;
@@ -1194,18 +1319,18 @@ webpackJsonp([0],{
 	  }
 	  $('#account_container').find('.page_prev').after(text);
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 
-/***/ 261:
+/***/ 297:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var Sammy = __webpack_require__(192);
-	var client = __webpack_require__(229);
-	var when = __webpack_require__(197);
+	var Sammy = __webpack_require__(193);
+	var client = __webpack_require__(265);
+	var when = __webpack_require__(198);
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth() + 1;
@@ -1709,19 +1834,11 @@ webpackJsonp([0],{
 	function repairProperty() {
 	  var $propertyContainer = $('#property_container');
 	  var $repairPropertyModal = $('#repair_property_modal');
+
 	  $propertyContainer.find('#repair_property_modal #repair_property_btn').on('click', function (event) {
 	    var repairList = [];
 	    repairList[0] = $repairPropertyModal.data('repair_id');
-	    var title = $repairPropertyModal.find('.propertyName').html();
-	    var remark = $repairPropertyModal.find('.remark').html();
-
-	    $propertyContainer.find('#repair_printer').css('display', 'block');
-	    $propertyContainer.find('#repair_printer').find('.repair_title').html(title);
-	    $propertyContainer.find('#repair_printer').find('.repair_remark').html(remark);
-	    window.print();
-	    $propertyContainer.find('#repair_printer').css('display', 'none');
-
-	    return;
+	    console.log(repairList);
 	    $.ajax({
 	      url: '/api/manager/repair',
 	      _method: 'put',
@@ -1742,6 +1859,16 @@ webpackJsonp([0],{
 	        location.reload();
 	      }
 	    });
+	  });
+	  $propertyContainer.find('#repair_property_modal #repair_property_printer_btn').on('click', function (event) {
+	    var title = $repairPropertyModal.find('.propertyName').html();
+	    var remark = $repairPropertyModal.find('.remark').html();
+
+	    $propertyContainer.find('#repair_printer').css('display', 'block');
+	    $propertyContainer.find('#repair_printer').find('.repair_title p:nth-child(2)').html(title);
+	    $propertyContainer.find('#repair_printer').find('.repair_remark').html(remark);
+	    window.print();
+	    $propertyContainer.find('#repair_printer').css('display', 'none');
 	  });
 	}
 
@@ -1797,22 +1924,32 @@ webpackJsonp([0],{
 	  }
 	  return limit;
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 
-/***/ 262:
+/***/ 298:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var Sammy = __webpack_require__(192);
-	var lodash = __webpack_require__(259);
-	var validate = __webpack_require__(217);
-	var moment = __webpack_require__(263);
-	var when = __webpack_require__(197);
-	var api = __webpack_require__(221);
-	var ValidationError = __webpack_require__(264);
+	var _vue = __webpack_require__(194);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _setting = __webpack_require__(299);
+
+	var _setting2 = _interopRequireDefault(_setting);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Sammy = __webpack_require__(193);
+	var lodash = __webpack_require__(295);
+	var validate = __webpack_require__(218);
+	var moment = __webpack_require__(308);
+	var when = __webpack_require__(198);
+	var api = __webpack_require__(257);
+	var ValidationError = __webpack_require__(309);
 
 	validate.validators.daterange = function (value, opts) {
 	  return new when.Promise(function (resolve) {
@@ -1866,23 +2003,15 @@ webpackJsonp([0],{
 
 	Sammy('#main', function (app) {
 	  app.get('#/admin/setting', function (context) {
-	    api.read('manager/setting').then(function (data) {
-	      console.log(data);
-	      lodash.assign(context, lodash.omit(data, function (x) {
-	        return !!!x;
-	      }));
-	      context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/setting.ms').render(function () {
-	        $('.datepicker').each(function (_idx, ele) {
-	          $(ele).pickadate({
-	            format: 'yyyy-mm-dd',
-	            formatSubmit: 'yyyy-mm-dd',
-	            closeOnSelect: true,
-	            closeOnClear: true,
-	            onClose: function onClose() {
-	              console.log('Close');
-	              ele.blur();
-	            } });
-	        });
+	    context.partial('/templates/vue.ms').render(function () {
+	      new _vue2.default({
+	        el: '#main',
+	        components: {
+	          app: {
+	            template: '<setting></setting>',
+	            components: { Setting: _setting2.default }
+	          }
+	        }
 	      });
 	    });
 	  });
@@ -1916,18 +2045,223 @@ webpackJsonp([0],{
 	    return false;
 	  });
 	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
 
-/***/ 263:
+/***/ 299:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(300)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/setting.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(307)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/setting.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 300:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _adminMenu = __webpack_require__(301);
+
+	var _adminMenu2 = _interopRequireDefault(_adminMenu);
+
+	var _dateField = __webpack_require__(304);
+
+	var _dateField2 = _interopRequireDefault(_dateField);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var _data = {
+	  time_name: '',
+	  began_date: '',
+	  ended_date: '',
+	  stu_start: '',
+	  lab_start: ''
+	};
+	exports.default = {
+	  data: function data() {
+	    return _data;
+	  },
+
+	  methods: {
+	    applySetting: function applySetting(event) {
+	      event.preventDefault();
+	      console.log(this.$data);
+	    }
+	  },
+	  components: { AdminMenu: _adminMenu2.default, DateField: _dateField2.default }
+	};
+
+/***/ },
+
+/***/ 301:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(302)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/admin-menu.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(303)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 302:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {};
+
+/***/ },
+
+/***/ 303:
+/***/ function(module, exports) {
+
+	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
+
+/***/ },
+
+/***/ 304:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(305)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/date-field.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(306)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/date-field.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 305:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  props: {
+	    date: {
+	      type: String,
+	      required: true,
+	      twoWay: true
+	    },
+	    name: {
+	      type: String,
+	      required: true
+	    },
+	    className: {
+	      type: String,
+	      required: true
+	    }
+	  },
+	  compiled: function compiled() {
+	    (0, _jquery2.default)(this.$el).find('.datepicker').pickadate({
+	      format: 'yyyy-mm-dd',
+	      formatSubmit: 'yyyy-mm-dd',
+	      closeOnSelect: true,
+	      closeOnClear: true
+	    });
+	  }
+	};
+
+/***/ },
+
+/***/ 306:
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"input-field\">\n  <label :for=\"name\" :class=\"{active: date}\">\n    <slot></slot>\n  </label>\n  <input :id=\"name\" v-model=\"date\" :data-value=\"date\"\n     class=\"datepicker Setting-DateField {{className}}\" type=\"date\" :name=\"name\">\n</div>\n";
+
+/***/ },
+
+/***/ 307:
+/***/ function(module, exports) {
+
+	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container\">\n  <form @submit=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n    <div class=\"input-field\">\n      <input id=\"time_name\"\n        class=\"validate Setting-TimeName\"\n        type=\"text\" name=\"time_name\"\n        v-model=\"time_name\">\n      <label for=\"time_name\"\n        :class=\"{active: time_name}\">\n        名稱 (ex: 104上學期):\n      </label>\n    </div>\n    <date-field\n      :date.sync=\"began_date\"\n       name=\"began_date\"\n       class-name=\"Setting-BeganDate\">\n      開始時間：\n    </date-field>\n    <date-field\n      :date.sync=\"ended_date\"\n      name=\"ended_date\"\n      class-name=\"Setting-EndedDate\">\n      結束時間：\n    </date-field>\n    <date-field\n      :date.sync=\"stu_start\"\n      name=\"stu_start\"\n      class-name=\"Setting-StuStart\">\n      學生借用開始時間：\n    </date-field>\n    <date-field\n       :date.sync=\"lab_start\"\n       name=\"lab_start\"\n       class-name=\"Setting-LabStart\">\n      Lab 借用開始時間：\n    </date-field>\n    <button id=\"apply-btn\"\n      type=\"submit\"\n      class=\"waves-effect waves-light btn\">\n      <i class=\"material-icons left\">done</i>套用設定\n    </button>\n  </form>\n</div>\n";
+
+/***/ },
+
+/***/ 308:
 /***/ function(module, exports) {
 
 	module.exports = moment;
 
 /***/ },
 
-/***/ 264:
+/***/ 309:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1938,7 +2272,7 @@ webpackJsonp([0],{
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	module.exports = (function (_Error) {
+	module.exports = function (_Error) {
 	  _inherits(ValidationError, _Error);
 
 	  function ValidationError(errors, options, attributes, constraints) {
@@ -1956,20 +2290,20 @@ webpackJsonp([0],{
 	  }
 
 	  return ValidationError;
-	})(Error);
+	}(Error);
 
 /***/ },
 
-/***/ 265:
+/***/ 310:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Sammy = __webpack_require__(192);
-	var when = __webpack_require__(197);
-	var moment = __webpack_require__(263);
-	var api = __webpack_require__(221);
-	var vars = __webpack_require__(266);
+	var Sammy = __webpack_require__(193);
+	var when = __webpack_require__(198);
+	var moment = __webpack_require__(308);
+	var api = __webpack_require__(257);
+	var vars = __webpack_require__(311);
 
 	var toMoment = function toMoment(time) {
 	  return moment(time, 'HH:mm:ss');
@@ -2026,7 +2360,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 266:
+/***/ 311:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2038,12 +2372,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 267:
+/***/ 312:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Sammy = __webpack_require__(192);
+	var Sammy = __webpack_require__(193);
 
 	Sammy('#main', function () {
 	  this.get('#/', function (context) {

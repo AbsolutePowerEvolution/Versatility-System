@@ -233,8 +233,10 @@
 
     <div id="repair_property_modal" class="modal">
         <div class="modal-content">
-            <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
-            <h4>報修財產</h4>
+            <div class="row">
+                <h4 class="left">報修財產 </h4>
+                <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
+            </div>
             <div class="row">
                 <span class="col s3">申請地點：</span>
                 <span class="propertyName"></p>
@@ -265,7 +267,8 @@
             </div>
         </div>
         <div class="modal-footer">
-            <a id="repair_property_btn" class=" modal-action modal-close waves-effect waves-green btn blue darken-4">列印</a>
+            <a id="repair_property_btn" class="left modal-action modal-close waves-effect waves-green btn blue darken-4" style="margin-left:20px">確認報修</a>
+            <a id="repair_property_printer_btn" class="modal-action waves-effect waves-green btn teal">列印</a>
             <a id="repairOtherAction" class="modal-action modal-close waves-effect waves-green btn-flat"></a>
         </div>
     </div>
@@ -329,7 +332,7 @@
             {{/date}}
         </div>
         <div class="row">
-            <table style="line-height: 1;">
+            <table>
                 <tr>
                     <td rowspan="6" width="10%">
                         <p align="center">類別</p>
@@ -410,8 +413,9 @@
                         <p align="center">地</p>
                         <p align="center">點</p>
                     </td>
-                    <td class="repair_title" width="37%" valign="top" style="vertical-align: top;">
-                        <p>□學人宿舍區請先送保管組會核。（是者打V）</p>
+                    <td class="repair_title" width="37%" valign="top" style="vertical-align: top">
+                        <p  style="vertical-align: top;">□學人宿舍區請先送保管組會核。（是者打V）</p>
+                        <p></p>
                     </td>
                     <td width="13%">
                         <p>主管或其授權人</p>
@@ -429,10 +433,7 @@
                         <p align="center">項</p>
                         <p align="center">目</p>
                     </td>
-                    <td class="repair_remark" rowspan="2" width="37%">
-                        <p><br/>
-
-                        </p>
+                    <td class="repair_remark" rowspan="2" width="37%"  style="vertical-align: top">
                     </td>
                     <td rowspan="2" width="10%">
                         <p align="center"><br/>
@@ -489,5 +490,4 @@
             </table>
         </div>
     </div>
-
 </div>

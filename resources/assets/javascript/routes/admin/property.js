@@ -504,19 +504,11 @@ function returnPropertyAjax(loanID, swit) {
 function repairProperty() {
   var $propertyContainer = $('#property_container');
   var $repairPropertyModal = $('#repair_property_modal');
+
   $propertyContainer.find('#repair_property_modal #repair_property_btn').on('click', function(event) {
     var repairList = [];
     repairList[0] = $repairPropertyModal.data('repair_id');
-    var title = $repairPropertyModal.find('.propertyName').html();
-    var remark = $repairPropertyModal.find('.remark').html();
-
-    $propertyContainer.find('#repair_printer').css('display', 'block');
-    $propertyContainer.find('#repair_printer').find('.repair_title').html(title);
-    $propertyContainer.find('#repair_printer').find('.repair_remark').html(remark);
-    window.print();
-    $propertyContainer.find('#repair_printer').css('display', 'none');
-
-    return;
+    console.log(repairList);
     $.ajax({
       url: '/api/manager/repair',
       _method: 'put',
@@ -537,6 +529,16 @@ function repairProperty() {
         location.reload();
       }
     });
+  });
+  $propertyContainer.find('#repair_property_modal #repair_property_printer_btn').on('click', function(event) {
+    var title = $repairPropertyModal.find('.propertyName').html();
+    var remark = $repairPropertyModal.find('.remark').html();
+
+    $propertyContainer.find('#repair_printer').css('display', 'block');
+    $propertyContainer.find('#repair_printer').find('.repair_title p:nth-child(2)').html(title);
+    $propertyContainer.find('#repair_printer').find('.repair_remark').html(remark);
+    window.print();
+    $propertyContainer.find('#repair_printer').css('display', 'none');
   });
 }
 
