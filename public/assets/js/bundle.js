@@ -101,7 +101,7 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(221);
-	__webpack_require__(292);
+	__webpack_require__(285);
 
 	__webpack_require__(310);
 	__webpack_require__(312);
@@ -114,8 +114,8 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(222);
-	__webpack_require__(264);
-	__webpack_require__(291);
+	__webpack_require__(257);
+	__webpack_require__(284);
 
 /***/ },
 
@@ -131,7 +131,6 @@ webpackJsonp([0],{
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Sammy = __webpack_require__(193);
-	var api = __webpack_require__(257);
 
 	Sammy('#main', function (app) {
 	  app.get('#/user/signin', function (context) {
@@ -181,14 +180,12 @@ webpackJsonp([0],{
 	__vue_template__ = __webpack_require__(256)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/signin.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/signin.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -203,13 +200,13 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var _symbol = __webpack_require__(225);
-
-	var _symbol2 = _interopRequireDefault(_symbol);
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _symbol = __webpack_require__(225);
+
+	var _symbol2 = _interopRequireDefault(_symbol);
 
 	var _jquery = __webpack_require__(1);
 
@@ -267,132 +264,10 @@ webpackJsonp([0],{
 /***/ 257:
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	var $ = __webpack_require__(1);
-	var connectEndpoint = __webpack_require__(258).connectEndpoint;
-	var plusCsrf = __webpack_require__(259);
-
-	var cookie = __webpack_require__(260);
-	var param = __webpack_require__(261);
-	var header = __webpack_require__(262);
-	var statusCode = __webpack_require__(263);
-
-	var token = $('#csrf-token').attr('content');
-	var api = connectEndpoint('/api');
-
-	api.addMiddleware(plusCsrf('X-CSRF-TOKEN', token));
-	api.addMiddleware(cookie);
-	api.addMiddleware(param);
-	api.addMiddleware(header);
-	api.addMiddleware(statusCode);
-
-	module.exports = api;
-
-/***/ },
-
-/***/ 260:
-/***/ function(module, exports) {
-
-	'use strict';
-
-	// Default add cookie
-	module.exports = function (request) {
-	  if (!request.options.credentials) {
-	    request.options.credentials = 'include';
-	  }
-	};
-
-/***/ },
-
-/***/ 261:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var $ = __webpack_require__(1);
-
-	module.exports = function (request) {
-	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
-	    request.path = request.path + '?' + $.param(request.options.params);
-	  }
-	};
-
-/***/ },
-
-/***/ 262:
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
-	var JSON_HEADER = 'application/json; charset=UTF-8';
-
-	// custom JSON middleware
-	module.exports = function (request) {
-	  var body = request.options.body;
-	  // If options have key named type
-	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
-	    // Stringify body and add header
-	    if (request.options.type === 'form') {
-	      request.options.body = $.param(body);
-	      request.options.headers['Content-Type'] = FORM_HEADER;
-	    } else if (request.options.type === 'json') {
-	      request.options.body = JSON.stringify(body);
-	      request.options.headers['Content-Type'] = JSON_HEADER;
-	    }
-	  } else if (typeof request.options.body === 'string') {
-	    // Just add header
-	    request.options.headers['Content-Type'] = FORM_HEADER;
-	  } else if (_typeof(request.options.body) === 'object') {
-	    // Stringify body and add header
-	    request.options.body = $.param(body);
-	    request.options.headers['Content-Type'] = FORM_HEADER;
-	  }
-
-	  return function (response) {
-	    return response.json();
-	  };
-	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ },
-
-/***/ 263:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var when = __webpack_require__(198);
-
-	// P2P-style unjustifed status code check
-
-	module.exports = function () {
-	  return function (response) {
-	    if (_typeof(response.body) === 'object' && response.body.status) {
-	      if (response.body.status !== 0) {
-	        return when.reject(response);
-	      }
-	    }
-	    return response;
-	  };
-	};
-
-/***/ },
-
-/***/ 264:
-/***/ function(module, exports, __webpack_require__) {
-
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(193);
-	var client = __webpack_require__(265);
+	var client = __webpack_require__(258);
 	var when = __webpack_require__(198);
 
 	var today = new Date();
@@ -607,19 +482,19 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 265:
+/***/ 258:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(1);
-	var rest = __webpack_require__(266);
-	var pathPrefix = __webpack_require__(274);
-	var errorCode = __webpack_require__(276);
-	var mime = __webpack_require__(277);
-	var csrf = __webpack_require__(290);
+	var rest = __webpack_require__(259);
+	var pathPrefix = __webpack_require__(267);
+	var errorCode = __webpack_require__(269);
+	var mime = __webpack_require__(270);
+	var csrf = __webpack_require__(283);
 	var when = __webpack_require__(198);
-	var interceptor = __webpack_require__(275);
+	var interceptor = __webpack_require__(268);
 
 	var statusCheck = interceptor({
 	  response: function response(_response, config) {
@@ -637,7 +512,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 291:
+/***/ 284:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1042,26 +917,26 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 292:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(293);
+	__webpack_require__(286);
 	__webpack_require__(296);
 	__webpack_require__(297);
 	__webpack_require__(298);
 
 /***/ },
 
-/***/ 293:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(1);
 	var Sammy = __webpack_require__(193);
-	var api = __webpack_require__(257);
+	var api = __webpack_require__(287);
 	var paginate = __webpack_require__(294);
 
 	Sammy('#main', function () {
@@ -1141,6 +1016,128 @@ webpackJsonp([0],{
 	    console.log('Fail', response);
 	    Materialize.toast('更新失敗');
 	  });
+	};
+
+/***/ },
+
+/***/ 287:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var $ = __webpack_require__(1);
+	var connectEndpoint = __webpack_require__(288).connectEndpoint;
+	var plusCsrf = __webpack_require__(289);
+
+	var cookie = __webpack_require__(290);
+	var param = __webpack_require__(291);
+	var header = __webpack_require__(292);
+	var statusCode = __webpack_require__(293);
+
+	var token = $('#csrf-token').attr('content');
+	var api = connectEndpoint('/api');
+
+	api.addMiddleware(plusCsrf('X-CSRF-TOKEN', token));
+	api.addMiddleware(cookie);
+	api.addMiddleware(param);
+	api.addMiddleware(header);
+	api.addMiddleware(statusCode);
+
+	module.exports = api;
+
+/***/ },
+
+/***/ 290:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	// Default add cookie
+	module.exports = function (request) {
+	  if (!request.options.credentials) {
+	    request.options.credentials = 'include';
+	  }
+	};
+
+/***/ },
+
+/***/ 291:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var $ = __webpack_require__(1);
+
+	module.exports = function (request) {
+	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
+	    request.path = request.path + '?' + $.param(request.options.params);
+	  }
+	};
+
+/***/ },
+
+/***/ 292:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
+	var JSON_HEADER = 'application/json; charset=UTF-8';
+
+	// custom JSON middleware
+	module.exports = function (request) {
+	  var body = request.options.body;
+	  // If options have key named type
+	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
+	    // Stringify body and add header
+	    if (request.options.type === 'form') {
+	      request.options.body = $.param(body);
+	      request.options.headers['Content-Type'] = FORM_HEADER;
+	    } else if (request.options.type === 'json') {
+	      request.options.body = JSON.stringify(body);
+	      request.options.headers['Content-Type'] = JSON_HEADER;
+	    }
+	  } else if (typeof request.options.body === 'string') {
+	    // Just add header
+	    request.options.headers['Content-Type'] = FORM_HEADER;
+	  } else if (_typeof(request.options.body) === 'object') {
+	    // Stringify body and add header
+	    request.options.body = $.param(body);
+	    request.options.headers['Content-Type'] = FORM_HEADER;
+	  }
+
+	  return function (response) {
+	    return response.json();
+	  };
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+
+/***/ 293:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var when = __webpack_require__(198);
+
+	// P2P-style unjustifed status code check
+
+	module.exports = function () {
+	  return function (response) {
+	    if (_typeof(response.body) === 'object' && response.body.status) {
+	      if (response.body.status !== 0) {
+	        return when.reject(response);
+	      }
+	    }
+	    return response;
+	  };
 	};
 
 /***/ },
@@ -1329,7 +1326,7 @@ webpackJsonp([0],{
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(193);
-	var client = __webpack_require__(265);
+	var client = __webpack_require__(258);
 	var when = __webpack_require__(198);
 	var today = new Date();
 	var dd = today.getDate();
@@ -1948,7 +1945,7 @@ webpackJsonp([0],{
 	var validate = __webpack_require__(218);
 	var moment = __webpack_require__(308);
 	var when = __webpack_require__(198);
-	var api = __webpack_require__(257);
+	var api = __webpack_require__(287);
 	var ValidationError = __webpack_require__(309);
 
 	validate.validators.daterange = function (value, opts) {
@@ -2061,14 +2058,12 @@ webpackJsonp([0],{
 	__vue_template__ = __webpack_require__(307)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/setting.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2132,14 +2127,12 @@ webpackJsonp([0],{
 	__vue_template__ = __webpack_require__(303)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2180,14 +2173,12 @@ webpackJsonp([0],{
 	__vue_template__ = __webpack_require__(306)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) {
-	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
-	}
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
 	if (false) {(function () {  module.hot.accept()
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/date-field.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2302,7 +2293,7 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(193);
 	var when = __webpack_require__(198);
 	var moment = __webpack_require__(308);
-	var api = __webpack_require__(257);
+	var api = __webpack_require__(287);
 	var vars = __webpack_require__(311);
 
 	var toMoment = function toMoment(time) {
