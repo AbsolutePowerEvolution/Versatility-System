@@ -78,7 +78,7 @@
             </div>
             {{#repairData}}
             <div class="card showContent propertyContent searched">
-                <div class="row card-content" data-repair_id="{{id}}" data-name="{{title}}" data-remark="{{remark}}" data-status="{{status.name}}" data-time="{{created_at}}" data-type="{{type.cname}}"
+                <div class="row card-content" data-repair_id="{{id}}" data-name="{{title}}" data-remark="{{type.cname}}, {{remark}}" data-status="{{status.name}}" data-time="{{created_at}}" data-type="{{type.cname}}"
                      data-email="{{user.email}}" data-user_id = "{{user.id}}" data-user_nickname="{{user.nickname}}" data-phone="{{user.phone}}" data-username="{{user.username}}"
                 >
                     <i class="{{isReturn}} isReturn material-icons left">assignment_late</i>

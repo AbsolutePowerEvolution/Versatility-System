@@ -80,35 +80,9 @@ Sammy('#main', function() {
         });
         console.log('repair data:', context.repairData);
 
-        context.propertyPage = [];
-        for(let i = 0; i < Math.ceil(propertyData.entity.total / 5); i++) {
-          context.propertyPage.push({});
-          context.propertyPage[i].classes = '';
-          if(i === 0) {
-            context.propertyPage[i].classes = 'active';
-          }
-          context.propertyPage[i].pageNum = (i + 1);
-        }
-
-        context.loanPage = [];
-        for(let i = 0; i < Math.ceil(loanData.entity.total / 5); i++) {
-          context.loanPage.push({});
-          context.loanPage[i].classes = '';
-          if(i === 0) {
-            context.loanPage[i].classes = 'active';
-          }
-          context.loanPage[i].pageNum = (i + 1);
-        }
-
-        context.repairPage = [];
-        for(let i = 0; i < Math.ceil(repairData.entity.total / 5); i++) {
-          context.repairPage.push({});
-          context.repairPage[i].classes = '';
-          if(i === 0) {
-            context.repairPage[i].classes = 'active';
-          }
-          context.repairPage[i].pageNum = (i + 1);
-        }
+        context.propertyPage = genPage(propertyData.entity.total / 5);
+        context.loanPage = genPage(loanData.entity.total / 5);
+        context.repairPage = genPage(repairData.entity.total / 5);
 
         context.loadPartials({menu: '/templates/admin/menu.ms'})
           .partial('/templates/admin/property.ms').then(function() {
@@ -149,21 +123,14 @@ function propertyBindEvent(propertyData, loanData) {
     selectYears: 15,
     format: 'yyyy-mm-dd'
   });
+  let system2show = {'property_system': 'property_system', 'property_manage': 'manage_system',
+                      'property_repair': 'repair_system'};
   $propertyContainer.find('#sub_menu').tabs();
-  $propertyContainer.find('#property_system').on('click', function(event) {
-    $propertyContainer.find('.property_system').css('display', 'block');
-    $propertyContainer.find('.manage_system').css('display', 'none');
-    $propertyContainer.find('.repair_system').css('display', 'none');
-  });
-  $propertyContainer.find('#property_manage').on('click', function(event) {
-    $propertyContainer.find('.property_system').css('display', 'none');
-    $propertyContainer.find('.manage_system').css('display', 'block');
-    $propertyContainer.find('.repair_system').css('display', 'none');
-  });
-  $propertyContainer.find('#property_repair').on('click', function(event) {
-    $propertyContainer.find('.property_system').css('display', 'none');
-    $propertyContainer.find('.manage_system').css('display', 'none');
-    $propertyContainer.find('.repair_system').css('display', 'block');
+  $propertyContainer.find('#sub_menu li').on('click', function(event) {
+    var id = $(this).attr('id');
+    $.each(system2show, function(key, value) {
+      $propertyContainer.find('.' + value).css('display', key === id ? 'block' : 'none');
+    });
   });
 
   searchData(propertyData, loanData);
@@ -174,47 +141,20 @@ function propertyBindEvent(propertyData, loanData) {
   repairProperty();
   $propertyContainer.find('.modal-close, #materialize-lean-overlay-30').on('click', function(event) {
     $('#materialize-lean-overlay-30').css('display', 'none');
-    $('#property_modal').fadeOut();
-    $('#create_property_modal').fadeOut();
-    $('#loan_property_modal').fadeOut();
-    $('#return_property_modal').fadeOut();
-    $('#total_return_property_modal').fadeOut();
-    $('#repair_property_modal').fadeOut();
+    $propertyContainer.find('.modal').fadeOut();
   });
 }
 
 function searchData(propertyData, loanData) {
   var $propertyContainer = $('#property_container');
   $propertyContainer.find('#search_property_btn').on('click', function() {
-    var limit;
-    var target = $propertyContainer.find('#search_property').val();
-    $propertyContainer.find('#property_system_content .propertyContent').removeClass('searched');
-    if(target !== '') {
-      var who = '#property_system_content .propertyContent';
-      var searchColumn = ['name', 'code'];
-      limit = search(propertyData, who, target, searchColumn);
-    } else {
-      limit = propertyData.length;
-      $propertyContainer.find('#property_system_content .propertyContent').addClass('searched');
-    }
-    showPage(1, Math.ceil(limit / 5), '.property_system');
-    propertyPageEvent(Math.ceil(limit / 5), '.property_system');
+    searching(propertyData, $propertyContainer.find('#search_property').val(),
+              '#property_system_content .propertyContent', ['name', 'code'], '.property_system');
   });
 
   $propertyContainer.find('#search_loanData_btn').on('click', function() {
-    var limit;
-    var target = $propertyContainer.find('#search_loanData').val();
-    $propertyContainer.find('#property_manage_content .propertyContent').removeClass('searched');
-    if(target !== '') {
-      var who = '#property_manage_content .propertyContent';
-      var searchColumn = ['property_name', 'code', 'username'];
-      limit = search(loanData, who, target, searchColumn);
-    } else {
-      limit = loanData.length;
-      $propertyContainer.find('#property_manage_content .propertyContent').addClass('searched');
-    }
-    showPage(1, Math.ceil(limit / 5), '.manage_system');
-    propertyPageEvent(Math.ceil(limit / 5), '.manage_system');
+    searching(loanData, $propertyContainer.find('#search_loanData').val(),
+        '#property_manage_content .propertyContent', ['property_name', 'code', 'username'], '.manage_system');
   });
 }
 
@@ -257,54 +197,17 @@ function showPropertyDetailAndDeleteProperty() {
 
   var $returnPropertyModal = $('#return_property_modal');
   $propertyContainer.find('#property_manage_content .returnLoanModalTrigger').on('click', function(event) {
-    if($(this).hasClass('disabled')) { return; }
-    $('#materialize-lean-overlay-30').css('display', 'block');
-    $returnPropertyModal.fadeIn();
-
-    var ele = $(this).parent().parent();
-    var status = ele.data('status');
     let statusName = {'canceled': '使用者已取消借用該財產', 'finished': '使用者已歸還該財產',
-                      'refused': '管理者已取消借用該財產'};
-    if(status === 'accepted' || status === 'submitted') {
-      $returnPropertyModal.find('#loanOtherAction').addClass('hide');
-      $returnPropertyModal.find('#return_property_btn').removeClass('hide');
-    } else {
-      $returnPropertyModal.find('#loanOtherAction').removeClass('hide').html(statusName[status]);
-      $returnPropertyModal.find('#return_property_btn').addClass('hide');
-    }
-
-    $returnPropertyModal.find('.userName').html(ele.data('user_nickname'));
-    $returnPropertyModal.find('.userID').html(ele.data('username'));
-    $returnPropertyModal.find('.phone').html(ele.data('phone'));
-    $returnPropertyModal.find('.email').html(ele.data('email'));
-    $returnPropertyModal.find('.propertyName').html(ele.data('name'));
-    $returnPropertyModal.find('.time').html(ele.data('time'));
-    $returnPropertyModal.find('.remark').html(ele.data('remark'));
+      'refused': '管理者已取消借用該財產'};
+    var ele = $(this).parent().parent();
+    showPropertyDetailFunction(ele, statusName, $returnPropertyModal);
     $returnPropertyModal.data('loan_id', ele.data('loan_id'));
   });
   var $repairPropertyModal = $('#repair_property_modal');
   $propertyContainer.find('#property_repair_content .repairModalTrigger').on('click', function(event) {
-    if($(this).hasClass('disabled')) { return; }
-    $('#materialize-lean-overlay-30').css('display', 'block');
-    $repairPropertyModal.fadeIn();
-
+    let statusName = {'finished': '已報修/清理'};
     var ele = $(this).parent().parent();
-    var status = ele.data('status');
-    let statusName = {'submitted': '', 'processing': 'hide', 'finished': '已報修/清理'};
-    if(status === 'submitted'  || status === 'processing') {
-      $repairPropertyModal.find('#repairOtherAction').addClass('hide');
-      $repairPropertyModal.find('#repair_property_btn').removeClass('hide');
-    } else {
-      $repairPropertyModal.find('#repairOtherAction').removeClass('hide').html(statusName[status]);
-      $repairPropertyModal.find('#repair_property_btn').addClass('hide');
-    }
-    $repairPropertyModal.find('.userName').html(ele.data('user_nickname'));
-    $repairPropertyModal.find('.userID').html(ele.data('username'));
-    $repairPropertyModal.find('.phone').html(ele.data('phone'));
-    $repairPropertyModal.find('.email').html(ele.data('email'));
-    $repairPropertyModal.find('.propertyName').html(ele.data('name'));
-    $repairPropertyModal.find('.time').html(ele.data('time'));
-    $repairPropertyModal.find('.remark').html(ele.data('type') + ', ' + ele.data('remark'));
+    showPropertyDetailFunction(ele, statusName, $repairPropertyModal);
     $repairPropertyModal.data('repair_id', ele.data('repair_id'));
   });
 }
@@ -346,42 +249,32 @@ function createProperty() {
 
 function loanProperty(propertyData) {
   var $propertyContainer = $('#property_container');
-  var $loanPropertyModal = $('#loan_property_modal');
+  var $loanPropertyMD = $('#loan_property_modal');
   var propertyIdContent = [];
   $propertyContainer.find('#property_system_content #loan_property').on('click', function(event) {
     $('#materialize-lean-overlay-30').css('display', 'block');
-    $loanPropertyModal.fadeIn();
-    $loanPropertyModal.find('#loan_property_content div').remove('.remove');
-    $loanPropertyModal.find('#loan_username').val('').focus();
-    $loanPropertyModal.find('#loan_property_code').val('');
+    $loanPropertyMD.fadeIn();
+    $loanPropertyMD.find('#loan_property_content div').remove('.remove');
+    $loanPropertyMD.find('#loan_username').val('').focus();
+    $loanPropertyMD.find('#loan_property_code').val('');
     propertyIdContent = [];
   });
 
   $propertyContainer.find('#loan_property_modal #loan_username').on('keyup', function(event) {
-    $loanPropertyModal.find('#loan_property_code').focus();
+    $loanPropertyMD.find('#loan_property_code').focus();
   });
   $propertyContainer.find('#loan_property_modal #loan_property_code').on('keyup', function(event) {
     var code = $(this).val();
     var property;
     if(property = propertyData.find((data) => data.code === code)) {
-      $loanPropertyModal.find('#loan_property_content').find('.property_code').html(code)
-                                                        .removeClass('property_code').parent().addClass('remove');
-      $loanPropertyModal.find('#loan_property_content').find('.property_name').html(property.name)
-                                                        .removeClass('property_name');
-      var data = '<div class="row"><h5 class="property_code col offset-s1"></h5>' +
-                  '<h5 class="property_name col offset-s6"></h5></div>';
-      $loanPropertyModal.find('#loan_property_content').append(data);
-      propertyIdContent.push(property.id);
+      loanNreturnAppend($loanPropertyMD, '#loan_property_content', code, property.name, propertyIdContent, property.id);
       $(this).val('');
     }
   });
 
   $propertyContainer.find('#loan_property_btn').on('click', function(event) {
-    var username = $loanPropertyModal.find('#loan_username').val();
+    var username = $loanPropertyMD.find('#loan_username').val();
     today = yyyy + '/' + mm + '/' + dd;
-    var dateBeganAt = today;
-    var dateEndedAt = today;
-    var type = 'others';
 
     if(!username) {
       alert('請確實填寫借用表單！');
@@ -391,17 +284,16 @@ function loanProperty(propertyData) {
     var propertyID;
     var swit = 0;
     while(propertyID = propertyIdContent.pop()) {
-      console.log(propertyID);
       client({
         path: 'manager/loan/other-create',
         method: 'POST',
         params: {
           property_id: propertyID,
           username: username,
-          date_began_at: dateBeganAt,
-          date_ended_at: dateEndedAt,
+          date_began_at: today,
+          date_ended_at: today,
           remark: '',
-          type: type
+          type: 'others'
         }
       }).then(function(response) {
       }).catch(function(response) {
@@ -450,14 +342,8 @@ function returnProperty(loanData) {
     var loan;
     if(loan = loanData.find((data) => (data.code === code && data.user.username === username &&
                               (data.status.name === 'accepted' || data.status.name === 'submitted')))) {
-      $totalReturnPropertyModal.find('#total_return_property_content').find('.property_code').html(code)
-                                .removeClass('property_code').parent().addClass('remove');
-      $totalReturnPropertyModal.find('#total_return_property_content').find('.property_name').html(loan.property_name)
-                                .removeClass('property_name');
-      var data = '<div class="row"><h5 class="property_code col offset-s1"></h5>' +
-          '<h5 class="property_name col offset-s6"></h5></div>';
-      $totalReturnPropertyModal.find('#total_return_property_content').append(data);
-      loanIdContent.push(loan.id);
+      loanNreturnAppend($totalReturnPropertyModal, '#total_return_property_content', code,
+                        loan.property_name, loanIdContent, loan.id);
       $(this).val('');
     }
   });
@@ -579,13 +465,25 @@ function showPage(page, limit, who) {
   $propertyContainer.find(who).find('.pagination li:last-child').removeClass('hide').addClass('inline-block');
 }
 
-function search(Data, who, target, searchColumn) {
-  var i;
-  var j;
-  var limit;
+function searching(data, target, searchWho, searchColumn, showWho) {
   var $propertyContainer = $('#property_container');
-  for(i = 0, limit = 0; i < Data.length; i++) {
-    for(j = 0; j < searchColumn.length; j++) {
+  var limit;
+  $propertyContainer.find(searchWho).removeClass('searched');
+  if(target !== '') {
+    limit = search(data, searchWho, target, searchColumn);
+  } else {
+    limit = data.length;
+    $propertyContainer.find(searchWho).addClass('searched');
+  }
+  showPage(1, Math.ceil(limit / 5), showWho);
+  propertyPageEvent(Math.ceil(limit / 5), showWho);
+}
+
+function search(Data, who, target, searchColumn) {
+  var limit = 0;
+  var $propertyContainer = $('#property_container');
+  for(let i = 0; i < Data.length; i++) {
+    for(let j = 0; j < searchColumn.length; j++) {
       if(Data[i][searchColumn[j]].indexOf(target) != -1) {
         limit++;
         var tag = who + ':nth-child(' + (i + 2) + ')';
@@ -594,4 +492,43 @@ function search(Data, who, target, searchColumn) {
     }
   }
   return limit;
+}
+
+function showPropertyDetailFunction(ele, statusName, modal) {
+  $('#materialize-lean-overlay-30').css('display', 'block');
+  modal.fadeIn();
+  var status = ele.data('status');
+  modal.find('#loanOtherAction').html(statusName[status])
+      .addClass('hide').removeClass(!statusName[status] || 'hide');
+  modal.find('#return_property_btn').addClass('hide').removeClass(statusName[status] || 'hide');
+
+  let htmlData = {'.userName': ele.data('user_nickname'), '.userID': ele.data('username'),
+    '.phone': ele.data('phone'), '.email': ele.data('email'), '.propertyName': ele.data('name'),
+    '.time': ele.data('time'), '.remark': ele.data('remark')
+  };
+  $.each(htmlData, function(key, value) {
+    modal.find(key).html(value);
+  });
+}
+
+function loanNreturnAppend(modal, who, code, name, arr, id) {
+  modal.find(who).find('.property_code').html(code).removeClass('property_code').parent().addClass('remove');
+  modal.find(who).find('.property_name').html(name).removeClass('property_name');
+  var data = '<div class="row"><h5 class="property_code col offset-s1"></h5>' +
+      '<h5 class="property_name col offset-s6"></h5></div>';
+  modal.find(who).append(data);
+  arr.push(id);
+}
+
+function genPage(limit) {
+  var page = [];
+  for(let i = 0; i < limit; i++) {
+    page.push({});
+    page[i].classes = '';
+    if(i === 0) {
+      page[i].classes = 'active';
+    }
+    page[i].pageNum = (i + 1);
+  }
+  return page;
 }
