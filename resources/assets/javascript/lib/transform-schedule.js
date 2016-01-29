@@ -20,7 +20,6 @@ let weekName = [
   'fri'
 ];
 
-
 export default (data) => {
   return when.promise((resolve) => resolve(data.map(convertData)))
     .then((datas) => {
@@ -46,7 +45,6 @@ export default (data) => {
           time: `${start.format('HH:mm:ss')}~${end.format('HH:mm:ss')}`,
         });
 
-
         weekName.forEach((key) => {
           week[key] = week[key].join('<br>');
         });
@@ -56,4 +54,4 @@ export default (data) => {
       console.log(klass);
       return klass;
     });
-}
+};
