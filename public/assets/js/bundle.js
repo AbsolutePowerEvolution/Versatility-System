@@ -2348,10 +2348,20 @@ webpackJsonp([0],{
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/**
+	 * Convert time string to moment object
+	 *
+	 * @param {String} time - time string
+	 */
 	var toMoment = function toMoment(time) {
 	  return (0, _moment2.default)(time, 'HH:mm:ss');
 	};
 
+	/**
+	 * Convert data to more useful format
+	 *
+	 * @param {Object} x - data object
+	 */
 	var convertData = function convertData(x) {
 	  x.start = toMoment(x.time_began_at);
 	  x.end = toMoment(x.time_ended_at);
@@ -2360,6 +2370,23 @@ webpackJsonp([0],{
 	};
 
 	var weekName = ['mon', 'tue', 'wed', 'thu', 'fri'];
+
+	/**
+	 * Check course time is in range
+	 *
+	 * @param {Object} course - course object
+	 * @param {Object} start - moment object for start time
+	 * @param {Object} end - moment object for end time
+	 */
+	var isInRange = function isInRange(course, start, end) {
+	  return start.isSameOrAfter(course.start, 'minute') && end.isSameOrBefore(course.end, 'minute');
+	};
+
+	/**
+	 * Transform raw data from server
+	 *
+	 * @param {Object} data - data from server /api/manager/loan/courses
+	 */
 
 	exports.default = function (data) {
 	  return _when2.default.promise(function (resolve) {
@@ -2374,16 +2401,25 @@ webpackJsonp([0],{
 	      start = toMoment(start);
 	      end = toMoment(end);
 
+	      /**
+	       * Collect course in time range for a week
+	       *
+	       * @param {Object} week - a object for week
+	       * @param {Object} course - course data
+	       */
 	      var genWeekSchedule = function genWeekSchedule(week, course) {
 	        weekName.forEach(function (name, idx) {
+	          // If not initialize then init with array
 	          week[name] = week[name] || [];
-	          if (start.isSameOrAfter(course.start, 'minute') && end.isSameOrBefore(course.end, 'minute') && course.token[idx]) {
+	          // If in range and at that day, ref server side api
+	          if (isInRange(course, start, end) && course.token[idx]) {
 	            week[name].push(course.remark + ':' + course.property_name);
 	          }
 	        });
 	        return week;
 	      };
 
+	      // Generate a week schedule in range
 	      var week = datas.reduce(genWeekSchedule, {
 	        time: start.format('HH:mm:ss') + '~' + end.format('HH:mm:ss')
 	      });
@@ -2392,9 +2428,9 @@ webpackJsonp([0],{
 	        week[key] = week[key].join('<br>');
 	      });
 
+	      // Collect it
 	      klass.push(week);
 	    });
-	    console.log(klass);
 	    return klass;
 	  });
 	};
