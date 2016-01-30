@@ -1,89 +1,37 @@
-var $ = require('jquery');
-var Sammy = require('sammy');
-var api = require('../../lib/fetch-plus');
-var paginate = require('../../lib/paginate');
+import Sammy from 'sammy';
+import Vue from 'vue';
+import lodash from 'lodash';
+import Examine from '../../../components/examine.vue';
 
 Sammy('#main', function() {
   this.get('#/admin/examine', (context) => {
-    api.browse('manager/loan/classrooms', {
-      params: {page: context.params.page}
-    }).then((data) => {
-      var pageEffect = paginate(context, data, '#/admin/examine');
-      context.list = data.data.map((item) => {
-        item.time = `${item.date_began_at}~${item.date_ended_at}`;
-        return item;
-      });
-      context.loadPartials({
-        menu: '/templates/admin/menu.ms',
-        pagination: '/templates/pagination.ms'
-      }).partial('/templates/admin/examine.ms')
-        .then(() => {
-          // Content has been render
-
-          pageEffect();
-
-          // Initialize tooltip
-          $('.tooltipped').tooltip({
-            delay: 50,
-            position: 'buttom'
-          });
-          $('.collapsible').collapsible({accordion: true});
-
-          $('.Examine-Item').each((idx, ele) => {
-            var item = $(ele);
-            var id = item.data('id');
-            bindEvent(id, item);
-          });
+    context.partial('/templates/vue.ms')
+      .then(() => {
+        let query = lodash.omit(Object.assign({}, context.params), 'page');
+        let page = context.params.page || 1;
+        let baseUrl = '#/admin/examine';
+        let App = Vue.extend({
+          template: `<examine v-ref:examine :query="query"
+            :current-page="${page}" base-url="${baseUrl}"></examine>`,
+          components: {Examine},
+          data() {
+            return {query};
+          },
+          compiled() {
+            let examine = this.$refs.examine;
+            examine.$on('verify-success', () => {
+              Materialize.toast('更新成功', 500);
+            });
+            examine.$on('verify-error', (error) => {
+              console.warn(error);
+              Materialize.toast('更新失敗', 500);
+            });
+          }
         });
-    })
-    .catch((response) => {
-      console.log(response);
-    });
+        new Vue({
+          el: '#main',
+          components: {App}
+        });
+      });
   });
 });
-
-var bindEvent = (id, item) => {
-  // Re-trigger event for click
-  item.find('.Examine-Pass')
-    .click((event) => {
-      event.preventDefault();
-      item.trigger('examine-pass', id);
-    });
-  item.find('.Examine-Reject')
-    .click((event) => {
-      event.preventDefault();
-      item.trigger('examine-reject', id);
-    });
-
-  // Deal custom event
-  item.on('examine-pass', (event, id) => {
-    sendAcceptVerify(id);
-  });
-
-  item.on('examine-reject', (event, id) => {
-    sendRefuseVerify(id);
-  });
-};
-
-var sendRefuseVerify = (id) => {
-  sendVerifyRequest(id, 'refused');
-};
-
-var sendAcceptVerify = (id) => {
-  sendVerifyRequest(id, 'accepted');
-};
-
-var sendVerifyRequest = (id, type) => {
-  api.replace(`manager/loan/class-verify/${id}`, {
-    body: $.param({
-      status: type
-    })
-  })
-  .then((response) => {
-    Materialize.toast('更新成功');
-  })
-  .catch((response) => {
-    console.log('Fail', response);
-    Materialize.toast('更新失敗');
-  });
-};
