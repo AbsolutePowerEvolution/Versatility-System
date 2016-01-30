@@ -49,7 +49,7 @@ var getDefaultConfigs = function() {
 var getConfigs = function(env) {
   env = env || 'development';
 
-  configs = getDefaultConfigs();
+  var configs = getDefaultConfigs();
 
   if(env === 'development' || env === 'production') {
     configs.externals = [{
@@ -78,5 +78,6 @@ var getConfigs = function(env) {
   return configs;
 };
 
-module.exports = getConfigs(env);
+var configs = getConfigs(env);
+module.exports = configs;
 configs.getConfigs = getConfigs;
