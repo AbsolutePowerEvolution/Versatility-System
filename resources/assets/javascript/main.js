@@ -7,6 +7,9 @@ require('./lib/validate');
 
 Vue.use(require('vue-resource'));
 
+// Global vue config
+Vue.config.debug = true;
+
 // Http config
 let token = $('#csrf-token').attr('content');
 Vue.http.options.root = '/api';
