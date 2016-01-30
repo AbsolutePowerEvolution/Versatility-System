@@ -1,7 +1,9 @@
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
+import gulp from 'gulp';
+import loadPlugins from 'gulp-load-plugins';
 
-gulp.task('lint', function() {
+let $ = loadPlugins();
+
+gulp.task('lint', () => {
   return gulp.src([
       './resources/assets/**/*.js',
       './resources/tasks/**/*.js',

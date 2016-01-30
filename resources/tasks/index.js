@@ -1,7 +1,7 @@
-require('./build');
-require('./sass');
-require('./js');
-require('./lint');
-require('./watch');
-require('./browser-sync');
-require('./test');
+import './build';
+import './sass';
+import './js';
+import './lint';
+import './watch';
+import './browser-sync';
+import './test';

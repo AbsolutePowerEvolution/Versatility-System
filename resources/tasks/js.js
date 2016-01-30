@@ -1,13 +1,13 @@
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var bundler = require('./helper/bundler');
+import gulp from 'gulp';
+import gutil from 'gulp-util';
+import bundler from './helper/bundler';
 
-gulp.task('js', ['lint'], function() {
+gulp.task('js', ['lint'], () => {
   return bundler.run()
-    .then(function(stats) {
+    .then((stats) => {
       gutil.log('[webpack]', stats.toString(bundler.statConfig));
     })
-    .catch(function(err) {
+    .catch((err) => {
       return new gutil.PluginError('[webpack]', err);
     });
 });
