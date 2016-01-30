@@ -1,13 +1,11 @@
-var webpack = require('webpack');
-var when = require('when');
-var chalk = require('chalk');
-var webpackConfig = require('../../../webpack.config.js');
+import webpack from 'webpack';
+import when from 'when';
+import chalk from 'chalk';
+import webpackConfig from '../../../webpack.config.js';
 
-var bundler = webpack(webpackConfig);
+export let bundler = webpack(webpackConfig);
 
-exports.bundler = bundler;
-
-exports.statConfig = {
+export var statConfig = {
   colors: chalk.supportsColor,
   hash: false,
   timings: false,
@@ -23,9 +21,9 @@ exports.statConfig = {
   errorDetails: false
 };
 
-exports.watch = function() {
-  return new when.Promise(function(resolve, reject) {
-    bundler.watch(200, function(err, stats) {
+export function watch() {
+  return when.promise((resolve, reject) => {
+    bundler.watch(200, (err, stats) => {
       if(err) {
         return reject(err);
       } else {
@@ -35,9 +33,9 @@ exports.watch = function() {
   });
 };
 
-exports.run = function() {
-  return new when.Promise(function(resolve, reject) {
-    bundler.run(function(err, stats) {
+export function run() {
+  return when.promise((resolve, reject) => {
+    bundler.run((err, stats) => {
       if(err) {
         return reject(err);
       } else {

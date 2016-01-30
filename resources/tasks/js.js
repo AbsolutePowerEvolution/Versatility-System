@@ -1,11 +1,11 @@
 import gulp from 'gulp';
 import gutil from 'gulp-util';
-import bundler from './helper/bundler';
+import {run, statConfig} from './helper/bundler';
 
 gulp.task('js', ['lint'], () => {
-  return bundler.run()
+  return run()
     .then((stats) => {
-      gutil.log('[webpack]', stats.toString(bundler.statConfig));
+      gutil.log('[webpack]', stats.toString(statConfig));
     })
     .catch((err) => {
       return new gutil.PluginError('[webpack]', err);

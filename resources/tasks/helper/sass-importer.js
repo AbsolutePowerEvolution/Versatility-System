@@ -1,4 +1,4 @@
-module.exports = function(url, prev, done) {
+export default (url, prev, done) => {
   if(url[0] === '~') {
     try {
       var file = require.resolve(url.slice(1));

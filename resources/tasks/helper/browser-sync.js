@@ -3,8 +3,8 @@
  *
  * @author DanSnow
  */
-var browserSync = require('browser-sync');
-var once = require('once');
+import browserSync from 'browser-sync';
+import once from 'once';
 
 /**
  * Singleton class for BrowserSync
@@ -13,10 +13,10 @@ var once = require('once');
  * And delegate `init`, `stream`, and `reload` method.
  */
 
-var BrowserSync = (function() {
-  var instance = null;
-  var methods = ['init', 'stream', 'reload', 'stream'];
-  var init = once(function() { // Init instance exactly once
+let BrowserSync = (() => {
+  let instance = null;
+  let methods = ['init', 'stream', 'reload', 'stream'];
+  let init = once(() => { // Init instance exactly once
     instance = browserSync.create();
   });
 
@@ -29,8 +29,8 @@ var BrowserSync = (function() {
    * @param {Object} obj instance to pass the method.
    * @param {Function} methods delegate methods
    */
-  var createDelegater = function(obj, methods) {
-    var delegater = {};
+  let createDelegater = function(obj, methods) {
+    let delegater = {};
     // Iterate the methods
     Array.prototype.forEach.call(methods, function(method) {
       delegater[method] = function() { // Define delgate function
@@ -43,6 +43,6 @@ var BrowserSync = (function() {
   // Create delegator for BrowserSync instance
   init();
   return createDelegater(instance, methods);
-}());
+})();
 
-module.exports = BrowserSync;
+export default BrowserSync;

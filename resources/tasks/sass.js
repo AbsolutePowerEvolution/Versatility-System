@@ -1,5 +1,6 @@
 import gulp from 'gulp';
 import loadPlugins from 'gulp-load-plugins';
+import importer from './helper/sass-importer';
 
 let $ = loadPlugins();
 
@@ -8,7 +9,7 @@ let productionMode = process.env.NODE_ENV === 'production';
 gulp.task('sass', () => {
   return gulp.src('./resources/assets/sass/**/*.scss', {base: '.'})
     .pipe($.if(!productionMode, $.sourcemaps.init()))
-    .pipe($.sass({ importer: require('./helper/sass-importer') }))
+    .pipe($.sass({ importer }))
     .pipe($.if(!productionMode, $.sourcemaps.write()))
     .pipe($.order([
       'resources/assets/sass/app.css',
