@@ -14,6 +14,9 @@ webpackJsonp([0],{
 
 	Vue.use(__webpack_require__(219));
 
+	// Global vue config
+	Vue.config.debug = true;
+
 	// Http config
 	var token = $('#csrf-token').attr('content');
 	Vue.http.options.root = '/api';
@@ -103,8 +106,8 @@ webpackJsonp([0],{
 	__webpack_require__(221);
 	__webpack_require__(285);
 
-	__webpack_require__(310);
-	__webpack_require__(316);
+	__webpack_require__(318);
+	__webpack_require__(324);
 
 /***/ },
 
@@ -923,9 +926,9 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(286);
-	__webpack_require__(296);
-	__webpack_require__(297);
-	__webpack_require__(298);
+	__webpack_require__(300);
+	__webpack_require__(301);
+	__webpack_require__(302);
 
 /***/ },
 
@@ -934,256 +937,387 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var $ = __webpack_require__(1);
-	var Sammy = __webpack_require__(193);
-	var api = __webpack_require__(287);
-	var paginate = __webpack_require__(294);
+	var _sammy = __webpack_require__(193);
 
-	Sammy('#main', function () {
+	var _sammy2 = _interopRequireDefault(_sammy);
+
+	var _vue = __webpack_require__(194);
+
+	var _vue2 = _interopRequireDefault(_vue);
+
+	var _lodash = __webpack_require__(287);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	var _examine = __webpack_require__(288);
+
+	var _examine2 = _interopRequireDefault(_examine);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	(0, _sammy2.default)('#main', function () {
 	  this.get('#/admin/examine', function (context) {
-	    api.browse('manager/loan/classrooms', {
-	      params: { page: context.params.page }
-	    }).then(function (data) {
-	      var pageEffect = paginate(context, data, '#/admin/examine');
-	      context.list = data.data.map(function (item) {
-	        item.time = item.date_began_at + '~' + item.date_ended_at;
-	        return item;
+	    context.partial('/templates/vue.ms').then(function () {
+	      var query = _lodash2.default.omit(Object.assign({}, context.params), 'page');
+	      var page = context.params.page || 1;
+	      var baseUrl = '#/admin/examine';
+	      var App = _vue2.default.extend({
+	        template: '<examine v-ref:examine :query="query"\n            :current-page="' + page + '" base-url="' + baseUrl + '"></examine>',
+	        components: { Examine: _examine2.default },
+	        data: function data() {
+	          return { query: query };
+	        },
+	        compiled: function compiled() {
+	          var examine = this.$refs.examine;
+	          examine.$on('verify-success', function () {
+	            Materialize.toast('更新成功', 500);
+	          });
+	          examine.$on('verify-error', function (error) {
+	            console.warn(error);
+	            Materialize.toast('更新失敗', 500);
+	          });
+	        }
 	      });
-	      context.loadPartials({
-	        menu: '/templates/admin/menu.ms',
-	        pagination: '/templates/pagination.ms'
-	      }).partial('/templates/admin/examine.ms').then(function () {
-	        // Content has been render
-
-	        pageEffect();
-
-	        // Initialize tooltip
-	        $('.tooltipped').tooltip({
-	          delay: 50,
-	          position: 'buttom'
-	        });
-	        $('.collapsible').collapsible({ accordion: true });
-
-	        $('.Examine-Item').each(function (idx, ele) {
-	          var item = $(ele);
-	          var id = item.data('id');
-	          bindEvent(id, item);
-	        });
+	      new _vue2.default({
+	        el: '#main',
+	        components: { App: App }
 	      });
-	    }).catch(function (response) {
-	      console.log(response);
 	    });
 	  });
 	});
 
-	var bindEvent = function bindEvent(id, item) {
-	  // Re-trigger event for click
-	  item.find('.Examine-Pass').click(function (event) {
-	    event.preventDefault();
-	    item.trigger('examine-pass', id);
-	  });
-	  item.find('.Examine-Reject').click(function (event) {
-	    event.preventDefault();
-	    item.trigger('examine-reject', id);
-	  });
-
-	  // Deal custom event
-	  item.on('examine-pass', function (event, id) {
-	    sendAcceptVerify(id);
-	  });
-
-	  item.on('examine-reject', function (event, id) {
-	    sendRefuseVerify(id);
-	  });
-	};
-
-	var sendRefuseVerify = function sendRefuseVerify(id) {
-	  sendVerifyRequest(id, 'refused');
-	};
-
-	var sendAcceptVerify = function sendAcceptVerify(id) {
-	  sendVerifyRequest(id, 'accepted');
-	};
-
-	var sendVerifyRequest = function sendVerifyRequest(id, type) {
-	  api.replace('manager/loan/class-verify/' + id, {
-	    body: $.param({
-	      status: type
-	    })
-	  }).then(function (response) {
-	    Materialize.toast('更新成功');
-	  }).catch(function (response) {
-	    console.log('Fail', response);
-	    Materialize.toast('更新失敗');
-	  });
-	};
-
 /***/ },
 
 /***/ 287:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var $ = __webpack_require__(1);
-	var connectEndpoint = __webpack_require__(288).connectEndpoint;
-	var plusCsrf = __webpack_require__(289);
-
-	var cookie = __webpack_require__(290);
-	var param = __webpack_require__(291);
-	var header = __webpack_require__(292);
-	var statusCode = __webpack_require__(293);
-
-	var token = $('#csrf-token').attr('content');
-	var api = connectEndpoint('/api');
-
-	api.addMiddleware(plusCsrf('X-CSRF-TOKEN', token));
-	api.addMiddleware(cookie);
-	api.addMiddleware(param);
-	api.addMiddleware(header);
-	api.addMiddleware(statusCode);
-
-	module.exports = api;
-
-/***/ },
-
-/***/ 290:
-/***/ function(module, exports) {
-
-	'use strict';
-
-	// Default add cookie
-	module.exports = function (request) {
-	  if (!request.options.credentials) {
-	    request.options.credentials = 'include';
-	  }
-	};
-
-/***/ },
-
-/***/ 291:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var $ = __webpack_require__(1);
-
-	module.exports = function (request) {
-	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
-	    request.path = request.path + '?' + $.param(request.options.params);
-	  }
-	};
-
-/***/ },
-
-/***/ 292:
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
-	var JSON_HEADER = 'application/json; charset=UTF-8';
-
-	// custom JSON middleware
-	module.exports = function (request) {
-	  var body = request.options.body;
-	  // If options have key named type
-	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
-	    // Stringify body and add header
-	    if (request.options.type === 'form') {
-	      request.options.body = $.param(body);
-	      request.options.headers['Content-Type'] = FORM_HEADER;
-	    } else if (request.options.type === 'json') {
-	      request.options.body = JSON.stringify(body);
-	      request.options.headers['Content-Type'] = JSON_HEADER;
-	    }
-	  } else if (typeof request.options.body === 'string') {
-	    // Just add header
-	    request.options.headers['Content-Type'] = FORM_HEADER;
-	  } else if (_typeof(request.options.body) === 'object') {
-	    // Stringify body and add header
-	    request.options.body = $.param(body);
-	    request.options.headers['Content-Type'] = FORM_HEADER;
-	  }
-
-	  return function (response) {
-	    return response.json();
-	  };
-	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ },
-
-/***/ 293:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var when = __webpack_require__(198);
-
-	// P2P-style unjustifed status code check
-
-	module.exports = function () {
-	  return function (response) {
-	    if (_typeof(response.body) === 'object' && response.body.status) {
-	      if (response.body.status !== 0) {
-	        return when.reject(response);
-	      }
-	    }
-	    return response;
-	  };
-	};
-
-/***/ },
-
-/***/ 294:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _lodash = __webpack_require__(295);
-
-	module.exports = function (context, data, baseUrl) {
-	  if (!data.current_page) {
-	    return;
-	  }
-
-	  var currentPage = data.current_page;
-	  var lastPage = data.last_page;
-	  var prevUrl = data.prev_page_url ? baseUrl + '?page=' + (currentPage - 1) : null;
-	  var nextUrl = data.next_page_url ? baseUrl + '?page=' + (currentPage + 1) : null;
-	  var minPage = currentPage > lastPage - 10 ? lastPage - 10 : currentPage;
-	  var maxPage = Math.min(currentPage + 10, lastPage);
-	  var pages = Array.prototype.map.call((0, _lodash.range)(minPage, maxPage + 1), function (num) {
-	    return { num: num, url: baseUrl + '?page=' + num };
-	  });
-	  (0, _lodash.assign)(context, {
-	    prevUrl: prevUrl,
-	    nextUrl: nextUrl,
-	    pages: pages
-	  });
-	  return function () {
-	    var ele = document.getElementById('pagination-' + currentPage);
-	    ele.className = 'active';
-	  };
-	};
-
-/***/ },
-
-/***/ 295:
 /***/ function(module, exports) {
 
 	module.exports = _;
 
 /***/ },
 
+/***/ 288:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(289)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/examine.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(299)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/examine.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 289:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _create = __webpack_require__(290);
+
+	var _create2 = _interopRequireDefault(_create);
+
+	var _when = __webpack_require__(198);
+
+	var _when2 = _interopRequireDefault(_when);
+
+	var _transformExamine = __webpack_require__(292);
+
+	var _transformExamine2 = _interopRequireDefault(_transformExamine);
+
+	var _adminMenu = __webpack_require__(293);
+
+	var _adminMenu2 = _interopRequireDefault(_adminMenu);
+
+	var _pagination = __webpack_require__(296);
+
+	var _pagination2 = _interopRequireDefault(_pagination);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  props: {
+	    baseUrl: {
+	      type: String,
+	      required: true
+	    },
+	    query: {
+	      type: Object,
+	      required: false,
+	      default: (0, _create2.default)(null)
+	    },
+	    currentPage: {
+	      type: Number,
+	      required: true
+	    }
+	  },
+	  components: { AdminMenu: _adminMenu2.default, Pagination: _pagination2.default },
+	  methods: {
+	    accept: function accept(id) {
+	      this.sendVerify.call(this, id, 'accepted');
+	    },
+	    reject: function reject(id) {
+	      this.sendVerify.call(this, id, 'refused');
+	    },
+	    sendVerify: function sendVerify(id, status) {
+	      var self = this;
+	      (0, _when2.default)(this.$http.put('manager/loan/class-verify/' + id, { status: status })).then(function (response) {
+	        self.$emit('verify-success', response);
+	      }).catch(function (error) {
+	        self.$emit('verify-error', error);
+	      });
+	    }
+	  },
+	  data: function data() {
+	    return {
+	      examines: [],
+	      maxPage: 0
+	    };
+	  },
+	  compiled: function compiled() {
+	    var _this = this;
+
+	    (0, _when2.default)(this.$http.get('manager/loan/classrooms', { page: this.currentPage })).then(function (response) {
+	      return response.data;
+	    }).then(_transformExamine2.default).then(function (_ref) {
+	      var examines = _ref.examines;
+	      var maxPage = _ref.maxPage;
+
+	      _this.$set('examines', examines);
+	      _this.$set('maxPage', maxPage);
+	      $('.tooltipped').tooltip({
+	        delay: 50,
+	        position: 'buttom'
+	      });
+	      $('.collapsible').collapsible({ accordion: true });
+	    }).catch(function (error) {
+	      if (error instanceof Error) {
+	        console.warn(error);
+	        throw error;
+	      } else {
+	        console.warn(error);
+	      }
+	    });
+	  }
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+
+/***/ 292:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _when = __webpack_require__(198);
+
+	var _when2 = _interopRequireDefault(_when);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function (data) {
+	  return _when2.default.promise(function (resolve) {
+	    var maxPage = data.last_page;
+	    var examines = data.data.map(function (item) {
+	      item.time = item.date_began_at + '~' + item.date_ended_at;
+	      return item;
+	    });
+	    resolve({ examines: examines, maxPage: maxPage });
+	  });
+	};
+
+/***/ },
+
+/***/ 293:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(294)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/admin-menu.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(295)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 294:
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {};
+
+/***/ },
+
+/***/ 295:
+/***/ function(module, exports) {
+
+	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
+
+/***/ },
+
 /***/ 296:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(297)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/pagination.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(298)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/pagination.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 297:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _create = __webpack_require__(290);
+
+	var _create2 = _interopRequireDefault(_create);
+
+	var _jquery = __webpack_require__(1);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
+	var _lodash = __webpack_require__(287);
+
+	var _lodash2 = _interopRequireDefault(_lodash);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  props: {
+	    currentPage: {
+	      type: Number,
+	      required: true
+	    },
+	    baseUrl: {
+	      type: String,
+	      required: true
+	    },
+	    max: {
+	      type: Number,
+	      required: true
+	    },
+	    query: {
+	      type: Object,
+	      required: false,
+	      default: (0, _create2.default)(null)
+	    }
+	  },
+	  computed: {
+	    pages: function pages() {
+	      var _this = this;
+
+	      var minPage = Math.max(this.currentPage - 5, 1);
+	      var maxPage = Math.min(minPage + 10, this.max);
+	      if (maxPage === this.max) {
+	        minPage = Math.max(maxPage - 10, 1);
+	      }
+	      return _lodash2.default.times(maxPage - minPage + 1, function (i) {
+	        var page = minPage + i;
+	        return {
+	          num: page,
+	          url: _this.pageUrl.call(_this, page)
+	        };
+	      });
+	    },
+	    prevUrl: function prevUrl() {
+	      var currentPage = this.currentPage;
+	      return currentPage === 1 ? null : this.pageUrl.call(this, currentPage - 1);
+	    },
+	    nextUrl: function nextUrl() {
+	      var currentPage = this.currentPage;
+	      return currentPage === this.max ? null : this.pageUrl.call(this, currentPage + 1);
+	    }
+	  },
+	  methods: {
+	    pageUrl: function pageUrl(page) {
+	      var query = _lodash2.default.assign({}, this.query, { page: page });
+	      var param = _jquery2.default.param(query);
+	      return this.baseUrl + '?' + param;
+	    }
+	  }
+	};
+
+/***/ },
+
+/***/ 298:
+/***/ function(module, exports) {
+
+	module.exports = "\n<ul class=\"pagination center\">\n  <li :class=\"{'waves-effect': prevUrl, disabled: !prevUrl}\">\n    <a :href=\"prevUrl\"><i class=\"material-icons\">chevron_left</i></a>\n  </li>\n  <li v-for=\"page in pages\"\n    id=\"pagination-{{page.num}}\"\n    :class=\"{'waves-effect': page.num !== currentPage, 'active': page.num === currentPage}\"><a :href=\"page.url\">{{page.num}}</a></li>\n  <li :class=\"{'waves-effect': nextUrl, disabled: !nextUrl}\">\n    <a :href=\"nextUrl\"><i class=\"material-icons\">chevron_right</i></a>\n  </li>\n</ul>\n";
+
+/***/ },
+
+/***/ 299:
+/***/ function(module, exports) {
+
+	module.exports = "\n<admin-menu></admin-menu>\n<div id=\"Examine\" class=\"container Examine\">\n  <span>教室審核</span>\n  <ul class=\"collapsible popout\" data-collapsible=\"accordion\">\n    <li v-for=\"examine in examines\" class=\"Examine-Item\">\n      <a class=\"Examine-Pass secondary-content\" @click=\"accept(examine.id)\">\n        <i class=\"material-icons\">done</i>\n      </a>\n      <a class=\"Examine-Reject secondary-content\" @click=\"reject(examine.id)\">\n        <i class=\"material-icons\">clear</i>\n      </a>\n      <div class=\"collapsible-header\">\n        <span class=\"Examine-Username\">{{examine.user.nickname}}</span>\n        <span class=\"Examine-Classroom\">{{examine.property_name}}</span>\n        <span class=\"Examine-Time\">{{examine.time}}</span>\n      </div>\n      <div class=\"collapsible-body\">\n        <p>{{examine.remark}}</p>\n      </div>\n    </li>\n  </ul>\n  <pagination :current-page=\"currentPage\"\n    :base-url=\"baseUrl\"\n    :query=\"query\"\n    :max=\"maxPage\">\n  </pagination>\n</div>\n";
+
+/***/ },
+
+/***/ 300:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1320,7 +1454,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 297:
+/***/ 301:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1859,7 +1993,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 298:
+/***/ 302:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1868,19 +2002,19 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _setting = __webpack_require__(299);
+	var _setting = __webpack_require__(303);
 
 	var _setting2 = _interopRequireDefault(_setting);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Sammy = __webpack_require__(193);
-	var lodash = __webpack_require__(295);
+	var lodash = __webpack_require__(287);
 	var validate = __webpack_require__(218);
-	var moment = __webpack_require__(308);
+	var moment = __webpack_require__(309);
 	var when = __webpack_require__(198);
-	var api = __webpack_require__(287);
-	var ValidationError = __webpack_require__(309);
+	var api = __webpack_require__(310);
+	var ValidationError = __webpack_require__(317);
 
 	validate.validators.daterange = function (value, opts) {
 	  return new when.Promise(function (resolve) {
@@ -1980,16 +2114,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 299:
+/***/ 303:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(300)
+	__vue_script__ = __webpack_require__(304)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(307)
+	__vue_template__ = __webpack_require__(308)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
@@ -2007,7 +2141,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 300:
+/***/ 304:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2016,11 +2150,11 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _adminMenu = __webpack_require__(301);
+	var _adminMenu = __webpack_require__(293);
 
 	var _adminMenu2 = _interopRequireDefault(_adminMenu);
 
-	var _dateField = __webpack_require__(304);
+	var _dateField = __webpack_require__(305);
 
 	var _dateField2 = _interopRequireDefault(_dateField);
 
@@ -2049,62 +2183,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 301:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(302)
-	if (__vue_script__ &&
-	    __vue_script__.__esModule &&
-	    Object.keys(__vue_script__).length > 1) {
-	  console.warn("[vue-loader] resources/assets/components/admin-menu.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(303)
-	module.exports = __vue_script__ || {}
-	if (module.exports.__esModule) module.exports = module.exports.default
-	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
-	if (false) {(function () {  module.hot.accept()
-	  var hotAPI = require("vue-hot-reload-api")
-	  hotAPI.install(require("vue"), true)
-	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
-	  if (!module.hot.data) {
-	    hotAPI.createRecord(id, module.exports)
-	  } else {
-	    hotAPI.update(id, module.exports, __vue_template__)
-	  }
-	})()}
-
-/***/ },
-
-/***/ 302:
-/***/ function(module, exports) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = {};
-
-/***/ },
-
-/***/ 303:
-/***/ function(module, exports) {
-
-	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
-
-/***/ },
-
-/***/ 304:
-/***/ function(module, exports, __webpack_require__) {
-
-	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(305)
+	__vue_script__ = __webpack_require__(306)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/date-field.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(306)
+	__vue_template__ = __webpack_require__(307)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
@@ -2122,7 +2210,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 305:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2165,28 +2253,150 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 306:
+/***/ 307:
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"input-field\">\n  <label :for=\"name\" :class=\"{active: date}\">\n    <slot></slot>\n  </label>\n  <input :id=\"name\" v-model=\"date\" :data-value=\"date\"\n     class=\"datepicker Setting-DateField {{className}}\" type=\"date\" :name=\"name\">\n</div>\n";
 
 /***/ },
 
-/***/ 307:
+/***/ 308:
 /***/ function(module, exports) {
 
 	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container\">\n  <form @submit=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n    <div class=\"input-field\">\n      <input id=\"time_name\"\n        class=\"validate Setting-TimeName\"\n        type=\"text\" name=\"time_name\"\n        v-model=\"time_name\">\n      <label for=\"time_name\"\n        :class=\"{active: time_name}\">\n        名稱 (ex: 104上學期):\n      </label>\n    </div>\n    <date-field\n      :date.sync=\"began_date\"\n       name=\"began_date\"\n       class-name=\"Setting-BeganDate\">\n      開始時間：\n    </date-field>\n    <date-field\n      :date.sync=\"ended_date\"\n      name=\"ended_date\"\n      class-name=\"Setting-EndedDate\">\n      結束時間：\n    </date-field>\n    <date-field\n      :date.sync=\"stu_start\"\n      name=\"stu_start\"\n      class-name=\"Setting-StuStart\">\n      學生借用開始時間：\n    </date-field>\n    <date-field\n       :date.sync=\"lab_start\"\n       name=\"lab_start\"\n       class-name=\"Setting-LabStart\">\n      Lab 借用開始時間：\n    </date-field>\n    <button id=\"apply-btn\"\n      type=\"submit\"\n      class=\"waves-effect waves-light btn\">\n      <i class=\"material-icons left\">done</i>套用設定\n    </button>\n  </form>\n</div>\n";
 
 /***/ },
 
-/***/ 308:
+/***/ 309:
 /***/ function(module, exports) {
 
 	module.exports = moment;
 
 /***/ },
 
-/***/ 309:
+/***/ 310:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var $ = __webpack_require__(1);
+	var connectEndpoint = __webpack_require__(311).connectEndpoint;
+	var plusCsrf = __webpack_require__(312);
+
+	var cookie = __webpack_require__(313);
+	var param = __webpack_require__(314);
+	var header = __webpack_require__(315);
+	var statusCode = __webpack_require__(316);
+
+	var token = $('#csrf-token').attr('content');
+	var api = connectEndpoint('/api');
+
+	api.addMiddleware(plusCsrf('X-CSRF-TOKEN', token));
+	api.addMiddleware(cookie);
+	api.addMiddleware(param);
+	api.addMiddleware(header);
+	api.addMiddleware(statusCode);
+
+	module.exports = api;
+
+/***/ },
+
+/***/ 313:
+/***/ function(module, exports) {
+
+	'use strict';
+
+	// Default add cookie
+	module.exports = function (request) {
+	  if (!request.options.credentials) {
+	    request.options.credentials = 'include';
+	  }
+	};
+
+/***/ },
+
+/***/ 314:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var $ = __webpack_require__(1);
+
+	module.exports = function (request) {
+	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
+	    request.path = request.path + '?' + $.param(request.options.params);
+	  }
+	};
+
+/***/ },
+
+/***/ 315:
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
+	var JSON_HEADER = 'application/json; charset=UTF-8';
+
+	// custom JSON middleware
+	module.exports = function (request) {
+	  var body = request.options.body;
+	  // If options have key named type
+	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
+	    // Stringify body and add header
+	    if (request.options.type === 'form') {
+	      request.options.body = $.param(body);
+	      request.options.headers['Content-Type'] = FORM_HEADER;
+	    } else if (request.options.type === 'json') {
+	      request.options.body = JSON.stringify(body);
+	      request.options.headers['Content-Type'] = JSON_HEADER;
+	    }
+	  } else if (typeof request.options.body === 'string') {
+	    // Just add header
+	    request.options.headers['Content-Type'] = FORM_HEADER;
+	  } else if (_typeof(request.options.body) === 'object') {
+	    // Stringify body and add header
+	    request.options.body = $.param(body);
+	    request.options.headers['Content-Type'] = FORM_HEADER;
+	  }
+
+	  return function (response) {
+	    return response.json();
+	  };
+	};
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ },
+
+/***/ 316:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var when = __webpack_require__(198);
+
+	// P2P-style unjustifed status code check
+
+	module.exports = function () {
+	  return function (response) {
+	    if (_typeof(response.body) === 'object' && response.body.status) {
+	      if (response.body.status !== 0) {
+	        return when.reject(response);
+	      }
+	    }
+	    return response;
+	  };
+	};
+
+/***/ },
+
+/***/ 317:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2219,7 +2429,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 310:
+/***/ 318:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2232,7 +2442,7 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _schedule = __webpack_require__(311);
+	var _schedule = __webpack_require__(319);
 
 	var _schedule2 = _interopRequireDefault(_schedule);
 
@@ -2256,16 +2466,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 311:
+/***/ 319:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(312)
+	__vue_script__ = __webpack_require__(320)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/schedule.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(315)
+	__vue_template__ = __webpack_require__(323)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) { (typeof module.exports === "function" ? (module.exports.options || {}) : module.exports).template = __vue_template__ }
@@ -2283,7 +2493,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 312:
+/***/ 320:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2296,7 +2506,7 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _transformSchedule = __webpack_require__(313);
+	var _transformSchedule = __webpack_require__(321);
 
 	var _transformSchedule2 = _interopRequireDefault(_transformSchedule);
 
@@ -2327,7 +2537,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 313:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2340,11 +2550,11 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _moment = __webpack_require__(308);
+	var _moment = __webpack_require__(309);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
-	var _vars = __webpack_require__(314);
+	var _vars = __webpack_require__(322);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2437,7 +2647,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 314:
+/***/ 322:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2449,14 +2659,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 315:
+/***/ 323:
 /***/ function(module, exports) {
 
 	module.exports = "\n<table>\n  <thead>\n    <tr>\n      <td>Time</td>\n      <td>Mon</td>\n      <td>Tue</td>\n      <td>Wed</td>\n      <td>Thu</td>\n      <td>Fri</td>\n    </tr>\n  </thead>\n  <tbody>\n    <tr v-for=\"schedule in schedules\">\n      <td>\n        {{schedule.time}}\n      </td>\n      <td>\n        {{{schedule.mon}}}\n      </td>\n      <td>\n        {{{schedule.tue}}}\n      </td>\n      <td>\n        {{{schedule.wed}}}\n      </td>\n      <td>\n        {{{schedule.thu}}}\n      </td>\n      <td>\n        {{{schedule.fri}}}\n      </td>\n    </tr>\n  </tbody>\n</table>\n";
 
 /***/ },
 
-/***/ 316:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
