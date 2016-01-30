@@ -15,11 +15,8 @@ var getDefaultConfigs = function() {
     module: {
       loaders: [{
         test: /\.js$/,
-        loader: 'babel',
+        loader: 'babel!jscs',
         exclude: /node_modules/,
-        query: {
-          presets: ['es2015', 'stage-0']
-        }
       }, {
         test: /\.scss$/,
         loader: 'style!css!sass'

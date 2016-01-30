@@ -5,7 +5,6 @@ let $ = loadPlugins();
 
 gulp.task('lint', () => {
   return gulp.src([
-      './resources/assets/**/*.js',
       './resources/tasks/**/*.js',
       './gulpfile.js'])
     .pipe($.jscs())
