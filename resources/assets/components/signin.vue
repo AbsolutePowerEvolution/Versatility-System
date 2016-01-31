@@ -26,7 +26,10 @@
                   <label for="password">Password</label>
                 </div>
                 <div class="card-action center">
-                  <button class="waves-effect btn" type="button" @click.stop="doSignin">Login</button>
+                  <button class="waves-effect btn"
+                     type="button" @click.stop="doSignin">
+                     Login
+                   </button>
                 </div>
               </form>
             </div>
