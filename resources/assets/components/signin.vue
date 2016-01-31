@@ -38,7 +38,6 @@
 </template>
 
 <script>
-  import $ from 'jquery';
   let userSym = Symbol('user');
   let managerSym = Symbol('manager');
   export default {
