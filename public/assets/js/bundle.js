@@ -106,8 +106,8 @@ webpackJsonp([0],{
 	__webpack_require__(221);
 	__webpack_require__(285);
 
-	__webpack_require__(318);
-	__webpack_require__(324);
+	__webpack_require__(321);
+	__webpack_require__(327);
 
 /***/ },
 
@@ -258,7 +258,7 @@ webpackJsonp([0],{
 /***/ 256:
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"signin-card\">\n  <div class=\"row\">\n    <div class=\"col s12 m4 offset-m4\">\n      <div class=\"card z-depth-3\">\n        <div class=\"container\">\n          <div class=\"row\">\n            <div class=\"card-content black-text center-align\">\n              <span class=\"card-title\">資訊工程學系<br>系務系統</span>\n            </div>\n            <form @submit.prevent=\"doSignin\">\n              <div class=\"input-field\">\n                <i class=\"material-icons prefix\">account_box</i>\n                <input type=\"text\"\n                  id=\"username\"\n                  name=\"username\"\n                  v-model=\"username\">\n                <label for=\"username\">Username</label>\n              </div>\n              <div class=\"input-field\">\n                <i class=\"material-icons prefix\">lock</i>\n                <input type=\"password\"\n                  id=\"password\"\n                  name=\"password\"\n                  v-model=\"password\">\n                <label for=\"password\">Password</label>\n              </div>\n              <div class=\"card-action center\">\n                <button class=\"waves-effect btn\" type=\"button\" @click.stop=\"doSignin\">Login</button>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n";
+	module.exports = "\n<div class=\"signin-card\">\n  <div class=\"row\">\n    <div class=\"col s12 m4 offset-m4\">\n      <div class=\"card z-depth-3\">\n        <div class=\"container\">\n          <div class=\"row\">\n            <div class=\"card-content black-text center-align\">\n              <span class=\"card-title\">資訊工程學系<br>系務系統</span>\n            </div>\n            <form @submit.prevent=\"doSignin\">\n              <div class=\"input-field\">\n                <i class=\"material-icons prefix\">account_box</i>\n                <input type=\"text\"\n                  id=\"username\"\n                  name=\"username\"\n                  v-model=\"username\">\n                <label for=\"username\">Username</label>\n              </div>\n              <div class=\"input-field\">\n                <i class=\"material-icons prefix\">lock</i>\n                <input type=\"password\"\n                  id=\"password\"\n                  name=\"password\"\n                  v-model=\"password\">\n                <label for=\"password\">Password</label>\n              </div>\n              <div class=\"card-action center\">\n                <button class=\"waves-effect btn\"\n                   type=\"button\" @click.stop=\"doSignin\">\n                   Login\n                 </button>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n";
 
 /***/ },
 
@@ -2015,10 +2015,10 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(193);
 	var lodash = __webpack_require__(287);
 	var validate = __webpack_require__(218);
-	var moment = __webpack_require__(309);
+	var moment = __webpack_require__(312);
 	var when = __webpack_require__(198);
-	var api = __webpack_require__(310);
-	var ValidationError = __webpack_require__(317);
+	var api = __webpack_require__(313);
+	var ValidationError = __webpack_require__(320);
 
 	validate.validators.daterange = function (value, opts) {
 	  return new when.Promise(function (resolve) {
@@ -2127,7 +2127,7 @@ webpackJsonp([0],{
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(308)
+	__vue_template__ = __webpack_require__(311)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2156,35 +2156,27 @@ webpackJsonp([0],{
 	  value: true
 	});
 
+	var _when = __webpack_require__(198);
+
+	var _when2 = _interopRequireDefault(_when);
+
 	var _adminMenu = __webpack_require__(293);
 
 	var _adminMenu2 = _interopRequireDefault(_adminMenu);
 
-	var _dateField = __webpack_require__(305);
+	var _settingForm = __webpack_require__(305);
 
-	var _dateField2 = _interopRequireDefault(_dateField);
+	var _settingForm2 = _interopRequireDefault(_settingForm);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var _data = {
-	  time_name: '',
-	  began_date: '',
-	  ended_date: '',
-	  stu_start: '',
-	  lab_start: ''
-	};
 	exports.default = {
-	  data: function data() {
-	    return _data;
-	  },
-
-	  methods: {
-	    applySetting: function applySetting(event) {
-	      event.preventDefault();
-	      console.log(this.$data);
-	    }
-	  },
-	  components: { AdminMenu: _adminMenu2.default, DateField: _dateField2.default }
+	  components: { AdminMenu: _adminMenu2.default, SettingForm: _settingForm2.default },
+	  compiled: function compiled() {
+	    (0, _when2.default)(this.$http.get('manager/setting')).then(function (response) {
+	      console.log(response.data);
+	    });
+	  }
 	};
 
 /***/ },
@@ -2197,8 +2189,94 @@ webpackJsonp([0],{
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/setting-form.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(310)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-form.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ },
+
+/***/ 306:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _dateField = __webpack_require__(307);
+
+	var _dateField2 = _interopRequireDefault(_dateField);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapData = {
+	  timeName: 'time_name',
+	  beganDate: 'began_date',
+	  ended_date: 'ended_date',
+	  stuStart: 'stu_start',
+	  labStart: 'lab_start'
+	};
+	exports.default = {
+	  props: {
+	    timeName: {
+	      type: String,
+	      default: ''
+	    },
+	    beganDate: {
+	      type: String,
+	      default: ''
+	    },
+	    endedDate: {
+	      type: String,
+	      default: ''
+	    },
+	    stuStart: {
+	      type: String,
+	      default: ''
+	    },
+	    labStart: {
+	      type: String,
+	      default: ''
+	    }
+	  },
+	  methods: {
+	    applySetting: function applySetting(event) {
+	      event.preventDefault();
+	      console.log(this.$data);
+	    }
+	  },
+	  components: { DateField: _dateField2.default },
+	  compiled: function compiled() {}
+	};
+
+/***/ },
+
+/***/ 307:
+/***/ function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(308)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/date-field.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(307)
+	__vue_template__ = __webpack_require__(309)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2218,7 +2296,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 306:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2261,40 +2339,47 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 307:
+/***/ 309:
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"input-field\">\n  <label :for=\"name\" :class=\"{active: date}\">\n    <slot></slot>\n  </label>\n  <input :id=\"name\" v-model=\"date\" :data-value=\"date\"\n     class=\"datepicker Setting-DateField {{className}}\" type=\"date\" :name=\"name\">\n</div>\n";
 
 /***/ },
 
-/***/ 308:
+/***/ 310:
 /***/ function(module, exports) {
 
-	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container\">\n  <form @submit=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n    <div class=\"input-field\">\n      <input id=\"time_name\"\n        class=\"validate Setting-TimeName\"\n        type=\"text\" name=\"time_name\"\n        v-model=\"time_name\">\n      <label for=\"time_name\"\n        :class=\"{active: time_name}\">\n        名稱 (ex: 104上學期):\n      </label>\n    </div>\n    <date-field\n      :date.sync=\"began_date\"\n       name=\"began_date\"\n       class-name=\"Setting-BeganDate\">\n      開始時間：\n    </date-field>\n    <date-field\n      :date.sync=\"ended_date\"\n      name=\"ended_date\"\n      class-name=\"Setting-EndedDate\">\n      結束時間：\n    </date-field>\n    <date-field\n      :date.sync=\"stu_start\"\n      name=\"stu_start\"\n      class-name=\"Setting-StuStart\">\n      學生借用開始時間：\n    </date-field>\n    <date-field\n       :date.sync=\"lab_start\"\n       name=\"lab_start\"\n       class-name=\"Setting-LabStart\">\n      Lab 借用開始時間：\n    </date-field>\n    <button id=\"apply-btn\"\n      type=\"submit\"\n      class=\"waves-effect waves-light btn\">\n      <i class=\"material-icons left\">done</i>套用設定\n    </button>\n  </form>\n</div>\n";
+	module.exports = "\n<form @submit=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n  <div class=\"input-field\">\n    <input id=\"time-name\"\n      class=\"validate Setting-TimeName\"\n      type=\"text\" name=\"time_name\"\n      v-model=\"timeName\">\n    <label for=\"time-name\"\n      :class=\"{active: timeName}\">\n      名稱 (ex: 104上學期):\n    </label>\n  </div>\n  <date-field\n    :date.sync=\"beganDate\"\n     name=\"began_date\"\n     class-name=\"Setting-BeganDate\">\n    開始時間：\n  </date-field>\n  <date-field\n    :date.sync=\"endedDate\"\n    name=\"ended_date\"\n    class-name=\"Setting-EndedDate\">\n    結束時間：\n  </date-field>\n  <date-field\n    :date.sync=\"stuStart\"\n    name=\"stu_start\"\n    class-name=\"Setting-StuStart\">\n    學生借用開始時間：\n  </date-field>\n  <date-field\n     :date.sync=\"labStart\"\n     name=\"lab_start\"\n     class-name=\"Setting-LabStart\">\n    Lab 借用開始時間：\n  </date-field>\n  <button id=\"apply-btn\"\n    type=\"submit\"\n    class=\"waves-effect waves-light btn\">\n    <i class=\"material-icons left\">done</i>套用設定\n  </button>\n</form>\n";
 
 /***/ },
 
-/***/ 309:
+/***/ 311:
+/***/ function(module, exports) {
+
+	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form></setting-form>\n  </div>\n</div>\n";
+
+/***/ },
+
+/***/ 312:
 /***/ function(module, exports) {
 
 	module.exports = moment;
 
 /***/ },
 
-/***/ 310:
+/***/ 313:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(1);
-	var connectEndpoint = __webpack_require__(311).connectEndpoint;
-	var plusCsrf = __webpack_require__(312);
+	var connectEndpoint = __webpack_require__(314).connectEndpoint;
+	var plusCsrf = __webpack_require__(315);
 
-	var cookie = __webpack_require__(313);
-	var param = __webpack_require__(314);
-	var header = __webpack_require__(315);
-	var statusCode = __webpack_require__(316);
+	var cookie = __webpack_require__(316);
+	var param = __webpack_require__(317);
+	var header = __webpack_require__(318);
+	var statusCode = __webpack_require__(319);
 
 	var token = $('#csrf-token').attr('content');
 	var api = connectEndpoint('/api');
@@ -2309,7 +2394,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 313:
+/***/ 316:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2323,7 +2408,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 314:
+/***/ 317:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2340,7 +2425,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 315:
+/***/ 318:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -2380,7 +2465,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 316:
+/***/ 319:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2404,7 +2489,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 317:
+/***/ 320:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2437,7 +2522,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 318:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2450,7 +2535,7 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _schedule = __webpack_require__(319);
+	var _schedule = __webpack_require__(322);
 
 	var _schedule2 = _interopRequireDefault(_schedule);
 
@@ -2474,16 +2559,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 319:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(320)
+	__vue_script__ = __webpack_require__(323)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/schedule.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(323)
+	__vue_template__ = __webpack_require__(326)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2503,7 +2588,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 320:
+/***/ 323:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2516,7 +2601,7 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _transformSchedule = __webpack_require__(321);
+	var _transformSchedule = __webpack_require__(324);
 
 	var _transformSchedule2 = _interopRequireDefault(_transformSchedule);
 
@@ -2547,7 +2632,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 321:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2560,11 +2645,11 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _moment = __webpack_require__(309);
+	var _moment = __webpack_require__(312);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
-	var _vars = __webpack_require__(322);
+	var _vars = __webpack_require__(325);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2657,7 +2742,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 322:
+/***/ 325:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2669,14 +2754,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 323:
+/***/ 326:
 /***/ function(module, exports) {
 
 	module.exports = "\n<table>\n  <thead>\n    <tr>\n      <td>Time</td>\n      <td>Mon</td>\n      <td>Tue</td>\n      <td>Wed</td>\n      <td>Thu</td>\n      <td>Fri</td>\n    </tr>\n  </thead>\n  <tbody>\n    <tr v-for=\"schedule in schedules\">\n      <td>\n        {{schedule.time}}\n      </td>\n      <td>\n        {{{schedule.mon}}}\n      </td>\n      <td>\n        {{{schedule.tue}}}\n      </td>\n      <td>\n        {{{schedule.wed}}}\n      </td>\n      <td>\n        {{{schedule.thu}}}\n      </td>\n      <td>\n        {{{schedule.fri}}}\n      </td>\n    </tr>\n  </tbody>\n</table>\n";
 
 /***/ },
 
-/***/ 324:
+/***/ 327:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
