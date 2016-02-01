@@ -72,7 +72,7 @@
       labStart: {
         type: String,
         default: ''
-      },
+      }
     },
     methods: {
       applySetting(event) {
