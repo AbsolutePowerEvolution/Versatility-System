@@ -198,14 +198,15 @@ class LoanController extends Controller
      *
      * @return Json
      */
-    public function getClassroomBorrowInfo()
+    public function getClassroomBorrowInfo(Request $request)
     {
         // get all timezone data with now date
-        $day = Carbon::now()->toDateString();
+        $day     = Carbon::now()->toDateString();
+        $con_str = $request->input('con_str', '<=');
+
+        // get timezone datas
         $timezones_info = Timezone::with(['type'])
-            ->where('date_began_at', '>=', $day)
-            ->where('date_ended_at', '<=', $day)
-            ->orWhere('date_began_at', '>', $day)
+            ->where('date_ended_at', $con_str, $day)
             ->get();
 
         return response()->json($timezones_info);
