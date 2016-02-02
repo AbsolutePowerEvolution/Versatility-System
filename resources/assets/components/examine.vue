@@ -52,10 +52,10 @@ export default {
   components: {AdminMenu, Pagination},
   methods: {
     accept(id) {
-      this.sendVerify.call(this, id, 'accepted');
+      this.sendVerify(id, 'accepted');
     },
     reject(id) {
-      this.sendVerify.call(this, id, 'refused');
+      this.sendVerify(id, 'refused');
     },
     sendVerify(id, status) {
       let self = this;
