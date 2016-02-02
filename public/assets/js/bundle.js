@@ -1148,10 +1148,10 @@ webpackJsonp([0],{
 	  components: { AdminMenu: _adminMenu2.default, Pagination: _pagination2.default },
 	  methods: {
 	    accept: function accept(id) {
-	      this.sendVerify.call(this, id, 'accepted');
+	      this.sendVerify(id, 'accepted');
 	    },
 	    reject: function reject(id) {
-	      this.sendVerify.call(this, id, 'refused');
+	      this.sendVerify(id, 'refused');
 	    },
 	    sendVerify: function sendVerify(id, status) {
 	      var self = this;
