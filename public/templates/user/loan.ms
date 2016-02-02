@@ -3,7 +3,7 @@
 <div>
     <div class="container">
         <div class="row">
-            <div class="col s6 right">
+            <div class="col s7 right">
                 <ul id="sub_menu" class="tabs">
                   <li class="tab center switch_screen" data-screen_type="loan">
                     <a herf=""><i class="material-icons">list</i>借用教室</a>
@@ -24,6 +24,20 @@
         <thead>
           <tr>
             <th>時段</th>
+            <th>0000~0030</th>
+            <th>0030~0100</th>
+            <th>0100~0130</th>
+            <th>0130~0200</th>
+            <th>0200~0230</th>
+            <th>0230~0300</th>
+            <th>0300~0330</th>
+            <th>0330~0400</th>
+            <th>0400~0430</th>
+            <th>0430~0500</th>
+            <th>0500~0530</th>
+            <th>0530~0600</th>
+            <th>0600~0630</th>
+            <th>0630~0700</th>
             <th>0700~0730</th>
             <th>0730~0800</th>
             <th>0800~0830</th>
@@ -54,24 +68,27 @@
             <th>2030~2100</th>
             <th>2100~2130</th>
             <th>2130~2200</th>
+            <th>2200~2230</th>
+            <th>2230~2300</th>
+            <th>2300~2330</th>
+            <th>2330~2400</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><i class="material-icons">chevron_left</i></td>
+            <td id="classroom_prev"><i class="material-icons">chevron_left</i></td>
           </tr>
           {{#FiveTimes}}
           <tr class="tr_classroom">
             <td class="td_classroom_name"></td>
-            {{#ThirtyTimes}}
+            {{#FortyEightTimes}}
             <td class="td_time_period"></td>
-            {{/ThirtyTimes}}
+            {{/FortyEightTimes}}
           </tr>
           {{/FiveTimes}}
           <tr>
-            <td><i class="material-icons">chevron_right</i></td>
+            <td id="classroom_next"><i class="material-icons">chevron_right</i></td>
           </tr>
-
         </tbody>
       </table>
     </div>
@@ -89,12 +106,11 @@
   </div>
 </div>
 
+<!-- History Page -->
 <div id="history_container">
-  <div id="history_card_container"></div>
-  <ul class="pagination">
-    <li onselectstart="return false">
-      <i class="material-icons">chevorn_left</i>
-    </li>
+  <ul id="history_card_container" class="collapsible popout" data-collapsible="accordion">
+  </ul>
+  <ul id="history_page_container" class="pagination center">
   </ul>
 </div>
 
@@ -103,14 +119,13 @@
   <div class="modal-content">
     <div class="switch_type_container">
       <button class="btn switch_date" data-date_type="one_day">短期(一天)</button>
-      <button class="btn switch_date" data-date_type="few_days">短期(多天)</button>
       <button class="btn switch_date" data-date_type="many_days">長期</button>
     </div>
-    <input type="date" class="datepicker days for_many_days for_few_days for_one_day" placeholder="選擇借用日期" name="start_date">
-    <input type="date" class="datepicker days for_many_days for_few_days" placeholder="選擇借用到期日" name="end_date">
+    <input type="date" class="datepicker days for_many_days for_one_day" placeholder="選擇借用日期" name="start_date">
+    <input type="date" class="datepicker days for_many_days" placeholder="選擇借用到期日" name="end_date">
     <div class="input-field">
       <select id="classroom" name="classroom">
-        <option value="" disabled>教室</option>
+        <option disabled>教室</option>
       </select>
     </div>
     <div class="checkbox_container days for_many_days">
@@ -129,11 +144,6 @@
       <label for="day5">五</label>
       <input type="checkbox" value="6" id="day6">
       <label for="day6">六</label>
-    </div>
-
-    <div class="switch_time_container">
-      <button class="btn switch_time" data-time_period="thirty_minutes">30分鐘區間</button>
-      <button class="btn switch_time" data-time_period="all_day">整天</button>
     </div>
 
     <div class="input-field user_period time_container">
@@ -159,42 +169,6 @@
     </button>
   </div>
 </div>
-
-<!-- Loan Detail Modal -->
-<div id="loan_detail" class="modal materialize_modal">
-  <div class="modal-content">
-    <div class="date_type">
-      <span>類型：</span>
-      <span class="content"></span>
-    </div>
-    <div class="start_date">
-      <span>日期</span>
-      <span class="content"></span>
-    </div>
-    <div class="end_date">
-      <span>日期</span>
-      <span class="content"></span>
-    </div>
-    <div class="long_term_token">
-      <span>星期</span>
-      <span class="content"></span>
-    </div>
-    <div class="start_time">
-      <span>開始時間</span>
-      <span class="content"></span>
-    </div>
-    <div class="end_time">
-      <span>結束時間</span>
-      <span class="content"></span>
-    </div>
-  </div>
-  <div class="modal-footer">
-    <button id="delete_loan">
-      刪除
-    </button>
-  </div>
-</div>
-
 
 <div class="lean-overlay" id="materialize-lean-overlay-30">
 </div>

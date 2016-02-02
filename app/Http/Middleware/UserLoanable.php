@@ -7,7 +7,7 @@ use Closure;
 use Carbon\Carbon;
 use App\Affair\Category;
 
-
+use App\Affair\Timezone;
 class UserLoanable
 {
     /**
