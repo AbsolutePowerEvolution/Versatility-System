@@ -16,6 +16,6 @@
   import SettingForm from './setting-form.vue';
   import SettingList from './setting-list.vue';
   export default {
-    components: { AdminMenu, SettingForm, SettingList },
+    components: { AdminMenu, SettingForm, SettingList }
   }
 </script>
