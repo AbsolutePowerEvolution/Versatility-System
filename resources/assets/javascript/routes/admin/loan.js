@@ -28,9 +28,11 @@ var CurrentHistoryPage;
 var FinalHistoryPage;
 
 var LoanType; // one_day, many_days
+var SemesterStart;
+var SemesterEnd;
 
 Sammy('#main', function() {
-  this.get('#/user/loan', function(context) {
+  this.get('#/admin/loan', function(context) {
     context.time = {};
     context.time.PeriodStart = PeriodStart;
     context.time.PeriodEnd = PeriodEnd;
@@ -38,8 +40,8 @@ Sammy('#main', function() {
     context.FortyEightTimes = _.times(48);
     // context.thirty_times = _.times(30, _.uniqueId.bind(null, 'ball'));
 
-    context.loadPartials({menu: '/templates/user/menu.ms'})
-      .partial('/templates/user/loan.ms')
+    context.loadPartials({menu: '/templates/admin/menu.ms'})
+      .partial('/templates/admin/loan.ms')
       .then(function() {
         // bind Event
         loanButtonEvent();
@@ -69,7 +71,7 @@ function userLoanInitEvent() {
   var request = {};
   request.date = moment(new Date()).format('YYYY-MM-DD');
 
-  $.get('/api/user/property/classrooms', request, function(result) {
+  $.get('/api/manager/property/classrooms', request, function(result) {
     console.log(result);
     var text;
 
@@ -178,7 +180,7 @@ function loanDataEvent() {
     request.date = $(this).val();
     console.log(request.date);
 
-    $.get('/api/user/property/classrooms', request, function(result) {
+    $.get('/api/manager/property/classrooms', request, function(result) {
       LoanTablePage = 0;
       AllLoanTablePage = Math.floor(result.length / 5);
       LoanTable = [];
@@ -305,44 +307,56 @@ function getLoanHistory() {
   var request = {};
   request.page = CurrentHistoryPage;
   request.length = 10;
-  $.get('/api/user/loan/classrooms', request, function(result) {
+  $.get('/api/manager/loan/classrooms', request, function(result) {
     console.log(result);
     LoanHistory = result.data;
 
-    if(CurrentHistoryPage == 1) {
-      FinalHistoryPage = Math.ceil(result.total / 10);
-    }
+    // update every times, maybe data will be deleted
+    FinalHistoryPage = Math.ceil(result.total / 10);
 
     if(result.total == 0) {
       Materialize.toast('Not History', 1000);
     }else {
-      produceLoanHistory();
+      produceLoanHistory(LoanHistory);
     }
   });
 }
 
-function produceLoanHistory() {
+function produceLoanHistory(list) {
   var i;
   var text;
 
   $('#history_card_container').html('');
-  for(i = 0; i < 10 && i < LoanHistory.length; i++) {
+  for(i = 0; i < 10 && i < list.length; i++) {
     text =  '<li>';
     // header
-    text += '<div class="collapsible-header">';
-    text += '<span class="col s4">' + LoanHistory[i].property_name + '</span>';
-    text += '<span class="col s4">';
-    if(LoanHistory[i].time_began_at == null) {
+    text += '<div class="collapsible-header"><div class="row">';
+    text += '<span class="col s2"><b>教室:</b>' + list[i].property_name + '</span>';
+    if(list[i].long_term_token !== null) {
+      text += '<span class="col s2"><b>類型:</b>短期</span>';
+      text += '<span class="col s3"><b>日期:</b>' + list[i].date_began_at + '</span>';
+    } else {
+      text += '<span class="col s2"><b>類型:</b>長期</span>';
+      text += '<span class="col s3"><b>日期:</b>' + list[i].date_began_at + '~' + list[i].date_ended_at + '</span>';
+    }
+    text += '<span class="col s3"><b>時段:</b>';
+    if(list[i].time_began_at == null) {
       text += '整天';
     }else {
-      text += LoanHistory[i].time_began_at + ' ~ ' + LoanHistory[i].time_ended_at;
+      text += list[i].time_began_at + ' ~ ' + list[i].time_ended_at;
     }
-    text += '</span>';
-    text += '</div>';
+    text += '</span></div></div>';
+
     // body
-    text += '<div class="collapsible-body">';
-    text += '</div>';
-    text += '</li>';
+    text += '<div class="collapsible-body"><div class="row">';
+    text += '<span class="col offset-s1 s2">借用人</span><span class="col s8">' + list[i].user.nickname + '</span>';
+    text += '</div><div class="row">';
+    text += '<span class="col offset-s1 s2">聯絡方式</span><span class="col s8">' + list[i].user.email + '</span>';
+    text += '</div><div class="row">';
+    text += '<span class="col offset-s1 s2">借用理由:</span><span class="col s8">' + list[i].remark + '</span>';
+    text += '</div><div class="row center-align">';
+    text += '<button class="btn red history_delete_btn" data-history_id="' + list[i].id + '">刪除</button>';
+    text += '</div></li>';
     $('#history_card_container').append(text);
   }
 
@@ -383,11 +397,11 @@ function produceHistoryPage() {
     $('#history_next').removeClass('waves-effect').addClass('disabled');
   }
 
-  // bind Page Event
-  loanHistoryPageEvent();
+  // bind History Event
+  loanHistoryEvent();
 }
 
-function loanHistoryPageEvent() {
+function loanHistoryEvent() {
   $('#history_prev').unbind('click');
   $('#history_prev').click(function() {
     if(CurrentHistoryPage == 1) {
@@ -414,6 +428,14 @@ function loanHistoryPageEvent() {
   $('.history_page').click(function() {
     CurrentHistoryPage = $(this).data('history_page');
     getLoanHistory();
+  });
+
+  $('.history_delete_btn').unbind('click');
+  $('.history_delete_btn').click(function() {
+    var request = {};
+    request._token = $('meta[name="csrf-token"]').attr('content');
+
+
   });
 }
 

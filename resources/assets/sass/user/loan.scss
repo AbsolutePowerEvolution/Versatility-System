@@ -33,6 +33,15 @@ table {
     padding: 0px;
     padding-bottom: 2px;
   }
+  .tr_classroom {
+    td {
+      width: 62px;
+      padding: 5px 15px;
+    }
+  }
+  #classroom_prev, #classroom_next {
+    cursor: pointer;
+  }
 }
 
 .period_container {
@@ -152,29 +161,29 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
   position: relative;
-  
+
   thead {
     display: block;
     float: left;
-    
+
     tr {
       display: block;
     }
   }
-  
+
   tbody {
     display:block;
     width:auto;
     position:relative;
     overflow-x:auto;
     white-space:nowrap;
-    
+
     tr {
       display: inline-block;
       vertical-align: top;
     }
   }
-  
+
   th, td {
     line-height: 2em;
     height: 36px;
