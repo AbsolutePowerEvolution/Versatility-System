@@ -30,7 +30,6 @@
     },
     compiled() {
       let self = this;
-      console.log(this.filter);
       let filter = this.filter;
       when(this.$http.get('manager/setting', {con_str: filter}))
         .then((response) => {
