@@ -2484,7 +2484,6 @@ webpackJsonp([0],{
 	  },
 	  compiled: function compiled() {
 	    var self = this;
-	    console.log(this.filter);
 	    var filter = this.filter;
 	    (0, _when2.default)(this.$http.get('manager/setting', { con_str: filter })).then(function (response) {
 	      self.settings = response.data;
