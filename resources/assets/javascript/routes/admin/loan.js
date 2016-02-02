@@ -434,8 +434,6 @@ function loanHistoryEvent() {
   $('.history_delete_btn').click(function() {
     var request = {};
     request._token = $('meta[name="csrf-token"]').attr('content');
-
-
   });
 }
 
