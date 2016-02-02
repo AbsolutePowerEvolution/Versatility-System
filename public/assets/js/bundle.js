@@ -106,8 +106,8 @@ webpackJsonp([0],{
 	__webpack_require__(221);
 	__webpack_require__(285);
 
-	__webpack_require__(322);
-	__webpack_require__(328);
+	__webpack_require__(325);
+	__webpack_require__(331);
 
 /***/ },
 
@@ -190,7 +190,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/signin.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/signin.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1002,7 +1002,7 @@ webpackJsonp([0],{
 	__webpack_require__(300);
 	__webpack_require__(301);
 	__webpack_require__(302);
-	__webpack_require__(321);
+	__webpack_require__(324);
 
 /***/ },
 
@@ -1088,7 +1088,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/examine.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/examine.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1245,7 +1245,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1293,7 +1293,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/pagination.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/pagination.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2091,10 +2091,10 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(193);
 	var lodash = __webpack_require__(287);
 	var validate = __webpack_require__(218);
-	var moment = __webpack_require__(312);
+	var moment = __webpack_require__(315);
 	var when = __webpack_require__(198);
-	var api = __webpack_require__(313);
-	var ValidationError = __webpack_require__(320);
+	var api = __webpack_require__(316);
+	var ValidationError = __webpack_require__(323);
 
 	validate.validators.daterange = function (value, opts) {
 	  return new when.Promise(function (resolve) {
@@ -2203,7 +2203,7 @@ webpackJsonp([0],{
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(311)
+	__vue_template__ = __webpack_require__(314)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2213,7 +2213,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2232,10 +2232,6 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _when = __webpack_require__(198);
-
-	var _when2 = _interopRequireDefault(_when);
-
 	var _adminMenu = __webpack_require__(293);
 
 	var _adminMenu2 = _interopRequireDefault(_adminMenu);
@@ -2244,15 +2240,14 @@ webpackJsonp([0],{
 
 	var _settingForm2 = _interopRequireDefault(_settingForm);
 
+	var _settingList = __webpack_require__(311);
+
+	var _settingList2 = _interopRequireDefault(_settingList);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	  components: { AdminMenu: _adminMenu2.default, SettingForm: _settingForm2.default },
-	  compiled: function compiled() {
-	    (0, _when2.default)(this.$http.get('manager/setting')).then(function (response) {
-	      console.log(response.data);
-	    });
-	  }
+	  components: { AdminMenu: _adminMenu2.default, SettingForm: _settingForm2.default, SettingList: _settingList2.default }
 	};
 
 /***/ },
@@ -2276,7 +2271,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-form.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-form.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2362,7 +2357,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/date-field.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2430,32 +2425,109 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 311:
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form></setting-form>\n  </div>\n</div>\n";
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(312)
+	if (__vue_script__ &&
+	    __vue_script__.__esModule &&
+	    Object.keys(__vue_script__).length > 1) {
+	  console.warn("[vue-loader] resources/assets/components/setting-list.vue: named exports in *.vue files are ignored.")}
+	__vue_template__ = __webpack_require__(313)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) {
+	(typeof module.exports === "function" ? (module.exports.options || (module.exports.options = {})) : module.exports).template = __vue_template__
+	}
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-list.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
 
 /***/ },
 
 /***/ 312:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _when = __webpack_require__(198);
+
+	var _when2 = _interopRequireDefault(_when);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  props: {
+	    title: {
+	      type: String,
+	      required: true
+	    },
+	    filter: {
+	      type: String,
+	      required: true
+	    }
+	  },
+	  data: function data() {
+	    return { settings: [] };
+	  },
+	  compiled: function compiled() {
+	    var self = this;
+	    console.log(this.filter);
+	    var filter = this.filter;
+	    (0, _when2.default)(this.$http.get('manager/setting', { con_str: filter })).then(function (response) {
+	      self.settings = response.data;
+	    });
+	  }
+	};
+
+/***/ },
+
+/***/ 313:
+/***/ function(module, exports) {
+
+	module.exports = "\n<h5>{{title}}</h5>\n<div class=\"Setting-List\">\n  <ul class=\"collection\">\n    <li class=\"collection-item\" v-for=\"setting in settings\">\n      <div>\n        <div>{{setting.zone_name}}: {{setting.date_began_at}} ~ {{setting.date_ended_at}}</div>\n        <div>學生借用開始：{{setting.stu_start}}, Lab 借用開始：{{setting.lab_start}}</div>\n      </div>\n    </li>\n  </ul>\n</div>\n";
+
+/***/ },
+
+/***/ 314:
+/***/ function(module, exports) {
+
+	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list title=\"歷史設定\" filter=\"<=\">\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form></setting-form>\n  </div>\n</div>\n";
+
+/***/ },
+
+/***/ 315:
 /***/ function(module, exports) {
 
 	module.exports = moment;
 
 /***/ },
 
-/***/ 313:
+/***/ 316:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(1);
-	var connectEndpoint = __webpack_require__(314).connectEndpoint;
-	var plusCsrf = __webpack_require__(315);
+	var connectEndpoint = __webpack_require__(317).connectEndpoint;
+	var plusCsrf = __webpack_require__(318);
 
-	var cookie = __webpack_require__(316);
-	var param = __webpack_require__(317);
-	var header = __webpack_require__(318);
-	var statusCode = __webpack_require__(319);
+	var cookie = __webpack_require__(319);
+	var param = __webpack_require__(320);
+	var header = __webpack_require__(321);
+	var statusCode = __webpack_require__(322);
 
 	var token = $('#csrf-token').attr('content');
 	var api = connectEndpoint('/api');
@@ -2470,7 +2542,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 316:
+/***/ 319:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2484,7 +2556,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 317:
+/***/ 320:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2501,7 +2573,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 318:
+/***/ 321:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -2541,7 +2613,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 319:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2565,7 +2637,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 320:
+/***/ 323:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2598,7 +2670,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 321:
+/***/ 324:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -2888,9 +2960,8 @@ webpackJsonp([0],{
 	    console.log(result);
 	    LoanHistory = result.data;
 
-	    if (CurrentHistoryPage == 1) {
-	      FinalHistoryPage = Math.ceil(result.total / 10);
-	    }
+	    // update every times, maybe data will be deleted
+	    FinalHistoryPage = Math.ceil(result.total / 10);
 
 	    if (result.total == 0) {
 	      Materialize.toast('Not History', 1000);
@@ -2975,11 +3046,11 @@ webpackJsonp([0],{
 	    $('#history_next').removeClass('waves-effect').addClass('disabled');
 	  }
 
-	  // bind Page Event
-	  loanHistoryPageEvent();
+	  // bind History Event
+	  loanHistoryEvent();
 	}
 
-	function loanHistoryPageEvent() {
+	function loanHistoryEvent() {
 	  $('#history_prev').unbind('click');
 	  $('#history_prev').click(function () {
 	    if (CurrentHistoryPage == 1) {
@@ -3006,6 +3077,12 @@ webpackJsonp([0],{
 	  $('.history_page').click(function () {
 	    CurrentHistoryPage = $(this).data('history_page');
 	    getLoanHistory();
+	  });
+
+	  $('.history_delete_btn').unbind('click');
+	  $('.history_delete_btn').click(function () {
+	    var request = {};
+	    request._token = $('meta[name="csrf-token"]').attr('content');
 	  });
 	}
 
@@ -3093,7 +3170,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 322:
+/***/ 325:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3106,7 +3183,7 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _schedule = __webpack_require__(323);
+	var _schedule = __webpack_require__(326);
 
 	var _schedule2 = _interopRequireDefault(_schedule);
 
@@ -3130,16 +3207,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 323:
+/***/ 326:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(324)
+	__vue_script__ = __webpack_require__(327)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/schedule.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(327)
+	__vue_template__ = __webpack_require__(330)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3149,7 +3226,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/schedule.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/schedule.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -3159,7 +3236,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 324:
+/***/ 327:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3172,7 +3249,7 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _transformSchedule = __webpack_require__(325);
+	var _transformSchedule = __webpack_require__(328);
 
 	var _transformSchedule2 = _interopRequireDefault(_transformSchedule);
 
@@ -3203,7 +3280,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 325:
+/***/ 328:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3216,11 +3293,11 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _moment = __webpack_require__(312);
+	var _moment = __webpack_require__(315);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
-	var _vars = __webpack_require__(326);
+	var _vars = __webpack_require__(329);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3313,7 +3390,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 326:
+/***/ 329:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3325,14 +3402,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 327:
+/***/ 330:
 /***/ function(module, exports) {
 
 	module.exports = "\n<table>\n  <thead>\n    <tr>\n      <td>Time</td>\n      <td>Mon</td>\n      <td>Tue</td>\n      <td>Wed</td>\n      <td>Thu</td>\n      <td>Fri</td>\n    </tr>\n  </thead>\n  <tbody>\n    <tr v-for=\"schedule in schedules\">\n      <td>\n        {{schedule.time}}\n      </td>\n      <td>\n        {{{schedule.mon}}}\n      </td>\n      <td>\n        {{{schedule.tue}}}\n      </td>\n      <td>\n        {{{schedule.wed}}}\n      </td>\n      <td>\n        {{{schedule.thu}}}\n      </td>\n      <td>\n        {{{schedule.fri}}}\n      </td>\n    </tr>\n  </tbody>\n</table>\n";
 
 /***/ },
 
-/***/ 328:
+/***/ 331:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
