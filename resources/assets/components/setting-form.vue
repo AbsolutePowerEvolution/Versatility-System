@@ -10,6 +10,27 @@
         名稱 (ex: 104上學期):
       </label>
     </div>
+    <div>
+      <span>類型：</span>
+      <input class="with-gap"
+        name="type"
+        type="radio"
+        id="semester-radio"
+        value="semester"
+        v-model="type">
+      <label for="semester-radio">
+        學期
+      </label>
+      <input class="with-gap"
+        name="type"
+        type="radio"
+        id="vacation-radio"
+        value="vacation"
+        v-model="type">
+      <label for="vacation-radio">
+        寒暑假
+      </label>
+    </div>
     <date-field
       :date.sync="beganDate"
        name="began_date"
@@ -48,6 +69,7 @@
   import DateField from './date-field.vue';
   let mapData = {
     timeName: 'zone_name',
+    type: 'type',
     beganDate: 'began_date',
     endedDate: 'ended_date',
     stuStart: 'stu_date_began_at',
@@ -56,6 +78,10 @@
   export default {
     props: {
       timeName: {
+        type: String,
+        default: ''
+      },
+      type: {
         type: String,
         default: ''
       },
@@ -82,7 +108,7 @@
         for(let key in mapData) {
           data[mapData[key]] = this.$data[key];
         }
-        when(this.$http.put('manager/setting'), data)
+        when(this.$http.put('manager/setting', data))
           .then((response) => {
             if(response.data.hasOwnProperty('status')) {
               if(response.data.status === 0) {
