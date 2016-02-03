@@ -2290,6 +2290,10 @@ webpackJsonp([0],{
 	  value: true
 	});
 
+	var _when = __webpack_require__(198);
+
+	var _when2 = _interopRequireDefault(_when);
+
 	var _dateField = __webpack_require__(307);
 
 	var _dateField2 = _interopRequireDefault(_dateField);
@@ -2297,11 +2301,11 @@ webpackJsonp([0],{
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var mapData = {
-	  timeName: 'time_name',
+	  timeName: 'zone_name',
 	  beganDate: 'began_date',
-	  ended_date: 'ended_date',
-	  stuStart: 'stu_start',
-	  labStart: 'lab_start'
+	  endedDate: 'ended_date',
+	  stuStart: 'stu_date_began_at',
+	  labStart: 'lab_date_began_at'
 	};
 	exports.default = {
 	  props: {
@@ -2327,13 +2331,25 @@ webpackJsonp([0],{
 	    }
 	  },
 	  methods: {
-	    applySetting: function applySetting(event) {
-	      event.preventDefault();
-	      console.log(this.$data);
+	    applySetting: function applySetting() {
+	      var data = {};
+	      for (var key in mapData) {
+	        data[mapData[key]] = this.$data[key];
+	      }
+	      (0, _when2.default)(this.$http.put('manager/setting'), data).then(function (response) {
+	        if (response.data.hasOwnProperty('status')) {
+	          if (response.data.status === 0) {
+	            Materialize.toast('新增成功', 2000);
+	          } else {
+	            Materialize.toast('新增失敗', 2000);
+	          }
+	        }
+	      }).catch(function () {
+	        Materialize.toast('伺服器錯誤', 2000);
+	      });
 	    }
 	  },
-	  components: { DateField: _dateField2.default },
-	  compiled: function compiled() {}
+	  components: { DateField: _dateField2.default }
 	};
 
 /***/ },
@@ -2420,7 +2436,7 @@ webpackJsonp([0],{
 /***/ 310:
 /***/ function(module, exports) {
 
-	module.exports = "\n<form @submit=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n  <div class=\"input-field\">\n    <input id=\"time-name\"\n      class=\"validate Setting-TimeName\"\n      type=\"text\" name=\"time_name\"\n      v-model=\"timeName\">\n    <label for=\"time-name\"\n      :class=\"{active: timeName}\">\n      名稱 (ex: 104上學期):\n    </label>\n  </div>\n  <date-field\n    :date.sync=\"beganDate\"\n     name=\"began_date\"\n     class-name=\"Setting-BeganDate\">\n    開始時間：\n  </date-field>\n  <date-field\n    :date.sync=\"endedDate\"\n    name=\"ended_date\"\n    class-name=\"Setting-EndedDate\">\n    結束時間：\n  </date-field>\n  <date-field\n    :date.sync=\"stuStart\"\n    name=\"stu_start\"\n    class-name=\"Setting-StuStart\">\n    學生借用開始時間：\n  </date-field>\n  <date-field\n     :date.sync=\"labStart\"\n     name=\"lab_start\"\n     class-name=\"Setting-LabStart\">\n    Lab 借用開始時間：\n  </date-field>\n  <button id=\"apply-btn\"\n    type=\"submit\"\n    class=\"waves-effect waves-light btn\">\n    <i class=\"material-icons left\">done</i>套用設定\n  </button>\n</form>\n";
+	module.exports = "\n<form @submit.prevent=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n  <div class=\"input-field\">\n    <input id=\"time-name\"\n      class=\"validate Setting-TimeName\"\n      type=\"text\" name=\"time_name\"\n      v-model=\"timeName\">\n    <label for=\"time-name\"\n      :class=\"{active: timeName}\">\n      名稱 (ex: 104上學期):\n    </label>\n  </div>\n  <date-field\n    :date.sync=\"beganDate\"\n     name=\"began_date\"\n     class-name=\"Setting-BeganDate\">\n    開始時間：\n  </date-field>\n  <date-field\n    :date.sync=\"endedDate\"\n    name=\"ended_date\"\n    class-name=\"Setting-EndedDate\">\n    結束時間：\n  </date-field>\n  <date-field\n    :date.sync=\"stuStart\"\n    name=\"stu_start\"\n    class-name=\"Setting-StuStart\">\n    學生借用開始時間：\n  </date-field>\n  <date-field\n     :date.sync=\"labStart\"\n     name=\"lab_start\"\n     class-name=\"Setting-LabStart\">\n    Lab 借用開始時間：\n  </date-field>\n  <button id=\"apply-btn\"\n    @click.prevent=\"applySetting\"\n    type=\"submit\"\n    class=\"waves-effect waves-light btn\">\n    <i class=\"material-icons left\">done</i>套用設定\n  </button>\n</form>\n";
 
 /***/ },
 
@@ -2496,7 +2512,7 @@ webpackJsonp([0],{
 /***/ 313:
 /***/ function(module, exports) {
 
-	module.exports = "\n<h5>{{title}}</h5>\n<div class=\"Setting-List\">\n  <ul class=\"collection\">\n    <li class=\"collection-item\" v-for=\"setting in settings\">\n      <div>\n        <div>{{setting.zone_name}}: {{setting.date_began_at}} ~ {{setting.date_ended_at}}</div>\n        <div>學生借用開始：{{setting.stu_start}}, Lab 借用開始：{{setting.lab_start}}</div>\n      </div>\n    </li>\n  </ul>\n</div>\n";
+	module.exports = "\n<h5>{{title}}</h5>\n<div class=\"Setting-List\">\n  <ul class=\"collection\">\n    <li class=\"collection-item\" v-for=\"setting in settings\">\n      <div>\n        <div>{{setting.zone_name}}: {{setting.date_began_at}} ~ {{setting.date_ended_at}}</div>\n        <div>學生借用開始：{{setting.stu_date_began_at}}, Lab 借用開始：{{setting.lab_date_began_at}}</div>\n      </div>\n    </li>\n  </ul>\n</div>\n";
 
 /***/ },
 
