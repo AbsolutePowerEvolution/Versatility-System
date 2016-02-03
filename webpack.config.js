@@ -57,9 +57,9 @@ var getConfigs = function(env) {
       hogan: 'Hogan',
       moment: 'moment',
       pikaday: 'Pikaday',
-      'validate.js': 'validate',
       vue: 'Vue',
-      'vue-resource': 'VueResource'
+      'vue-resource': 'VueResource',
+      'vue-validator': 'VueValidator'
     }];
 
     if(env === 'production') {

@@ -68,6 +68,7 @@
     "rest": "^1.3.1",
     "sammy": "^0.7.6",
     "validate.js": "^0.9.0",
+    "vue-validator": "^2.0.0-alpha.17",
     "when": "^3.7.7"
   }
 }
