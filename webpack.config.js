@@ -27,7 +27,7 @@ var getDefaultConfigs = function() {
     },
     vue: {
       js: {
-        loaders: 'js'
+        loaders: 'babel!jscs'
       }
     },
     plugins: [
