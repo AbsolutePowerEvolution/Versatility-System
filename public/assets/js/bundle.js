@@ -10,9 +10,9 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(193);
 	var Vue = __webpack_require__(194);
 	__webpack_require__(195);
-	__webpack_require__(197);
 
-	Vue.use(__webpack_require__(219));
+	Vue.use(__webpack_require__(197));
+	Vue.use(__webpack_require__(198));
 
 	// Global vue config
 	Vue.config.debug = true;
@@ -23,7 +23,7 @@ webpackJsonp([0],{
 	Vue.http.headers.common['X-CSRF-TOKEN'] = token;
 	Vue.http.options.emulateJSON = true;
 
-	__webpack_require__(220);
+	__webpack_require__(199);
 
 	Sammy('#main').use('Hogan', 'ms').run('#/');
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
@@ -66,68 +66,49 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 197:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var when = __webpack_require__(198);
-	var validate = __webpack_require__(218);
-
-	validate.Promise = when.Promise;
-
-/***/ },
-
-/***/ 201:
-/***/ function(module, exports) {
-
-	/* (ignored) */
-
-/***/ },
-
-/***/ 218:
-/***/ function(module, exports) {
-
-	module.exports = validate;
-
-/***/ },
-
-/***/ 219:
 /***/ function(module, exports) {
 
 	module.exports = VueResource;
 
 /***/ },
 
-/***/ 220:
-/***/ function(module, exports, __webpack_require__) {
+/***/ 198:
+/***/ function(module, exports) {
 
-	'use strict';
-
-	__webpack_require__(221);
-	__webpack_require__(285);
-
-	__webpack_require__(325);
-	__webpack_require__(331);
+	module.exports = VueValidator;
 
 /***/ },
 
-/***/ 221:
+/***/ 199:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(222);
-	__webpack_require__(257);
+	__webpack_require__(200);
 	__webpack_require__(284);
 
+	__webpack_require__(315);
+	__webpack_require__(322);
+
 /***/ },
 
-/***/ 222:
+/***/ 200:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _signin = __webpack_require__(223);
+	__webpack_require__(201);
+	__webpack_require__(236);
+	__webpack_require__(283);
+
+/***/ },
+
+/***/ 201:
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _signin = __webpack_require__(202);
 
 	var _signin2 = _interopRequireDefault(_signin);
 
@@ -171,16 +152,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 223:
+/***/ 202:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(224)
+	__vue_script__ = __webpack_require__(203)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/signin.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(256)
+	__vue_template__ = __webpack_require__(235)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -200,12 +181,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 224:
+/***/ 203:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _symbol = __webpack_require__(225);
+	var _symbol = __webpack_require__(204);
 
 	var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -255,21 +236,21 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 256:
+/***/ 235:
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"signin-card\">\n  <div class=\"row\">\n    <div class=\"col s12 m4 offset-m4\">\n      <div class=\"card z-depth-3\">\n        <div class=\"container\">\n          <div class=\"row\">\n            <div class=\"card-content black-text center-align\">\n              <span class=\"card-title\">資訊工程學系<br>系務系統</span>\n            </div>\n            <form @submit.prevent=\"doSignin\">\n              <div class=\"input-field\">\n                <i class=\"material-icons prefix\">account_box</i>\n                <input type=\"text\"\n                  id=\"username\"\n                  name=\"username\"\n                  v-model=\"username\">\n                <label for=\"username\">Username</label>\n              </div>\n              <div class=\"input-field\">\n                <i class=\"material-icons prefix\">lock</i>\n                <input type=\"password\"\n                  id=\"password\"\n                  name=\"password\"\n                  v-model=\"password\">\n                <label for=\"password\">Password</label>\n              </div>\n              <div class=\"card-action center\">\n                <button class=\"waves-effect btn\"\n                   type=\"button\" @click.stop=\"doSignin\">\n                   Login\n                 </button>\n              </div>\n            </form>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n";
 
 /***/ },
 
-/***/ 257:
+/***/ 236:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(193);
-	var client = __webpack_require__(258);
-	var when = __webpack_require__(198);
+	var client = __webpack_require__(237);
+	var when = __webpack_require__(243);
 
 	var today = new Date();
 	var dd = today.getDate();
@@ -483,19 +464,19 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 258:
+/***/ 237:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var $ = __webpack_require__(1);
-	var rest = __webpack_require__(259);
-	var pathPrefix = __webpack_require__(267);
-	var errorCode = __webpack_require__(269);
-	var mime = __webpack_require__(270);
-	var csrf = __webpack_require__(283);
-	var when = __webpack_require__(198);
-	var interceptor = __webpack_require__(268);
+	var rest = __webpack_require__(238);
+	var pathPrefix = __webpack_require__(266);
+	var errorCode = __webpack_require__(268);
+	var mime = __webpack_require__(269);
+	var csrf = __webpack_require__(282);
+	var when = __webpack_require__(243);
+	var interceptor = __webpack_require__(267);
 
 	var statusCheck = interceptor({
 	  response: function response(_response, config) {
@@ -513,7 +494,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 284:
+/***/ 246:
+/***/ function(module, exports) {
+
+	/* (ignored) */
+
+/***/ },
+
+/***/ 283:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -993,20 +981,20 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 285:
+/***/ 284:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(286);
+	__webpack_require__(285);
+	__webpack_require__(299);
 	__webpack_require__(300);
 	__webpack_require__(301);
-	__webpack_require__(302);
-	__webpack_require__(324);
+	__webpack_require__(314);
 
 /***/ },
 
-/***/ 286:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1019,11 +1007,11 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _lodash = __webpack_require__(287);
+	var _lodash = __webpack_require__(286);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _examine = __webpack_require__(288);
+	var _examine = __webpack_require__(287);
 
 	var _examine2 = _interopRequireDefault(_examine);
 
@@ -1062,23 +1050,23 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 287:
+/***/ 286:
 /***/ function(module, exports) {
 
 	module.exports = _;
 
 /***/ },
 
-/***/ 288:
+/***/ 287:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(289)
+	__vue_script__ = __webpack_require__(288)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/examine.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(299)
+	__vue_template__ = __webpack_require__(298)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -1098,12 +1086,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 289:
+/***/ 288:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var _create = __webpack_require__(290);
+	var _create = __webpack_require__(289);
 
 	var _create2 = _interopRequireDefault(_create);
 
@@ -1111,19 +1099,19 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _when = __webpack_require__(198);
+	var _when = __webpack_require__(243);
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _transformExamine = __webpack_require__(292);
+	var _transformExamine = __webpack_require__(291);
 
 	var _transformExamine2 = _interopRequireDefault(_transformExamine);
 
-	var _adminMenu = __webpack_require__(293);
+	var _adminMenu = __webpack_require__(292);
 
 	var _adminMenu2 = _interopRequireDefault(_adminMenu);
 
-	var _pagination = __webpack_require__(296);
+	var _pagination = __webpack_require__(295);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -1198,7 +1186,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 292:
+/***/ 291:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1207,7 +1195,7 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _when = __webpack_require__(198);
+	var _when = __webpack_require__(243);
 
 	var _when2 = _interopRequireDefault(_when);
 
@@ -1226,16 +1214,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 293:
+/***/ 292:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(294)
+	__vue_script__ = __webpack_require__(293)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/admin-menu.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(295)
+	__vue_template__ = __webpack_require__(294)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -1255,7 +1243,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 294:
+/***/ 293:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1267,23 +1255,23 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 295:
+/***/ 294:
 /***/ function(module, exports) {
 
 	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
 
 /***/ },
 
-/***/ 296:
+/***/ 295:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(297)
+	__vue_script__ = __webpack_require__(296)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/pagination.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(298)
+	__vue_template__ = __webpack_require__(297)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -1303,12 +1291,12 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 297:
+/***/ 296:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _create = __webpack_require__(290);
+	var _create = __webpack_require__(289);
 
 	var _create2 = _interopRequireDefault(_create);
 
@@ -1320,7 +1308,7 @@ webpackJsonp([0],{
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _lodash = __webpack_require__(287);
+	var _lodash = __webpack_require__(286);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -1383,21 +1371,21 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 298:
+/***/ 297:
 /***/ function(module, exports) {
 
 	module.exports = "\n<ul class=\"pagination center\">\n  <li :class=\"{'waves-effect': prevUrl, disabled: !prevUrl}\">\n    <a :href=\"prevUrl\"><i class=\"material-icons\">chevron_left</i></a>\n  </li>\n  <li v-for=\"page in pages\"\n    id=\"pagination-{{page.num}}\"\n    :class=\"{'waves-effect': page.num !== currentPage, 'active': page.num === currentPage}\"><a :href=\"page.url\">{{page.num}}</a></li>\n  <li :class=\"{'waves-effect': nextUrl, disabled: !nextUrl}\">\n    <a :href=\"nextUrl\"><i class=\"material-icons\">chevron_right</i></a>\n  </li>\n</ul>\n";
 
 /***/ },
 
-/***/ 299:
+/***/ 298:
 /***/ function(module, exports) {
 
 	module.exports = "\n<admin-menu></admin-menu>\n<div id=\"Examine\" class=\"container Examine\">\n  <span>教室審核</span>\n  <ul class=\"collapsible popout\" data-collapsible=\"accordion\">\n    <li v-for=\"examine in examines\" class=\"Examine-Item\">\n      <a class=\"Examine-Pass secondary-content\" @click=\"accept(examine.id)\">\n        <i class=\"material-icons\">done</i>\n      </a>\n      <a class=\"Examine-Reject secondary-content\" @click=\"reject(examine.id)\">\n        <i class=\"material-icons\">clear</i>\n      </a>\n      <div class=\"collapsible-header\">\n        <span class=\"Examine-Username\">{{examine.user.nickname}}</span>\n        <span class=\"Examine-Classroom\">{{examine.property_name}}</span>\n        <span class=\"Examine-Time\">{{examine.time}}</span>\n      </div>\n      <div class=\"collapsible-body\">\n        <p>{{examine.remark}}</p>\n      </div>\n    </li>\n  </ul>\n  <pagination :current-page=\"currentPage\"\n    :base-url=\"baseUrl\"\n    :query=\"query\"\n    :max=\"maxPage\">\n  </pagination>\n</div>\n";
 
 /***/ },
 
-/***/ 300:
+/***/ 299:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1534,14 +1522,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 301:
+/***/ 300:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(193);
-	var client = __webpack_require__(258);
-	var when = __webpack_require__(198);
+	var client = __webpack_require__(237);
+	var when = __webpack_require__(243);
 	var today = new Date();
 	var dd = today.getDate();
 	var mm = today.getMonth() + 1;
@@ -2073,80 +2061,26 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 302:
+/***/ 301:
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	'use strict';
+
+	var _sammy = __webpack_require__(193);
+
+	var _sammy2 = _interopRequireDefault(_sammy);
 
 	var _vue = __webpack_require__(194);
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _setting = __webpack_require__(303);
+	var _setting = __webpack_require__(302);
 
 	var _setting2 = _interopRequireDefault(_setting);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Sammy = __webpack_require__(193);
-	var lodash = __webpack_require__(287);
-	var validate = __webpack_require__(218);
-	var moment = __webpack_require__(315);
-	var when = __webpack_require__(198);
-	var api = __webpack_require__(316);
-	var ValidationError = __webpack_require__(323);
-
-	validate.validators.daterange = function (value, opts) {
-	  return new when.Promise(function (resolve) {
-	    if (opts.latest) {
-	      var lastestDate = moment($('#' + opts.latest).val());
-	      if (lastestDate.isSameOrBefore(value)) {
-	        resolve();
-	      } else {
-	        resolve('^必須大於等於開始時間');
-	      }
-	    }
-	  });
-	};
-
-	var SETTING_RULE = {
-	  time_name: {
-	    presence: {
-	      message: '^必填'
-	    }
-	  },
-	  begin_date_submit: {
-	    presence: {
-	      message: '^必填'
-	    }
-	  },
-	  ended_date_submit: {
-	    presence: {
-	      message: '^必填'
-	    },
-	    daterange: {
-	      latest: 'begin_date'
-	    }
-	  },
-	  stu_start: {
-	    presence: {
-	      message: '^必填'
-	    },
-	    daterange: {
-	      latest: 'begin_date'
-	    }
-	  },
-	  lab_start: {
-	    presence: {
-	      message: '^必填'
-	    },
-	    daterange: {
-	      latest: 'begin_date'
-	    }
-	  }
-	};
-
-	Sammy('#main', function (app) {
+	(0, _sammy2.default)('#main', function (app) {
 	  app.get('#/admin/setting', function (context) {
 	    context.partial('/templates/vue.ms').render(function () {
 	      new _vue2.default({
@@ -2160,50 +2094,20 @@ webpackJsonp([0],{
 	      });
 	    });
 	  });
-
-	  app.put('#/admin/setting', function (context) {
-	    $('input').removeClass('validate invalid');
-	    validate.async(context.params, SETTING_RULE, { wrapErrors: ValidationError }).then(function () {
-	      var params = lodash.assign({}, context.params);
-	      params.began_date = params.begin_date_submit;
-	      params.ended_date = params.ended_date_submit;
-	      console.log('Validation setting');
-	      api.replace('manager/setting', {
-	        body: $.param(params)
-	      }).then(function () {
-	        Materialize.toast('更新成功');
-	      }).catch(function (error) {
-	        Materialize.toast('更新失敗');
-	      });
-	    }).catch(function (err) {
-	      return err.name === 'ValidationError';
-	    }, function (error) {
-	      lodash.each(error.errors, function (val, key) {
-	        if (key === 'begin_date_submit' || key === 'ended_date_submit') {
-	          key = key.slice(0, -7);
-	        }
-	        $('#' + key).addClass('validate invalid').parent().find('label').attr('data-error', val[0]);
-	      });
-	    }).catch(function (error) {
-	      console.log('System error', error);
-	    });
-	    return false;
-	  });
-	});
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+	}); // var validate = require('validate.js');
 
 /***/ },
 
-/***/ 303:
+/***/ 302:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(304)
+	__vue_script__ = __webpack_require__(303)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(314)
+	__vue_template__ = __webpack_require__(313)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2223,7 +2127,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 304:
+/***/ 303:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2232,15 +2136,15 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _adminMenu = __webpack_require__(293);
+	var _adminMenu = __webpack_require__(292);
 
 	var _adminMenu2 = _interopRequireDefault(_adminMenu);
 
-	var _settingForm = __webpack_require__(305);
+	var _settingForm = __webpack_require__(304);
 
 	var _settingForm2 = _interopRequireDefault(_settingForm);
 
-	var _settingList = __webpack_require__(311);
+	var _settingList = __webpack_require__(310);
 
 	var _settingList2 = _interopRequireDefault(_settingList);
 
@@ -2252,16 +2156,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 305:
+/***/ 304:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(306)
+	__vue_script__ = __webpack_require__(305)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting-form.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(310)
+	__vue_template__ = __webpack_require__(309)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2281,7 +2185,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 306:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2290,11 +2194,11 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _when = __webpack_require__(198);
+	var _when = __webpack_require__(243);
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _dateField = __webpack_require__(307);
+	var _dateField = __webpack_require__(306);
 
 	var _dateField2 = _interopRequireDefault(_dateField);
 
@@ -2302,6 +2206,7 @@ webpackJsonp([0],{
 
 	var mapData = {
 	  timeName: 'zone_name',
+	  type: 'type',
 	  beganDate: 'began_date',
 	  endedDate: 'ended_date',
 	  stuStart: 'stu_date_began_at',
@@ -2310,6 +2215,10 @@ webpackJsonp([0],{
 	exports.default = {
 	  props: {
 	    timeName: {
+	      type: String,
+	      default: ''
+	    },
+	    type: {
 	      type: String,
 	      default: ''
 	    },
@@ -2336,7 +2245,7 @@ webpackJsonp([0],{
 	      for (var key in mapData) {
 	        data[mapData[key]] = this.$data[key];
 	      }
-	      (0, _when2.default)(this.$http.put('manager/setting'), data).then(function (response) {
+	      (0, _when2.default)(this.$http.put('manager/setting', data)).then(function (response) {
 	        if (response.data.hasOwnProperty('status')) {
 	          if (response.data.status === 0) {
 	            Materialize.toast('新增成功', 2000);
@@ -2354,16 +2263,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 307:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(308)
+	__vue_script__ = __webpack_require__(307)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/date-field.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(309)
+	__vue_template__ = __webpack_require__(308)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2383,7 +2292,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 308:
+/***/ 307:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2415,7 +2324,7 @@ webpackJsonp([0],{
 	    }
 	  },
 	  compiled: function compiled() {
-	    (0, _jquery2.default)(this.$el).find('.datepicker').pickadate({
+	    (0, _jquery2.default)(this.$els.picker).pickadate({
 	      format: 'yyyy-mm-dd',
 	      formatSubmit: 'yyyy-mm-dd',
 	      closeOnSelect: true,
@@ -2426,30 +2335,30 @@ webpackJsonp([0],{
 
 /***/ },
 
+/***/ 308:
+/***/ function(module, exports) {
+
+	module.exports = "\n<div class=\"input-field\">\n  <label :for=\"name\" :class=\"{active: date}\">\n    <slot></slot>\n  </label>\n  <input v-el:picker :id=\"name\" v-model=\"date\" :data-value=\"date\"\n     class=\"datepicker Setting-DateField {{className}}\" type=\"date\" :name=\"name\">\n</div>\n";
+
+/***/ },
+
 /***/ 309:
 /***/ function(module, exports) {
 
-	module.exports = "\n<div class=\"input-field\">\n  <label :for=\"name\" :class=\"{active: date}\">\n    <slot></slot>\n  </label>\n  <input :id=\"name\" v-model=\"date\" :data-value=\"date\"\n     class=\"datepicker Setting-DateField {{className}}\" type=\"date\" :name=\"name\">\n</div>\n";
+	module.exports = "\n<form @submit.prevent=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n  <div class=\"input-field\">\n    <input id=\"time-name\"\n      class=\"validate Setting-TimeName\"\n      type=\"text\" name=\"time_name\"\n      v-model=\"timeName\">\n    <label for=\"time-name\"\n      :class=\"{active: timeName}\">\n      名稱 (ex: 104上學期):\n    </label>\n  </div>\n  <div>\n    <span>類型：</span>\n    <input class=\"with-gap\"\n      name=\"type\"\n      type=\"radio\"\n      id=\"semester-radio\"\n      value=\"semester\"\n      v-model=\"type\">\n    <label for=\"semester-radio\">\n      學期\n    </label>\n    <input class=\"with-gap\"\n      name=\"type\"\n      type=\"radio\"\n      id=\"vacation-radio\"\n      value=\"vacation\"\n      v-model=\"type\">\n    <label for=\"vacation-radio\">\n      寒暑假\n    </label>\n  </div>\n  <date-field\n    :date.sync=\"beganDate\"\n     name=\"began_date\"\n     class-name=\"Setting-BeganDate\">\n    開始時間：\n  </date-field>\n  <date-field\n    :date.sync=\"endedDate\"\n    name=\"ended_date\"\n    class-name=\"Setting-EndedDate\">\n    結束時間：\n  </date-field>\n  <date-field\n    :date.sync=\"stuStart\"\n    name=\"stu_start\"\n    class-name=\"Setting-StuStart\">\n    學生借用開始時間：\n  </date-field>\n  <date-field\n     :date.sync=\"labStart\"\n     name=\"lab_start\"\n     class-name=\"Setting-LabStart\">\n    Lab 借用開始時間：\n  </date-field>\n  <button id=\"apply-btn\"\n    @click.prevent=\"applySetting\"\n    type=\"submit\"\n    class=\"waves-effect waves-light btn\">\n    <i class=\"material-icons left\">done</i>套用設定\n  </button>\n</form>\n";
 
 /***/ },
 
 /***/ 310:
-/***/ function(module, exports) {
-
-	module.exports = "\n<form @submit.prevent=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n  <div class=\"input-field\">\n    <input id=\"time-name\"\n      class=\"validate Setting-TimeName\"\n      type=\"text\" name=\"time_name\"\n      v-model=\"timeName\">\n    <label for=\"time-name\"\n      :class=\"{active: timeName}\">\n      名稱 (ex: 104上學期):\n    </label>\n  </div>\n  <date-field\n    :date.sync=\"beganDate\"\n     name=\"began_date\"\n     class-name=\"Setting-BeganDate\">\n    開始時間：\n  </date-field>\n  <date-field\n    :date.sync=\"endedDate\"\n    name=\"ended_date\"\n    class-name=\"Setting-EndedDate\">\n    結束時間：\n  </date-field>\n  <date-field\n    :date.sync=\"stuStart\"\n    name=\"stu_start\"\n    class-name=\"Setting-StuStart\">\n    學生借用開始時間：\n  </date-field>\n  <date-field\n     :date.sync=\"labStart\"\n     name=\"lab_start\"\n     class-name=\"Setting-LabStart\">\n    Lab 借用開始時間：\n  </date-field>\n  <button id=\"apply-btn\"\n    @click.prevent=\"applySetting\"\n    type=\"submit\"\n    class=\"waves-effect waves-light btn\">\n    <i class=\"material-icons left\">done</i>套用設定\n  </button>\n</form>\n";
-
-/***/ },
-
-/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(312)
+	__vue_script__ = __webpack_require__(311)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting-list.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(313)
+	__vue_template__ = __webpack_require__(312)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2469,7 +2378,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 312:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2478,7 +2387,7 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _when = __webpack_require__(198);
+	var _when = __webpack_require__(243);
 
 	var _when2 = _interopRequireDefault(_when);
 
@@ -2509,183 +2418,21 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 313:
+/***/ 312:
 /***/ function(module, exports) {
 
 	module.exports = "\n<h5>{{title}}</h5>\n<div class=\"Setting-List\">\n  <ul class=\"collection\">\n    <li class=\"collection-item\" v-for=\"setting in settings\">\n      <div>\n        <div>{{setting.zone_name}}: {{setting.date_began_at}} ~ {{setting.date_ended_at}}</div>\n        <div>學生借用開始：{{setting.stu_date_began_at}}, Lab 借用開始：{{setting.lab_date_began_at}}</div>\n      </div>\n    </li>\n  </ul>\n</div>\n";
 
 /***/ },
 
-/***/ 314:
+/***/ 313:
 /***/ function(module, exports) {
 
 	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list title=\"歷史設定\" filter=\"<=\">\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form></setting-form>\n  </div>\n</div>\n";
 
 /***/ },
 
-/***/ 315:
-/***/ function(module, exports) {
-
-	module.exports = moment;
-
-/***/ },
-
-/***/ 316:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var $ = __webpack_require__(1);
-	var connectEndpoint = __webpack_require__(317).connectEndpoint;
-	var plusCsrf = __webpack_require__(318);
-
-	var cookie = __webpack_require__(319);
-	var param = __webpack_require__(320);
-	var header = __webpack_require__(321);
-	var statusCode = __webpack_require__(322);
-
-	var token = $('#csrf-token').attr('content');
-	var api = connectEndpoint('/api');
-
-	api.addMiddleware(plusCsrf('X-CSRF-TOKEN', token));
-	api.addMiddleware(cookie);
-	api.addMiddleware(param);
-	api.addMiddleware(header);
-	api.addMiddleware(statusCode);
-
-	module.exports = api;
-
-/***/ },
-
-/***/ 319:
-/***/ function(module, exports) {
-
-	'use strict';
-
-	// Default add cookie
-	module.exports = function (request) {
-	  if (!request.options.credentials) {
-	    request.options.credentials = 'include';
-	  }
-	};
-
-/***/ },
-
-/***/ 320:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var $ = __webpack_require__(1);
-
-	module.exports = function (request) {
-	  if (request.options.method === 'GET' && _typeof(request.options.params) === 'object') {
-	    request.path = request.path + '?' + $.param(request.options.params);
-	  }
-	};
-
-/***/ },
-
-/***/ 321:
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var FORM_HEADER = 'application/x-www-form-urlencoded; charset=UTF-8';
-	var JSON_HEADER = 'application/json; charset=UTF-8';
-
-	// custom JSON middleware
-	module.exports = function (request) {
-	  var body = request.options.body;
-	  // If options have key named type
-	  if (request.options.type && (typeof body === 'undefined' ? 'undefined' : _typeof(body)) === 'object') {
-	    // Stringify body and add header
-	    if (request.options.type === 'form') {
-	      request.options.body = $.param(body);
-	      request.options.headers['Content-Type'] = FORM_HEADER;
-	    } else if (request.options.type === 'json') {
-	      request.options.body = JSON.stringify(body);
-	      request.options.headers['Content-Type'] = JSON_HEADER;
-	    }
-	  } else if (typeof request.options.body === 'string') {
-	    // Just add header
-	    request.options.headers['Content-Type'] = FORM_HEADER;
-	  } else if (_typeof(request.options.body) === 'object') {
-	    // Stringify body and add header
-	    request.options.body = $.param(body);
-	    request.options.headers['Content-Type'] = FORM_HEADER;
-	  }
-
-	  return function (response) {
-	    return response.json();
-	  };
-	};
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
-
-/***/ },
-
-/***/ 322:
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-	var when = __webpack_require__(198);
-
-	// P2P-style unjustifed status code check
-
-	module.exports = function () {
-	  return function (response) {
-	    if (_typeof(response.body) === 'object' && response.body.status) {
-	      if (response.body.status !== 0) {
-	        return when.reject(response);
-	      }
-	    }
-	    return response;
-	  };
-	};
-
-/***/ },
-
-/***/ 323:
-/***/ function(module, exports) {
-
-	'use strict';
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	module.exports = function (_Error) {
-	  _inherits(ValidationError, _Error);
-
-	  function ValidationError(errors, options, attributes, constraints) {
-	    _classCallCheck(this, ValidationError);
-
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(ValidationError).call(this, 'Validation error'));
-
-	    Error.captureStackTrace(_this, _this.constructor);
-	    _this.name = 'ValidationError';
-	    _this.errors = errors;
-	    _this.options = options;
-	    _this.attributes = attributes;
-	    _this.constraints = constraints;
-	    return _this;
-	  }
-
-	  return ValidationError;
-	}(Error);
-
-/***/ },
-
-/***/ 324:
+/***/ 314:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -3185,7 +2932,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 325:
+/***/ 315:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3198,7 +2945,7 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _schedule = __webpack_require__(326);
+	var _schedule = __webpack_require__(316);
 
 	var _schedule2 = _interopRequireDefault(_schedule);
 
@@ -3222,16 +2969,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 326:
+/***/ 316:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(327)
+	__vue_script__ = __webpack_require__(317)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/schedule.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(330)
+	__vue_template__ = __webpack_require__(321)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -3251,7 +2998,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 327:
+/***/ 317:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3260,11 +3007,11 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _when = __webpack_require__(198);
+	var _when = __webpack_require__(243);
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _transformSchedule = __webpack_require__(328);
+	var _transformSchedule = __webpack_require__(318);
 
 	var _transformSchedule2 = _interopRequireDefault(_transformSchedule);
 
@@ -3295,7 +3042,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 328:
+/***/ 318:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3304,15 +3051,15 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _when = __webpack_require__(198);
+	var _when = __webpack_require__(243);
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _moment = __webpack_require__(315);
+	var _moment = __webpack_require__(319);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
-	var _vars = __webpack_require__(329);
+	var _vars = __webpack_require__(320);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -3405,7 +3152,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 329:
+/***/ 319:
+/***/ function(module, exports) {
+
+	module.exports = moment;
+
+/***/ },
+
+/***/ 320:
 /***/ function(module, exports) {
 
 	'use strict';
@@ -3417,14 +3171,14 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 330:
+/***/ 321:
 /***/ function(module, exports) {
 
 	module.exports = "\n<table>\n  <thead>\n    <tr>\n      <td>Time</td>\n      <td>Mon</td>\n      <td>Tue</td>\n      <td>Wed</td>\n      <td>Thu</td>\n      <td>Fri</td>\n    </tr>\n  </thead>\n  <tbody>\n    <tr v-for=\"schedule in schedules\">\n      <td>\n        {{schedule.time}}\n      </td>\n      <td>\n        {{{schedule.mon}}}\n      </td>\n      <td>\n        {{{schedule.tue}}}\n      </td>\n      <td>\n        {{{schedule.wed}}}\n      </td>\n      <td>\n        {{{schedule.thu}}}\n      </td>\n      <td>\n        {{{schedule.fri}}}\n      </td>\n    </tr>\n  </tbody>\n</table>\n";
 
 /***/ },
 
-/***/ 331:
+/***/ 322:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
