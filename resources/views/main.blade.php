@@ -13,7 +13,7 @@
     </head>
     <body>
         <div id="main"></div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js" defer></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.2.0/lodash.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/hogan.js/3.0.2/hogan.js" defer></script>
