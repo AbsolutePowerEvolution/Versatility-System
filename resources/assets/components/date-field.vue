@@ -3,7 +3,7 @@
     <label :for="name" :class="{active: date}">
       <slot></slot>
     </label>
-    <input :id="name" v-model="date" :data-value="date"
+    <input v-el:picker :id="name" v-model="date" :data-value="date"
        class="datepicker Setting-DateField {{className}}" type="date" :name="name">
   </div>
 </template>
@@ -27,7 +27,7 @@
       }
     },
     compiled() {
-      $(this.$el).find('.datepicker')
+      $(this.$els.picker)
         .pickadate({
           format: 'yyyy-mm-dd',
           formatSubmit: 'yyyy-mm-dd',
