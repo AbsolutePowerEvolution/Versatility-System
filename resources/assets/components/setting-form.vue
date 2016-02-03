@@ -1,5 +1,5 @@
 <template>
-  <form @submit="applySetting" action="#/admin/setting" method="PUT">
+  <form @submit.prevent="applySetting" action="#/admin/setting" method="PUT">
     <div class="input-field">
       <input id="time-name"
         class="validate Setting-TimeName"
@@ -35,6 +35,7 @@
       Lab 借用開始時間：
     </date-field>
     <button id="apply-btn"
+      @click.prevent="applySetting"
       type="submit"
       class="waves-effect waves-light btn">
       <i class="material-icons left">done</i>套用設定
@@ -43,13 +44,14 @@
 </template>
 
 <script>
+  import when from 'when';
   import DateField from './date-field.vue';
   let mapData = {
-    timeName: 'time_name',
+    timeName: 'zone_name',
     beganDate: 'began_date',
-    ended_date: 'ended_date',
-    stuStart: 'stu_start',
-    labStart: 'lab_start'
+    endedDate: 'ended_date',
+    stuStart: 'stu_date_began_at',
+    labStart: 'lab_date_began_at'
   };
   export default {
     props: {
@@ -75,13 +77,26 @@
       }
     },
     methods: {
-      applySetting(event) {
-        event.preventDefault();
-        console.log(this.$data);
+      applySetting() {
+        let data = {};
+        for(let key in mapData) {
+          data[mapData[key]] = this.$data[key];
+        }
+        when(this.$http.put('manager/setting'), data)
+          .then((response) => {
+            if(response.data.hasOwnProperty('status')) {
+              if(response.data.status === 0) {
+                Materialize.toast('新增成功', 2000);
+              } else {
+                Materialize.toast('新增失敗', 2000);
+              }
+            }
+          })
+          .catch(() => {
+            Materialize.toast('伺服器錯誤', 2000);
+          });
       }
     },
-    components: { DateField },
-    compiled() {
-    }
+    components: { DateField }
   }
 </script>
