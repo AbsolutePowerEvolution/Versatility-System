@@ -20,7 +20,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sammy.js/0.7.6/sammy.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.16/vue.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/0.7.0/vue-resource.js" defer></script>
-        <script src="https://cdn.jsdelivr.net/vue.validator/2.0.0-alpha.17/vue-validator.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-validator/1.4.4/vue-validator.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/pikaday.min.js" defer></script>
         <script src="{{ asset('assets/js/vendors.js') }}" defer></script>
