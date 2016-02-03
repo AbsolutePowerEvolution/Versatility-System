@@ -6,6 +6,7 @@ require('sammy/lib/plugins/sammy.hogan.js');
 require('./lib/validate');
 
 Vue.use(require('vue-resource'));
+Vue.use(require('vue-validator'));
 
 // Global vue config
 Vue.config.debug = true;
