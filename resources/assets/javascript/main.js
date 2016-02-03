@@ -3,7 +3,6 @@ require('materialize-css/dist/js/materialize');
 var Sammy = require('sammy');
 var Vue = require('vue');
 require('sammy/lib/plugins/sammy.hogan.js');
-require('./lib/validate');
 
 Vue.use(require('vue-resource'));
 Vue.use(require('vue-validator'));
