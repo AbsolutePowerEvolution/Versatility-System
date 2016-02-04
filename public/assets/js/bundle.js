@@ -75,7 +75,7 @@ webpackJsonp([0],{
 /***/ 198:
 /***/ function(module, exports) {
 
-	module.exports = VueValidator;
+	module.exports = window['vue-validator'];
 
 /***/ },
 
