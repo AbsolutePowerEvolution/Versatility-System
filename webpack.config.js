@@ -59,7 +59,7 @@ var getConfigs = function(env) {
       pikaday: 'Pikaday',
       vue: 'Vue',
       'vue-resource': 'VueResource',
-      'vue-validator': 'VueValidator'
+      'vue-validator': 'window[\'vue-validator\']'
     }];
 
     if(env === 'production') {
