@@ -2151,7 +2151,13 @@ webpackJsonp([0],{
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.default = {
-	  components: { AdminMenu: _adminMenu2.default, SettingForm: _settingForm2.default, SettingList: _settingList2.default }
+	  components: { AdminMenu: _adminMenu2.default, SettingForm: _settingForm2.default, SettingList: _settingList2.default },
+	  methods: {
+	    update: function update() {
+	      this.$refs.settingNow.update();
+	      this.$refs.settingHistory.update();
+	    }
+	  }
 	};
 
 /***/ },
@@ -2207,8 +2213,8 @@ webpackJsonp([0],{
 	var mapData = {
 	  timeName: 'zone_name',
 	  type: 'type',
-	  beganDate: 'began_date',
-	  endedDate: 'ended_date',
+	  beganDate: 'date_began_at',
+	  endedDate: 'date_ended_at',
 	  stuStart: 'stu_date_began_at',
 	  labStart: 'lab_date_began_at'
 	};
@@ -2241,6 +2247,7 @@ webpackJsonp([0],{
 	  },
 	  methods: {
 	    applySetting: function applySetting() {
+	      var self = this;
 	      var data = {};
 	      for (var key in mapData) {
 	        data[mapData[key]] = this.$data[key];
@@ -2249,11 +2256,13 @@ webpackJsonp([0],{
 	        if (response.data.hasOwnProperty('status')) {
 	          if (response.data.status === 0) {
 	            Materialize.toast('新增成功', 2000);
+	            self.$emit('setting-add');
 	          } else {
 	            Materialize.toast('新增失敗', 2000);
 	          }
 	        }
-	      }).catch(function () {
+	      }).catch(function (error) {
+	        console.warn(error);
 	        Materialize.toast('伺服器錯誤', 2000);
 	      });
 	    }
@@ -2408,11 +2417,17 @@ webpackJsonp([0],{
 	    return { settings: [] };
 	  },
 	  compiled: function compiled() {
-	    var self = this;
-	    var filter = this.filter;
-	    (0, _when2.default)(this.$http.get('manager/setting', { con_str: filter })).then(function (response) {
-	      self.settings = response.data;
-	    });
+	    this.update();
+	  },
+
+	  methods: {
+	    update: function update() {
+	      var self = this;
+	      var filter = this.filter;
+	      (0, _when2.default)(this.$http.get('manager/setting', { con_str: filter })).then(function (response) {
+	        self.settings = response.data;
+	      });
+	    }
 	  }
 	};
 
@@ -2428,7 +2443,7 @@ webpackJsonp([0],{
 /***/ 313:
 /***/ function(module, exports) {
 
-	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list title=\"歷史設定\" filter=\"<=\">\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form></setting-form>\n  </div>\n</div>\n";
+	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list v-ref:setting-now title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list v-ref:setting-history title=\"歷史設定\" filter=\"<=\">\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form v-on:setting-add=\"update\"></setting-form>\n  </div>\n</div>\n";
 
 /***/ },
 
