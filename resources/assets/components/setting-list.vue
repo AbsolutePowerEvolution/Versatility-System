@@ -29,12 +29,17 @@
       return {settings: []}
     },
     compiled() {
-      let self = this;
-      let filter = this.filter;
-      when(this.$http.get('manager/setting', {con_str: filter}))
-        .then((response) => {
-          self.settings = response.data;
-        });
+      this.update();
+    },
+    methods: {
+      update() {
+        let self = this;
+        let filter = this.filter;
+        when(this.$http.get('manager/setting', {con_str: filter}))
+          .then((response) => {
+            self.settings = response.data;
+          });
+      }
     }
   }
 </script>

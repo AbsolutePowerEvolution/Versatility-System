@@ -70,8 +70,8 @@
   let mapData = {
     timeName: 'zone_name',
     type: 'type',
-    beganDate: 'began_date',
-    endedDate: 'ended_date',
+    beganDate: 'date_began_at',
+    endedDate: 'date_ended_at',
     stuStart: 'stu_date_began_at',
     labStart: 'lab_date_began_at'
   };
@@ -104,6 +104,7 @@
     },
     methods: {
       applySetting() {
+        let self = this;
         let data = {};
         for(let key in mapData) {
           data[mapData[key]] = this.$data[key];
@@ -113,12 +114,14 @@
             if(response.data.hasOwnProperty('status')) {
               if(response.data.status === 0) {
                 Materialize.toast('新增成功', 2000);
+                self.$emit('setting-add');
               } else {
                 Materialize.toast('新增失敗', 2000);
               }
             }
           })
-          .catch(() => {
+          .catch((error) => {
+            console.warn(error);
             Materialize.toast('伺服器錯誤', 2000);
           });
       }
