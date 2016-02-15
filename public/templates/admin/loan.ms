@@ -24,22 +24,6 @@
         <thead>
           <tr>
             <th>時段</th>
-            <th>0000~0030</th>
-            <th>0030~0100</th>
-            <th>0100~0130</th>
-            <th>0130~0200</th>
-            <th>0200~0230</th>
-            <th>0230~0300</th>
-            <th>0300~0330</th>
-            <th>0330~0400</th>
-            <th>0400~0430</th>
-            <th>0430~0500</th>
-            <th>0500~0530</th>
-            <th>0530~0600</th>
-            <th>0600~0630</th>
-            <th>0630~0700</th>
-            <th>0700~0730</th>
-            <th>0730~0800</th>
             <th>0800~0830</th>
             <th>0830~0900</th>
             <th>0900~0930</th>
@@ -78,14 +62,14 @@
           <tr>
             <td id="classroom_prev"><i class="material-icons">chevron_left</i></td>
           </tr>
-          {{#FiveTimes}}
+          {{#TableTimes}}
           <tr class="tr_classroom">
             <td class="td_classroom_name"></td>
-            {{#FortyEightTimes}}
+            {{#PeriodTimes}}
             <td class="td_time_period"></td>
-            {{/FortyEightTimes}}
+            {{/PeriodTimes}}
           </tr>
-          {{/FiveTimes}}
+          {{/TableTimes}}
           <tr>
             <td id="classroom_next"><i class="material-icons">chevron_right</i></td>
           </tr>
@@ -119,17 +103,15 @@
   <div class="modal-content">
     <div class="switch_type_container">
       <button class="btn switch_date" data-date_type="one_day">短期(一天)</button>
-      <button class="btn switch_date" data-date_type="many_days">長期</button>
       <button class="btn switch_date" data-date_type="one_semester">整學期</button>
     </div>
-    <input type="date" class="datepicker days for_many_days for_one_day for_one_senester" placeholder="選擇借用日期" name="start_date">
-    <input type="date" class="datepicker days for_many_days for_one_semester" placeholder="選擇借用到期日" name="end_date">
+    <input type="date" class="datepicker for_all for_one_day" placeholder="選擇借用日期" name="start_date">
     <div class="input-field">
       <select id="classroom" name="classroom">
         <option disabled>教室</option>
       </select>
     </div>
-    <div class="checkbox_container days for_many_days for_one_semester">
+    <div class="checkbox_container for_all for_one_semester">
       <p>選星期幾</p>
       <input type="checkbox" value="0" id="day0">
       <label for="day0">日</label>
@@ -147,7 +129,7 @@
       <label for="day6">六</label>
     </div>
 
-    <div class="input-field user_period time_container">
+    <div class="input-field time_container">
       <select name="time_start">
         <option value="" disabled>起始時間</option>
         {{#time.PeriodStart}}

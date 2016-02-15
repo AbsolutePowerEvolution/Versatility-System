@@ -171,7 +171,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/signin.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/signin.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -512,8 +512,8 @@ webpackJsonp([0],{
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var PeriodStart = ['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00', '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00'];
-	var PeriodEnd = ['00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00', '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00', '24:00:00'];
+	var PeriodStart = ['08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00'];
+	var PeriodEnd = ['08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00', '24:00:00'];
 	var LoanTable; // Table Data
 	var LoanTablePage;
 	var AllLoanTablePage;
@@ -529,8 +529,8 @@ webpackJsonp([0],{
 	    context.time = {};
 	    context.time.PeriodStart = PeriodStart;
 	    context.time.PeriodEnd = PeriodEnd;
-	    context.FiveTimes = _.times(5);
-	    context.FortyEightTimes = _.times(48);
+	    context.TableTimes = _.times(5);
+	    context.PeriodTimes = _.times(32);
 	    // context.thirty_times = _.times(30, _.uniqueId.bind(null, 'ball'));
 
 	    context.loadPartials({ menu: '/templates/user/menu.ms' }).partial('/templates/user/loan.ms').then(function () {
@@ -588,7 +588,6 @@ webpackJsonp([0],{
 	}
 
 	function initModal() {
-	  $('.modal').find('.switch_date:first').click();
 	  $('.modal').find('.switch_time:first').click();
 	  $('.modal').find('#input[name="start_date"]').val('');
 	  $('.modal').find('#input[name="end_date"]').val('');
@@ -629,23 +628,6 @@ webpackJsonp([0],{
 	      CurrentHistoryPage = 1;
 	      getLoanHistory();
 	    }
-	  });
-
-	  $('.modal .swtich_date').unbind('click');
-	  $('.modal .switch_date').click(function () {
-	    var dateType = $(this).data('date_type');
-	    if (dateType == 'many_days') {
-	      LoanType = 'many_days';
-	    } else {
-	      LoanType = 'one_day';
-	    }
-
-	    $('.modal .days').hide();
-	    $('.modal .for_' + dateType).show();
-
-	    // button color
-	    $(this).parent().find('button').removeClass('pink darken-4');
-	    $(this).addClass('pink darken-4');
 	  });
 
 	  $('.history_btn').unbind('click');
@@ -1076,7 +1058,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/examine.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/examine.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1233,7 +1215,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/admin-menu.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1281,7 +1263,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/pagination.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/pagination.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1405,6 +1387,8 @@ webpackJsonp([0],{
 	  });
 	});
 
+	function accountMaterializeEvent() {}
+
 	function accountButtonEvent() {
 	  var modalTarget;
 	  $('#account_container').find('.modal-trigger').on('click', function (event) {
@@ -1432,8 +1416,6 @@ webpackJsonp([0],{
 	      }
 	      console.log(result);
 	      // Produce Html
-	      producePage();
-	      produceAccountList(result.data);
 
 	      // Bind Event on New Element
 	      accountDataEvent();
@@ -1484,39 +1466,12 @@ webpackJsonp([0],{
 	  var text = '';
 	  var i;
 	  var j;
-
-	  for (i = Math.floor(PageNow / 10) * 10, j = 0; i < TotalPeople && j < 10; i++, j++) {
-	    text += '<div class="card">';
-	    text += '<div class="row card-content">';
-	    text += '<span class="col s4 center-align">帳號</span>';
-	    text += '<span class="col s4 center-align">權限</span>';
-	    text += '<a class="waves-effect waves-light btn modal-trigger account_list"';
-	    text += 'data-modal_target="card_detail" data-user_id="' + people[j].id + '">';
-	    text += '<i class="material-icons left">build</i>修改 / 刪除';
-	    text += '</a>';
-	    text += '</span>';
-	    text += '</div>';
-	    text += '</div>';
-	  }
-
-	  $('#first_row').after(text);
 	}
 
 	function producePage() {
 	  var text = '';
 	  var i;
 	  var j;
-
-	  for (i = Math.floor(PageNow / 10) * 10, j = 0; i < PageLength && j < 10; i++, j++) {
-	    if (i != PageNow - 1) {
-	      text += '<li class="waves-effect">';
-	    } else {
-	      text += '<li class="active">';
-	    }
-	    text += i + 1;
-	    text += '</li>';
-	  }
-	  $('#account_container').find('.page_prev').after(text);
 	}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
@@ -2117,7 +2072,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2181,7 +2136,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-form.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-form.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2291,7 +2246,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2377,7 +2332,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-list.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-list.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2458,8 +2413,8 @@ webpackJsonp([0],{
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var PeriodStart = ['00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00', '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00'];
-	var PeriodEnd = ['00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00', '06:30:00', '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00', '24:00:00'];
+	var PeriodStart = ['08:00:00', '08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00'];
+	var PeriodEnd = ['08:30:00', '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00', '18:30:00', '19:00:00', '19:30:00', '20:00:00', '20:30:00', '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00', '24:00:00'];
 	var LoanTable; // Table Data
 	var LoanTablePage;
 	var AllLoanTablePage;
@@ -2477,8 +2432,8 @@ webpackJsonp([0],{
 	    context.time = {};
 	    context.time.PeriodStart = PeriodStart;
 	    context.time.PeriodEnd = PeriodEnd;
-	    context.FiveTimes = _.times(5);
-	    context.FortyEightTimes = _.times(48);
+	    context.TableTimes = _.times(5);
+	    context.PeriodTimes = _.times(32);
 	    // context.thirty_times = _.times(30, _.uniqueId.bind(null, 'ball'));
 
 	    context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/loan.ms').then(function () {
@@ -2523,6 +2478,10 @@ webpackJsonp([0],{
 	    }
 
 	    loanMaterializeEvent();
+	  });
+
+	  $.get('/api/manager/setting', request, function (result) {
+	    console.log(result);
 	  });
 	}
 
@@ -2582,13 +2541,13 @@ webpackJsonp([0],{
 	  $('.modal .swtich_date').unbind('click');
 	  $('.modal .switch_date').click(function () {
 	    var dateType = $(this).data('date_type');
-	    if (dateType == 'many_days') {
-	      LoanType = 'many_days';
+	    if (dateType == 'one_semester') {
+	      LoanType = 'one_semester';
 	    } else {
 	      LoanType = 'one_day';
 	    }
 
-	    $('.modal .days').hide();
+	    $('.modal .for_all').hide();
 	    $('.modal .for_' + dateType).show();
 
 	    // button color
@@ -3003,7 +2962,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/schedule.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/schedule.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {

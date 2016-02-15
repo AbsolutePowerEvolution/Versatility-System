@@ -24,22 +24,6 @@
         <thead>
           <tr>
             <th>時段</th>
-            <th>0000~0030</th>
-            <th>0030~0100</th>
-            <th>0100~0130</th>
-            <th>0130~0200</th>
-            <th>0200~0230</th>
-            <th>0230~0300</th>
-            <th>0300~0330</th>
-            <th>0330~0400</th>
-            <th>0400~0430</th>
-            <th>0430~0500</th>
-            <th>0500~0530</th>
-            <th>0530~0600</th>
-            <th>0600~0630</th>
-            <th>0630~0700</th>
-            <th>0700~0730</th>
-            <th>0730~0800</th>
             <th>0800~0830</th>
             <th>0830~0900</th>
             <th>0900~0930</th>
@@ -78,14 +62,14 @@
           <tr>
             <td id="classroom_prev"><i class="material-icons">chevron_left</i></td>
           </tr>
-          {{#FiveTimes}}
+          {{#TableTimes}}
           <tr class="tr_classroom">
             <td class="td_classroom_name"></td>
-            {{#FortyEightTimes}}
+            {{#PeriodTimes}}
             <td class="td_time_period"></td>
-            {{/FortyEightTimes}}
+            {{/PeriodTimes}}
           </tr>
-          {{/FiveTimes}}
+          {{/TableTimes}}
           <tr>
             <td id="classroom_next"><i class="material-icons">chevron_right</i></td>
           </tr>
@@ -117,11 +101,6 @@
 <!-- Create Loan Modal -->
 <div id="loan_form" class="modal materialize_modal">
   <div class="modal-content">
-    <div class="switch_type_container">
-      <button class="btn switch_date" data-date_type="one_day">短期(一天)</button>
-      <button class="btn switch_date" data-date_type="many_days">長期</button>
-    </div>
-    <p class="for_many_days red"><b>附註：學生連續借用不能超過三天，時間不能超過兩個禮拜</b></p>
     <input type="date" class="datepicker days for_many_days for_one_day" placeholder="選擇借用日期" name="start_date">
     <input type="date" class="datepicker days for_many_days" placeholder="選擇借用到期日" name="end_date">
     <div class="input-field">

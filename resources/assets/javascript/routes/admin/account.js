@@ -15,6 +15,10 @@ Sammy('#main', function() {
   });
 });
 
+function accountMaterializeEvent() {
+
+}
+
 function accountButtonEvent() {
   var modalTarget;
   $('#account_container').find('.modal-trigger')
@@ -46,8 +50,6 @@ function accountDataEvent() {
       }
       console.log(result);
       // Produce Html
-      producePage();
-      produceAccountList(result.data);
 
       // Bind Event on New Element
       accountDataEvent();
@@ -99,21 +101,6 @@ function produceAccountList(people) {
   var i;
   var j;
 
-  for(i = Math.floor(PageNow / 10) * 10, j = 0; i < TotalPeople && j < 10; i++, j++) {
-    text += '<div class="card">';
-    text += '<div class="row card-content">';
-    text += '<span class="col s4 center-align">帳號</span>';
-    text += '<span class="col s4 center-align">權限</span>';
-    text += '<a class="waves-effect waves-light btn modal-trigger account_list"';
-    text += 'data-modal_target="card_detail" data-user_id="' + people[j].id + '">';
-    text += '<i class="material-icons left">build</i>修改 / 刪除';
-    text += '</a>';
-    text += '</span>';
-    text += '</div>';
-    text += '</div>';
-  }
-
-  $('#first_row').after(text);
 }
 
 function producePage() {
@@ -121,15 +108,4 @@ function producePage() {
   var i;
   var j;
 
-  for(i = Math.floor(PageNow / 10) * 10, j = 0; i < PageLength && j < 10; i++, j++) {
-    if(i != PageNow - 1) {
-      text += '<li class="waves-effect">';
-    } else {
-      text += '<li class="active">';
-    }
-    text += i + 1;
-    text += '</li>';
-  }
-  $('#account_container').find('.page_prev')
-    .after(text);
 }

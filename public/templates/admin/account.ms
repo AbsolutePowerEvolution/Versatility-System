@@ -33,17 +33,6 @@
     </ul>
 
     <!-- Modal Structure -->
-        <div id="add_card" class="modal">
-            <div class="modal-content">
-                <h4>Add New Card</h4>
-                <p>A bunch of text</p>
-            </div>
-        <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-        </div>
-    </div>
-
-    <!-- Modal Structure -->
     <div id="card_detail" class="modal">
         <div class="modal-content">
             <input type="text" name="account" placeholder="account">

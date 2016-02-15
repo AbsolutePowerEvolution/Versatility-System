@@ -1,8 +1,6 @@
 import Sammy from 'sammy';
 var PeriodStart = [
-  '00:00:00', '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00',
-  '03:00:00', '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00',
-  '06:00:00', '06:30:00', '07:00:00', '07:30:00', '08:00:00', '08:30:00',
+  '08:00:00', '08:30:00',
   '09:00:00', '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00',
   '12:00:00', '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00',
   '15:00:00', '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00',
@@ -10,9 +8,7 @@ var PeriodStart = [
   '21:00:00', '21:30:00', '22:00:00', '22:30:00', '23:00:00', '23:30:00'
 ];
 var PeriodEnd = [
-  '00:30:00', '01:00:00', '01:30:00', '02:00:00', '02:30:00', '03:00:00',
-  '03:30:00', '04:00:00', '04:30:00', '05:00:00', '05:30:00', '06:00:00',
-  '06:30:00', '07:00:00', '07:30:00', '08:00:00', '08:30:00', '09:00:00',
+  '08:30:00', '09:00:00',
   '09:30:00', '10:00:00', '10:30:00', '11:00:00', '11:30:00', '12:00:00',
   '12:30:00', '13:00:00', '13:30:00', '14:00:00', '14:30:00', '15:00:00',
   '15:30:00', '16:00:00', '16:30:00', '17:00:00', '17:30:00', '18:00:00',
@@ -36,8 +32,8 @@ Sammy('#main', function() {
     context.time = {};
     context.time.PeriodStart = PeriodStart;
     context.time.PeriodEnd = PeriodEnd;
-    context.FiveTimes = _.times(5);
-    context.FortyEightTimes = _.times(48);
+    context.TableTimes = _.times(5);
+    context.PeriodTimes = _.times(32);
     // context.thirty_times = _.times(30, _.uniqueId.bind(null, 'ball'));
 
     context.loadPartials({menu: '/templates/admin/menu.ms'})
@@ -87,6 +83,10 @@ function userLoanInitEvent() {
     }
 
     loanMaterializeEvent();
+  });
+
+  $.get('/api/manager/setting', request, function(result) {
+    console.log(result);
   });
 }
 
@@ -150,13 +150,13 @@ function loanButtonEvent() {
   $('.modal .swtich_date').unbind('click');
   $('.modal .switch_date').click(function() {
     var dateType = $(this).data('date_type');
-    if(dateType == 'many_days') {
-      LoanType = 'many_days';
+    if(dateType == 'one_semester') {
+      LoanType = 'one_semester';
     }else {
       LoanType = 'one_day';
     }
 
-    $('.modal .days').hide();
+    $('.modal .for_all').hide();
     $('.modal .for_' + dateType).show();
 
     // button color
