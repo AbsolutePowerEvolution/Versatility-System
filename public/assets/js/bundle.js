@@ -171,7 +171,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/signin.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/signin.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1058,7 +1058,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/examine.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/examine.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1215,7 +1215,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1263,7 +1263,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/pagination.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/pagination.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2072,7 +2072,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2136,7 +2136,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-form.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-form.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2246,7 +2246,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/date-field.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2332,7 +2332,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-list.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-list.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2962,7 +2962,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/schedule.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/schedule.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
