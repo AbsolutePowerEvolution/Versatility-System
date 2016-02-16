@@ -18,7 +18,7 @@ class CategoryTableSeeder extends Seeder
             'repair.type' => ['cleanup', 'maintain'],
             'repair.status' => ['submitted', 'canceled', 'processing', 'finished'],
             'loan.type' => ['meeting', 'course', 'speech', 'interview', 'others'],
-            'loan.status' => ['submitted', 'canceled', 'accepted', 'finished', 'refused'],
+            'loan.status' => ['submitted', 'canceled', 'accepted', 'refused', 'deleted'],
             'time.type' => ['semester', 'vacation'],
         ];
 

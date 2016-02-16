@@ -190,7 +190,21 @@ class LoanController extends Controller
         $affect_row = Loan::where('id', '=', $id)
             ->update(['status' => Category::getCategoryId('loan.status', $request->input('status'))]);
 
-        return response()->json(['status' => ($affect_row==1)? 0:2]);
+        return response()->json(['status' => ($affect_row == 1)? 0:2]);
+    }
+
+    /**
+     * Delete the specified resource in storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteClassroomBorrow($id)
+    {
+        $affect_row = Loan::where('id', '=', $id)
+            ->update(['status' => Category::getCategoryId('loan.status', 'deleted')]);
+
+        return response()->json(['status' => ($affect_row == 1)? 0:2]);
     }
 
     /**
