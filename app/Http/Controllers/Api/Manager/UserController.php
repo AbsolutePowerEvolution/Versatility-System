@@ -24,7 +24,6 @@ class UserController extends Controller
         $user_list = User::paginate($length);
 
         return response()->json($user_list);
-        //
     }
 
     /**
@@ -103,12 +102,14 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        $user = User::find($id);
-        return response()->json($user->delete() == true);
+        $result = User::whereIn('username', $request->input('usernames'))
+            ->delete();
+
+        return response()->json(['status' => ($result? 0:2)]);
     }
 }
