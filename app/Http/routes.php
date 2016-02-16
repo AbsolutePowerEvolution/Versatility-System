@@ -92,7 +92,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
             $router->get('courses', ['as' => 'api.man.loan.course.list', 'uses' => 'Manager\LoanController@indexCourse']);
             $router->post('other-create', ['as' => 'api.user.loan.other.create', 'uses' => 'Manager\LoanController@store']);
             $router->post('class-create', ['as' => 'api.user.loan.class.create', 'uses' => 'Manager\LoanController@storeClassroomBorrow']);
-            $router->delete('class-delete.{id}', ['as' => 'api.user.loan.class.delete', 'uses' => 'Manager\LoanController@deleteClassroomBorrow']);
+            $router->delete('class-delete/{id}', ['as' => 'api.user.loan.class.delete', 'uses' => 'Manager\LoanController@deleteClassroomBorrow']);
             $router->put('class-verify/{id}', ['as' => 'api.user.loan.class.verify', 'uses' => 'Manager\LoanController@update']);
             $router->put('other-restitution/{id}', ['as' => 'api.user.loan.other.resti', 'uses' => 'Manager\LoanController@update']);
         });
