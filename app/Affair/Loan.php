@@ -77,6 +77,42 @@ class Loan extends Entity
     }
 
     /**
+     * get conflict loan record query
+     *
+     * @param array $date_info
+     * @param array $time_info
+     * @param int $LTK
+     * @return Illuminate\Database\Eloquent\Builder
+     */
+    private static function getConflictQuery($property_id, $date_info, $time_info, $LTK)
+    {
+        $conflict_query = DB::table('loans');
+
+        if ($p_id != null) {
+            $conflict_query->where('property_id', '=', $p_id);
+        }
+
+        $conflict_query
+            ->where(function ($query) use ($date_info) {
+                $query
+                    ->whereBetween('date_ended_at', $date_info)
+                    ->whereRaw('? BETWEEN `date_began_at` AND `date_ended_at`', [$date_info[1]]);
+            })
+            ->where(function ($query) use ($time_info) {
+                $query
+                    ->whereBetween('time_ended_at', $time_info)
+                    ->whereRaw('? BETWEEN `time_began_at` AND `time_ended_at`', [$time_info[1]]);
+            })
+            ->where(function ($query) use ($LTK) {
+                $query
+                    ->whereRaw('long_term_token & ? > 0', [$LTK])
+                    ->orWhereNull('long_term_token');
+            });
+
+        return $conflict_query;
+    }
+
+    /**
      * check loan data conflict or not
      *
      * @param array $date_info
@@ -86,20 +122,32 @@ class Loan extends Entity
      */
     public static function checkConflict($p_id, $date_info, $time_info, $LTK)
     {
-        $LTK = ((int)$LTK === 0)? 1<<date('w'):(int)$LTK;
+        $LTK = ((int)$LTK === 0)? 1<<date('w', strtotime($date_info[0])):(int)$LTK;
 
-        $conflict_num = DB::table('loans')
-            ->where('property_id', '=', $p_id)
-            ->whereBetween('date_ended_at', $date_info)
-            ->whereBetween('time_ended_at', $time_info)
-            ->where(function ($query) use ($LTK) {
-                $query
-                    ->where(DB::raw("long_term_token & {$LTK}"), '>', 0)
-                    ->orWhereNull('long_term_token');
-            })
-            ->count();
+        $conflict_num = self::getConflictQuery($p_id, $date_info, $time_info, $LTK)->count();
 
         return ($conflict_num > 0);
+    }
+
+    /**
+     * get the query for that conflict to the provide date
+     *
+     * @param int $p_id
+     * @param string $date
+     * @return Illuminate\Database\Eloquent\Builder
+     */
+    public static function getConflictList($p_id, $date)
+    {
+        $LTK = 1 << date('w', strtotime($date_info[0]));
+
+        $conflict_query = self::getConflictQuery(
+                $p_id,
+                [$date, $date],
+                ['00:00:00', '23:59:59'],
+                $LTK
+            );
+
+        return $conflict_query;
     }
 
     /**
@@ -110,7 +158,8 @@ class Loan extends Entity
      * @param App\Affair\Timezone
      * @return bool
      */
-    public static function checkDuration($date_info, $time_info, $timezone) {
+    public static function checkDuration($date_info, $time_info, $timezone)
+    {
         if ($date_info[0] > $date_info[1] || $time_info[0] >= $time_info[1]) {
             return false;
         }

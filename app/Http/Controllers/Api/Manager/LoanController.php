@@ -73,9 +73,38 @@ class LoanController extends Controller
         $borrow_query = ($loan_type > 0)? $borrow_query->where('type', '=', $loan_type):$borrow_query;
         $borrow_query = ($loan_status > 0)? $borrow_query->where('loans.status', '=', $loan_status):$borrow_query;
 
-
         // get borrow list
         $borrow_list = $borrow_query
+            ->paginate($length, [
+                'loans.*',
+                'pro_t.name as property_name'
+            ]);
+
+        return response()->json($borrow_list);
+    }
+
+    /**
+     * Display a listing of the classroom borrow that status is accepted
+     *
+     * @param string date
+     * @return Json
+     */
+    public function indexAcceptedClassroomBorrow(Request $request, $date)
+    {
+        // get length
+        $length = ($request->input('length') > 0)? $request->input('length'):10;
+
+        $borrow_list = Loan::getConflictList(null, $date)
+            ->where('type', '=', Category::getCategoryId('loan.status', 'accepted'))
+            ->with([
+                user,
+                type,
+                status,
+            ])
+            ->join('properties as pro_t', function ($join) {
+                $join->on('pro_t.id', '=', 'property_id')
+                    ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
+            })
             ->paginate($length, [
                 'loans.*',
                 'pro_t.name as property_name'
