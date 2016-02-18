@@ -10,7 +10,10 @@ Sammy('#main', function() {
       .then(function() {
         accountButtonEvent();
         accountDataEvent();
-        $('.account_page').click();
+
+        $('#excel').change(function() {
+          console.log(this.files[0]);
+        });
       });
   });
 });

@@ -193,18 +193,6 @@ function loanDataEvent() {
     });
   });
 
-  $('#delete_loan').unbind('click');
-  $('#delete_loan').click(function() {
-    var request = {};
-    request.id = $(this).data('loan_id');
-
-    $.post('/api/user/loan/delete/' + request.id, request, function(result) {
-      console.log(result);
-    }).fail(function() {
-      Materialize.toast('刪除失敗', 1000);
-    });
-  });
-
   $('#create_loan').unbind('click');
   $('#create_loan').click(function() {
     var request = {};
@@ -307,6 +295,8 @@ function getLoanHistory() {
   var request = {};
   request.page = CurrentHistoryPage;
   request.length = 10;
+  request.status = 'accepted';
+
   $.get('/api/manager/loan/classrooms', request, function(result) {
     console.log(result);
     LoanHistory = result.data;
@@ -325,37 +315,58 @@ function getLoanHistory() {
 function produceLoanHistory(list) {
   var i;
   var text;
+  // header
+  var propertyName;
+  var dateBeganAt;
+  var dateEndedAt;
+  var timeBeganAt;
+  var timeEndedAt;
+  // body
+  var nickname;
+  var email;
+  var remark;
+  var id;
 
   $('#history_card_container').html('');
   for(i = 0; i < 10 && i < list.length; i++) {
+    propertyName = list[i].property_name;
+    dateBeganAt = list[i].date_began_at;
+    dateEndedAt = list[i].date_ended_at;
+    timeBeganAt = list[i].time_began_at;
+    timeEndedAt = list[i].time_ended_at;
+
     text =  '<li>';
     // header
     text += '<div class="collapsible-header"><div class="row">';
-    text += '<span class="col s2"><b>教室:</b>' + list[i].property_name + '</span>';
+    text += `<span class="col s2"><b>教室:</b>${propertyName}</span>`;
     if(list[i].long_term_token !== null) {
       text += '<span class="col s2"><b>類型:</b>短期</span>';
-      text += '<span class="col s3"><b>日期:</b>' + list[i].date_began_at + '</span>';
+      text += `<span class="col s3"><b>日期:</b>${dateBeganAt}</span>`;
     } else {
       text += '<span class="col s2"><b>類型:</b>長期</span>';
-      text += '<span class="col s3"><b>日期:</b>' + list[i].date_began_at + '~' + list[i].date_ended_at + '</span>';
+      text += `<span class="col s3"><b>日期:</b>${dateBeganAt}~${dateEndedAt}</span>`;
     }
     text += '<span class="col s3"><b>時段:</b>';
     if(list[i].time_began_at == null) {
       text += '整天';
     }else {
-      text += list[i].time_began_at + ' ~ ' + list[i].time_ended_at;
+      text += `${timeBeganAt}~${timeEndedAt}`;
     }
     text += '</span></div></div>';
 
+    nickname = list[i].user.nickname;
+    email = list[i].user.email;
+    remark = list[i].remark;
+    id = list[i].id;
     // body
     text += '<div class="collapsible-body"><div class="row">';
-    text += '<span class="col offset-s1 s2">借用人</span><span class="col s8">' + list[i].user.nickname + '</span>';
+    text += `<span class="col offset-s1 s2">借用人</span><span class="col s8">${nickname}</span>`;
     text += '</div><div class="row">';
-    text += '<span class="col offset-s1 s2">聯絡方式</span><span class="col s8">' + list[i].user.email + '</span>';
+    text += `<span class="col offset-s1 s2">聯絡方式</span><span class="col s8">${email}</span>`;
     text += '</div><div class="row">';
-    text += '<span class="col offset-s1 s2">借用理由:</span><span class="col s8">' + list[i].remark + '</span>';
+    text += `<span class="col offset-s1 s2">借用理由:</span><span class="col s8">${remark}</span>`;
     text += '</div><div class="row center-align">';
-    text += '<button class="btn red history_delete_btn" data-history_id="' + list[i].id + '">刪除</button>';
+    text += `<button class="btn red history_delete_btn" data-history_id="${id}">刪除</button>`;
     text += '</div></li>';
     $('#history_card_container').append(text);
   }
@@ -432,8 +443,21 @@ function loanHistoryEvent() {
 
   $('.history_delete_btn').unbind('click');
   $('.history_delete_btn').click(function() {
+    var historyId = $(this).data('history_id');
     var request = {};
     request._token = $('meta[name="csrf-token"]').attr('content');
+
+    $.ajax({
+      url: '/api/manager/loan/class-delete/' + historyId,
+      method: 'delete',
+      data: request,
+      success: function(result) {
+        console.log(result);
+      },
+      fail: function() {
+        Materialize.toast('刪除歷史紀錄失敗', 1000);
+      }
+    });
   });
 }
 
