@@ -87,6 +87,7 @@ function userLoanInitEvent() {
 
   $.get('/api/manager/setting', request, function(result) {
     console.log(result);
+    loanMaterializeEvent();
   });
 }
 
@@ -453,6 +454,8 @@ function loanHistoryEvent() {
       data: request,
       success: function(result) {
         console.log(result);
+        Materialize.toast('刪除歷史紀錄成功', 1000);
+        getLoanHistory();
       },
       fail: function() {
         Materialize.toast('刪除歷史紀錄失敗', 1000);

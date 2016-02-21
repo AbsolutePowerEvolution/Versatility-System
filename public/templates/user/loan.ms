@@ -101,14 +101,17 @@
 <!-- Create Loan Modal -->
 <div id="loan_form" class="modal materialize_modal">
   <div class="modal-content">
-    <input type="date" class="datepicker days for_many_days for_one_day" placeholder="選擇借用日期" name="start_date">
-    <input type="date" class="datepicker days for_many_days" placeholder="選擇借用到期日" name="end_date">
+    <div class="switch_type_container">
+      <button class="btn switch_date" data-date_type="one_day">短期(一天)</button>
+      <button class="btn switch_date" data-date_type="one_semester">整學期</button>
+    </div>
+    <input type="date" class="datepicker for_all for_one_day" placeholder="選擇借用日期" name="start_date">
     <div class="input-field">
       <select id="classroom" name="classroom">
         <option disabled>教室</option>
       </select>
     </div>
-    <div class="checkbox_container days for_many_days">
+    <div class="checkbox_container for_all for_one_semester">
       <p>選星期幾</p>
       <input type="checkbox" value="0" id="day0">
       <label for="day0">日</label>
@@ -126,7 +129,7 @@
       <label for="day6">六</label>
     </div>
 
-    <div class="input-field user_period time_container">
+    <div class="input-field time_container">
       <select name="time_start">
         <option value="" disabled>起始時間</option>
         {{#time.PeriodStart}}

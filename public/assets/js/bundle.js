@@ -2456,6 +2456,12 @@ webpackJsonp([0],{
 
 	      var today = moment(new Date()).format('YYYY-MM-DD');
 	      $('#datepicker').val(today).change();
+
+	      var request = {};
+	      request._token = $('meta[name="csrf-token"]').attr('content');
+	      $.get('/api/manager/setting', request, function (result) {
+	        console.log(result);
+	      });
 	    });
 	  });
 	});
@@ -2841,6 +2847,8 @@ webpackJsonp([0],{
 	      data: request,
 	      success: function success(result) {
 	        console.log(result);
+	        Materialize.toast('刪除歷史紀錄成功', 1000);
+	        getLoanHistory();
 	      },
 	      fail: function fail() {
 	        Materialize.toast('刪除歷史紀錄失敗', 1000);

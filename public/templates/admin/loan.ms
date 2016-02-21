@@ -92,6 +92,7 @@
 
 <!-- History Page -->
 <div id="history_container">
+  <input type="date" class="datepicker" id="history_date">
   <ul id="history_card_container" class="collapsible" data-collapsible="accordion">
   </ul>
   <ul id="history_page_container" class="pagination center">
@@ -109,6 +110,11 @@
     <div class="input-field">
       <select id="classroom" name="classroom">
         <option disabled>教室</option>
+      </select>
+    </div>
+    <div class="input-field for_all for_one_semester">
+      <select id="classroom" name="setting_time">
+        <option disabled>時段</option>
       </select>
     </div>
     <div class="checkbox_container for_all for_one_semester">

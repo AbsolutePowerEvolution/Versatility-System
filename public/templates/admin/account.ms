@@ -5,15 +5,29 @@
       <span>搜尋：</span>
       <input type="text" placeholder="帳號名稱" name="search"/>
     </div>
-    <div id="first_row" class="row">
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="add_card">
+    <div class="row">
+      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="add">
         <i class="material-icons">add</i>
+      </span>
+      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="import_file">
+        匯入檔案
       </span>
     </div>
   </div>
 
-  <!-- Create Loan Modal -->
-  <div id="add_card" class="modal materialize_modal">
+  <!-- Create Account Modal -->
+  <div id="add" class="modal materialize_modal">
+    <div class="modal-content">
+    </div>
+    <div class="modal-footer">
+      <button id="addAccountBtn" class="center btn">
+        確認送出
+      </button>
+    </div>
+  </div>
+
+  <!-- Import File Modal -->
+  <div id="import_file" class="modal materialize_modal">
     <div class="modal-content">
       <div class="file-field input-field">
         <div class="btn">
@@ -26,7 +40,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button id="create_loan" class="center btn">
+      <button id="importFileBtn" class="center btn">
         確認送出
       </button>
     </div>
