@@ -41,38 +41,16 @@ function accountButtonEvent() {
 }
 
 function accountDataEvent() {
-  // get Account List
-  $('.account_page').unbind('click');
-  $('.account_page').click(function() {
-    PageNow = $(this).html();
-    console.log(PageNow);
-    $.get('/api/manager/user', function(result) {
-      if(PageNow == 1) {
-        TotalPeople = result.total;
-        PageLength = Math.ceil(TotalPeople / 10);
-      }
-      console.log(result);
-      // Produce Html
-
-      // Bind Event on New Element
-      accountDataEvent();
-      accountButtonEvent();
-    });
-  });
-
-  // get Account Detail
-  $('.account_list').unbind('click');
-  $('.account_list').click(function() {
-    var id = $(this).data('user_id');
-    $.get('/api/manager/user/' + id, function(result) {
-      console.log(result);
-    });
-  });
-
   // create Account
   $('#create_account').unbind('click');
   $('#create_account').click(function() {
     var request = {};
+    request._token = $('meta[name="csrf-token"]').attr('content');
+
+    request.account = $('#account').val();
+    request.password = $('#password').val();
+    request.nickname = $('#nickname').val();
+    request.email = $('#email').val();
 
     $.post('/api/manager/user', request, function(result) {
       console.log(result);
@@ -85,7 +63,7 @@ function accountDataEvent() {
     var request = {};
     var id = $(this).data('account_id');
 
-    $.put('/api/manager/user' + id, function(result) {
+    $.put('/api/manager/user/' + id, function(result) {
       console.log(result);
     });
   });
@@ -93,7 +71,7 @@ function accountDataEvent() {
   // delete Account
   $('.delete_account').unbind('click');
   $('.delete_account').click(function() {
-    $.delete('/api/manager/user' + id, function(result) {
+    $.delete('/api/manager/user/' + id, function(result) {
       console.log(result);
     });
   });
