@@ -2369,6 +2369,10 @@ webpackJsonp([0],{
 	    filter: {
 	      type: String,
 	      required: true
+	    },
+	    delete: {
+	      type: Boolean,
+	      default: true
 	    }
 	  },
 	  data: function data() {
@@ -2379,6 +2383,9 @@ webpackJsonp([0],{
 	  },
 
 	  methods: {
+	    deleteSetting: function deleteSetting(id) {
+	      console.log('Delete setting ' + id);
+	    },
 	    update: function update() {
 	      var self = this;
 	      var filter = this.filter;
@@ -2394,14 +2401,14 @@ webpackJsonp([0],{
 /***/ 312:
 /***/ function(module, exports) {
 
-	module.exports = "\n<h5>{{title}}</h5>\n<div class=\"Setting-List\">\n  <ul class=\"collection\">\n    <li class=\"collection-item\" v-for=\"setting in settings\">\n      <div>\n        <div>{{setting.zone_name}}: {{setting.date_began_at}} ~ {{setting.date_ended_at}}</div>\n        <div>學生借用開始：{{setting.stu_date_began_at}}, Lab 借用開始：{{setting.lab_date_began_at}}</div>\n      </div>\n    </li>\n  </ul>\n</div>\n";
+	module.exports = "\n<h5>{{title}}</h5>\n<div class=\"Setting-List\">\n  <ul class=\"collection\">\n    <li class=\"collection-item\" v-for=\"setting in settings\">\n      <div>\n        <a v-if=\"delete\" @click.prevent=\"deleteSetting(1)\" class=\"btn-floating wave-effect secondary-content\">\n          <i class=\"material-icons\">delete</i>\n        </a>\n        <div>{{setting.zone_name}}: {{setting.date_began_at}} ~ {{setting.date_ended_at}}</div>\n        <div>學生借用開始：{{setting.stu_date_began_at}}, Lab 借用開始：{{setting.lab_date_began_at}}</div>\n      </div>\n    </li>\n  </ul>\n</div>\n";
 
 /***/ },
 
 /***/ 313:
 /***/ function(module, exports) {
 
-	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list v-ref:setting-now title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list v-ref:setting-history title=\"歷史設定\" filter=\"<=\">\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form v-on:setting-add=\"update\"></setting-form>\n  </div>\n</div>\n";
+	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list v-ref:setting-now title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list v-ref:setting-history title=\"歷史設定\" filter=\"<=\" :delete=\"false\"></setting-list>\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form v-on:setting-add=\"update\"></setting-form>\n  </div>\n</div>\n";
 
 /***/ },
 
