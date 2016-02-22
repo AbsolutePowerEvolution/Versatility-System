@@ -171,7 +171,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/signin.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/signin.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -186,13 +186,13 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var _symbol = __webpack_require__(204);
-
-	var _symbol2 = _interopRequireDefault(_symbol);
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _symbol = __webpack_require__(204);
+
+	var _symbol2 = _interopRequireDefault(_symbol);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1058,7 +1058,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/examine.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/examine.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1073,13 +1073,13 @@ webpackJsonp([0],{
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
-	var _create = __webpack_require__(289);
-
-	var _create2 = _interopRequireDefault(_create);
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _create = __webpack_require__(289);
+
+	var _create2 = _interopRequireDefault(_create);
 
 	var _when = __webpack_require__(243);
 
@@ -1215,7 +1215,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/admin-menu.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1263,7 +1263,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/pagination.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/pagination.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1278,13 +1278,13 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	var _create = __webpack_require__(289);
-
-	var _create2 = _interopRequireDefault(_create);
-
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _create = __webpack_require__(289);
+
+	var _create2 = _interopRequireDefault(_create);
 
 	var _jquery = __webpack_require__(1);
 
@@ -1797,15 +1797,11 @@ webpackJsonp([0],{
 	    $totalReturnPropertyModal.find('#total_return_property_code').val('');
 	    loanIdContent = [];
 	  });
-	  $totalReturnPropertyModal.find('#total_return_username').on('keyup', function (event) {
-	    $totalReturnPropertyModal.find('#total_return_property_code').focus();
-	  });
 	  $totalReturnPropertyModal.find('#total_return_property_code').on('keyup', function (event) {
 	    var code = $(this).val();
-	    var username = $totalReturnPropertyModal.find('#total_return_username').val();
 	    var loan;
 	    if (loan = loanData.find(function (data) {
-	      return data.code === code && data.user.username === username && (data.status.name === 'accepted' || data.status.name === 'submitted');
+	      return data.code === code && (data.status.name === 'accepted' || data.status.name === 'submitted');
 	    })) {
 	      loanNreturnAppend($totalReturnPropertyModal, '#total_return_property_content', code, loan.property_name, loanIdContent, loan.id);
 	      $(this).val('');
@@ -2053,7 +2049,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/setting.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2117,7 +2113,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-form.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/setting-form.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2227,7 +2223,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2313,7 +2309,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-list.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/setting-list.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2982,7 +2978,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/schedule.vue"
+	  var id = "/home/edward/VersatilitySystem/resources/assets/components/schedule.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {

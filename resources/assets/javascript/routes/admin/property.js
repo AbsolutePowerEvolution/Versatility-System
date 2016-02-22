@@ -333,14 +333,10 @@ function returnProperty(loanData) {
     $totalReturnPropertyModal.find('#total_return_property_code').val('');
     loanIdContent = [];
   });
-  $totalReturnPropertyModal.find('#total_return_username').on('keyup', function(event) {
-    $totalReturnPropertyModal.find('#total_return_property_code').focus();
-  });
   $totalReturnPropertyModal.find('#total_return_property_code').on('keyup', function(event) {
     var code = $(this).val();
-    var username = $totalReturnPropertyModal.find('#total_return_username').val();
     var loan;
-    if(loan = loanData.find((data) => (data.code === code && data.user.username === username &&
+    if(loan = loanData.find((data) => (data.code === code &&
                               (data.status.name === 'accepted' || data.status.name === 'submitted')))) {
       loanNreturnAppend($totalReturnPropertyModal, '#total_return_property_content', code,
                         loan.property_name, loanIdContent, loan.id);

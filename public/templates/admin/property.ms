@@ -172,10 +172,6 @@
         <div class="modal-content">
             <a class=" modal-action modal-close waves-effect waves-green btn-flat right">關閉</a>
             <h4>財產歸還</h4><br/>
-            <div class="input-field">
-                <input id="total_return_username" type="text"/>
-                <label for="total_return_username">學號</label>
-            </div>
             <div class="input-field row">
                 <input id="total_return_property_code" class="col s5" type="text"/>
                 <label for="total_return_property_code">財產條碼</label>
