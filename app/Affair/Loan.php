@@ -87,8 +87,8 @@ class Loan extends Entity
     {
         $conflict_query = DB::table('loans');
 
-        if ($p_id != null) {
-            $conflict_query->where('property_id', '=', $p_id);
+        if ($property_id != null) {
+            $conflict_query->where('property_id', '=', $property_id);
         }
 
         $conflict_query
