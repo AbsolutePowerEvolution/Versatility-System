@@ -4,6 +4,9 @@
     <ul class="collection">
       <li class="collection-item" v-for="setting in settings">
         <div>
+          <a v-if="delete" @click.prevent="deleteSetting(1)" class="btn-floating wave-effect secondary-content">
+            <i class="material-icons">delete</i>
+          </a>
           <div>{{setting.zone_name}}: {{setting.date_began_at}} ~ {{setting.date_ended_at}}</div>
           <div>學生借用開始：{{setting.stu_date_began_at}}, Lab 借用開始：{{setting.lab_date_began_at}}</div>
         </div>
@@ -23,6 +26,10 @@
       filter: {
         type: String,
         required: true
+      },
+      delete: {
+        type: Boolean,
+        default: true
       }
     },
     data() {
@@ -32,6 +39,9 @@
       this.update();
     },
     methods: {
+      deleteSetting(id) {
+        console.log(`Delete setting ${id}`);
+      },
       update() {
         let self = this;
         let filter = this.filter;
