@@ -28,7 +28,7 @@ class Property extends Entity
     protected $fillable = ['name', 'describe', 'category', 'status', 'code'];
 
     /**
-     * 取得財產分類
+     * 取得財產分類.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -38,7 +38,7 @@ class Property extends Entity
     }
 
     /**
-     * 取得財產狀態
+     * 取得財產狀態.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -48,7 +48,7 @@ class Property extends Entity
     }
 
     /**
-     * 取得財產借用紀錄
+     * 取得財產借用紀錄.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -58,22 +58,23 @@ class Property extends Entity
     }
 
     /**
-     * 取得有效教室借用
+     * 取得有效教室借用.
      *
      * @return
      */
-    public function loanClassroom(){
+    public function loanClassroom()
+    {
         return $this->hasMany(Loan::class)
             ->join('categories as ct', 'type', '=', 'ct.id')
             ->whereIn('status', Category::getCategoryIds(['loan.status' => [
                 'accepted',
-                'processing'
+                'processing',
             ]]))
             ->select('loans.*', 'ct.category', 'ct.name');
     }
 
     /**
-     * 取得財產維修紀錄
+     * 取得財產維修紀錄.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

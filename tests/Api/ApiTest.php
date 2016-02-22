@@ -38,7 +38,7 @@ class ApiTest extends TestCase
     }
 
     /**
-     * 確保測試帳號已建立
+     * 確保測試帳號已建立.
      *
      * @return void
      */
@@ -56,7 +56,7 @@ class ApiTest extends TestCase
     }
 
     /**
-     * 以一般使用者身份登入
+     * 以一般使用者身份登入.
      *
      * @param string $username
      */
@@ -66,7 +66,7 @@ class ApiTest extends TestCase
     }
 
     /**
-     * 以 lab 帳號身份登入
+     * 以 lab 帳號身份登入.
      *
      * @return void
      */
@@ -76,7 +76,7 @@ class ApiTest extends TestCase
     }
 
     /**
-     * 以管理員帳號身份登入
+     * 以管理員帳號身份登入.
      *
      * @return void
      */
@@ -86,7 +86,7 @@ class ApiTest extends TestCase
     }
 
     /**
-     * 取得測試財產資料 id
+     * 取得測試財產資料 id.
      *
      * @param bool $normal
      * @param bool $classroom

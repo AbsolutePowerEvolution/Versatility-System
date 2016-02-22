@@ -54,7 +54,7 @@ class SuccessTest extends LoanTest
     {
         $loan = Loan::find($this->getTestLoanId());
 
-        $this->call('PUT', '/class-verify/' . $loan->getAttribute('id'), [
+        $this->call('PUT', '/class-verify/'.$loan->getAttribute('id'), [
             'status' => $this->randomCategoryName('loan.status'),
         ]);
         $this->assertResponseOk();

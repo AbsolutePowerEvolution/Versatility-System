@@ -19,21 +19,21 @@ class InvalidInputTest extends PropertyTest
 
         $this->signIn();
     }
-    
+
     /** @test */
     public function visit_classrooms_with_negative_page_length()
     {
         $this->call('GET', '/classrooms', ['length' => -135]);
         $this->assertResponseUnprocessableEntity();
     }
-    
+
     /** @test */
     public function visit_classrooms_with_zero_page_length()
     {
         $this->call('GET', '/classrooms', ['length' => 0]);
         $this->assertResponseUnprocessableEntity();
     }
-    
+
     /** @test */
     public function visit_classrooms_with_non_integer_page_length()
     {

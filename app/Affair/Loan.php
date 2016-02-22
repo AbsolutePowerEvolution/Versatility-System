@@ -2,9 +2,7 @@
 
 namespace App\Affair;
 
-use DB;
-use App\Affair\Timezone;
-use App\Affair\Core\Entity;
+use DB;use App\Affair\Core\Entity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Loan extends Entity
@@ -31,13 +29,13 @@ class Loan extends Entity
      * @var array
      */
     protected $fillable = [
-        'user_id', 'property_id', 'type','status',
+        'user_id', 'property_id', 'type', 'status',
         'date_began_at', 'date_ended_at', 'time_began_at', 'time_ended_at',
-        'remark', 'long_term_token'
+        'remark', 'long_term_token',
     ];
 
     /**
-     * 取得借用之財產
+     * 取得借用之財產.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -47,7 +45,7 @@ class Loan extends Entity
     }
 
     /**
-     * 取得借用狀態
+     * 取得借用狀態.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -57,7 +55,7 @@ class Loan extends Entity
     }
 
     /**
-     * 取得借用類型
+     * 取得借用類型.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -67,7 +65,7 @@ class Loan extends Entity
     }
 
     /**
-     * 取得借用者
+     * 取得借用者.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -77,7 +75,7 @@ class Loan extends Entity
     }
 
     /**
-     * get conflict loan record query
+     * get conflict loan record query.
      *
      * @param array $date_info
      * @param array $time_info
@@ -113,7 +111,7 @@ class Loan extends Entity
     }
 
     /**
-     * check loan data conflict or not
+     * check loan data conflict or not.
      *
      * @param array $date_info
      * @param array $time_info
@@ -122,15 +120,15 @@ class Loan extends Entity
      */
     public static function checkConflict($p_id, $date_info, $time_info, $LTK)
     {
-        $LTK = ((int)$LTK === 0)? 1<<date('w', strtotime($date_info[0])):(int)$LTK;
+        $LTK = ((int) $LTK === 0) ? 1 << date('w', strtotime($date_info[0])) : (int) $LTK;
 
         $conflict_num = self::getConflictQuery($p_id, $date_info, $time_info, $LTK)->count();
 
-        return ($conflict_num > 0);
+        return $conflict_num > 0;
     }
 
     /**
-     * get the query for that conflict to the provide date
+     * get the query for that conflict to the provide date.
      *
      * @param int $p_id
      * @param string $date
@@ -151,7 +149,7 @@ class Loan extends Entity
     }
 
     /**
-     * check the loan duration is bad or not
+     * check the loan duration is bad or not.
      *
      * @param array $date_info
      * @param array $time_info

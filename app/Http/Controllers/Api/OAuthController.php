@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Auth;
 use Cache;
@@ -14,7 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class OAuthController extends Controller
 {
     /**
-     * redirect_uri 所需附加上的參數
+     * redirect_uri 所需附加上的參數.
      *
      * @var array
      */
@@ -37,12 +36,12 @@ class OAuthController extends Controller
         $this->storeOAuthDataToCache();
 
         return redirect()->away(
-            $request->input('redirect_uri') . $this->generateParameters()
+            $request->input('redirect_uri').$this->generateParameters()
         );
     }
 
     /**
-     * 檢查參數是否正確
+     * 檢查參數是否正確.
      *
      * @param Request $request
      * @return void
@@ -52,7 +51,7 @@ class OAuthController extends Controller
     {
         if (! $request->has('redirect_uri')) {
             throw new BadRequestHttpException('The parameter redirect_uri is required.');
-        } else if (false === filter_var($request->input('redirect_uri'), FILTER_VALIDATE_URL)) {
+        } elseif (false === filter_var($request->input('redirect_uri'), FILTER_VALIDATE_URL)) {
             throw new BadRequestHttpException('The parameter redirect_uri is invalid.');
         }
 
@@ -60,14 +59,13 @@ class OAuthController extends Controller
     }
 
     /**
-     * 將使用者資訊存到 Cache 中
+     * 將使用者資訊存到 Cache 中.
      *
      * @return void
      */
     protected function storeOAuthDataToCache()
     {
         /** @var $user \App\Affair\User */
-
         list($token, $user) = [str_random(64), Auth::user()];
 
         Cache::tags('oauth')->put($token, [
@@ -80,7 +78,7 @@ class OAuthController extends Controller
     }
 
     /**
-     * 產生回傳網址參數
+     * 產生回傳網址參數.
      *
      * @return string
      */
@@ -98,7 +96,7 @@ class OAuthController extends Controller
     }
 
     /**
-     * 驗證 token 並回傳 OAuth 資料
+     * 驗證 token 並回傳 OAuth 資料.
      *
      * @param string $encryptToken
      * @return \Illuminate\Http\JsonResponse

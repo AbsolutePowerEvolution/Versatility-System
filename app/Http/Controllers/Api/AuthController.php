@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-
 use Auth;
 use App\Affair\User;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class AuthController extends Controller
@@ -25,7 +23,7 @@ class AuthController extends Controller
 
         // if login failed
         if (
-            !Auth::attempt(['username' => $username, 'password' => $password ]) &&
+            ! Auth::attempt(['username' => $username, 'password' => $password]) &&
             false // check with center.
         ) {
             $user = User::where('username', '=', $username)->first();
@@ -35,14 +33,14 @@ class AuthController extends Controller
         $response = [
             'is_student' => \Entrust::hasRole('student'),
             'is_manager' => \Entrust::hasRole('manager'),
-            'status' => Auth::check()
+            'status' => Auth::check(),
         ];
 
         return response()->json($response);
     }
 
     /**
-     * Logout
+     * Logout.
      *
      * @return Json
      */
@@ -50,6 +48,6 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return response()->json(['status' => !Auth::check()]);
+        return response()->json(['status' => ! Auth::check()]);
     }
 }

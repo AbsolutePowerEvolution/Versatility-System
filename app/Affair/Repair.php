@@ -31,7 +31,7 @@ class Repair extends Entity
     protected $fillable = ['user_id', 'title', 'type', 'remark', 'status'];
 
     /**
-     * 取得報修狀態
+     * 取得報修狀態.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -41,7 +41,7 @@ class Repair extends Entity
     }
 
     /**
-     * 取得報修類型
+     * 取得報修類型.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -51,7 +51,7 @@ class Repair extends Entity
     }
 
     /**
-     * 取得報修者
+     * 取得報修者.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

@@ -15,7 +15,7 @@ class RepairTest extends ApiTest
     protected $baseUrl = 'http://localhost/api/user/repair';
 
     /**
-     * 取得測試報修資料 id
+     * 取得測試報修資料 id.
      *
      * @param bool $classroom
      * @return int
