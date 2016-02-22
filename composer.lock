@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a9a8efb1cde2c4431785aebd6af93e71",
-    "content-hash": "8e14ec1821b5c8c6853df89dadb84aaa",
+    "hash": "83c76d1fa56556dad4fe3034478afcf5",
+    "content-hash": "6699e5fc61fcb6e01596a77649e93fcb",
     "packages": [
         {
             "name": "bepsvpt/laravel-security-header",
