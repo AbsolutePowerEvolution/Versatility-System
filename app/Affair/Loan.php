@@ -158,7 +158,7 @@ class Loan extends Entity
      * @return bool
      */
     public static function checkDuration($date_info, $time_info, $timezone)
-    {
+        {
         if ($date_info[0] > $date_info[1] || $time_info[0] >= $time_info[1]) {
             return false;
         }
@@ -172,11 +172,6 @@ class Loan extends Entity
                     $date_info[0] != $date_info[1] ||
                     (strtotime($time_info[1]) - strtotime($time_info[0])) > 3600 * 3
                 ) {
-                    return false;
-                }
-            } else {
-                // is the duration longer than two weeks?
-                if ((strtotime($date_info[1]) - strtotime($date_info[0])) > 3600 * 24 * 14) {
                     return false;
                 }
             }
