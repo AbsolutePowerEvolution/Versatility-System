@@ -2,7 +2,8 @@
 
 namespace App\Affair;
 
-use DB;use App\Affair\Core\Entity;
+use App\Affair\Core\Entity;
+use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Loan extends Entity

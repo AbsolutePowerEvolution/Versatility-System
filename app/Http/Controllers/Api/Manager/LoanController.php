@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
-use Illuminate\Http\Request;
 use App\Affair\Loan;
 use App\Affair\Category;
 use App\Affair\User;
 use App\Affair\Timezone;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class LoanController extends Controller
 {

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
-use Illuminate\Http\Request;
 use App\Affair\Property;
 use App\Affair\Category;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class PropertyController extends Controller
 {

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use Illuminate\Http\Request;
 use Auth;
 use App\Affair\Loan;
 use App\Affair\Category;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class LoanController extends Controller
 {
