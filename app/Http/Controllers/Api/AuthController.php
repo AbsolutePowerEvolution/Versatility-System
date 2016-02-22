@@ -23,13 +23,8 @@ class AuthController extends Controller
 
         // if login failed
         if (
-<<<<<<< Updated upstream
-            ! Auth::attempt(['username' => $username, 'password' => $password]) &&
-            false // check with center.
-=======
             !Auth::attempt(['username' => $username, 'password' => $password ]) &&
             self::loginCheckSSO($username, $password) === 'SUCCESS'// check with center.
->>>>>>> Stashed changes
         ) {
             $user = User::where('username', '=', $username)->first();
             Auth::login($user);
