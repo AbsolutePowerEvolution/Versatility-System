@@ -3,7 +3,7 @@
   <div class="container Setting-Container">
     <div class="m6 Setting-Column">
       <setting-list v-ref:setting-now title="目前設定" filter=">"></setting-list>
-      <setting-list v-ref:setting-history title="歷史設定" filter="<=">
+      <setting-list v-ref:setting-history title="歷史設定" filter="<=" :delete="false"></setting-list>
     </div>
     <div class="m6 Setting-Column">
       <setting-form v-on:setting-add="update"></setting-form>

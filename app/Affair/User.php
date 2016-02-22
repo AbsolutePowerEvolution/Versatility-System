@@ -38,7 +38,7 @@ class User extends Entity implements AuthenticatableContract,
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * 取得使用者借用紀錄
+     * 取得使用者借用紀錄.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -48,7 +48,7 @@ class User extends Entity implements AuthenticatableContract,
     }
 
     /**
-     * 取得使用者報修紀錄
+     * 取得使用者報修紀錄.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

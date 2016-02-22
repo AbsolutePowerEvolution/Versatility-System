@@ -15,7 +15,7 @@ class LoanTest extends ApiTest
     protected $baseUrl = 'http://localhost/api/user/loan';
 
     /**
-     * 取得測試借用資料 id
+     * 取得測試借用資料 id.
      *
      * @param bool $classroom
      * @return int

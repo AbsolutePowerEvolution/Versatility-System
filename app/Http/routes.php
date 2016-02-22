@@ -1,7 +1,6 @@
 <?php
 
 /** @var Router $router */
-
 use Illuminate\Routing\Router;
 
 /*
@@ -33,6 +32,7 @@ $router->group(['middleware' => ['web', 'header']], function (Router $router) {
 $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'], function (Router $router) {
     $router->get('login/{id}', function ($id) {
         Auth::loginUsingId($id);
+
         return 0;
     });
     $router->post('login/sso', ['as' => 'api.user.login.login', 'uses' => 'User\LoginController@login']);
@@ -67,7 +67,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
             $router->post('create', [
                 'middleware' => ['loanable'],
                 'as' => 'api.user.loan.class.create',
-                'uses' => 'User\LoanController@storeClassroomBorrow']);
+                'uses' => 'User\LoanController@storeClassroomBorrow', ]);
         });
     });
 
@@ -101,6 +101,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         $router->group(['prefix' => 'setting'], function (Router $router) {
             $router->get('/', ['as' => 'api.man.setting.get', 'uses' => 'Manager\LoanController@getClassroomBorrowInfo']);
             $router->put('/', ['as' => 'api.man.setting.set', 'uses' => 'Manager\LoanController@setClassroomBorrowInfo']);
+            $router->delete('/{id}', ['as' => 'api.man.setting.delete', 'uses' => 'Manager\LoanController@deleteClassroomBorrowInfo']);
         });
 
         $router->group(['prefix' => 'user'], function (Router $router) {

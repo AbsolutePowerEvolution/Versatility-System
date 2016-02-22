@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
-use Illuminate\Http\Request;
-
 use App\Affair\Property;
 use App\Affair\Category;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class PropertyController extends Controller
 {
@@ -20,7 +18,7 @@ class PropertyController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = ($request->input('length') > 0)? $request->input('length'):10;
+        $length = ($request->input('length') > 0) ? $request->input('length') : 10;
 
         // get property list
         $property_list = Property::with(['category', 'status'])
@@ -62,7 +60,7 @@ class PropertyController extends Controller
                 'status',
                 'loanClassroom' => function ($query) use ($date) {
                     $query->where('date_ended_at', '>=', $date);
-                }
+                },
             ])
             ->where('category', Category::getCategoryId('property', 'classroom'))
             ->get();
@@ -82,10 +80,10 @@ class PropertyController extends Controller
         Property::create(array_merge(array_only($request->all(), [
                 'name',
                 'code',
-                'describe'
+                'describe',
             ]), [
                 'category' => Category::getCategoryId('property', $request->input('category')),
-                'status' => Category::getCategoryId('property.status', 'normal')
+                'status' => Category::getCategoryId('property.status', 'normal'),
             ]));
 
         return response()->json(['status' => 0]);
@@ -103,7 +101,7 @@ class PropertyController extends Controller
         $update_array = array_only($request->all(), [
                 'name',
                 'describe',
-                'status'
+                'status',
             ]);
 
         if ($update_array['status']) {
@@ -113,7 +111,7 @@ class PropertyController extends Controller
         $affect_rows = Property::where('id', '=', $id)
             ->update($update_array);
 
-        return response()->json(['status' => ($affect_rows==1)? 0:2]);
+        return response()->json(['status' => ($affect_rows == 1) ? 0 : 2]);
     }
 
     /**
@@ -127,6 +125,6 @@ class PropertyController extends Controller
         $affect_rows = Property::where('id', '=', $id)
             ->update(['status' => Category::getCategoryId('property.status', 'deleted')]);
 
-        return response()->json(['status' => ($affect_rows==1)? 0:2]);
+        return response()->json(['status' => ($affect_rows == 1) ? 0 : 2]);
     }
 }

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
-use Illuminate\Http\Request;
-
 use App\Affair\Property;
 use App\Affair\Repair;
 use App\Affair\Category;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class RepairController extends Controller
 {
@@ -21,12 +19,12 @@ class RepairController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = ($request->input('length') > 0)? $request->input('length'):10;
+        $length = ($request->input('length') > 0) ? $request->input('length') : 10;
 
         $repair_list = Repair::with([
                 'status',
                 'type',
-                'user'
+                'user',
             ])
             ->where('status', '=', Category::getCategoryId('repair.status', 'submitted'))
             ->paginate($length);
@@ -37,7 +35,7 @@ class RepairController extends Controller
 
     /**
      * Update the repair list's status to finished
-     * and also update the aim property to status -normal
+     * and also update the aim property to status -normal.
      *
      * @param  Request  $request
      * @return Json
@@ -47,7 +45,7 @@ class RepairController extends Controller
         // get repair list
         $repair_list = $request->input('repair_list');
 
-        if (!is_array($repair_list)) {
+        if (! is_array($repair_list)) {
             return response()->json(['status' => 2]); // paramater error.
         }
 

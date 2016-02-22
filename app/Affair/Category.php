@@ -29,7 +29,7 @@ class Category extends Entity
     protected $fillable = ['category', 'name'];
 
     /**
-     * get category id
+     * get category id.
      *
      * @param string category
      * @param string name
@@ -40,11 +40,11 @@ class Category extends Entity
             ->where('name', $name)
             ->first()['id'];
 
-        return ($id != null)? $id:0;
+        return ($id != null) ? $id : 0;
     }
 
     /**
-     * get CategoryIds with provided data
+     * get CategoryIds with provided data.
      *
      * @param array $datas
      * @return array $ids
@@ -64,7 +64,7 @@ class Category extends Entity
                             $query->orWhere('name', '=', $name);
                         }
                     });
-                } else if(!is_array($data)){
+                } elseif (! is_array($data)) {
                     $query->where('name', '=', $data);
                 }
             });
@@ -82,7 +82,6 @@ class Category extends Entity
     public static function getCategories($category = '', $name = '', $firstId = false)
     {
         /** @var $categories \Illuminate\Database\Eloquent\Collection|static[] */
-
         $categories = Cache::remember('categoriesTable', static::MINUTES_PER_WEEK, function () {
             return static::all();
         });
@@ -94,7 +93,7 @@ class Category extends Entity
         $issetName = ! empty($name);
 
         $categories = $categories->filter(function ($item) use ($category, $issetName, $name) {
-            /** @var $item Category */
+            /* @var $item Category */
 
             $filter = $item->getAttribute('category') === $category;
 

@@ -57,7 +57,7 @@ return [
         'pins' => [
             'XLoUgpqzldf90EhmzcFl1KbHprnCMgaMYShCtuXC+cM=',
             'YLh1dUR9y6Kja30RrAn7JKnbQG/uEtLMkBgFF2Fuihg=',
-            'sm/7PZmxEIdYTR3jGeOqnAByUSAolO3eSo95ZCTE1Bc='
+            'sm/7PZmxEIdYTR3jGeOqnAByUSAolO3eSo95ZCTE1Bc=',
         ],
 
         'max_age' => 300,

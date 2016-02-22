@@ -8,12 +8,12 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class InvalidInputTest extends LoanTest
 {
     use DatabaseTransactions;
-    
+
     /**
      * @var int
      */
     protected $propertyId;
-    
+
     /**
      * @var int
      */
@@ -31,7 +31,7 @@ class InvalidInputTest extends LoanTest
         $this->signInWithManager();
 
         $this->propertyId = $this->getTestPropertyId(true);
-        
+
         $this->userId = User::where('username', 'test')->first()->getAttribute('id');
     }
 

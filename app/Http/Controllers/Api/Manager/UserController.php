@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
-use Illuminate\Http\Request;
-
 use App\Affair\User;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -18,7 +16,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = ($request->input('length') > 0)? $request->input('length'):10;
+        $length = ($request->input('length') > 0) ? $request->input('length') : 10;
 
         // get user list
         $user_list = User::paginate($length);
@@ -39,7 +37,7 @@ class UserController extends Controller
                 'password',
                 'nickname',
                 'email',
-                'phone'
+                'phone',
             ]));
 
         return response()->json(['status' => 0]);
@@ -93,10 +91,10 @@ class UserController extends Controller
             'password' => $request->input('password'),
             'nickname' => $request->input('nickname'),
             'email' => $request->input('email'),
-            'phone' => $request->input('phone')
+            'phone' => $request->input('phone'),
         ]);
 
-        return response()->json(['status' => ($affect_row==1)? 0:2]);
+        return response()->json(['status' => ($affect_row == 1) ? 0 : 2]);
     }
 
     /**
@@ -110,6 +108,6 @@ class UserController extends Controller
         $result = User::whereIn('username', $request->input('usernames'))
             ->delete();
 
-        return response()->json(['status' => ($result? 0:2)]);
+        return response()->json(['status' => ($result ? 0 : 2)]);
     }
 }

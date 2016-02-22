@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use Illuminate\Http\Request;
-
 use Auth;
-use App\Affair\Property;
 use App\Affair\Repair;
 use App\Affair\Category;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class RepairController extends Controller
 {
@@ -22,11 +19,11 @@ class RepairController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = ($request->input('length') > 0)? ($request->input('length')):10;
+        $length = ($request->input('length') > 0) ? ($request->input('length')) : 10;
 
         $repair_list = Repair::with([
                 'type',
-                'status'
+                'status',
             ])
             ->where('user_id', Auth::user()->id)
             ->paginate($length);
@@ -45,11 +42,11 @@ class RepairController extends Controller
         // To avoid user to request for repair two or more times.
         Repair::create(array_merge(array_only($request->all(), [
                 'title',
-                'remark'
+                'remark',
             ]), [
                 'user_id' => Auth::user()->id,
                 'type' => Category::getCategoryId('repair.type', $request->input('type')),
-                'status' => Category::getCategoryId('repair.status', 'submitted')
+                'status' => Category::getCategoryId('repair.status', 'submitted'),
             ]));
 
         return response()->json(['status' => 0]);
@@ -72,6 +69,6 @@ class RepairController extends Controller
         $repair->status = Category::getCategoryId('repair.status', 'canceled');
         $result = $repair->save();
 
-        return response()->json(['status' => ($result === true)? 0:2]);
+        return response()->json(['status' => ($result === true) ? 0 : 2]);
     }
 }

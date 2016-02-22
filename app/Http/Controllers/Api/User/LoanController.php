@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use Illuminate\Http\Request;
-
-use DB;
 use Auth;
 use App\Affair\Loan;
 use App\Affair\Category;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class LoanController extends Controller
 {
@@ -22,13 +19,13 @@ class LoanController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = ($request->input('length') > 0)? ($request->input('length')):10;
+        $length = ($request->input('length') > 0) ? ($request->input('length')) : 10;
         $loan_type = Category::getCategoryId('loan.type', $request->input('type'));
 
         // get borrow query
         $borrow_query = Loan::with([
                 'type',
-                'status'
+                'status',
             ])
             ->join('properties as pro_t', function ($query) {
                 $query->on('pro_t.id', '=', 'property_id')
@@ -37,14 +34,14 @@ class LoanController extends Controller
             ->where('user_id', '=', Auth::user()->id);
 
         // if loan type is set
-        $borrow_query = ($loan_type > 0)? $borrow_query->where('type', '=', $loan_type)
+        $borrow_query = ($loan_type > 0) ? $borrow_query->where('type', '=', $loan_type)
             : $borrow_query;
 
         // get borrow list
         $borrow_list = $borrow_query
             ->paginate($length, [
                 'loans.*',
-                'pro_t.name as property_name'
+                'pro_t.name as property_name',
             ]);
 
         return response()->json($borrow_list);
@@ -59,11 +56,11 @@ class LoanController extends Controller
     public function indexClassroomBorrow(Request $request)
     {
         // get length
-        $length = ($request->input('length') > 0)? ($request->input('length')):10;
+        $length = ($request->input('length') > 0) ? ($request->input('length')) : 10;
 
         $borrow_list = Loan::with([
                 'type',
-                'status'
+                'status',
             ])
             ->join('properties as pro_t', function ($query) {
                 $query->on('pro_t.id', '=', 'property_id')
@@ -86,14 +83,14 @@ class LoanController extends Controller
      */
     public function storeClassroomBorrow(Request $request)
     {
-        $p_id      = $request->input('property_id');
-        $LTK       = $request->input('long_term_token');
-        $timezone  = $request->input('timezone');
+        $p_id = $request->input('property_id');
+        $LTK = $request->input('long_term_token');
+        $timezone = $request->input('timezone');
         $date_info = [$request->input('date_began_at'), $request->input('date_ended_at')];
         $time_info = [$request->input('time_began_at'), $request->input('time_ended_at')];
 
         // return if the loan duration is bad
-        if (!Loan::checkDuration($date_info, $time_info, $timezone)) {
+        if (! Loan::checkDuration($date_info, $time_info, $timezone)) {
             return response()->json(['status' => 3]);
         }
 
@@ -114,7 +111,7 @@ class LoanController extends Controller
                 'user_id' => Auth::user()->id,
                 'type' => Category::getCategoryId('loan.type', $request->input('type')),
                 'status' => Category::getCategoryId('loan.status', 'processing'),
-                'long_term_token' => $request->input('long_term_token')
+                'long_term_token' => $request->input('long_term_token'),
             ]));
 
         return response()->json(['status' => 0]);
@@ -131,9 +128,9 @@ class LoanController extends Controller
         $affect_rows = Loan::where('id', '=', $id)
             ->where('user_id', '=', Auth::user()->id)
             ->update([
-                'status' => Category::getCategoryId('loan.status', 'canceled')
+                'status' => Category::getCategoryId('loan.status', 'canceled'),
             ]);
 
-        return response()->json(['status' => ($affect_rows==1)? 0:2]);
+        return response()->json(['status' => ($affect_rows == 1) ? 0 : 2]);
     }
 }
