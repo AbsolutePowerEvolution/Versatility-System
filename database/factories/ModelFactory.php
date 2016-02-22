@@ -12,12 +12,9 @@
 */
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
-
 use App\Affair\Category;
 use App\Affair\User;
 use Carbon\Carbon;
-
-
 
 $factory->define(User::class, function () {
     $faker = Faker\Factory::create('zh_TW');
@@ -27,7 +24,7 @@ $factory->define(User::class, function () {
         'password' => bcrypt($faker->password),
         'nickname' => $faker->name,
         'email' => $faker->email,
-        'phone' => '09' . mt_rand(10000000, 99999999),
+        'phone' => '09'.mt_rand(10000000, 99999999),
     ];
 });
 
@@ -39,7 +36,7 @@ $factory->define(\App\Affair\Property::class, function () {
         'describe' => $faker->realText(16),
         'category' => Category::getCategories('property')->random()->getAttribute('id'),
         'status' => Category::getCategories('property.status')->random()->getAttribute('id'),
-        'code' => mt_rand(10000000, 99999999)
+        'code' => mt_rand(10000000, 99999999),
     ];
 });
 
@@ -48,7 +45,7 @@ $factory->define(\App\Affair\Repair::class, function () {
 
     return [
         'user_id' => User::all()->random()->getAttribute('id'),
-        'title' => mt_rand(0, 1)? $faker->realText(mt_rand(10, 15)):'',
+        'title' => mt_rand(0, 1) ? $faker->realText(mt_rand(10, 15)) : '',
         'type' => Category::getCategories('repair.type')->random()->getAttribute('id'),
         'remark' => $faker->realText(32),
         'status' => Category::getCategories('repair.status')->random()->getAttribute('id'),
@@ -79,7 +76,7 @@ $factory->define(\App\Affair\Timezone::class, function () {
     $stu_start = clone $day;
     $lab_start = clone $day;
 
-    if(mt_rand(0, 1) === 1) {
+    if (mt_rand(0, 1) === 1) {
         $type = Category::getCategoryId('time.type', 'semester');
     } else {
         $type = Category::getCategoryId('time.type', 'vacation');

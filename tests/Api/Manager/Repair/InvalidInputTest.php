@@ -28,7 +28,7 @@ class InvalidInputTest extends RepairTest
         ]);
         $this->assertResponseUnprocessableEntity();
     }
-    
+
     /** @test */
     public function update_repair_with_invalid_list_2()
     {
@@ -37,7 +37,7 @@ class InvalidInputTest extends RepairTest
         ]);
         $this->assertResponseUnprocessableEntity();
     }
-    
+
     /** @test */
     public function update_repair_with_invalid_list_3()
     {
@@ -46,7 +46,7 @@ class InvalidInputTest extends RepairTest
         ]);
         $this->assertResponseUnprocessableEntity();
     }
-    
+
     /** @test */
     public function update_repair_with_invalid_list_4()
     {

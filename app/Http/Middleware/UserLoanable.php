@@ -2,12 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use Cache;
 use Closure;
-use Carbon\Carbon;
 use App\Affair\Category;
-
 use App\Affair\Timezone;
+
 class UserLoanable
 {
     /**
@@ -19,7 +17,7 @@ class UserLoanable
      */
     public function handle($request, Closure $next)
     {
-        if(
+        if (
             \Entrust::hasRole('student') &&
             $request->input('type') == Category::getCategoryId('loan.type', 'interview')
         ) {
@@ -32,11 +30,12 @@ class UserLoanable
             ->where('date_ended_at', '>=', $request->input('date_ended_at'))
             ->first();
 
-        if($timezone != null) {
+        if ($timezone != null) {
             $request->merge([
                 'timezone' => $timezone,
-                'long_term_token' => bindec($request->input('long_term_token'))
+                'long_term_token' => bindec($request->input('long_term_token')),
             ]);
+
             return $next($request);
         } else {
             return abort(403);

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'url' => (env('FORCE_HTTPS', false) ? 'https' : 'http') . '://cms.cs.ccu.edu.tw',
+    'url' => (env('FORCE_HTTPS', false) ? 'https' : 'http').'://cms.cs.ccu.edu.tw',
 
     /*
     |--------------------------------------------------------------------------

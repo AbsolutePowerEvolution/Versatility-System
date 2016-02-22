@@ -56,7 +56,7 @@ class PermissionTest extends LoanTest
         $loanId = $this->getTestLoanId();
 
         $this->signInWithLab();
-            $this->call('PUT', "/class-verify/{$loanId}");
+        $this->call('PUT', "/class-verify/{$loanId}");
         $this->assertResponseForbidden();
     }
 

@@ -35,7 +35,7 @@ class DuplicateTest extends LoanTest
     }
 
     /**
-     * 初始化借用資料
+     * 初始化借用資料.
      *
      * @return void
      */
@@ -47,7 +47,7 @@ class DuplicateTest extends LoanTest
     }
 
     /**
-     * 借用教室
+     * 借用教室.
      *
      * @return void
      */
@@ -61,7 +61,7 @@ class DuplicateTest extends LoanTest
             'time_began_at' => '12:00:00',
             'time_ended_at' => '18:00:00',
             'type' => $this->loanType,
-            'long_term_token' => '1111111'
+            'long_term_token' => '1111111',
         ]);
 
         // 短期借用，6月1號的12點至18點
@@ -93,7 +93,7 @@ class DuplicateTest extends LoanTest
             'time_began_at' => '14:00:00',
             'time_ended_at' => '16:00:00',
             'type' => $this->loanType,
-            'long_term_token' => '0000010'
+            'long_term_token' => '0000010',
         ]);
         $this->assertResponseConflict();
     }
@@ -107,7 +107,7 @@ class DuplicateTest extends LoanTest
             'date_ended_at' => '2016-03-15',
             'time_began_at' => '13:00:00',
             'time_ended_at' => '14:00:00',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -121,7 +121,7 @@ class DuplicateTest extends LoanTest
             'date_ended_at' => '2016-03-15',
             'time_began_at' => '17:00:00',
             'time_ended_at' => '19:00:00',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -133,7 +133,7 @@ class DuplicateTest extends LoanTest
             'property_id' => $this->propertyId,
             'date_began_at' => '2016-03-18',
             'date_ended_at' => '2016-03-18',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -147,7 +147,7 @@ class DuplicateTest extends LoanTest
             'date_ended_at' => '2016-06-01',
             'time_began_at' => '14:35:00',
             'time_ended_at' => '16:20:00',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -159,7 +159,7 @@ class DuplicateTest extends LoanTest
             'property_id' => $this->propertyId,
             'date_began_at' => '2016-06-01',
             'date_ended_at' => '2016-06-01',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -173,7 +173,7 @@ class DuplicateTest extends LoanTest
             'date_ended_at' => '2016-06-02',
             'time_began_at' => '14:35:00',
             'time_ended_at' => '16:20:00',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -187,7 +187,7 @@ class DuplicateTest extends LoanTest
             'date_ended_at' => '2016-06-01',
             'time_began_at' => '17:30:00',
             'time_ended_at' => '19:00:00',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -201,7 +201,7 @@ class DuplicateTest extends LoanTest
             'date_ended_at' => '2016-06-03',
             'time_began_at' => '23:30:00',
             'time_ended_at' => '01:00:00',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -215,7 +215,7 @@ class DuplicateTest extends LoanTest
             'date_ended_at' => '2016-06-01',
             'time_began_at' => '09:30:00',
             'time_ended_at' => '12:30:00',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }
@@ -229,7 +229,7 @@ class DuplicateTest extends LoanTest
             'date_ended_at' => '2016-06-02',
             'time_began_at' => '23:30:00',
             'time_ended_at' => '01:30:00',
-            'type' => $this->loanType
+            'type' => $this->loanType,
         ]);
         $this->assertResponseConflict();
     }

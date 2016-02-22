@@ -3,11 +3,8 @@
 namespace App\Http\Controllers\Api\User;
 
 use Illuminate\Http\Request;
-
-use Auth;
 use App\Affair\Property;
 use App\Affair\Category;
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class PropertyController extends Controller
@@ -21,7 +18,7 @@ class PropertyController extends Controller
     public function index(Request $request)
     {
         // get length
-        $length = ($request->input('length') > 0)? ($request->input('length')):10;
+        $length = ($request->input('length') > 0) ? ($request->input('length')) : 10;
 
         // get property list
         $property_list = Property::with(['category', 'status'])
@@ -63,7 +60,7 @@ class PropertyController extends Controller
                 'status',
                 'loanClassroom' => function ($query) use ($date) {
                     $query->where('date_ended_at', '>=', $date);
-                }
+                },
             ])
             ->where('category', Category::getCategoryId('property', 'classroom'))
             ->get();

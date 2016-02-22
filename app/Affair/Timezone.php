@@ -29,11 +29,11 @@ class Timezone extends Entity
         'zone_name', 'type',
         'date_began_at', 'date_ended_at',
         'stu_date_began_at',
-        'lab_date_began_at'
+        'lab_date_began_at',
     ];
 
     /**
-     * 取得借用類型
+     * 取得借用類型.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
