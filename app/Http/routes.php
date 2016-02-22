@@ -101,6 +101,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         $router->group(['prefix' => 'setting'], function (Router $router) {
             $router->get('/', ['as' => 'api.man.setting.get', 'uses' => 'Manager\LoanController@getClassroomBorrowInfo']);
             $router->put('/', ['as' => 'api.man.setting.set', 'uses' => 'Manager\LoanController@setClassroomBorrowInfo']);
+            $router->delete('/{id}', ['as' => 'api.man.setting.delete', 'uses' => 'Manager\LoanController@deletseClassroomBorrowInfo']);
         });
 
         $router->group(['prefix' => 'user'], function (Router $router) {

@@ -275,4 +275,17 @@ class LoanController extends Controller
 
         return response()->json(['status' => 0]);
     }
+
+    /**
+     * Delete classroom borrow infomation
+     *
+     * @param Int id
+     * @return Json
+     */
+    public function deleteClassroomBorrowInfo($id)
+    {
+        $result = Timezone::find($id)->delete();
+
+        return response()->json(['status' => ($result? 0:2)]);
+    }
 }
