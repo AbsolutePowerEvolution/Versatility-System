@@ -171,7 +171,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/signin.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/signin.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1058,7 +1058,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/examine.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/examine.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1215,7 +1215,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1240,7 +1240,7 @@ webpackJsonp([0],{
 /***/ 294:
 /***/ function(module, exports) {
 
-	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
+	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n        <li><a href=\"#/admin/setting\">時段管理系統</a></li>\n        <li><a href=\"#/schedule\">列印課表</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
 
 /***/ },
 
@@ -1263,7 +1263,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/pagination.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/pagination.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1407,38 +1407,16 @@ webpackJsonp([0],{
 	}
 
 	function accountDataEvent() {
-	  // get Account List
-	  $('.account_page').unbind('click');
-	  $('.account_page').click(function () {
-	    PageNow = $(this).html();
-	    console.log(PageNow);
-	    $.get('/api/manager/user', function (result) {
-	      if (PageNow == 1) {
-	        TotalPeople = result.total;
-	        PageLength = Math.ceil(TotalPeople / 10);
-	      }
-	      console.log(result);
-	      // Produce Html
-
-	      // Bind Event on New Element
-	      accountDataEvent();
-	      accountButtonEvent();
-	    });
-	  });
-
-	  // get Account Detail
-	  $('.account_list').unbind('click');
-	  $('.account_list').click(function () {
-	    var id = $(this).data('user_id');
-	    $.get('/api/manager/user/' + id, function (result) {
-	      console.log(result);
-	    });
-	  });
-
 	  // create Account
 	  $('#create_account').unbind('click');
 	  $('#create_account').click(function () {
 	    var request = {};
+	    request._token = $('meta[name="csrf-token"]').attr('content');
+
+	    request.account = $('#account').val();
+	    request.password = $('#password').val();
+	    request.nickname = $('#nickname').val();
+	    request.email = $('#email').val();
 
 	    $.post('/api/manager/user', request, function (result) {
 	      console.log(result);
@@ -1451,7 +1429,7 @@ webpackJsonp([0],{
 	    var request = {};
 	    var id = $(this).data('account_id');
 
-	    $.put('/api/manager/user' + id, function (result) {
+	    $.put('/api/manager/user/' + id, function (result) {
 	      console.log(result);
 	    });
 	  });
@@ -1459,7 +1437,7 @@ webpackJsonp([0],{
 	  // delete Account
 	  $('.delete_account').unbind('click');
 	  $('.delete_account').click(function () {
-	    $.delete('/api/manager/user' + id, function (result) {
+	    $.delete('/api/manager/user/' + id, function (result) {
 	      console.log(result);
 	    });
 	  });
@@ -2075,7 +2053,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2139,7 +2117,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-form.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-form.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2249,7 +2227,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/date-field.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2335,7 +2313,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-list.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-list.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2408,7 +2386,7 @@ webpackJsonp([0],{
 /***/ 313:
 /***/ function(module, exports) {
 
-	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list v-ref:setting-now title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list v-ref:setting-history title=\"歷史設定\" filter=\"<=\" :delete=\"false\"></setting-list>\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form v-on:setting-add=\"update\"></setting-form>\n  </div>\n</div>\n";
+	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list v-ref:setting-now title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list v-ref:setting-history title=\"歷史設定\" filter=\"<=\">\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form v-on:setting-add=\"update\"></setting-form>\n  </div>\n</div>\n";
 
 /***/ },
 
@@ -2463,12 +2441,6 @@ webpackJsonp([0],{
 
 	      var today = moment(new Date()).format('YYYY-MM-DD');
 	      $('#datepicker').val(today).change();
-
-	      var request = {};
-	      request._token = $('meta[name="csrf-token"]').attr('content');
-	      $.get('/api/manager/setting', request, function (result) {
-	        console.log(result);
-	      });
 	    });
 	  });
 	});
@@ -2498,6 +2470,7 @@ webpackJsonp([0],{
 
 	  $.get('/api/manager/setting', request, function (result) {
 	    console.log(result);
+	    loanMaterializeEvent();
 	  });
 	}
 
@@ -3004,7 +2977,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/schedule.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/schedule.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
