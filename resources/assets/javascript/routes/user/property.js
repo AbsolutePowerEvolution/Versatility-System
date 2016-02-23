@@ -1,18 +1,9 @@
 var Sammy = require('sammy');
 var client = require('../../lib/client');
 var when = require('when');
+var moment = require('moment');
 
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth() + 1; //January is 0!
-var yyyy = today.getFullYear();
-if(dd < 10) {
-  dd = '0' + dd;
-}
-if(mm < 10) {
-  mm = '0' + mm;
-}
-today = yyyy + '/' + mm + '/' + dd;
+var today = moment().format('YYYY/MM/DD');
 
 Sammy('#main', function() {
   this.get('#/user/property', function(context) {
@@ -36,7 +27,7 @@ Sammy('#main', function() {
         length: 1000000
       }
     });
-    var RepairPromise = client({
+    var repairPromise = client({
       path: 'user/repair',
       method: 'GET',
       name: 'repair',
@@ -46,7 +37,7 @@ Sammy('#main', function() {
       }
     });
 
-    when.all([propertyPromise, loanPromise, RepairPromise])
+    when.all([propertyPromise, loanPromise, repairPromise])
       .spread((propertyData, loanData, repairData) => {
         console.log('propertyData:', propertyData);
         console.log('loanData:', loanData);
@@ -86,13 +77,14 @@ Sammy('#main', function() {
             propertyBindEvent(context.propertyData);
           });
       }).catch((response) => {
-        if(response.request.name === 'loan') {
+        let name = response.request.name;
+        if(name === 'loan') {
           Materialize.toast($('<span>取得財產借用列表失敗!</span>'), 5000);
           console.log('get loan other list error, ', response);
-        } else if(response.request.name === 'property') {
+        } else if(name === 'property') {
           Materialize.toast('<span>取得財產列表失敗!</span>', 5000);
           console.log('get property list error, ', response);
-        } else if(response.request.name === 'repair') {
+        } else if(name === 'repair') {
           Materialize.toast($('<span>取得財產報修列表失敗!</span>'), 5000);
           console.log('get repair list error, ', response);
         }
@@ -159,7 +151,7 @@ function searchData(propertyData) {
     if(target !== '') {
       for(i = 0; i < propertyData.length; i++) {
         if(propertyData[i].name.indexOf(target) != -1) {
-          var tag = who + ':nth-child(' + (i + 1) + ')';
+          var tag = `${who}:nth-child(${i + 1})`;
           $propertyContainer.find(tag).addClass('searched');
           limit++;
         }
@@ -214,4 +206,3 @@ function showPage(page, limit, who) {
       .removeClass('hide').addClass('inline-block');
   $propertyContainer.find(who).find('.pagination li:last-child').removeClass('hide').addClass('inline-block');
 }
-
