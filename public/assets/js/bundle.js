@@ -85,9 +85,9 @@ webpackJsonp([0],{
 	'use strict';
 
 	__webpack_require__(200);
-	__webpack_require__(284);
+	__webpack_require__(285);
 
-	__webpack_require__(315);
+	__webpack_require__(316);
 	__webpack_require__(322);
 
 /***/ },
@@ -99,7 +99,7 @@ webpackJsonp([0],{
 
 	__webpack_require__(201);
 	__webpack_require__(236);
-	__webpack_require__(283);
+	__webpack_require__(284);
 
 /***/ },
 
@@ -171,7 +171,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/signin.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/signin.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -186,13 +186,13 @@ webpackJsonp([0],{
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
 	var _symbol = __webpack_require__(204);
 
 	var _symbol2 = _interopRequireDefault(_symbol);
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -251,18 +251,9 @@ webpackJsonp([0],{
 	var Sammy = __webpack_require__(193);
 	var client = __webpack_require__(237);
 	var when = __webpack_require__(243);
+	var moment = __webpack_require__(283);
 
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth() + 1; //January is 0!
-	var yyyy = today.getFullYear();
-	if (dd < 10) {
-	  dd = '0' + dd;
-	}
-	if (mm < 10) {
-	  mm = '0' + mm;
-	}
-	today = yyyy + '/' + mm + '/' + dd;
+	var today = moment().format('YYYY/MM/DD');
 
 	Sammy('#main', function () {
 	  this.get('#/user/property', function (context) {
@@ -286,7 +277,7 @@ webpackJsonp([0],{
 	        length: 1000000
 	      }
 	    });
-	    var RepairPromise = client({
+	    var repairPromise = client({
 	      path: 'user/repair',
 	      method: 'GET',
 	      name: 'repair',
@@ -296,7 +287,7 @@ webpackJsonp([0],{
 	      }
 	    });
 
-	    when.all([propertyPromise, loanPromise, RepairPromise]).spread(function (propertyData, loanData, repairData) {
+	    when.all([propertyPromise, loanPromise, repairPromise]).spread(function (propertyData, loanData, repairData) {
 	      console.log('propertyData:', propertyData);
 	      console.log('loanData:', loanData);
 	      console.log('repairData:', repairData);
@@ -334,13 +325,14 @@ webpackJsonp([0],{
 	        propertyBindEvent(context.propertyData);
 	      });
 	    }).catch(function (response) {
-	      if (response.request.name === 'loan') {
+	      var name = response.request.name;
+	      if (name === 'loan') {
 	        Materialize.toast($('<span>取得財產借用列表失敗!</span>'), 5000);
 	        console.log('get loan other list error, ', response);
-	      } else if (response.request.name === 'property') {
+	      } else if (name === 'property') {
 	        Materialize.toast('<span>取得財產列表失敗!</span>', 5000);
 	        console.log('get property list error, ', response);
-	      } else if (response.request.name === 'repair') {
+	      } else if (name === 'repair') {
 	        Materialize.toast($('<span>取得財產報修列表失敗!</span>'), 5000);
 	        console.log('get repair list error, ', response);
 	      }
@@ -502,6 +494,13 @@ webpackJsonp([0],{
 /***/ },
 
 /***/ 283:
+/***/ function(module, exports) {
+
+	module.exports = moment;
+
+/***/ },
+
+/***/ 284:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -531,7 +530,6 @@ webpackJsonp([0],{
 	    context.time.PeriodEnd = PeriodEnd;
 	    context.TableTimes = _.times(5);
 	    context.PeriodTimes = _.times(32);
-	    // context.thirty_times = _.times(30, _.uniqueId.bind(null, 'ball'));
 
 	    context.loadPartials({ menu: '/templates/user/menu.ms' }).partial('/templates/user/loan.ms').then(function () {
 	      // bind Event
@@ -963,20 +961,20 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 284:
+/***/ 285:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	__webpack_require__(285);
-	__webpack_require__(299);
+	__webpack_require__(286);
 	__webpack_require__(300);
 	__webpack_require__(301);
-	__webpack_require__(314);
+	__webpack_require__(302);
+	__webpack_require__(315);
 
 /***/ },
 
-/***/ 285:
+/***/ 286:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -989,11 +987,11 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _lodash = __webpack_require__(286);
+	var _lodash = __webpack_require__(287);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
-	var _examine = __webpack_require__(287);
+	var _examine = __webpack_require__(288);
 
 	var _examine2 = _interopRequireDefault(_examine);
 
@@ -1032,23 +1030,23 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 286:
+/***/ 287:
 /***/ function(module, exports) {
 
 	module.exports = _;
 
 /***/ },
 
-/***/ 287:
+/***/ 288:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(288)
+	__vue_script__ = __webpack_require__(289)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/examine.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(298)
+	__vue_template__ = __webpack_require__(299)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -1058,7 +1056,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/examine.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/examine.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1068,32 +1066,32 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 288:
+/***/ 289:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+
+	var _create = __webpack_require__(290);
+
+	var _create2 = _interopRequireDefault(_create);
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _create = __webpack_require__(289);
-
-	var _create2 = _interopRequireDefault(_create);
-
 	var _when = __webpack_require__(243);
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _transformExamine = __webpack_require__(291);
+	var _transformExamine = __webpack_require__(292);
 
 	var _transformExamine2 = _interopRequireDefault(_transformExamine);
 
-	var _adminMenu = __webpack_require__(292);
+	var _adminMenu = __webpack_require__(293);
 
 	var _adminMenu2 = _interopRequireDefault(_adminMenu);
 
-	var _pagination = __webpack_require__(295);
+	var _pagination = __webpack_require__(296);
 
 	var _pagination2 = _interopRequireDefault(_pagination);
 
@@ -1168,7 +1166,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 291:
+/***/ 292:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1196,16 +1194,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 292:
+/***/ 293:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(293)
+	__vue_script__ = __webpack_require__(294)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/admin-menu.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(294)
+	__vue_template__ = __webpack_require__(295)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -1215,7 +1213,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1225,7 +1223,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 293:
+/***/ 294:
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1237,23 +1235,23 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 294:
+/***/ 295:
 /***/ function(module, exports) {
 
 	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n        <li><a href=\"#/admin/setting\">時段管理系統</a></li>\n        <li><a href=\"#/schedule\">列印課表</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
 
 /***/ },
 
-/***/ 295:
+/***/ 296:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(296)
+	__vue_script__ = __webpack_require__(297)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/pagination.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(297)
+	__vue_template__ = __webpack_require__(298)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -1263,7 +1261,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/pagination.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/pagination.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1273,24 +1271,24 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 296:
+/***/ 297:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
+
+	var _create = __webpack_require__(290);
+
+	var _create2 = _interopRequireDefault(_create);
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _create = __webpack_require__(289);
-
-	var _create2 = _interopRequireDefault(_create);
-
 	var _jquery = __webpack_require__(1);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
-	var _lodash = __webpack_require__(286);
+	var _lodash = __webpack_require__(287);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -1353,21 +1351,21 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 297:
+/***/ 298:
 /***/ function(module, exports) {
 
 	module.exports = "\n<ul class=\"pagination center\">\n  <li :class=\"{'waves-effect': prevUrl, disabled: !prevUrl}\">\n    <a :href=\"prevUrl\"><i class=\"material-icons\">chevron_left</i></a>\n  </li>\n  <li v-for=\"page in pages\"\n    id=\"pagination-{{page.num}}\"\n    :class=\"{'waves-effect': page.num !== currentPage, 'active': page.num === currentPage}\"><a :href=\"page.url\">{{page.num}}</a></li>\n  <li :class=\"{'waves-effect': nextUrl, disabled: !nextUrl}\">\n    <a :href=\"nextUrl\"><i class=\"material-icons\">chevron_right</i></a>\n  </li>\n</ul>\n";
 
 /***/ },
 
-/***/ 298:
+/***/ 299:
 /***/ function(module, exports) {
 
 	module.exports = "\n<admin-menu></admin-menu>\n<div id=\"Examine\" class=\"container Examine\">\n  <span>教室審核</span>\n  <ul class=\"collapsible popout\" data-collapsible=\"accordion\">\n    <li v-for=\"examine in examines\" class=\"Examine-Item\">\n      <a class=\"Examine-Pass secondary-content\" @click=\"accept(examine.id)\">\n        <i class=\"material-icons\">done</i>\n      </a>\n      <a class=\"Examine-Reject secondary-content\" @click=\"reject(examine.id)\">\n        <i class=\"material-icons\">clear</i>\n      </a>\n      <div class=\"collapsible-header\">\n        <span class=\"Examine-Username\">{{examine.user.nickname}}</span>\n        <span class=\"Examine-Classroom\">{{examine.property_name}}</span>\n        <span class=\"Examine-Time\">{{examine.time}}</span>\n      </div>\n      <div class=\"collapsible-body\">\n        <p>{{examine.remark}}</p>\n      </div>\n    </li>\n  </ul>\n  <pagination :current-page=\"currentPage\"\n    :base-url=\"baseUrl\"\n    :query=\"query\"\n    :max=\"maxPage\">\n  </pagination>\n</div>\n";
 
 /***/ },
 
-/***/ 299:
+/***/ 300:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1458,7 +1456,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 300:
+/***/ 301:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -1993,7 +1991,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 301:
+/***/ 302:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2006,7 +2004,7 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _setting = __webpack_require__(302);
+	var _setting = __webpack_require__(303);
 
 	var _setting2 = _interopRequireDefault(_setting);
 
@@ -2030,16 +2028,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 302:
+/***/ 303:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(303)
+	__vue_script__ = __webpack_require__(304)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(313)
+	__vue_template__ = __webpack_require__(314)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2049,7 +2047,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/setting.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2059,7 +2057,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 303:
+/***/ 304:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2068,15 +2066,15 @@ webpackJsonp([0],{
 	  value: true
 	});
 
-	var _adminMenu = __webpack_require__(292);
+	var _adminMenu = __webpack_require__(293);
 
 	var _adminMenu2 = _interopRequireDefault(_adminMenu);
 
-	var _settingForm = __webpack_require__(304);
+	var _settingForm = __webpack_require__(305);
 
 	var _settingForm2 = _interopRequireDefault(_settingForm);
 
-	var _settingList = __webpack_require__(310);
+	var _settingList = __webpack_require__(311);
 
 	var _settingList2 = _interopRequireDefault(_settingList);
 
@@ -2094,16 +2092,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 304:
+/***/ 305:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(305)
+	__vue_script__ = __webpack_require__(306)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting-form.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(309)
+	__vue_template__ = __webpack_require__(310)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2113,7 +2111,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/setting-form.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-form.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2123,7 +2121,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 305:
+/***/ 306:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2136,7 +2134,7 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _dateField = __webpack_require__(306);
+	var _dateField = __webpack_require__(307);
 
 	var _dateField2 = _interopRequireDefault(_dateField);
 
@@ -2204,16 +2202,16 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 306:
+/***/ 307:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(307)
+	__vue_script__ = __webpack_require__(308)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/date-field.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(308)
+	__vue_template__ = __webpack_require__(309)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2223,7 +2221,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/date-field.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2233,7 +2231,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 307:
+/***/ 308:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2276,30 +2274,30 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 308:
+/***/ 309:
 /***/ function(module, exports) {
 
 	module.exports = "\n<div class=\"input-field\">\n  <label :for=\"name\" :class=\"{active: date}\">\n    <slot></slot>\n  </label>\n  <input v-el:picker :id=\"name\" v-model=\"date\" :data-value=\"date\"\n     class=\"datepicker Setting-DateField {{className}}\" type=\"date\" :name=\"name\">\n</div>\n";
 
 /***/ },
 
-/***/ 309:
+/***/ 310:
 /***/ function(module, exports) {
 
 	module.exports = "\n<form @submit.prevent=\"applySetting\" action=\"#/admin/setting\" method=\"PUT\">\n  <div class=\"input-field\">\n    <input id=\"time-name\"\n      class=\"validate Setting-TimeName\"\n      type=\"text\" name=\"time_name\"\n      v-model=\"timeName\">\n    <label for=\"time-name\"\n      :class=\"{active: timeName}\">\n      名稱 (ex: 104上學期):\n    </label>\n  </div>\n  <div>\n    <span>類型：</span>\n    <input class=\"with-gap\"\n      name=\"type\"\n      type=\"radio\"\n      id=\"semester-radio\"\n      value=\"semester\"\n      v-model=\"type\">\n    <label for=\"semester-radio\">\n      學期\n    </label>\n    <input class=\"with-gap\"\n      name=\"type\"\n      type=\"radio\"\n      id=\"vacation-radio\"\n      value=\"vacation\"\n      v-model=\"type\">\n    <label for=\"vacation-radio\">\n      寒暑假\n    </label>\n  </div>\n  <date-field\n    :date.sync=\"beganDate\"\n     name=\"began_date\"\n     class-name=\"Setting-BeganDate\">\n    開始時間：\n  </date-field>\n  <date-field\n    :date.sync=\"endedDate\"\n    name=\"ended_date\"\n    class-name=\"Setting-EndedDate\">\n    結束時間：\n  </date-field>\n  <date-field\n    :date.sync=\"stuStart\"\n    name=\"stu_start\"\n    class-name=\"Setting-StuStart\">\n    學生借用開始時間：\n  </date-field>\n  <date-field\n     :date.sync=\"labStart\"\n     name=\"lab_start\"\n     class-name=\"Setting-LabStart\">\n    Lab 借用開始時間：\n  </date-field>\n  <button id=\"apply-btn\"\n    @click.prevent=\"applySetting\"\n    type=\"submit\"\n    class=\"waves-effect waves-light btn\">\n    <i class=\"material-icons left\">done</i>套用設定\n  </button>\n</form>\n";
 
 /***/ },
 
-/***/ 310:
+/***/ 311:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(311)
+	__vue_script__ = __webpack_require__(312)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
 	  console.warn("[vue-loader] resources/assets/components/setting-list.vue: named exports in *.vue files are ignored.")}
-	__vue_template__ = __webpack_require__(312)
+	__vue_template__ = __webpack_require__(313)
 	module.exports = __vue_script__ || {}
 	if (module.exports.__esModule) module.exports = module.exports.default
 	if (__vue_template__) {
@@ -2309,7 +2307,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/setting-list.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-list.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2319,7 +2317,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 311:
+/***/ 312:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2377,21 +2375,21 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 312:
+/***/ 313:
 /***/ function(module, exports) {
 
 	module.exports = "\n<h5>{{title}}</h5>\n<div class=\"Setting-List\">\n  <ul class=\"collection\">\n    <li class=\"collection-item\" v-for=\"setting in settings\">\n      <div>\n        <a v-if=\"delete\"\n          @click.prevent=\"deleteSetting(setting.id, $index)\"\n          class=\"btn-floating wave-effect secondary-content\">\n          <i class=\"material-icons\">delete</i>\n        </a>\n        <div>{{setting.zone_name}}: {{setting.date_began_at}} ~ {{setting.date_ended_at}}</div>\n        <div>學生借用開始：{{setting.stu_date_began_at}}, Lab 借用開始：{{setting.lab_date_began_at}}</div>\n      </div>\n    </li>\n  </ul>\n</div>\n";
 
 /***/ },
 
-/***/ 313:
+/***/ 314:
 /***/ function(module, exports) {
 
 	module.exports = "\n<admin-menu></admin-menu>\n<div class=\"container Setting-Container\">\n  <div class=\"m6 Setting-Column\">\n    <setting-list v-ref:setting-now title=\"目前設定\" filter=\">\"></setting-list>\n    <setting-list v-ref:setting-history title=\"歷史設定\" filter=\"<=\" :delete=\"false\"></setting-list>\n  </div>\n  <div class=\"m6 Setting-Column\">\n    <setting-form v-on:setting-add=\"update\"></setting-form>\n  </div>\n</div>\n";
 
 /***/ },
 
-/***/ 314:
+/***/ 315:
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
@@ -2922,7 +2920,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 315:
+/***/ 316:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2935,7 +2933,7 @@ webpackJsonp([0],{
 
 	var _vue2 = _interopRequireDefault(_vue);
 
-	var _schedule = __webpack_require__(316);
+	var _schedule = __webpack_require__(317);
 
 	var _schedule2 = _interopRequireDefault(_schedule);
 
@@ -2959,11 +2957,11 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 316:
+/***/ 317:
 /***/ function(module, exports, __webpack_require__) {
 
 	var __vue_script__, __vue_template__
-	__vue_script__ = __webpack_require__(317)
+	__vue_script__ = __webpack_require__(318)
 	if (__vue_script__ &&
 	    __vue_script__.__esModule &&
 	    Object.keys(__vue_script__).length > 1) {
@@ -2978,7 +2976,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/edward/VersatilitySystem/resources/assets/components/schedule.vue"
+	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/schedule.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2988,7 +2986,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 317:
+/***/ 318:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3001,7 +2999,7 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _transformSchedule = __webpack_require__(318);
+	var _transformSchedule = __webpack_require__(319);
 
 	var _transformSchedule2 = _interopRequireDefault(_transformSchedule);
 
@@ -3032,7 +3030,7 @@ webpackJsonp([0],{
 
 /***/ },
 
-/***/ 318:
+/***/ 319:
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3045,7 +3043,7 @@ webpackJsonp([0],{
 
 	var _when2 = _interopRequireDefault(_when);
 
-	var _moment = __webpack_require__(319);
+	var _moment = __webpack_require__(283);
 
 	var _moment2 = _interopRequireDefault(_moment);
 
@@ -3139,13 +3137,6 @@ webpackJsonp([0],{
 	    return klass;
 	  });
 	};
-
-/***/ },
-
-/***/ 319:
-/***/ function(module, exports) {
-
-	module.exports = moment;
 
 /***/ },
 
