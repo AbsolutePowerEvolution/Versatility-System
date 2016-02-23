@@ -32,7 +32,6 @@ Sammy('#main', function() {
     context.time.PeriodEnd = PeriodEnd;
     context.TableTimes = _.times(5);
     context.PeriodTimes = _.times(32);
-    // context.thirty_times = _.times(30, _.uniqueId.bind(null, 'ball'));
 
     context.loadPartials({menu: '/templates/user/menu.ms'})
       .partial('/templates/user/loan.ms')
