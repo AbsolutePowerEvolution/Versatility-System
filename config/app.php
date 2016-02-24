@@ -156,8 +156,12 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Additional Service Providers...
+         */
         Bepsvpt\LaravelSecurityHeader\SecurityHeaderServiceProvider::class,
         Zizaco\Entrust\EntrustServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
     ],
 
@@ -209,6 +213,7 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 
