@@ -110,6 +110,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
             $router->post('/', ['as' => 'api.man.user.create', 'uses' => 'Manager\UserController@create']);
             $router->put('/{id}', ['as' => 'api.man.user.update', 'uses' => 'Manager\UserController@update']);
             $router->delete('/', ['as' => 'api.man.user.delete', 'uses' => 'Manager\UserController@destroy']);
+            $router->post('import', ['as' => 'api.man.user.import', 'uses' => 'Manager\UserController@import']);
         });
     });
 });

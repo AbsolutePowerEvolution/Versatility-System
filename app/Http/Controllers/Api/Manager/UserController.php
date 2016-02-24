@@ -44,15 +44,34 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Import students account data with excel
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    //public function store(Request $request)
-    //{
-    //    //
-    //}
+    public function import(Request $request)
+    {
+        // get tmp xlsx file path
+        $file_path = $request->file('studentData')->getRealPath();
+
+        // extract student data from the file uploaded
+        $student_data = Excel::load($file_path)->to_array();
+
+        // processing & storing student data
+        foreach($student_data as $data) {
+            $user = new User;
+            $user->username = $data['學號'];
+            $user->password = str_random(96);
+            $user->nickname = $data['姓名'];
+            $user->email    = $data['信箱'];
+            $user->phone    = $data['電話'];
+            $user->save();
+
+            $user->role()->save(Role::where('name', 'student')->first());
+        }
+
+        return response()->json(['status' => 0]);
+    }
 
     /**
      * Display the specified resource.
