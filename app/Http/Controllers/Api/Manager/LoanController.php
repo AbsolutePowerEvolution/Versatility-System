@@ -94,9 +94,9 @@ class LoanController extends Controller
         $borrow_list = Loan::getConflictList(null, $date)
             ->where('type', '=', Category::getCategoryId('loan.status', 'accepted'))
             ->with([
-                user,
-                type,
-                status,
+                'user',
+                'type',
+                'status',
             ])
             ->join('properties as pro_t', function ($join) {
                 $join->on('pro_t.id', '=', 'property_id')

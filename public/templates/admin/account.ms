@@ -2,9 +2,14 @@
 <div id="account_container">
   <div id="account_system_content" class="row">
     <div id="search_bar" class="row">
-      <span>搜尋：</span>
-      <input type="text" placeholder="帳號名稱" name="search"/>
+      <div class="input-field">
+        <select id="">
+          <option value=""></option>
+        </select>
+        <input type="text" placeholder="帳號名稱" name="search"/>
+      </div>
     </div>
+
     <div class="row">
       <span class="waves-effect waves-light btn modal-trigger" data-modal_target="add">
         <i class="material-icons">add</i>
@@ -41,6 +46,17 @@
           <input id="nickname" type="text" class="validate">
           <label for="nickname">NickName</label>
         </div>
+      </div>
+      <div class="row">
+        <span>類型：</span>
+        <input class="with-gap" name="type" type="radio" id="student-radio" value="student">
+        <label for="student-radio">
+          學生
+        </label>
+        <input class="with-gap" name="type" type="radio" id="lab-radio" value="lab">
+        <label for="lab-radio">
+          Lab
+        </label>
       </div>
     </div>
     <div class="modal-footer">

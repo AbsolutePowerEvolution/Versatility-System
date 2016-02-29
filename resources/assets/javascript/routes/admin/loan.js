@@ -23,9 +23,8 @@ var LoanHistory; // History Data
 var CurrentHistoryPage;
 var FinalHistoryPage;
 
-var LoanType; // one_day, many_days
-var SemesterStart;
-var SemesterEnd;
+var LoanType; // one_day, many_days. For Modal
+var HistoryFilter; // on / off. Filter is to make manager delete quickly
 
 Sammy('#main', function() {
   this.get('#/admin/loan', function(context) {
@@ -69,9 +68,8 @@ function userLoanInitEvent() {
 
   $.get('/api/manager/property/classrooms', request, function(result) {
     console.log(result);
-    var text;
 
-    for(let i = 0; i < result.length; i++) {
+    for(let i = 0, text = ''; i < result.length; i++) {
       text =  '<option value=' + result[i].id + '>';
       text += result[i].name;
       text += '</option>';
@@ -85,9 +83,36 @@ function userLoanInitEvent() {
     loanMaterializeEvent();
   });
 
+  request.con_str = '>=';
   $.get('/api/manager/setting', request, function(result) {
+    console.log('setting');
     console.log(result);
+
+    // append setting time data to Modal Select
+    for(let i = 0, text = ''; i < result.length; i++) {
+      text =  `<option value="${i}"`;
+      text += ` data-began="${result[i].date_began_at}" data-ended="${result[i].date_ended_at}">`;
+      text += `${result[i].zone_name}`;
+      text += `( ${result[i].date_began_at} ~ ${result[i].date_ended_at} )`;
+      text += '</option>';
+
+      $('.modal')
+        .find('#setting_time')
+        .find('option:last')
+        .after(text);
+    }
     loanMaterializeEvent();
+
+    // append setting time data to User View
+    for(let i = 0, text = ''; i < result.length; i++) {
+      text =  `<div class="col s12">`;
+      text += `<b>${i + 1}</b>. ${result[i].zone_name}`;
+      text += `( ${result[i].date_began_at} ~ ${result[i].date_ended_at} )`;
+      text += '</div>';
+
+      $('#view_setting_time')
+        .append(text);
+    }
   });
 }
 
@@ -143,6 +168,7 @@ function loanButtonEvent() {
       $('#loan_container').hide();
       $('#history_container').show();
 
+      HistoryFilter = 'off';
       CurrentHistoryPage = 1;
       getLoanHistory();
     }
@@ -151,8 +177,8 @@ function loanButtonEvent() {
   $('.modal .swtich_date').unbind('click');
   $('.modal .switch_date').click(function() {
     var dateType = $(this).data('date_type');
-    if(dateType == 'one_semester') {
-      LoanType = 'one_semester';
+    if(dateType == 'many_days') {
+      LoanType = 'many_days';
     }else {
       LoanType = 'one_day';
     }
@@ -207,7 +233,7 @@ function loanDataEvent() {
     // classroom id
     request.property_id = $('.modal').find('#classroom').val();
 
-    // begin date and end date
+    // get begin date and end date
     if(LoanType == 'one_day') {// one_day
       temp = $('.modal').find('input[name="start_date"]').val();
       temp = moment(new Date(temp)).format('YYYY-MM-DD');
@@ -219,7 +245,7 @@ function loanDataEvent() {
           request.date_began_at = temp;
           request.date_ended_at = temp;
         }else {
-          Materialize.toast('日期太早', 1000);
+          Materialize.toast('不能借過去的日期', 1000);
           return;
         }
       }else {
@@ -227,28 +253,15 @@ function loanDataEvent() {
         return;
       }
     }else { // many_days
-      temp = $('.modal').find('input[name="start_date"]').val();
-      temp = moment(new Date(temp)).format('YYYY-MM-DD');
-      if(temp != 'Invalid date') {
-        request.date_began_at = temp;
-      }else {
-        Materialize.toast('還沒選擇開始日期', 1000);
-        return;
-      }
-      temp = $('.modal').find('input[name="end_date"]').val();
-      temp = moment(new Date(temp)).format('YYYY-MM-DD');
-      if(temp != 'Invalid Date') {
-        request.date_ended_at = temp;
-      }else {
-        Materialize.toast('還沒選擇結束日期', 1000);
-        return;
-      }
+      temp = $('#setting_time').val();
+      request.date_began_at = $('#setting_time')
+        .find('option[value="' + temp + '"]')
+        .data('began');
+      request.date_ended_at = $('#setting_time')
+        .find('option[value="' + temp + '"]')
+        .data('ended');
 
-      // check date 先後
-      if(errMsg == '') {
-
-      }
-
+      // long term token
       temp = [];
       for(i = 0; i < 7; i++) {
         if($('#day' + i).prop('checked')) {
@@ -263,21 +276,7 @@ function loanDataEvent() {
       }
     }
 
-    // check start and end date diff
-    if(errMsg == '') {
-      var startTime = $('.modal')
-        .find('select[name="time_start"]')
-        .val();
-      var endTime = $('.modal')
-        .find('select[name="time_end"]')
-        .val();
-      if(endTime < startTime) {
-        Materialize.toast('時段前後順序不對，可能太早', 1000);
-      }
-    }
-
     request.remark = $('input[name="remark"]').val();
-
     console.log(request);
     $.post('/api/user/loan/create', request, function(result) {
       if(result.status == 0) {
@@ -293,24 +292,42 @@ function loanDataEvent() {
 }
 
 function getLoanHistory() {
+  var temp = $('#history_date').val();
   var request = {};
   request.page = CurrentHistoryPage;
   request.length = 10;
   request.status = 'accepted';
+  request.date = moment(new Date(temp)).format('YYYY-MM-DD');
 
-  $.get('/api/manager/loan/classrooms', request, function(result) {
-    console.log(result);
-    LoanHistory = result.data;
+  if(HistoryFilter == 'on') {
+    $.get('/api/manager/loan/classrooms/' + request.date, request, function(result) {
+      console.log(result);
+      LoanHistory = result.data;
 
-    // update every times, maybe data will be deleted
-    FinalHistoryPage = Math.ceil(result.total / 10);
+      // update every times, maybe data will be deleted
+      FinalHistoryPage = Math.ceil(result.total / 10);
 
-    if(result.total == 0) {
-      Materialize.toast('Not History', 1000);
-    }else {
-      produceLoanHistory(LoanHistory);
-    }
-  });
+      if(result.total == 0) {
+        Materialize.toast('Not History', 1000);
+      }else {
+        produceLoanHistory(LoanHistory);
+      }
+    });
+  } else {
+    $.get('/api/manager/loan/classrooms', request, function(result) {
+      console.log(result);
+      LoanHistory = result.data;
+
+      // update every times, maybe data will be deleted
+      FinalHistoryPage = Math.ceil(result.total / 10);
+
+      if(result.total == 0) {
+        Materialize.toast('Not History', 1000);
+      }else {
+        produceLoanHistory(LoanHistory);
+      }
+    });
+  }
 }
 
 function produceLoanHistory(list) {
@@ -462,6 +479,12 @@ function loanHistoryEvent() {
       }
     });
   });
+
+  $('#history_date').unbind('click');
+  $('#history_date').change(function() {
+    HistoryFilter = 'on';
+    getLoanHistory();
+  });
 }
 
 function loanTablePageEvent() {
@@ -556,6 +579,3 @@ function matchTool(time, table) {
   return result;
 }
 
-function validateData(type) {
-
-}

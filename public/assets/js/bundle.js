@@ -171,7 +171,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/signin.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/signin.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1056,7 +1056,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/examine.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/examine.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1213,7 +1213,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/admin-menu.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/admin-menu.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1238,7 +1238,7 @@ webpackJsonp([0],{
 /***/ 295:
 /***/ function(module, exports) {
 
-	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n        <li><a href=\"#/admin/setting\">時段管理系統</a></li>\n        <li><a href=\"#/schedule\">列印課表</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
+	module.exports = "\n<nav>\n  <div class=\"container\">\n    <div class=\"nav-wrapper\">\n      <ul class=\"right\">\n        <li><a href=\"#/admin/examine\">審核系統</a></li>\n        <li><a href=\"#/admin/loan\">教室預借系統</a></li>\n        <li><a href=\"#/admin/property\">財產管理系統</a></li>\n        <li><a href=\"#/admin/account\">帳號管理系統</a></li>\n        <li><a href=\"#/admin/setting\">時段管理系統</a></li>\n        <li><a href=\"#/schedule\" target=\"_blank\">列印課表</a></li>\n      </ul>\n    </div>\n  </div>\n</nav>\n";
 
 /***/ },
 
@@ -1261,7 +1261,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/pagination.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/pagination.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2047,7 +2047,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2111,7 +2111,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-form.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-form.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2221,7 +2221,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/date-field.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/date-field.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2307,7 +2307,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/setting-list.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/setting-list.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2410,9 +2410,8 @@ webpackJsonp([0],{
 	var CurrentHistoryPage;
 	var FinalHistoryPage;
 
-	var LoanType; // one_day, many_days
-	var SemesterStart;
-	var SemesterEnd;
+	var LoanType; // one_day, many_days. For Modal
+	var HistoryFilter; // on / off. Filter is to make manager delete quickly
 
 	(0, _sammy2.default)('#main', function () {
 	  this.get('#/admin/loan', function (context) {
@@ -2454,9 +2453,8 @@ webpackJsonp([0],{
 
 	  $.get('/api/manager/property/classrooms', request, function (result) {
 	    console.log(result);
-	    var text;
 
-	    for (var i = 0; i < result.length; i++) {
+	    for (var i = 0, text = ''; i < result.length; i++) {
 	      text = '<option value=' + result[i].id + '>';
 	      text += result[i].name;
 	      text += '</option>';
@@ -2467,9 +2465,32 @@ webpackJsonp([0],{
 	    loanMaterializeEvent();
 	  });
 
+	  request.con_str = '>=';
 	  $.get('/api/manager/setting', request, function (result) {
+	    console.log('setting');
 	    console.log(result);
+
+	    // append setting time data to Modal Select
+	    for (var i = 0, text = ''; i < result.length; i++) {
+	      text = '<option value="' + i + '"';
+	      text += ' data-began="' + result[i].date_began_at + '" data-ended="' + result[i].date_ended_at + '">';
+	      text += '' + result[i].zone_name;
+	      text += '( ' + result[i].date_began_at + ' ~ ' + result[i].date_ended_at + ' )';
+	      text += '</option>';
+
+	      $('.modal').find('#setting_time').find('option:last').after(text);
+	    }
 	    loanMaterializeEvent();
+
+	    // append setting time data to User View
+	    for (var i = 0, text = ''; i < result.length; i++) {
+	      text = '<div class="col s12">';
+	      text += '<b>' + (i + 1) + '</b>. ' + result[i].zone_name;
+	      text += '( ' + result[i].date_began_at + ' ~ ' + result[i].date_ended_at + ' )';
+	      text += '</div>';
+
+	      $('#view_setting_time').append(text);
+	    }
 	  });
 	}
 
@@ -2521,6 +2542,7 @@ webpackJsonp([0],{
 	      $('#loan_container').hide();
 	      $('#history_container').show();
 
+	      HistoryFilter = 'off';
 	      CurrentHistoryPage = 1;
 	      getLoanHistory();
 	    }
@@ -2529,8 +2551,8 @@ webpackJsonp([0],{
 	  $('.modal .swtich_date').unbind('click');
 	  $('.modal .switch_date').click(function () {
 	    var dateType = $(this).data('date_type');
-	    if (dateType == 'one_semester') {
-	      LoanType = 'one_semester';
+	    if (dateType == 'many_days') {
+	      LoanType = 'many_days';
 	    } else {
 	      LoanType = 'one_day';
 	    }
@@ -2583,7 +2605,7 @@ webpackJsonp([0],{
 	    // classroom id
 	    request.property_id = $('.modal').find('#classroom').val();
 
-	    // begin date and end date
+	    // get begin date and end date
 	    if (LoanType == 'one_day') {
 	      // one_day
 	      temp = $('.modal').find('input[name="start_date"]').val();
@@ -2596,7 +2618,7 @@ webpackJsonp([0],{
 	          request.date_began_at = temp;
 	          request.date_ended_at = temp;
 	        } else {
-	          Materialize.toast('日期太早', 1000);
+	          Materialize.toast('不能借過去的日期', 1000);
 	          return;
 	        }
 	      } else {
@@ -2605,26 +2627,11 @@ webpackJsonp([0],{
 	      }
 	    } else {
 	      // many_days
-	      temp = $('.modal').find('input[name="start_date"]').val();
-	      temp = moment(new Date(temp)).format('YYYY-MM-DD');
-	      if (temp != 'Invalid date') {
-	        request.date_began_at = temp;
-	      } else {
-	        Materialize.toast('還沒選擇開始日期', 1000);
-	        return;
-	      }
-	      temp = $('.modal').find('input[name="end_date"]').val();
-	      temp = moment(new Date(temp)).format('YYYY-MM-DD');
-	      if (temp != 'Invalid Date') {
-	        request.date_ended_at = temp;
-	      } else {
-	        Materialize.toast('還沒選擇結束日期', 1000);
-	        return;
-	      }
+	      temp = $('#setting_time').val();
+	      request.date_began_at = $('#setting_time').find('option[value="' + temp + '"]').data('began');
+	      request.date_ended_at = $('#setting_time').find('option[value="' + temp + '"]').data('ended');
 
-	      // check date 先後
-	      if (errMsg == '') {}
-
+	      // long term token
 	      temp = [];
 	      for (i = 0; i < 7; i++) {
 	        if ($('#day' + i).prop('checked')) {
@@ -2639,17 +2646,7 @@ webpackJsonp([0],{
 	      }
 	    }
 
-	    // check start and end date diff
-	    if (errMsg == '') {
-	      var startTime = $('.modal').find('select[name="time_start"]').val();
-	      var endTime = $('.modal').find('select[name="time_end"]').val();
-	      if (endTime < startTime) {
-	        Materialize.toast('時段前後順序不對，可能太早', 1000);
-	      }
-	    }
-
 	    request.remark = $('input[name="remark"]').val();
-
 	    console.log(request);
 	    $.post('/api/user/loan/create', request, function (result) {
 	      if (result.status == 0) {
@@ -2665,24 +2662,42 @@ webpackJsonp([0],{
 	}
 
 	function getLoanHistory() {
+	  var temp = $('#history_date').val();
 	  var request = {};
 	  request.page = CurrentHistoryPage;
 	  request.length = 10;
 	  request.status = 'accepted';
+	  request.date = moment(new Date(temp)).format('YYYY-MM-DD');
 
-	  $.get('/api/manager/loan/classrooms', request, function (result) {
-	    console.log(result);
-	    LoanHistory = result.data;
+	  if (HistoryFilter == 'on') {
+	    $.get('/api/manager/loan/classrooms/' + request.date, request, function (result) {
+	      console.log(result);
+	      LoanHistory = result.data;
 
-	    // update every times, maybe data will be deleted
-	    FinalHistoryPage = Math.ceil(result.total / 10);
+	      // update every times, maybe data will be deleted
+	      FinalHistoryPage = Math.ceil(result.total / 10);
 
-	    if (result.total == 0) {
-	      Materialize.toast('Not History', 1000);
-	    } else {
-	      produceLoanHistory(LoanHistory);
-	    }
-	  });
+	      if (result.total == 0) {
+	        Materialize.toast('Not History', 1000);
+	      } else {
+	        produceLoanHistory(LoanHistory);
+	      }
+	    });
+	  } else {
+	    $.get('/api/manager/loan/classrooms', request, function (result) {
+	      console.log(result);
+	      LoanHistory = result.data;
+
+	      // update every times, maybe data will be deleted
+	      FinalHistoryPage = Math.ceil(result.total / 10);
+
+	      if (result.total == 0) {
+	        Materialize.toast('Not History', 1000);
+	      } else {
+	        produceLoanHistory(LoanHistory);
+	      }
+	    });
+	  }
 	}
 
 	function produceLoanHistory(list) {
@@ -2834,6 +2849,12 @@ webpackJsonp([0],{
 	      }
 	    });
 	  });
+
+	  $('#history_date').unbind('click');
+	  $('#history_date').change(function () {
+	    HistoryFilter = 'on';
+	    getLoanHistory();
+	  });
 	}
 
 	function loanTablePageEvent() {
@@ -2914,8 +2935,6 @@ webpackJsonp([0],{
 
 	  return result;
 	}
-
-	function validateData(type) {}
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
@@ -2976,7 +2995,7 @@ webpackJsonp([0],{
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/home/snow/Desktop/Work/VersatilitySystem/resources/assets/components/schedule.vue"
+	  var id = "/home/demonic/gitProject/VersatilitySystem/resources/assets/components/schedule.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {

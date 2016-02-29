@@ -137,7 +137,7 @@ class Loan extends Entity
      */
     public static function getConflictList($p_id, $date)
     {
-        $LTK = 1 << date('w', strtotime($date_info[0]));
+        $LTK = 1 << date('w', strtotime($date));
 
         $conflict_query = self::getConflictQuery(
                 $p_id,
