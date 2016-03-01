@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
+use Excel;
 use App\Affair\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
