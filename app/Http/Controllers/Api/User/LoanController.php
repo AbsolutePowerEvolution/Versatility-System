@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use Auth;
+use App\Affair\Property;
 use App\Affair\Loan;
 use App\Affair\Category;
 use App\Http\Controllers\Controller;
@@ -50,29 +51,24 @@ class LoanController extends Controller
     /**
      * Display a listing of the classroom borrow.
      *
-     * Request $request
-     * @return \Illuminate\Http\Response
+     * @param string date
+     * @return Json
      */
-    public function indexClassroomBorrow(Request $request)
+    public function indexClassroomBorrow(Request $request, $date)
     {
-        // get length
-        $length = ($request->input('length') > 0) ? ($request->input('length')) : 10;
-
-        $borrow_list = Loan::with([
-                'type',
+        $classroom_borrow = Property::with([
                 'status',
+                'loans' => function ($query) use ($date) {
+                    Loan::getConflictList($date, $query)
+                        ->where('loans.status', '=', Category::getCategoryId('loan.status', 'accepted'))
+                        ->join('categories as type', 'type.id', '=', 'loans.type')
+                        ->join('users', 'users.id', '=', 'user_id');
+                },
             ])
-            ->join('properties as pro_t', function ($query) {
-                $query->on('pro_t.id', '=', 'property_id')
-                    ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
-            })
-            ->where('user_id', '=', Auth::user()->id)
-            ->paginate($length, [
-                'loans.*',
-                'pro_t.name as property_name',
-            ]);
+            ->where('category', '=', Category::getCategoryId('property', 'classroom'))
+            ->get();
 
-        return response()->json($borrow_list);
+        return response()->json($classroom_borrow);
     }
 
     /**
