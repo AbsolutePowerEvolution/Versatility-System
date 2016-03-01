@@ -54,7 +54,7 @@ class LoanController extends Controller
      * @param string date
      * @return Json
      */
-    public function indexClassroomBorrow(Request $request, $date)
+    public function indexDatedClassroomBorrow(Request $request, $date)
     {
         $classroom_borrow = Property::with([
                 'status',

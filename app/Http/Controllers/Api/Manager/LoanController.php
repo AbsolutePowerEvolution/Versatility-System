@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api\Manager;
 
 use Auth;
-use App\Affair\Property;
 use App\Affair\Loan;
 use App\Affair\Category;
 use App\Affair\User;
@@ -45,12 +44,50 @@ class LoanController extends Controller
     }
 
     /**
-     * Display a listing of the classroom borrow that status is accepted.
+     * Display a listing of the classroom borrow list.
+     *
+     * @param Request $request
+     * @return Json
+     */
+    public function indexClassroomBorrow(Request $request)
+    {
+        // get length
+        $length = ($request->input('length') > 0) ? $request->input('length') : 10;
+        $loan_type = Category::getCategoryId('loan.type', $request->input('type'));
+        $loan_status = Category::getCategoryId('loan.status', $request->input('status'));
+
+        // get borrow array
+        $borrow_query = Loan::with([
+                'user',
+                'type',
+                'status',
+            ])
+            ->join('properties as pro_t', function ($join) {
+                $join->on('pro_t.id', '=', 'property_id')
+                    ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
+            });
+
+        // if loan type/status is set
+        $borrow_query = ($loan_type > 0) ? $borrow_query->where('type', '=', $loan_type) : $borrow_query;
+        $borrow_query = ($loan_status > 0) ? $borrow_query->where('loans.status', '=', $loan_status) : $borrow_query;
+
+        // get borrow list
+        $borrow_list = $borrow_query
+            ->paginate($length, [
+                'loans.*',
+                'pro_t.name as property_name',
+            ]);
+
+        return response()->json($borrow_list);
+    }
+
+    /**
+     * Display a listing of the classroom borrow.
      *
      * @param string date
      * @return Json
      */
-    public function indexClassroomBorrow(Request $request, $date)
+    public function indexDatedClassroomBorrow(Request $request, $date)
     {
         $classroom_borrow = Property::with([
                 'status',
