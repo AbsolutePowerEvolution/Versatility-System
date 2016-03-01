@@ -56,7 +56,7 @@ class UserController extends Controller
         $file_path = $request->file('studentData')->getRealPath();
 
         // extract student data from the file uploaded
-        $student_data = Excel::load($file_path)->to_array();
+        $student_data = Excel::load($file_path)->toArray();
 
         // processing & storing student data
         foreach($student_data as $data) {
