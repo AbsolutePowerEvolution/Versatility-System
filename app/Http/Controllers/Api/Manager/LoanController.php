@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Manager;
 
 use Auth;
 use App\Affair\Loan;
+use App\Affair\Property;
 use App\Affair\Category;
 use App\Affair\User;
 use App\Affair\Timezone;

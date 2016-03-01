@@ -20,6 +20,15 @@
     </div>
   </div>
 
+  <!-- History Page -->
+  <div id="history_container">
+    <input type="date" class="datepicker" id="history_date">
+    <ul id="history_card_container" class="collapsible" data-collapsible="accordion">
+    </ul>
+    <ul id="history_page_container" class="pagination center">
+    </ul>
+  </div>
+
   <!-- Create Account Modal -->
   <div id="add" class="modal materialize_modal">
     <div class="modal-content">
@@ -69,15 +78,18 @@
   <!-- Import File Modal -->
   <div id="import_file" class="modal materialize_modal">
     <div class="modal-content">
-      <div class="file-field input-field">
-        <div class="btn">
-          <span>File</span>
-          <input type="file" id="excel">
+      <form id="fileForm">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input type="file" name="studentData">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
         </div>
-        <div class="file-path-wrapper">
-          <input class="file-path validate" type="text">
-        </div>
-      </div>
+
+      </form>
     </div>
     <div class="modal-footer">
       <button id="importFileBtn" class="center btn">

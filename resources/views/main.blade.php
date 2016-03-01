@@ -23,6 +23,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-validator/1.4.4/vue-validator.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.4.0/pikaday.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js" defer></script>
         <script src="{{ asset('assets/js/vendors.js') }}" defer></script>
         <script src="{{ asset('assets/js/bundle.js') }}" defer></script>
     </body>

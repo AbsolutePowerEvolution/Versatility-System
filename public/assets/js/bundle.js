@@ -1371,19 +1371,15 @@ webpackJsonp([0],{
 	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var Sammy = __webpack_require__(193);
-	var PageLength;
-	var PageNow = 1;
-	var TotalPeople = 0;
+	var CurrentPage = 1;
+	var TotalPage;
+	var Filter;
 
 	Sammy('#main', function () {
 	  this.get('#/admin/account', function (context) {
 	    context.loadPartials({ menu: '/templates/admin/menu.ms' }).partial('/templates/admin/account.ms').then(function () {
 	      accountButtonEvent();
 	      accountDataEvent();
-
-	      $('#excel').change(function () {
-	        console.log(this.files[0]);
-	      });
 	    });
 	  });
 	});
@@ -1402,6 +1398,33 @@ webpackJsonp([0],{
 	    $('#materialize-lean-overlay-30').css('display', 'none');
 	    $('#' + modalTarget).fadeOut();
 	  });
+
+	  $('#importFileBtn').unbind('click');
+	  $('#importFileBtn').click(function () {
+	    var request = {};
+	    request._token = $('meta[name="csrf-token"]').attr('content');
+
+	    var file = $('input[name="studentData"]')[0].files[0];
+	    if (file == null) {
+	      Materialize.toast('請先選擇檔案');
+	      return;
+	    }
+
+	    $('#fileForm').ajaxSubmit({
+	      url: '/api/manager/user/import',
+	      method: 'POST',
+	      data: request,
+	      clearForm: true,
+	      success: function success(result) {
+	        console.log(result);
+
+	        $('input[name="studentData"]').val(''); // empty input file
+	      },
+	      error: function error() {
+	        Materialize.toast('上傳檔案失敗');
+	      }
+	    });
+	  });
 	}
 
 	function accountDataEvent() {
@@ -1411,10 +1434,11 @@ webpackJsonp([0],{
 	    var request = {};
 	    request._token = $('meta[name="csrf-token"]').attr('content');
 
-	    request.account = $('#account').val();
+	    request.username = $('#account').val();
 	    request.password = $('#password').val();
 	    request.nickname = $('#nickname').val();
 	    request.email = $('#email').val();
+	    request.phone = $('#phone').val();
 
 	    $.post('/api/manager/user', request, function (result) {
 	      console.log(result);
@@ -1427,8 +1451,14 @@ webpackJsonp([0],{
 	    var request = {};
 	    var id = $(this).data('account_id');
 
-	    $.put('/api/manager/user/' + id, function (result) {
-	      console.log(result);
+	    $.ajax({
+	      url: '/api/manager/user/' + id,
+	      method: 'put',
+	      data: request,
+	      success: function success(result) {
+	        console.log(result);
+	      },
+	      fail: function fail(result) {}
 	    });
 	  });
 
@@ -1452,6 +1482,101 @@ webpackJsonp([0],{
 	  var i;
 	  var j;
 	}
+
+	/*
+	function produceHistoryPage() {
+	  var i;
+	  var minPage = Math.max(CurrentHistoryPage - 5, 1);
+	  var maxPage = Math.min(minPage + 10, FinalHistoryPage);
+	  var text;
+
+	  // empty
+	  $('#history_page_container').html('');
+	  text = '<li id="history_prev" class="waves-effect"><a><i class="material-icons">chevron_left</i></a></li>';
+	  for(i = minPage; i <= maxPage; i++) {
+	    if(i != CurrentHistoryPage) {
+	      text += '<li class="waves-effect history_page" data-history_page="' + i + '">';
+	      text += '<a>' + i + '</a>';
+	      text += '</li>';
+	    }else {
+	      text += '<li class="active">';
+	      text += '<a>' + i + '</a>';
+	      text += '</li>';
+	    }
+	  }
+	  text += '<li id="history_next" class="waves-effect"><a><i class="material-icons">chevron_right</i></a></li>';
+	  $('#history_page_container').append(text);
+
+	  // Disable change page btn
+	  if(CurrentHistoryPage == 1) {
+	    $('#history_prev').removeClass('waves-effect').addClass('disabled');
+	  }else if(CurrentHistoryPage == FinalHistoryPage) {
+	    $('#history_next').removeClass('waves-effect').addClass('disabled');
+	  }
+
+	  // bind History Event
+	  loanHistoryEvent();
+	}
+
+
+
+	function loanHistoryEvent() {
+	  $('#history_prev').unbind('click');
+	  $('#history_prev').click(function() {
+	    if(CurrentHistoryPage == 1) {
+	      Materialize.toast('已在最前頁', 1000);
+	      return;
+	    } else {
+	      CurrentHistoryPage--;
+	      getLoanHistory();
+	    }
+	  });
+
+	  $('#history_next').unbind('click');
+	  $('#history_next').click(function() {
+	    if(CurrentHistoryPage == FinalHistoryPage) {
+	      Materialize.toast('已在最末頁', 1000);
+	      return;
+	    } else {
+	      CurrentHistoryPage++;
+	      getLoanHistory();
+	    }
+	  });
+
+	  $('.history_page').unbind('click');
+	  $('.history_page').click(function() {
+	    CurrentHistoryPage = $(this).data('history_page');
+	    getLoanHistory();
+	  });
+
+	  $('.history_delete_btn').unbind('click');
+	  $('.history_delete_btn').click(function() {
+	    var historyId = $(this).data('history_id');
+	    var request = {};
+	    request._token = $('meta[name="csrf-token"]').attr('content');
+
+	    $.ajax({
+	      url: '/api/manager/loan/class-delete/' + historyId,
+	      method: 'delete',
+	      data: request,
+	      success: function(result) {
+	        console.log(result);
+	        Materialize.toast('刪除歷史紀錄成功', 1000);
+	        getLoanHistory();
+	      },
+	      fail: function() {
+	        Materialize.toast('刪除歷史紀錄失敗', 1000);
+	      }
+	    });
+	  });
+
+	  $('#history_date').unbind('change');
+	  $('#history_date').change(function() {
+	    getLoanHistory();
+	  });
+	}
+
+	 */
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ },
@@ -2406,12 +2531,10 @@ webpackJsonp([0],{
 	var LoanTablePage;
 	var AllLoanTablePage;
 
+	var ClassroomName = [];
 	var LoanHistory; // History Data
-	var CurrentHistoryPage;
-	var FinalHistoryPage;
 
 	var LoanType; // one_day, many_days. For Modal
-	var HistoryFilter; // on / off. Filter is to make manager delete quickly
 
 	(0, _sammy2.default)('#main', function () {
 	  this.get('#/admin/loan', function (context) {
@@ -2449,8 +2572,10 @@ webpackJsonp([0],{
 	  $('.modal #short').click();
 
 	  var request = {};
+	  request._token = $('meta[name="csrf-token"]').attr('content');
 	  request.date = moment(new Date()).format('YYYY-MM-DD');
 
+	  // get all classroom name
 	  $.get('/api/manager/property/classrooms', request, function (result) {
 	    console.log(result);
 
@@ -2459,6 +2584,7 @@ webpackJsonp([0],{
 	      text += result[i].name;
 	      text += '</option>';
 
+	      ClassroomName[result[i].id] = result[i].name;
 	      $('.modal').find('#classroom').find('option:last').after(text);
 	    }
 
@@ -2466,6 +2592,7 @@ webpackJsonp([0],{
 	  });
 
 	  request.con_str = '>=';
+	  // get all period that can be borrowed
 	  $.get('/api/manager/setting', request, function (result) {
 	    console.log('setting');
 	    console.log(result);
@@ -2532,6 +2659,8 @@ webpackJsonp([0],{
 	  $('.switch_screen').unbind('click');
 	  $('.switch_screen').click(function () {
 	    var screenType = $(this).data('screen_type');
+	    var today = moment(new Date()).format('YYYY-MM-DD');
+
 	    if (screenType == 'loan') {
 	      $('#loan_container').show();
 	      $('#history_container').hide();
@@ -2542,8 +2671,7 @@ webpackJsonp([0],{
 	      $('#loan_container').hide();
 	      $('#history_container').show();
 
-	      HistoryFilter = 'off';
-	      CurrentHistoryPage = 1;
+	      $('#history_date').val(today);
 	      getLoanHistory();
 	    }
 	  });
@@ -2576,11 +2704,12 @@ webpackJsonp([0],{
 	  $('#datepicker').unbind('change');
 	  $('#datepicker').change(function () {
 	    var request = {};
-	    request.date = $(this).val();
-	    request.status = 'accepted';
-	    console.log(request.date);
+	    var date = $(this).val();
 
-	    $.get('/api/manager/property/classrooms', request, function (result) {
+	    request._token = $('meta[name="csrf-token"]').attr('content');
+	    request.status = 'accepted';
+
+	    $.get('/api/manager/loan/classrooms/' + date, request, function (result) {
 	      LoanTablePage = 0;
 	      AllLoanTablePage = Math.floor(result.length / 5);
 	      LoanTable = [];
@@ -2678,49 +2807,23 @@ webpackJsonp([0],{
 	function getLoanHistory() {
 	  var temp = $('#history_date').val();
 	  var request = {};
-	  request.page = CurrentHistoryPage;
-	  request.length = 10;
 	  request.status = 'accepted';
 	  request.date = moment(new Date(temp)).format('YYYY-MM-DD');
 
 	  console.log(request);
-	  if (HistoryFilter == 'on') {
-	    $.get('/api/manager/loan/classrooms/' + request.date, request, function (result) {
-	      console.log(result);
-	      LoanHistory = result.data;
-
-	      // update every times, maybe data will be deleted
-	      FinalHistoryPage = Math.ceil(result.total / 10);
-
-	      if (result.total == 0) {
-	        Materialize.toast('Not History', 1000);
-	        $('#history_card_container').html('');
-	        $('#history_page_container').html('');
-	      } else {
-	        produceLoanHistory(LoanHistory);
-	      }
-	    });
-	  } else {
-	    $.get('/api/manager/loan/classrooms', request, function (result) {
-	      console.log(result);
-	      LoanHistory = result.data;
-
-	      // update every times, maybe data will be deleted
-	      FinalHistoryPage = Math.ceil(result.total / 10);
-
-	      if (result.total == 0) {
-	        Materialize.toast('Not History', 1000);
-	        $('#history_card_container').html('');
-	        $('#history_page_container').html('');
-	      } else {
-	        produceLoanHistory(LoanHistory);
-	      }
-	    });
-	  }
+	  $.get('/api/manager/loan/classrooms/' + request.date, request, function (result) {
+	    console.log(result);
+	    LoanHistory = result;
+	    produceLoanHistory();
+	  }).fail(function () {
+	    Materialize.toast('借用紀錄資料取得失敗');
+	  });
 	}
 
-	function produceLoanHistory(list) {
+	function produceLoanHistory() {
 	  var i;
+	  var j;
+	  var list;
 	  var text;
 	  // header
 	  var propertyName;
@@ -2733,121 +2836,70 @@ webpackJsonp([0],{
 	  var email;
 	  var remark;
 	  var id;
+	  // check not zero
+	  var total = 0;
 
-	  $('#history_card_container').html('');
-	  for (i = 0; i < 10 && i < list.length; i++) {
-	    propertyName = list[i].property_name;
-	    dateBeganAt = list[i].date_began_at;
-	    dateEndedAt = list[i].date_ended_at;
-	    timeBeganAt = list[i].time_began_at;
-	    timeEndedAt = list[i].time_ended_at;
+	  $('#history_card_container').html(''); // empty old html label
+	  for (j = 0; j < LoanHistory.length; j++) {
+	    list = LoanHistory[j].loans;
 
-	    text = '<li>';
-	    // header
-	    text += '<div class="collapsible-header"><div class="row">';
-	    text += '<span class="col s2"><b>教室:</b>' + propertyName + '</span>';
-	    if (list[i].long_term_token !== null) {
-	      text += '<span class="col s2"><b>類型:</b>短期</span>';
-	      text += '<span class="col s3"><b>日期:</b>' + dateBeganAt + '</span>';
-	    } else {
-	      text += '<span class="col s2"><b>類型:</b>長期</span>';
-	      text += '<span class="col s3"><b>日期:</b>' + dateBeganAt + '~' + dateEndedAt + '</span>';
+	    for (i = 0; i < list.length; i++) {
+	      total++;
+	      propertyName = ClassroomName[list[i].property_id];
+	      dateBeganAt = list[i].date_began_at;
+	      dateEndedAt = list[i].date_ended_at;
+	      timeBeganAt = list[i].time_began_at;
+	      timeEndedAt = list[i].time_ended_at;
+
+	      text = '<li>';
+	      // header
+	      text += '<div class="collapsible-header"><div class="row">';
+	      text += '<span class="col s2"><b>教室:</b>' + propertyName + '</span>';
+	      if (list[i].long_term_token !== null) {
+	        text += '<span class="col s2"><b>類型:</b>短期</span>';
+	        text += '<span class="col s3"><b>日期:</b>' + dateBeganAt + '</span>';
+	      } else {
+	        text += '<span class="col s2"><b>類型:</b>長期</span>';
+	        text += '<span class="col s3"><b>日期:</b>' + dateBeganAt + '~' + dateEndedAt + '</span>';
+	      }
+	      text += '<span class="col s3"><b>時段:</b>';
+	      if (list[i].time_began_at == null) {
+	        text += '整天';
+	      } else {
+	        text += timeBeganAt + '~' + timeEndedAt;
+	      }
+	      text += '</span></div></div>';
+
+	      nickname = list[i].nickname;
+	      email = list[i].email;
+	      remark = list[i].remark;
+	      id = list[i].id;
+	      // body
+	      text += '<div class="collapsible-body"><div class="row">';
+	      text += '<span class="col offset-s1 s2">借用人</span><span class="col s8">' + nickname + '</span>';
+	      text += '</div><div class="row">';
+	      text += '<span class="col offset-s1 s2">聯絡方式</span><span class="col s8">' + email + '</span>';
+	      text += '</div><div class="row">';
+	      text += '<span class="col offset-s1 s2">借用理由:</span><span class="col s8">' + remark + '</span>';
+	      text += '</div><div class="row center-align">';
+	      text += '<button class="btn red history_delete_btn" data-history_id="' + id + '">刪除</button>';
+	      text += '</div></li>';
+	      $('#history_card_container').append(text);
 	    }
-	    text += '<span class="col s3"><b>時段:</b>';
-	    if (list[i].time_began_at == null) {
-	      text += '整天';
-	    } else {
-	      text += timeBeganAt + '~' + timeEndedAt;
-	    }
-	    text += '</span></div></div>';
+	  }
 
-	    nickname = list[i].user.nickname;
-	    email = list[i].user.email;
-	    remark = list[i].remark;
-	    id = list[i].id;
-	    // body
-	    text += '<div class="collapsible-body"><div class="row">';
-	    text += '<span class="col offset-s1 s2">借用人</span><span class="col s8">' + nickname + '</span>';
-	    text += '</div><div class="row">';
-	    text += '<span class="col offset-s1 s2">聯絡方式</span><span class="col s8">' + email + '</span>';
-	    text += '</div><div class="row">';
-	    text += '<span class="col offset-s1 s2">借用理由:</span><span class="col s8">' + remark + '</span>';
-	    text += '</div><div class="row center-align">';
-	    text += '<button class="btn red history_delete_btn" data-history_id="' + id + '">刪除</button>';
-	    text += '</div></li>';
-	    $('#history_card_container').append(text);
+	  if (total == 0) {
+	    Materialize.toast('這天沒有借用紀錄', 1000);
 	  }
 
 	  $('.collapsible').collapsible({
 	    accordion: false
 	  });
 	  loanButtonEvent();
-	  produceHistoryPage();
-	}
-
-	function produceHistoryPage() {
-	  var i;
-	  var minPage = Math.max(CurrentHistoryPage - 5, 1);
-	  var maxPage = Math.min(minPage + 10, FinalHistoryPage);
-	  var text;
-
-	  // empty
-	  $('#history_page_container').html('');
-	  text = '<li id="history_prev" class="waves-effect"><a><i class="material-icons">chevron_left</i></a></li>';
-	  for (i = minPage; i <= maxPage; i++) {
-	    if (i != CurrentHistoryPage) {
-	      text += '<li class="waves-effect history_page" data-history_page="' + i + '">';
-	      text += '<a>' + i + '</a>';
-	      text += '</li>';
-	    } else {
-	      text += '<li class="active">';
-	      text += '<a>' + i + '</a>';
-	      text += '</li>';
-	    }
-	  }
-	  text += '<li id="history_next" class="waves-effect"><a><i class="material-icons">chevron_right</i></a></li>';
-	  $('#history_page_container').append(text);
-
-	  // Disable change page btn
-	  if (CurrentHistoryPage == 1) {
-	    $('#history_prev').removeClass('waves-effect').addClass('disabled');
-	  } else if (CurrentHistoryPage == FinalHistoryPage) {
-	    $('#history_next').removeClass('waves-effect').addClass('disabled');
-	  }
-
-	  // bind History Event
 	  loanHistoryEvent();
 	}
 
 	function loanHistoryEvent() {
-	  $('#history_prev').unbind('click');
-	  $('#history_prev').click(function () {
-	    if (CurrentHistoryPage == 1) {
-	      Materialize.toast('已在最前頁', 1000);
-	      return;
-	    } else {
-	      CurrentHistoryPage--;
-	      getLoanHistory();
-	    }
-	  });
-
-	  $('#history_next').unbind('click');
-	  $('#history_next').click(function () {
-	    if (CurrentHistoryPage == FinalHistoryPage) {
-	      Materialize.toast('已在最末頁', 1000);
-	      return;
-	    } else {
-	      CurrentHistoryPage++;
-	      getLoanHistory();
-	    }
-	  });
-
-	  $('.history_page').unbind('click');
-	  $('.history_page').click(function () {
-	    CurrentHistoryPage = $(this).data('history_page');
-	    getLoanHistory();
-	  });
-
 	  $('.history_delete_btn').unbind('click');
 	  $('.history_delete_btn').click(function () {
 	    var historyId = $(this).data('history_id');
@@ -2871,7 +2923,6 @@ webpackJsonp([0],{
 
 	  $('#history_date').unbind('change');
 	  $('#history_date').change(function () {
-	    HistoryFilter = 'on';
 	    getLoanHistory();
 	  });
 	}
@@ -2916,16 +2967,15 @@ webpackJsonp([0],{
 	  // init X
 	  $('table').find('.tr_classroom').eq(index).find('.td_time_period').html('X');
 
-	  //console.log(id + ', ' + index);
-	  for (var i = 0; i < LoanTable[id].loan_classroom.length; i++) {
+	  for (var i = 0; i < LoanTable[id].loans.length; i++) {
 	    // examine selected day's status
-	    began = new Date(LoanTable[id].loan_classroom[i].date_began_at); // date began
-	    ended = new Date(LoanTable[id].loan_classroom[i].date_ended_at); // date ended
+	    began = new Date(LoanTable[id].loans[i].date_began_at); // date began
+	    ended = new Date(LoanTable[id].loans[i].date_ended_at); // date ended
 	    if (began <= selectedDay && selectedDay <= ended) {
 	      // check the day
-	      if (LoanTable[id].loan_classroom[i].time_began_at != null) {
-	        began = LoanTable[id].loan_classroom[i].time_began_at;
-	        ended = LoanTable[id].loan_classroom[i].time_ended_at;
+	      if (LoanTable[id].loans[i].time_began_at != null) {
+	        began = LoanTable[id].loans[i].time_began_at;
+	        ended = LoanTable[id].loans[i].time_ended_at;
 	        //console.log(began + '~' + ended);
 	        began = matchTool(began, PeriodStart); // add one, because nth-of-type start from 1
 	        ended = matchTool(ended, PeriodEnd);
