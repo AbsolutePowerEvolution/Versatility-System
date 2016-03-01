@@ -85,27 +85,28 @@ class Loan extends Entity
      */
     private static function getConflictQuery($property_id, $date_info, $time_info, $LTK)
     {
-        $conflict_query = DB::table('loans');
+        $loans = new Loan;
 
         if ($property_id != null) {
-            $conflict_query->where('property_id', '=', $property_id);
+            $loans = $loans->where('property_id', '=', $property_id);
         }
 
-        $conflict_query
+        $conflict_query = $loans
             ->where(function ($query) use ($date_info) {
                 $query
                     ->whereBetween('date_ended_at', $date_info)
-                    ->whereRaw('? BETWEEN `date_began_at` AND `date_ended_at`', [$date_info[1]]);
+                    ->orWhereRaw('? BETWEEN `date_began_at` AND `date_ended_at`', [$date_info[1]]);
             })
             ->where(function ($query) use ($time_info) {
                 $query
                     ->whereBetween('time_ended_at', $time_info)
-                    ->whereRaw('? BETWEEN `time_began_at` AND `time_ended_at`', [$time_info[1]]);
+                    ->orWhereRaw('? BETWEEN `time_began_at` AND `time_ended_at`', [$time_info[1]]);
             })
             ->where(function ($query) use ($LTK) {
                 $query
                     ->whereRaw('long_term_token & ? > 0', [$LTK])
-                    ->orWhereNull('long_term_token');
+                    ->orWhereNull('long_term_token')
+                    ->orWhere('long_term_token', '=', 0);
             });
 
         return $conflict_query;

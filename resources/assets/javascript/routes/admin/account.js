@@ -1,7 +1,7 @@
 var Sammy = require('sammy');
-var PageLength;
-var PageNow = 1;
-var TotalPeople = 0;
+var CurrentPage = 1;
+var TotalPage;
+var Filter;
 
 Sammy('#main', function() {
   this.get('#/admin/account', function(context) {
@@ -47,10 +47,11 @@ function accountDataEvent() {
     var request = {};
     request._token = $('meta[name="csrf-token"]').attr('content');
 
-    request.account = $('#account').val();
+    request.username = $('#account').val();
     request.password = $('#password').val();
     request.nickname = $('#nickname').val();
     request.email = $('#email').val();
+    request.phone = $('#phone').val();
 
     $.post('/api/manager/user', request, function(result) {
       console.log(result);
@@ -63,8 +64,16 @@ function accountDataEvent() {
     var request = {};
     var id = $(this).data('account_id');
 
-    $.put('/api/manager/user/' + id, function(result) {
-      console.log(result);
+    $.ajax({
+      url: '/api/manager/user/' + id,
+      method: 'put',
+      data: request,
+      success: function(result) {
+        console.log(result);
+      },
+      fail: function(result) {
+
+      }
     });
   });
 

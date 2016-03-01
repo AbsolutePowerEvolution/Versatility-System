@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
+use Auth;
 use App\Affair\Loan;
 use App\Affair\Category;
 use App\Affair\User;
@@ -53,7 +54,7 @@ class LoanController extends Controller
         // get length
         $length = ($request->input('length') > 0) ? $request->input('length') : 10;
         $loan_type = Category::getCategoryId('loan.type', $request->input('type'));
-        $loan_status = Category::getCategoryId('loan.status', $request->input('status'));
+        $loan_status = Category::getCategoryId('loan.status', $request->input('status', 'submitted'));
 
         // get borrow query
         $borrow_query = Loan::with([
@@ -92,12 +93,12 @@ class LoanController extends Controller
         $length = ($request->input('length') > 0) ? $request->input('length') : 10;
 
         $borrow_list = Loan::getConflictList(null, $date)
-            ->where('type', '=', Category::getCategoryId('loan.status', 'accepted'))
             ->with([
                 'user',
                 'type',
                 'status',
             ])
+            ->where('loans.status', '=', Category::getCategoryId('loan.status', 'accepted'))
             ->join('properties as pro_t', function ($join) {
                 $join->on('pro_t.id', '=', 'property_id')
                     ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
@@ -196,7 +197,7 @@ class LoanController extends Controller
                 'remark',
             ]), [
                 'user_id' => Auth::user()->id,
-                'type' => Category::getCategoryId('loan.type', $request->input('type')),
+                'type' => Category::getCategoryId('loan.type', $request->input('type', 'course')),
                 'status' => Category::getCategoryId('loan.status', 'accepted'),
                 'long_term_token' => bindec($request->input('long_term_token')),
             ]));

@@ -205,6 +205,7 @@ function loanDataEvent() {
   $('#datepicker').change(function() {
     var request = {};
     request.date = $(this).val();
+    request.status = 'accepted';
     console.log(request.date);
 
     $.get('/api/manager/property/classrooms', request, function(result) {
@@ -232,27 +233,28 @@ function loanDataEvent() {
     request._token = $('meta[name="csrf-token"]').attr('content');
     // classroom id
     request.property_id = $('.modal').find('#classroom').val();
+    request.type = 'course';
 
     // get begin date and end date
     if(LoanType == 'one_day') {// one_day
       temp = $('.modal').find('input[name="start_date"]').val();
       temp = moment(new Date(temp)).format('YYYY-MM-DD');
       if(temp != 'Invalid date') {
-        a = new Date();
-        b = new Date(temp);
+        a = new Date(); // now time
+        b = new Date(temp); // select date
 
-        if(b >= a) {
+        if(b.getDate() >= a.getDate()) {
           request.date_began_at = temp;
           request.date_ended_at = temp;
-        }else {
+        } else {
           Materialize.toast('不能借過去的日期', 1000);
           return;
         }
-      }else {
+      } else {
         Materialize.toast('還沒選擇日期', 1000);
         return;
       }
-    }else { // many_days
+    } else { // many_days
       temp = $('#setting_time').val();
       request.date_began_at = $('#setting_time')
         .find('option[value="' + temp + '"]')
@@ -276,9 +278,25 @@ function loanDataEvent() {
       }
     }
 
+    request.time_began_at = $('.modal')
+        .find('select[name="time_start"]')
+        .val();
+    request.time_ended_at = $('.modal')
+        .find('select[name="time_end"]')
+        .val();
+    // check start and end date diff
+    if(errMsg == '') {
+      a = matchTool(request.time_began_at, PeriodStart);
+      b = matchTool(request.time_ended_at, PeriodEnd);
+      if(a > b) {
+        Materialize.toast('時段前後順序不對，可能太早', 1000);
+        return;
+      }
+    }
+
     request.remark = $('input[name="remark"]').val();
     console.log(request);
-    $.post('/api/user/loan/create', request, function(result) {
+    $.post('/api/manager/loan/class-create', request, function(result) {
       if(result.status == 0) {
         Materialize.toast('請求借用成功', 1000);
       }else {
@@ -299,6 +317,7 @@ function getLoanHistory() {
   request.status = 'accepted';
   request.date = moment(new Date(temp)).format('YYYY-MM-DD');
 
+  console.log(request);
   if(HistoryFilter == 'on') {
     $.get('/api/manager/loan/classrooms/' + request.date, request, function(result) {
       console.log(result);
@@ -309,6 +328,8 @@ function getLoanHistory() {
 
       if(result.total == 0) {
         Materialize.toast('Not History', 1000);
+        $('#history_card_container').html('');
+        $('#history_page_container').html('');
       }else {
         produceLoanHistory(LoanHistory);
       }
@@ -323,6 +344,8 @@ function getLoanHistory() {
 
       if(result.total == 0) {
         Materialize.toast('Not History', 1000);
+        $('#history_card_container').html('');
+        $('#history_page_container').html('');
       }else {
         produceLoanHistory(LoanHistory);
       }
@@ -480,7 +503,7 @@ function loanHistoryEvent() {
     });
   });
 
-  $('#history_date').unbind('click');
+  $('#history_date').unbind('change');
   $('#history_date').change(function() {
     HistoryFilter = 'on';
     getLoanHistory();
