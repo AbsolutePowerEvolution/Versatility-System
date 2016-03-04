@@ -21,11 +21,10 @@
   </div>
 
   <!-- History Page -->
-  <div id="history_container">
-    <input type="date" class="datepicker" id="history_date">
-    <ul id="history_card_container" class="collapsible" data-collapsible="accordion">
+  <div id="list_container">
+    <ul id="list_element_container" class="collapsible" data-collapsible="accordion">
     </ul>
-    <ul id="history_page_container" class="pagination center">
+    <ul id="list_page_container" class="pagination center">
     </ul>
   </div>
 

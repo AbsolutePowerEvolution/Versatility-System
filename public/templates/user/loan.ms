@@ -9,7 +9,7 @@
                     <a herf=""><i class="material-icons">list</i>借用教室</a>
                   </li>
                   <li class="tab center switch_screen" data-screen_type="history">
-                    <a herf=""><i class="material-icons">history</i>歷史紀錄</a>
+                    <a herf=""><i class="material-icons">history</i>全部借用紀錄</a>
                   </li>
                 </ul>
             </div>
@@ -86,15 +86,17 @@
           新增借用
         </span>
       </div>
+      <div class="row" id="view_setting_time">
+        <h5>可借用時段</h3>
+      </div>
     </div>
   </div>
 </div>
 
 <!-- History Page -->
 <div id="history_container">
+  <input type="date" class="datepicker" id="history_date">
   <ul id="history_card_container" class="collapsible" data-collapsible="accordion">
-  </ul>
-  <ul id="history_page_container" class="pagination center">
   </ul>
 </div>
 
@@ -103,15 +105,20 @@
   <div class="modal-content">
     <div class="switch_type_container">
       <button class="btn switch_date" data-date_type="one_day">短期(一天)</button>
-      <button class="btn switch_date" data-date_type="one_semester">整學期</button>
+      <button class="btn switch_date" data-date_type="many_days">長期</button>
     </div>
     <input type="date" class="datepicker for_all for_one_day" placeholder="選擇借用日期" name="start_date">
     <div class="input-field">
-      <select id="classroom" name="classroom">
+      <select id="classroom">
         <option disabled>教室</option>
       </select>
     </div>
-    <div class="checkbox_container for_all for_one_semester">
+    <div class="input-field for_all for_many_days">
+      <select id="setting_time">
+        <option disabled>時段</option>
+      </select>
+    </div>
+    <div class="checkbox_container for_all for_many_days">
       <p>選星期幾</p>
       <input type="checkbox" value="0" id="day0">
       <label for="day0">日</label>
