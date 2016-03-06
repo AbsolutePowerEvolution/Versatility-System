@@ -1,26 +1,16 @@
 {{>menu}}
 <div id="account_container">
-  <div id="account_system_content" class="row">
-    <div id="search_bar" class="row">
-      <div class="input-field">
-        <select id="">
-          <option value=""></option>
-        </select>
-        <input type="text" placeholder="帳號名稱" name="search"/>
-      </div>
-    </div>
-
+  <div class="row">
     <div class="row">
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="add">
+      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="user" data-type="add">
         <i class="material-icons">add</i>
       </span>
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="import_file">
-        匯入檔案
-      </span>
+      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="import_file">匯入檔案</span>
+      <span class="waves-effect waves-light btn red" id="deleteAccountBtn">刪除</span>
     </div>
   </div>
 
-  <!-- History Page -->
+  <!-- list Page -->
   <div id="list_container">
     <ul id="list_element_container" class="collapsible" data-collapsible="accordion">
     </ul>
@@ -29,7 +19,7 @@
   </div>
 
   <!-- Create Account Modal -->
-  <div id="add" class="modal materialize_modal">
+  <div id="user" class="modal materialize_modal">
     <div class="modal-content">
       <div class="row">
         <div class="input-field">
@@ -68,9 +58,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button id="addAccountBtn" class="center btn">
-        確認送出
-      </button>
+      <button id="addAccountBtn" class="center btn">新增</button>
+      <button id="updateAccountBtn" class="center btn">更新</button>
     </div>
   </div>
 
