@@ -32,14 +32,16 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        User::create(array_only($request->all(), [
-                'role',
-                'username',
-                'password',
-                'nickname',
-                'email',
-                'phone',
-            ]));
+        $user = new User;
+
+        $user->username = $request->input('username');
+        $user->password = bcrypt($request->input('password'));
+        $user->nickname = $request->input('nickname');
+        $user->email    = $request->input('email');
+        $user->phone    = $request->input('phone');
+        $user->save();
+
+        $user->role()->save(Role::where('name', $request->input('role')->first()));
 
         return response()->json(['status' => 0]);
     }
