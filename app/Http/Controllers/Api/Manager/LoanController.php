@@ -235,7 +235,7 @@ class LoanController extends Controller
      */
     public function getClassroomBorrowInfo(Request $request)
     {
-        // get all timezone data with now date
+        // get all timezone data with today
         $day = Carbon::now()->toDateString();
         $con_str = $request->input('con_str', '<=');
 

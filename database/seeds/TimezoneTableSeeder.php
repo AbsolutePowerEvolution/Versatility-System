@@ -12,6 +12,6 @@ class TimezoneTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Timezone::class, mt_rand(50, 100))->create();
+        factory(Timezone::class, mt_rand(10, 20))->create();
     }
 }

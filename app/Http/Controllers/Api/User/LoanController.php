@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Api\User;
 
 use Auth;
+use Carbon\Carbon;
 use App\Affair\Property;
 use App\Affair\Loan;
 use App\Affair\Category;
+use App\Affair\Timezone;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -128,5 +130,23 @@ class LoanController extends Controller
             ]);
 
         return response()->json(['status' => ($affect_rows == 1) ? 0 : 2]);
+    }
+
+    /**
+     * Get classroom borrow infomation.
+     *
+     * @return Json
+     */
+    public function getClassroomBorrowInfo(Request $request)
+    {
+        // get all timezone data that ended after today
+        $day = Carbon::now()->toDateString();
+
+        // get timezone datas
+        $timezones_info = Timezone::with(['type'])
+            ->where('date_ended_at', '>=', $day)
+            ->get();
+
+        return response()->json($timezones_info);
     }
 }

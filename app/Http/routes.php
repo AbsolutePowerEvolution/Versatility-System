@@ -69,6 +69,8 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
                 'as' => 'api.user.loan.class.create',
                 'uses' => 'User\LoanController@storeClassroomBorrow', ]);
         });
+
+        $router->get('setting', ['as' => 'api.user.setting.get', 'uses' => 'User\LoanController@getClassroomBorrowInfo']);
     });
 
     $router->group(['middleware' => ['role:manager'], 'prefix' => 'manager'], function (Router $router) {
