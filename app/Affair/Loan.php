@@ -135,16 +135,15 @@ class Loan extends Entity
      * @param string $date
      * @return Illuminate\Database\Eloquent\Builder
      */
-    public static function getConflictList($date, $loans = null, $p_id = null)
+    public static function getConflictList($dates, $loans = null, $p_id = null)
     {
-        $LTK = 1 << date('w', strtotime($date));
         $loans = ($loans == null) ? DB::table('loans') : $loans;
 
         $conflict_query = self::getConflictQuery(
                 $p_id,
-                [$date, $date],
+                $dates,
                 ['00:00:00', '23:59:59'],
-                $LTK,
+                127,
                 $loans
             );
 

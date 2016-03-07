@@ -60,7 +60,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
 
         $router->group(['prefix' => 'loan'], function (Router $router) {
             $router->get('others', ['as' => 'api.user.loan.other.list', 'uses' => 'User\LoanController@index']);
-            $router->get('classrooms/{date}', ['as' => 'api.user.loan.class.list', 'uses' => 'User\LoanController@indexDatedClassroomBorrow']);
+            $router->get('classrooms/{timezone_id}', ['as' => 'api.user.loan.class.list', 'uses' => 'User\LoanController@indexDatedClassroomBorrow']);
             $router->delete('delete/{id}', ['as' => 'api.user.loan.class.delete', 'uses' => 'User\LoanController@destroyClassroomBorrow']);
 
             // need to check the user is loanable or not.
@@ -91,7 +91,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
         $router->group(['prefix' => 'loan'], function (Router $router) {
             $router->get('others', ['as' => 'api.man.loan.other.list', 'uses' => 'Manager\LoanController@index']);
             $router->get('classrooms', ['as' => 'api.man.loan.class.borrow', 'uses' => 'Manager\LoanController@indexClassroomBorrow']);
-            $router->get('classrooms/{date}', ['as' => 'api.man.loan.class.accepted', 'uses' => 'Manager\LoanController@indexDatedClassroomBorrow']);
+            $router->get('classrooms/{timezone_id}', ['as' => 'api.man.loan.class.accepted', 'uses' => 'Manager\LoanController@indexDatedClassroomBorrow']);
             $router->get('courses', ['as' => 'api.man.loan.course.list', 'uses' => 'Manager\LoanController@indexCourse']);
             $router->post('other-create', ['as' => 'api.user.loan.other.create', 'uses' => 'Manager\LoanController@store']);
             $router->post('class-create', ['as' => 'api.user.loan.class.create', 'uses' => 'Manager\LoanController@storeClassroomBorrow']);
