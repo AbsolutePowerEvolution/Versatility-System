@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
+use Auth;
 use App\Affair\Loan;
+use App\Affair\Property;
 use App\Affair\Category;
 use App\Affair\User;
 use App\Affair\Timezone;
@@ -55,7 +57,7 @@ class LoanController extends Controller
         $loan_type = Category::getCategoryId('loan.type', $request->input('type'));
         $loan_status = Category::getCategoryId('loan.status', $request->input('status'));
 
-        // get borrow query
+        // get borrow array
         $borrow_query = Loan::with([
                 'user',
                 'type',
@@ -81,33 +83,29 @@ class LoanController extends Controller
     }
 
     /**
-     * Display a listing of the classroom borrow that status is accepted.
+     * Display a listing of the classroom borrow.
      *
      * @param string date
      * @return Json
      */
-    public function indexAcceptedClassroomBorrow(Request $request, $date)
+    public function indexDatedClassroomBorrow($timezone_id)
     {
-        // get length
-        $length = ($request->input('length') > 0) ? $request->input('length') : 10;
+        // get Timezone id
+        $timezone = Timezone::find($timezone_id);
 
-        $borrow_list = Loan::getConflictList(null, $date)
-            ->where('type', '=', Category::getCategoryId('loan.status', 'accepted'))
-            ->with([
-                user,
-                type,
-                status,
+        $classroom_borrow = Property::with([
+                'status',
+                'loans' => function ($query) use ($timezone) {
+                    Loan::getConflictList([$timezone->date_began_at, $timezone->date_ended_at], $query)
+                        ->where('loans.status', '=', Category::getCategoryId('loan.status', 'accepted'))
+                        ->join('categories as type', 'type.id', '=', 'loans.type')
+                        ->join('users', 'users.id', '=', 'user_id');
+                },
             ])
-            ->join('properties as pro_t', function ($join) {
-                $join->on('pro_t.id', '=', 'property_id')
-                    ->where('pro_t.category', '=', Category::getCategoryId('property', 'classroom'));
-            })
-            ->paginate($length, [
-                'loans.*',
-                'pro_t.name as property_name',
-            ]);
+            ->where('category', '=', Category::getCategoryId('property', 'classroom'))
+            ->get();
 
-        return response()->json($borrow_list);
+        return response()->json($classroom_borrow);
     }
 
     /**
@@ -196,7 +194,7 @@ class LoanController extends Controller
                 'remark',
             ]), [
                 'user_id' => Auth::user()->id,
-                'type' => Category::getCategoryId('loan.type', $request->input('type')),
+                'type' => Category::getCategoryId('loan.type', $request->input('type', 'course')),
                 'status' => Category::getCategoryId('loan.status', 'accepted'),
                 'long_term_token' => bindec($request->input('long_term_token')),
             ]));
@@ -240,7 +238,7 @@ class LoanController extends Controller
      */
     public function getClassroomBorrowInfo(Request $request)
     {
-        // get all timezone data with now date
+        // get all timezone data with today
         $day = Carbon::now()->toDateString();
         $con_str = $request->input('con_str', '<=');
 

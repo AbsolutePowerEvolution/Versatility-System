@@ -7,7 +7,7 @@
                 <li><a href="#/admin/property">財產管理系統</a></li>
                 <li><a href="#/admin/account">帳號管理系統</a></li>
                 <li><a href="#/admin/setting">時段管理系統</a></li>
-                <li><a href="#/schedule">列印課表</a></li>
+                <li><a href="#/schedule" target="_blank">列印課表</a></li>
             </ul>
         </div>
     </div>

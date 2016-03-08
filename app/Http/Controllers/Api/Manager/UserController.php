@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
+use Excel;
 use App\Affair\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -31,14 +32,16 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        User::create(array_only($request->all(), [
-                'role',
-                'username',
-                'password',
-                'nickname',
-                'email',
-                'phone',
-            ]));
+        $user = new User;
+
+        $user->username = $request->input('username');
+        $user->password = bcrypt($request->input('password'));
+        $user->nickname = $request->input('nickname');
+        $user->email    = $request->input('email');
+        $user->phone    = $request->input('phone');
+        $user->save();
+
+        $user->role()->save(Role::where('name', $request->input('role')->first()));
 
         return response()->json(['status' => 0]);
     }
@@ -55,7 +58,7 @@ class UserController extends Controller
         $file_path = $request->file('studentData')->getRealPath();
 
         // extract student data from the file uploaded
-        $student_data = Excel::load($file_path)->to_array();
+        $student_data = Excel::load($file_path)->toArray();
 
         // processing & storing student data
         foreach($student_data as $data) {

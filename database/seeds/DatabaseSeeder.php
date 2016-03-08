@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(CategoryTableSeeder::class);
 
+        $this->call(TimezoneTableSeeder::class);
+
         $this->call(RoleTableSeeder::class);
 
         $this->call(UserTableSeeder::class);
@@ -21,6 +23,5 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RepairTableSeeder::class);
 
-        $this->call(TimezoneTableSeeder::class);
     }
 }

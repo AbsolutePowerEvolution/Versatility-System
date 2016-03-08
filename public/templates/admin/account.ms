@@ -1,22 +1,25 @@
 {{>menu}}
 <div id="account_container">
-  <div id="account_system_content" class="row">
-    <div id="search_bar" class="row">
-      <span>搜尋：</span>
-      <input type="text" placeholder="帳號名稱" name="search"/>
-    </div>
+  <div class="row">
     <div class="row">
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="add">
+      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="user" data-type="add">
         <i class="material-icons">add</i>
       </span>
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="import_file">
-        匯入檔案
-      </span>
+      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="import_file">匯入檔案</span>
+      <span class="waves-effect waves-light btn red" id="deleteAccountBtn">刪除</span>
     </div>
   </div>
 
+  <!-- list Page -->
+  <div id="list_container">
+    <ul id="list_element_container" class="collapsible" data-collapsible="accordion">
+    </ul>
+    <ul id="list_page_container" class="pagination center">
+    </ul>
+  </div>
+
   <!-- Create Account Modal -->
-  <div id="add" class="modal materialize_modal">
+  <div id="user" class="modal materialize_modal">
     <div class="modal-content">
       <div class="row">
         <div class="input-field">
@@ -42,26 +45,39 @@
           <label for="nickname">NickName</label>
         </div>
       </div>
+      <div class="row">
+        <span>類型：</span>
+        <input class="with-gap" name="type" type="radio" id="student-radio" value="student">
+        <label for="student-radio">
+          學生
+        </label>
+        <input class="with-gap" name="type" type="radio" id="lab-radio" value="lab">
+        <label for="lab-radio">
+          Lab
+        </label>
+      </div>
     </div>
     <div class="modal-footer">
-      <button id="addAccountBtn" class="center btn">
-        確認送出
-      </button>
+      <button id="addAccountBtn" class="center btn">新增</button>
+      <button id="updateAccountBtn" class="center btn">更新</button>
     </div>
   </div>
 
   <!-- Import File Modal -->
   <div id="import_file" class="modal materialize_modal">
     <div class="modal-content">
-      <div class="file-field input-field">
-        <div class="btn">
-          <span>File</span>
-          <input type="file" id="excel">
+      <form id="fileForm">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>File</span>
+            <input type="file" name="studentData">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text">
+          </div>
         </div>
-        <div class="file-path-wrapper">
-          <input class="file-path validate" type="text">
-        </div>
-      </div>
+
+      </form>
     </div>
     <div class="modal-footer">
       <button id="importFileBtn" class="center btn">

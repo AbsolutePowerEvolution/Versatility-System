@@ -12,6 +12,7 @@
 */
 
 /** @var $factory \Illuminate\Database\Eloquent\Factory */
+use App\Affair\Timezone;
 use App\Affair\Category;
 use App\Affair\User;
 use Carbon\Carbon;
@@ -54,14 +55,15 @@ $factory->define(\App\Affair\Repair::class, function () {
 
 $factory->define(\App\Affair\Loan::class, function () {
     $faker = Faker\Factory::create('zh_TW');
-    $day = Carbon::now()->startOfDay()->addHours(mt_rand(4, 12))->addDays(mt_rand(1, 30));
     $time = mt_rand(0, 1);
+    $began_date = Timezone::all()->random()->getAttribute('date_began_at');
 
+    $day = (new Carbon($began_date))->addDays(rand(1, 10));
     return [
         'user_id' => User::all()->random()->getAttribute('id'),
         'type' => Category::getCategories('loan.type')->random()->getAttribute('id'),
         'date_began_at' => $day->toDateString(),
-        'date_ended_at' => $day->addDays(mt_rand(0, 3))->toDateString(),
+        'date_ended_at' => $day->addDays(mt_rand(0, 10))->toDateString(),
         'time_began_at' => $time ? $day->toTimeString() : null,
         'time_ended_at' => $time ? $day->addHours(mt_rand(1, 8))->toTimeString() : null,
         'remark' => $faker->realText(32),
