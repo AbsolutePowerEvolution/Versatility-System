@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Manager;
 
+use DB;
 use Excel;
 use App\Affair\User;
 use App\Http\Controllers\Controller;
@@ -20,7 +21,11 @@ class UserController extends Controller
         $length = ($request->input('length') > 0) ? $request->input('length') : 10;
 
         // get user list
-        $user_list = User::paginate($length);
+        $user_list = DB::table('users')
+            ->join('role_user', 'role_user.user_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'role_user.role_id')
+            ->where('roles.name', $request->input('role', 'manager'))
+            ->paginate($length);
 
         return response()->json($user_list);
     }
