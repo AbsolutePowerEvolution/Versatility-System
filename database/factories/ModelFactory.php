@@ -19,6 +19,7 @@ use Carbon\Carbon;
 
 $factory->define(User::class, function () {
     $faker = Faker\Factory::create('zh_TW');
+    $groups = ['manager', 'lab', '104-A', '104-B', '三年A組', '銀八老師', '105-A', '105-B'];
 
     return [
         'username' => $faker->userName,
@@ -26,6 +27,7 @@ $factory->define(User::class, function () {
         'nickname' => $faker->name,
         'email' => $faker->email,
         'phone' => '09'.mt_rand(10000000, 99999999),
+        'group' => $groups[mt_rand(0, 7)],
     ];
 });
 

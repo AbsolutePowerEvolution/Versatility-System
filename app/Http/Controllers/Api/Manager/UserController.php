@@ -44,6 +44,7 @@ class UserController extends Controller
         $user->nickname = $request->input('nickname');
         $user->email    = $request->input('email');
         $user->phone    = $request->input('phone');
+        $user->group    = $request->input('group', 'other');
         $user->save();
 
         $user->role()->save(Role::where('name', $request->input('role')->first()));
@@ -73,6 +74,7 @@ class UserController extends Controller
             $user->nickname = $data['姓名'];
             $user->email    = $data['信箱'];
             $user->phone    = $data['電話'];
+            $user->group    = $data['班級'];
             $user->save();
 
             $user->role()->save(Role::where('name', 'student')->first());
@@ -119,6 +121,7 @@ class UserController extends Controller
             'nickname' => $request->input('nickname'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
+            'group' => $request->input('group'),
         ]);
 
         return response()->json(['status' => ($affect_row == 1) ? 0 : 2]);
