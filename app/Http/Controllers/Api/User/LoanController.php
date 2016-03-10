@@ -65,7 +65,8 @@ class LoanController extends Controller
                 'loans' => function ($query) use ($dates) {
                     $query = Loan::getConflictList($dates, $query)
                         ->join('categories as type', 'type.id', '=', 'loans.type')
-                        ->join('users', 'users.id', '=', 'user_id');
+                        ->join('users', 'users.id', '=', 'user_id')
+                        ->orderBy('created_at', 'desc');
 
                     // signle day or not
                     if ($dates[0] == $dates[1]) {
@@ -133,6 +134,7 @@ class LoanController extends Controller
     {
         $affect_rows = Loan::where('id', '=', $id)
             ->where('user_id', '=', Auth::user()->id)
+            ->where('loan.status', '=', Category::getCategroyId('loan.status', 'submitted'))
             ->update([
                 'status' => Category::getCategoryId('loan.status', 'canceled'),
             ]);
