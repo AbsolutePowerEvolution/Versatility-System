@@ -41,6 +41,7 @@ Sammy('#main', function() {
         loanDataEvent();
         userLoanInitEvent();
         loanTablePageEvent();
+        loanHistoryEvent();
 
         // new inline display calendar
         var picker = new Pikaday({
@@ -87,7 +88,6 @@ function userLoanInitEvent() {
   request.con_str = '>=';
   // get all period that can be borrowed
   $.get('/api/manager/setting', request, function(result) {
-    console.log('setting');
     console.log(result);
 
     // append setting time data to Modal Select
@@ -103,7 +103,6 @@ function userLoanInitEvent() {
         .find('option:last')
         .after(text);
     }
-    loanMaterializeEvent();
 
     // append setting time data to User View
     for(let i = 0, text = ''; i < result.length; i++) {
@@ -115,6 +114,17 @@ function userLoanInitEvent() {
       $('#view_setting_time')
         .append(text);
     }
+
+    // for history
+    for(let i = 0, text = ''; i < result.length; i++) {
+      text = `<option data-began="${result[i].date_began_at}"`;
+      text += `data-ended="${result[i].date_ended_at}"`;
+      text += `value="${result[i].zone_name}">${result[i].zone_name}</option>`;
+      $('#history_setting_time')
+        .append(text);
+      console.log('setting' + text);
+    }
+    loanMaterializeEvent();
   });
 }
 
@@ -125,6 +135,7 @@ function loanMaterializeEvent() {
   });
 
   $('ul.tabs').tabs();
+  $('#history_setting_time').material_select();
 }
 
 function initModal() {
@@ -172,7 +183,6 @@ function loanButtonEvent() {
       $('#loan_container').hide();
       $('#history_container').show();
 
-      $('#history_date').val(today);
       getLoanHistory();
     }
   });
@@ -201,6 +211,14 @@ function loanButtonEvent() {
     var id = $(this).data('loan_id');
     $('#delete_loan').attr('data-loan_id', id);
   });
+
+  $('.td_time_period').unbind('hover');
+  $('.td_time_period').hover(function() {
+    var text = $(this).data('remark');
+    $('#tableRemark').html(text);
+  }, function() {
+    $('#tableRemark').html(null);
+  });
 }
 
 function loanDataEvent() {
@@ -212,14 +230,13 @@ function loanDataEvent() {
     request._token = $('meta[name="csrf-token"]').attr('content');
     request.status = 'accepted';
 
-    $.get('/api/manager/loan/classrooms/' + date, request, function(result) {
+    $.get(`/api/manager/loan/classrooms/${date}/${date}`, request, function(result) {
       LoanTablePage = 0;
       AllLoanTablePage = Math.floor(result.length / 5);
       LoanTable = [];
       LoanTable = result;
 
       produceLoanTable();
-      console.log(LoanTable);
     }).fail(function() {
       Materialize.toast('資料取得失敗，可能要先登入', 1000);
     });
@@ -236,8 +253,8 @@ function loanDataEvent() {
 
     request._token = $('meta[name="csrf-token"]').attr('content');
     // classroom id
-    request.property_id = $('.modal').find('#classroom').val();
-    request.type = 'course';
+    request.property_id = $('#classroom').val();
+    request.type = $('#class_type').val();
 
     // get begin date and end date
     if(LoanType == 'one_day') {// one_day
@@ -261,10 +278,10 @@ function loanDataEvent() {
     } else { // many_days
       temp = $('#setting_time').val();
       request.date_began_at = $('#setting_time')
-        .find('option[value="' + temp + '"]')
+        .find(`option[value="${temp}"]`)
         .data('began');
       request.date_ended_at = $('#setting_time')
-        .find('option[value="' + temp + '"]')
+        .find(`option[value="${temp}"]`)
         .data('ended');
 
       // long term token
@@ -289,38 +306,46 @@ function loanDataEvent() {
       .find('select[name="time_end"]')
       .val();
     // check start and end date diff
-    if(errMsg == '') {
-      a = matchTool(request.time_began_at, PeriodStart);
-      b = matchTool(request.time_ended_at, PeriodEnd);
-      if(a > b) {
-        Materialize.toast('時段前後順序不對，可能太早', 1000);
-        return;
-      }
+    a = matchTool(request.time_began_at, PeriodStart);
+    b = matchTool(request.time_ended_at, PeriodEnd);
+    if(a > b) {
+      Materialize.toast('時段前後順序不對，可能太早', 1000);
+      return;
     }
 
     request.remark = $('input[name="remark"]').val();
+    if(_.trim(request.remark) == null) {
+      Materialize.toast('理由不能為空');
+      return;
+    }
     console.log(request);
     $.post('/api/manager/loan/class-create', request, function(result) {
       if(result.status == 0) {
         Materialize.toast('請求借用成功', 1000);
       }else {
-        Materialize.toast('請求借用失敗', 1000);
+        Materialize.toast('請求借用失敗,應該是因為衝堂', 1000);
       }
       console.log(result);
     }).fail(function() {
-      Materialize.toast('新增借用失敗', 1000);
+      Materialize.toast('新增借用失敗,伺服器錯誤', 1000);
     });
   });
 }
 
 function getLoanHistory() {
-  var temp = $('#history_date').val();
-  var request = {};
-  request.status = 'accepted';
-  request.date = moment(new Date(temp)).format('YYYY-MM-DD');
+  var selected = $('#history_setting_time').val();
+  var began = $(`#history_setting_time option[value="${selected}"]`)
+    .data('began');
+  var ended = $(`#history_setting_time option[value="${selected}"]`)
+    .data('ended');
 
-  console.log(request);
-  $.get('/api/manager/loan/classrooms/' + request.date, request, function(result) {
+  if(selected == null) {
+    Materialize.toast('還沒選擇時段');
+    return;
+  }
+
+  console.log(selected, began, ended);
+  $.get(`/api/manager/loan/classrooms/${began}/${ended}`, function(result) {
     console.log(result);
     LoanHistory = result;
     produceLoanHistory();
@@ -398,7 +423,7 @@ function produceLoanHistory() {
   }
 
   if(total == 0) {
-    Materialize.toast('這天沒有借用紀錄', 1000);
+    Materialize.toast('此時段沒有借用紀錄', 1000);
   }
 
   $('.collapsible').collapsible({
@@ -430,8 +455,8 @@ function loanHistoryEvent() {
     });
   });
 
-  $('#history_date').unbind('change');
-  $('#history_date').change(function() {
+  $('#history_setting_time').unbind('change');
+  $('#history_setting_time').change(function() {
     getLoanHistory();
   });
 }
@@ -478,11 +503,12 @@ function colorLoanTable(id, index) {
   var began;
   var ended;
 
-  // init X
+  // init O, means loanable
   $('table').find('.tr_classroom')
     .eq(index)
     .find('.td_time_period')
-    .html('X');
+    .html('O')
+    .attr('data-remarl', null);
 
   for(let i = 0; i < LoanTable[id].loans.length; i++) {
     // examine selected day's status
@@ -501,14 +527,16 @@ function colorLoanTable(id, index) {
             .eq(index)
             .find('.td_time_period')
             .eq(j)
-            .html('O');
+            .html('X')
+            .attr('data-remark', LoanTable[id].loans[i].remark);
         }
       }else { // all days
         //console.log(id + ', ' + index + 'all day');
         $('table').find('.tr_classroom')
           .eq(index)
           .find('.td_time_period')
-          .html('O');
+          .html('X')
+          .attr('data-remark', LoanTable[id].loans[i].remark);
       }
     }
   }
@@ -526,4 +554,3 @@ function matchTool(time, table) {
 
   return result;
 }
-

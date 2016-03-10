@@ -1,13 +1,21 @@
 {{>menu}}
 <div id="account_container">
   <div class="row">
-    <div class="row">
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="user" data-type="add">
-        <i class="material-icons">add</i>
-      </span>
-      <span class="waves-effect waves-light btn modal-trigger" data-modal_target="import_file">匯入檔案</span>
-      <span class="waves-effect waves-light btn red" id="deleteAccountBtn">刪除</span>
+    <div class="col s3">
+      <select id="view_role">
+        <option disabled>顯示類型</option>
+        <option value="student" selected>學生</option>
+        <option value="lab">LAB</option>
+        <option value="manager">管理者</option>
+      </select>
     </div>
+  </div>
+  <div class="row">
+    <span class="waves-effect waves-light btn modal-trigger" data-modal_target="user" data-type="add">
+      <i class="material-icons">add</i>
+    </span>
+    <span class="waves-effect waves-light btn modal-trigger" data-modal_target="import_file">匯入檔案</span>
+    <span class="waves-effect waves-light btn red" id="deleteAccountBtn">刪除</span>
   </div>
 
   <!-- list Page -->

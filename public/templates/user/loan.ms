@@ -19,6 +19,9 @@
 
 <div id="loan_container" class="container">
   <div class="row">
+    <h3><span>現在這堂課是</span><span id="tableRemark"></span></h3>
+  </div>
+  <div class="row">
     <div class="col s9">
       <table class="row-table centered">
         <thead>
@@ -95,9 +98,8 @@
 
 <!-- History Page -->
 <div id="history_container">
-  <input type="date" class="datepicker" id="history_date">
-  <ul id="history_card_container" class="collapsible" data-collapsible="accordion">
-  </ul>
+  <select id="history_setting_time"></select>
+  <ul id="history_card_container" class="collapsible" data-collapsible="accordion"></ul>
 </div>
 
 <!-- Create Loan Modal -->
@@ -118,25 +120,25 @@
         <option disabled>時段</option>
       </select>
     </div>
-    <div class="checkbox_container for_all for_many_days">
+    <div class="for_all for_many_days">
       <p>選星期幾</p>
-      <input type="checkbox" value="0" id="day0">
+      <input type="checkbox" value="0" id="day0" name="long_term_token">
       <label for="day0">日</label>
-      <input type="checkbox" value="1" id="day1">
+      <input type="checkbox" value="1" id="day1" name="long_term_token">
       <label for="day1">一</label>
-      <input type="checkbox" value="2" id="day2">
+      <input type="checkbox" value="2" id="day2" name="long_term_token">
       <label for="day2">二</label>
-      <input type="checkbox" value="3" id="day3">
+      <input type="checkbox" value="3" id="day3" name="long_term_token">
       <label for="day3">三</label>
-      <input type="checkbox" value="4" id="day4">
+      <input type="checkbox" value="4" id="day4" name="long_term_token">
       <label for="day4">四</label>
-      <input type="checkbox" value="5" id="day5">
+      <input type="checkbox" value="5" id="day5" name="long_term_token">
       <label for="day5">五</label>
-      <input type="checkbox" value="6" id="day6">
+      <input type="checkbox" value="6" id="day6" name="long_term_token">
       <label for="day6">六</label>
     </div>
 
-    <div class="input-field time_container">
+    <div class="input-field">
       <select name="time_start">
         <option value="" disabled>起始時間</option>
         {{#time.PeriodStart}}
@@ -151,7 +153,17 @@
       </select>
     </div>
     <div class="input-field">
-      <input type="text" name="remark" placeholder="填寫借用理由(可以不填)">
+      <select id="class_type">
+        <option disabled>借用類型</option>
+        <option value="course">課程</option>
+        <option value="meeting">開會</option>
+        <option value="interview">面試</option>
+        <option value="speech">演講</option>
+        <option value="others">其他</option>
+      </select>
+    </div>
+    <div class="input-field">
+      <input type="text" name="remark" placeholder="填寫借用理由">
     </div>
   </div>
   <div class="modal-footer">
