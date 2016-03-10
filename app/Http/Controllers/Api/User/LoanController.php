@@ -56,18 +56,23 @@ class LoanController extends Controller
      * @param string date
      * @return Json
      */
-    public function indexDatedClassroomBorrow($timezone_id)
+    public function indexDatedClassroomBorrow($date_began_at, $date_ended_at)
     {
-        // get Timezone id
-        $timezone = Timezone::find($timezone_id);
+        $dates = [$date_began_at, $date_ended_at];
 
         $classroom_borrow = Property::with([
                 'status',
-                'loans' => function ($query) use ($timezone) {
-                    Loan::getConflictList([$timezone->date_began_at, $timezone->date_ended_at], $query)
-                        ->where('loans.status', '=', Category::getCategoryId('loan.status', 'accepted'))
+                'loans' => function ($query) use ($dates) {
+                    $query = Loan::getConflictList($dates, $query)
                         ->join('categories as type', 'type.id', '=', 'loans.type')
                         ->join('users', 'users.id', '=', 'user_id');
+
+                    // signle day or not
+                    if ($dates[0] == $dates[1]) {
+                        $query->where('loans.user_id', '=', Auth::user()->id);
+                    } else {
+                        $query->where('loans.status', '=', Category::getCategoryId('loan.status', 'accepted'));
+                    }
                 },
             ])
             ->where('category', '=', Category::getCategoryId('property', 'classroom'))
