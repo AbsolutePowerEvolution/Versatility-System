@@ -28,7 +28,7 @@ class UserLoanable
         }
 
         $timezone = Timezone::
-            whereRaw("? BETWEEN `$judge_column` AND `date_ended_at`", '<=', [Carbon::now()->toDateString()])
+            whereRaw("? BETWEEN `$judge_column` AND `date_ended_at`", [Carbon::now()->toDateString()])
             ->where('date_began_at', '<=', $request->input('date_began_at'))
             ->where('date_ended_at', '>=', $request->input('date_ended_at'))
             ->first();
