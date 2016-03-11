@@ -47,7 +47,7 @@ class UserController extends Controller
         $user->group    = $request->input('group', 'other');
         $user->save();
 
-        $user->role()->save(Role::where('name', $request->input('role')->first()));
+        $user->role()->save(Role::where('name', $request->input('role')));
 
         return response()->json(['status' => 0]);
     }
@@ -91,7 +91,10 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        return response()->json(User::find($id));
+        $user  = User::find($id);
+        $user_data = array_merge($user, $user->roles()->first());
+
+        return response()->json($user_data);
     }
 
     /**
@@ -129,7 +132,7 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
+         *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */

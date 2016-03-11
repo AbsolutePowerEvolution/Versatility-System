@@ -11,13 +11,10 @@ Sammy('#main', function() {
         accountButtonEvent();
         accountDataEvent();
         getUserList();
+        $('#view_role').material_select();
       });
   });
 });
-
-function accountMaterializeEvent() {
-
-}
 
 function accountButtonEvent() {
   var modalTarget;
@@ -156,14 +153,21 @@ function accountDataEvent() {
       }
     });
   });
+
+  $('#view_role').unbind('change');
+  $('#view_role').change(function() {
+    CurrentPage = 1;
+    getUserList();
+  });
 }
 
 function getUserList() {
   var request = {};
   request._token = $('meta[name="csrf-token"]').attr('content');
   request.page = CurrentPage;
+  request.role = $('#view_role').val();
 
-  $.get('/api/manager/user/', request, function(result) {
+  $.get('/api/manager/user', request, function(result) {
     console.log(result);
     FinalPage = Math.ceil(result.total / 10);
     produceAccountList(result.data);

@@ -23,7 +23,5 @@ class UserTableSeeder extends Seeder
                 }
             }
         }
-
-        factory(User::class, mt_rand(30, 50))->create();
     }
 }
