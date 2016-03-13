@@ -138,6 +138,29 @@ function repairProperty() {
     });
 
   });
+
+  $propertyContainer.find('.repair_content .repair_delete_btn').on('click', function() {
+    console.log($(this).data('repair_id'));
+    var repairID = $(this).data('repair_id');
+    $.ajax({
+      url: '/api/user/repair/delete/' + repairID,
+      _method: 'delete',
+      status: 'deleted',
+      type: 'delete',
+      data: {
+        id: repairID,
+        _token: $('meta[name="csrf-token"]').attr('content')
+      },
+      error: function(error) {
+        Materialize.toast($('<span>取消報修紀錄失敗!</span>'), 5000);
+        console.log('delete property error, ', error);
+      },
+      success: function(data) {
+        Materialize.toast($('<span>取消報修紀錄成功!</span>'), 5000);
+        location.reload();
+      }
+    });
+  });
 }
 
 function searchData(propertyData) {

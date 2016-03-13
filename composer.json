@@ -12,7 +12,8 @@
         "nesbot/carbon": "~1.21",
         "predis/predis": "~1.0",
         "zizaco/entrust": "~1.5",
-        "maatwebsite/excel": "~2.1.0"
+        "maatwebsite/excel": "~2.1.0",
+	"phpoffice/phpexcel": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "~2.2",

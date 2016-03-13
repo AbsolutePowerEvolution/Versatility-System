@@ -74,3 +74,13 @@
   padding: 1px;
   border: 1px solid #000000;
 }
+
+#property_container #loan_property_content, #property_container #total_return_property_content, #property_container #loan_property_content div{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#property_container .collapsible .collapsible-body{
+  padding-bottom: 10px;
+  padding-top: 10px
+}

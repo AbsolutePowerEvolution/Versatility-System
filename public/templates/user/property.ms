@@ -84,15 +84,24 @@
     <div id="property_repair_content" class="property property_repair_log row" style="display:none">
         <ul class="collapsible popout" data-collapsible="accordion">
             {{#repairData}}
-            <li class="row">
-                <span class="collapsible-header ">
+            <li class="repair_content row">
+                <span class="collapsible-header">
                     <span class="s4 col">{{title}}</span>
                     <span class="s4 col">{{created_at}}</span>
                     <span class="s4 col" style="color:{{status.color}}">{{status.name}}</span>
                 </span>
                 <div class="collapsible-body col s12 left">
-                    <div>{{type.name}}</div>
-                    <div>{{remark}}</div>
+                    <div>
+                        <span class="col s3">{{type.name}}</span>
+                        <span class="col s3 right">
+                            <a class="repair_delete_btn waves-effect waves-light btn red"  data-repair_id="{{id}}">
+                                <i class="material-icons left">delete</i>取消
+                            </a>
+                        </span>
+                    </div>
+                    <div>
+                        <span>{{remark}}</span>
+                    </div>
                 </div>
             </li>
             {{/repairData}}
