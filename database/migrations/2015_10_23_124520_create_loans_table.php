@@ -21,7 +21,7 @@ class CreateLoansTable extends Migration
             $table->date('date_ended_at')->comment('結束日期');
             $table->time('time_began_at')->nullable()->comment('開始時間');
             $table->time('time_ended_at')->nullable()->comment('結束時間');
-            $table->string('remark')->nullable()->comment('附註');
+            $table->string('remark')->comment('附註');
             $table->integer('status')->unsigned()->comment('借用狀態');
             $table->timestamps();
             $table->softDeletes();

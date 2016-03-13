@@ -20,13 +20,14 @@ class RepairController extends Controller
     {
         // get length
         $length = ($request->input('length') > 0) ? $request->input('length') : 10;
+        $status = $request->input('status', 'submitted');
 
         $repair_list = Repair::with([
                 'status',
                 'type',
                 'user',
             ])
-            ->where('status', '=', Category::getCategoryId('repair.status', 'submitted'))
+            ->where('status', '=', Category::getCategoryId('repair.status', $status))
             ->paginate($length);
 
         // return

@@ -58,12 +58,17 @@ class LoanController extends Controller
      */
     public function indexDatedClassroomBorrow($date_began_at, $date_ended_at)
     {
-        $dates = [$date_began_at, $date_ended_at];
+        $sample = [
+            'p_id'  => null,
+            'dates' => [$date_began_at, $date_ended_at],
+            'times' => ['00:00:00', '23:59:59'],
+            'LTK'   => 127,
+        ];
 
         $classroom_borrow = Property::with([
                 'status',
-                'loans' => function ($query) use ($dates) {
-                    $query = Loan::getConflictList($dates, $query)
+                'loans' => function ($query) use ($sample) {
+                    $query = Loan::getConflictList($sample, $query)
                         ->join('categories as type', 'type.id', '=', 'loans.type')
                         ->join('users', 'users.id', '=', 'user_id')
                         ->orderBy('loans.created_at', 'desc');

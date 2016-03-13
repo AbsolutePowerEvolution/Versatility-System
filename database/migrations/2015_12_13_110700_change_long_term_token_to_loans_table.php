@@ -13,7 +13,7 @@ class ChangeLongTermTokenToLoansTable extends Migration
     public function up()
     {
         Schema::table('loans', function (Blueprint $table) {
-            $table->integer('long_term_token')->nullable()->after('status')->comment('長期借用星期標註')->change();
+            $table->integer('long_term_token')->after('status')->comment('長期借用星期標註')->change();
         });
     }
 

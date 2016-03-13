@@ -58,19 +58,24 @@ $factory->define(\App\Affair\Repair::class, function () {
 $factory->define(\App\Affair\Loan::class, function () {
     $faker = Faker\Factory::create('zh_TW');
     $time = mt_rand(0, 1);
-    $began_date = Timezone::all()->random()->getAttribute('date_began_at');
 
+    // get randomal Timezone
+    $began_date = Timezone::all()->random()->getAttribute('date_began_at');
     $day = (new Carbon($began_date))->addDays(rand(1, 10));
+
+    // get date begin/end
+    $begin = $day->toDateString();
+    $end = $day->addDays(mt_rand(0, 10))->toDateString();
     return [
-        'user_id' => User::all()->random()->getAttribute('id'),
-        'type' => Category::getCategories('loan.type')->random()->getAttribute('id'),
-        'date_began_at' => $day->toDateString(),
-        'date_ended_at' => $day->addDays(mt_rand(0, 10))->toDateString(),
-        'time_began_at' => $time ? $day->toTimeString() : null,
-        'time_ended_at' => $time ? $day->addHours(mt_rand(1, 8))->toTimeString() : null,
-        'remark' => $faker->realText(32),
-        'status' => Category::getCategories('loan.status')->random()->getAttribute('id'),
-        'long_term_token' => $time ? mt_rand(0, 127) : null,
+        'user_id'         => User::all()->random()->getAttribute('id'),
+        'type'            => Category::getCategories('loan.type')->random()->getAttribute('id'),
+        'date_began_at'   => $begin,
+        'date_ended_at'   => $end,
+        'time_began_at'   => $time ? $day->addHours(mt_rand(0, 7))->toTimeString() : null,
+        'time_ended_at'   => $time ? $day->addHours(mt_rand(7, 15))->toTimeString() : null,
+        'remark'          => $faker->realText(32),
+        'status'          => Category::getCategories('loan.status')->random()->getAttribute('id'),
+        'long_term_token' => ($begin != $end) ? mt_rand(0, 127) : 1 << date('w', strtotime($begin)),
     ];
 });
 

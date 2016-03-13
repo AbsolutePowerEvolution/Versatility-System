@@ -92,6 +92,7 @@ $router->group(['middleware' => ['web'], 'prefix' => 'api', 'namespace' => 'Api'
             $router->get('others', ['as' => 'api.man.loan.other.list', 'uses' => 'Manager\LoanController@index']);
             $router->get('classrooms', ['as' => 'api.man.loan.class.borrow', 'uses' => 'Manager\LoanController@indexClassroomBorrow']);
             $router->get('classrooms/{began}/{ended}', ['as' => 'api.man.loan.class.accepted', 'uses' => 'Manager\LoanController@indexDatedClassroomBorrow']);
+            $router->get('class-conflict/{loan_id}', ['as' => 'api.man.loan.class.conflict', 'uses' => 'Manager\LoanController@indexConflictClassroomBorrow']);
             $router->get('courses', ['as' => 'api.man.loan.course.list', 'uses' => 'Manager\LoanController@indexCourse']);
             $router->post('other-create', ['as' => 'api.user.loan.other.create', 'uses' => 'Manager\LoanController@store']);
             $router->post('class-create', ['as' => 'api.user.loan.class.create', 'uses' => 'Manager\LoanController@storeClassroomBorrow']);

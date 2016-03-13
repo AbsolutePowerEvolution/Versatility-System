@@ -2,6 +2,7 @@
 
 namespace App\Affair;
 
+use App\Affair\Category;
 use App\Affair\Core\Entity;
 use DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -92,20 +93,15 @@ class Loan extends Entity
         $loans = $loans
             ->where(function ($query) use ($date_info) {
                 $query
-                    ->whereBetween('date_ended_at', $date_info)
-                    ->orWhereRaw('? BETWEEN `date_began_at` AND `date_ended_at`', [$date_info[1]]);
+                    ->whereBetween('loans.date_ended_at', $date_info)
+                    ->orWhereRaw('? BETWEEN `loans`.`date_began_at` AND `loans`.`date_ended_at`', [$date_info[1]]);
             })
             ->where(function ($query) use ($time_info) {
                 $query
-                    ->whereBetween('time_ended_at', $time_info)
-                    ->orWhereRaw('? BETWEEN `time_began_at` AND `time_ended_at`', [$time_info[1]]);
+                    ->whereBetween('loans.time_ended_at', $time_info)
+                    ->orWhereRaw('? BETWEEN `loans`.`time_began_at` AND `loans`.`time_ended_at`', [$time_info[1]]);
             })
-            ->where(function ($query) use ($LTK) {
-                $query
-                    ->whereRaw('long_term_token & ? > 0', [$LTK])
-                    ->orWhereNull('long_term_token')
-                    ->orWhere('long_term_token', '=', 0);
-            });
+            ->whereRaw('loans.long_term_token & ? > 0', [$LTK]);
 
         return $loans;
     }
@@ -120,10 +116,13 @@ class Loan extends Entity
      */
     public static function checkConflict($p_id, $date_info, $time_info, $LTK)
     {
-        $LTK = ((int) $LTK === 0) ? 1 << date('w', strtotime($date_info[0])) : (int) $LTK;
         $loans = new Loan;
+        $cond = ($date_info[0] == $date_info[1]) ? '!=' : '==';
 
-        $conflict_num = self::getConflictQuery($p_id, $date_info, $time_info, $LTK, $loans)->count();
+        $conflict_num = self::getConflictQuery($p_id, $date_info, $time_info, $LTK, $loans)
+            ->where('status', '=', Category::getCategoryIds('loan.status', 'accepted'))
+            ->whereRaw('date_began_at '.$cond.' date_ended_at')
+            ->count();
 
         return $conflict_num > 0;
     }
@@ -135,15 +134,15 @@ class Loan extends Entity
      * @param string $date
      * @return Illuminate\Database\Eloquent\Builder
      */
-    public static function getConflictList($dates, $loans = null, $p_id = null)
+    public static function getConflictList($sample, $loans = null)
     {
         $loans = ($loans == null) ? DB::table('loans') : $loans;
 
         $conflict_query = self::getConflictQuery(
-                $p_id,
-                $dates,
-                ['00:00:00', '23:59:59'],
-                127,
+                $sample['p_id'],
+                $sample['dates'],
+                $sample['times'],
+                $sample['LTK'],
                 $loans
             );
 

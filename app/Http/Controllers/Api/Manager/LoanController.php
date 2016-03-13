@@ -90,12 +90,17 @@ class LoanController extends Controller
      */
     public function indexDatedClassroomBorrow($date_began_at, $date_ended_at)
     {
-        $dates = [$date_began_at, $date_ended_at];
+        $sample = [
+            'p_id'  => null,
+            'dates' => [$date_began_at, $date_ended_at],
+            'times' => ['00:00:00', '23:59:59'],
+            'LTK'   => 127,
+        ];
 
         $classroom_borrow = Property::with([
                 'status',
-                'loans' => function ($query) use ($dates) {
-                    Loan::getConflictList($dates, $query)
+                'loans' => function ($query) use ($sample) {
+                    Loan::getConflictList($sample, $query)
                         ->where('loans.status', '=', Category::getCategoryId('loan.status', 'accepted'))
                         ->join('categories as type', 'type.id', '=', 'loans.type')
                         ->join('users', 'users.id', '=', 'user_id');
@@ -105,6 +110,33 @@ class LoanController extends Controller
             ->get();
 
         return response()->json($classroom_borrow);
+    }
+
+    /**
+     * Display a list of the conflicted classroom borrow record with input request
+     *
+     * @param int loan_id
+     * @return Json
+     */
+    public function indexConflictClassroomBorrow($loan_id)
+    {
+        if (($loan = Loan::find($loan_id)) === null) {
+            return response()->json(['status' => 2]);
+        }
+
+        $sample = [
+            'p_id' => $loan->property_id,
+            'dates' => [$loan->date_began_at, $loan->date_ended_at],
+            'times' => [$loan->time_began_at, $loan->time_ended_at],
+            'LTK' => $loan->long_term_token,
+        ];
+
+        $conflict_list = Loan::getConflictList($sample)
+            ->join('users', 'users.id', '=', 'loans.user_id')
+            ->where('loans.id', '!=', $loan_id)
+            ->get(['loans.*', 'users.username', 'users.email', 'users.phone']);
+
+        return response()->Json($conflict_list);
     }
 
     /**
@@ -195,7 +227,7 @@ class LoanController extends Controller
                 'user_id' => Auth::user()->id,
                 'type' => Category::getCategoryId('loan.type', $request->input('type', 'course')),
                 'status' => Category::getCategoryId('loan.status', 'accepted'),
-                'long_term_token' => bindec($request->input('long_term_token')),
+                'long_term_token' => $LTK,
             ]));
 
         return response()->json(['status' => 0]);
