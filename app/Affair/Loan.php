@@ -120,7 +120,7 @@ class Loan extends Entity
         $cond = ($date_info[0] == $date_info[1]) ? '!=' : '==';
 
         $conflict_num = self::getConflictQuery($p_id, $date_info, $time_info, $LTK, $loans)
-            ->where('status', '=', Category::getCategoryIds('loan.status', 'accepted'))
+            ->where('status', '=', Category::getCategoryId('loan.status', 'accepted'))
             ->whereRaw('date_began_at '.$cond.' date_ended_at')
             ->count();
 
