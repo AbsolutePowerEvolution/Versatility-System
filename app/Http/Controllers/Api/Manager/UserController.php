@@ -47,7 +47,7 @@ class UserController extends Controller
         $user->group    = $request->input('group', 'other');
         $user->save();
 
-        $user->role()->save(Role::where('name', $request->input('role')));
+        $user->roles()->save(Role::where('name', $request->input('role')));
 
         return response()->json(['status' => 0]);
     }
@@ -77,7 +77,7 @@ class UserController extends Controller
             $user->group    = $data['班級'];
             $user->save();
 
-            $user->role()->save(Role::where('name', 'student')->first());
+            $user->roles()->save(Role::where('name', 'student')->first());
         }
 
         return response()->json(['status' => 0]);
