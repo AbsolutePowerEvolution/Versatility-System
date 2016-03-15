@@ -71,7 +71,8 @@ class LoanController extends Controller
                     $query = Loan::getConflictList($sample, $query)
                         ->join('categories as type', 'type.id', '=', 'loans.type')
                         ->join('users', 'users.id', '=', 'user_id')
-                        ->orderBy('loans.created_at', 'desc');
+                        ->orderBy('loans.created_at', 'desc')
+                        ->select('loans.*', 'users.username', 'users.phone', 'users.email');
 
                     // signle day or not
                     if ($dates[0] == $dates[1]) {

@@ -103,7 +103,8 @@ class LoanController extends Controller
                     Loan::getConflictList($sample, $query)
                         ->where('loans.status', '=', Category::getCategoryId('loan.status', 'accepted'))
                         ->join('categories as type', 'type.id', '=', 'loans.type')
-                        ->join('users', 'users.id', '=', 'user_id');
+                        ->join('users', 'users.id', '=', 'user_id')
+                        ->select('loans.*', 'users.username', 'users.phone', 'users.email');
                 },
             ])
             ->where('category', '=', Category::getCategoryId('property', 'classroom'))
