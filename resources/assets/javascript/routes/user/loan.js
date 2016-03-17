@@ -268,6 +268,19 @@ function loanDataEvent() {
         Materialize.toast('還沒選擇日期', 1000);
         return;
       }
+
+      // determine today day, produce today long_term_token
+      request.long_term_token = '';
+      temp = new Date(temp);
+      temp = temp.getDay();
+      for(i = 0; i < 7; i++) {
+        if(temp == i) {
+          request.long_term_token += '1';
+        }else {
+          request.long_term_token += '0';
+        }
+      }
+      request.long_term_token = request.long_term_token.split('').reverse().join('');
     } else { // many_days
       temp = $('#setting_time').val();
       request.date_began_at = $('#setting_time')
@@ -381,7 +394,7 @@ function produceLoanHistory() {
       // header
       text += '<div class="collapsible-header"><div class="row">';
       text += `<span class="col s2"><b>教室:</b>${propertyName}</span>`;
-      if(list[i].long_term_token !== null) {
+      if(dateBeganAt == dateEndedAt) {
         text += '<span class="col s2"><b>類型:</b>短期</span>';
         text += `<span class="col s3"><b>日期:</b>${dateBeganAt}</span>`;
       } else {

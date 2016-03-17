@@ -2,6 +2,7 @@ var Sammy = require('sammy');
 var CurrentPage = 1;
 var FinalPage;
 var Filter;
+var SelectAll = 'unselect';
 
 Sammy('#main', function() {
   this.get('#/admin/account', function(context) {
@@ -81,12 +82,23 @@ function accountButtonEvent() {
       }
     });
   });
+
+  $('#selectAllBtn').unbind('click');
+  $('#selectAllBtn').click(function() {
+    if(SelectAll == 'unselect') {
+      SelectAll = 'select';
+      $('input[name="delete"]').prop('checked', true);
+    }else if(SelectAll == 'select') {
+      SelectAll = 'unselect';
+      $('input[name="delete"]').prop('checked', false);
+    }
+  });
 }
 
 function accountDataEvent() {
   // create Account
-  $('#addAccountaccount').unbind('click');
-  $('#addAccountaccount').click(function() {
+  $('#addAccountBtn').unbind('click');
+  $('#addAccountBtn').click(function() {
     var request = {};
     request._token = $('meta[name="csrf-token"]').attr('content');
 
@@ -95,9 +107,15 @@ function accountDataEvent() {
     request.nickname = $('#nickname').val();
     request.email = $('#email').val();
     request.phone = $('#phone').val();
+    request.group = $('#group').val();
+    request.role = $('#type').val();
 
+    console.log(request);
     $.post('/api/manager/user', request, function(result) {
       console.log(result);
+      Materialize.toast('新增失敗');
+    }).fail(function() {
+      Materialize.toast('新增失敗');
     });
   });
 
@@ -170,6 +188,7 @@ function getUserList() {
   $.get('/api/manager/user', request, function(result) {
     console.log(result);
     FinalPage = Math.ceil(result.total / 10);
+    SelectAll = 'unselect';
     produceAccountList(result.data);
     producePage();
     accountButtonEvent();// bind modal Btn
