@@ -94,12 +94,12 @@ class Loan extends Entity
             ->where(function ($query) use ($date_info) {
                 $query
                     ->whereBetween('loans.date_ended_at', $date_info)
-                    ->orWhereRaw('? BETWEEN `loans`.`date_began_at` AND `loans`.`date_ended_at`', [$date_info[1]]);
+                    ->orWhereRaw('? BETWEEN loans.date_began_at AND loans.date_ended_at', [$date_info[1]]);
             })
             ->where(function ($query) use ($time_info) {
                 $query
                     ->whereBetween('loans.time_ended_at', $time_info)
-                    ->orWhereRaw('? BETWEEN `loans`.`time_began_at` AND `loans`.`time_ended_at`', [$time_info[1]]);
+                    ->orWhereRaw('? BETWEEN loans.time_began_at AND loans.time_ended_at', [$time_info[1]]);
             })
             ->whereRaw('loans.long_term_token & ? > 0', [$LTK]);
 
@@ -117,11 +117,9 @@ class Loan extends Entity
     public static function checkConflict($p_id, $date_info, $time_info, $LTK)
     {
         $loans = new Loan;
-        $cond = ($date_info[0] == $date_info[1]) ? '!=' : '==';
 
         $conflict_num = self::getConflictQuery($p_id, $date_info, $time_info, $LTK, $loans)
             ->where('status', '=', Category::getCategoryId('loan.status', 'accepted'))
-            ->whereRaw('date_began_at '.$cond.' date_ended_at')
             ->count();
 
         return $conflict_num > 0;
