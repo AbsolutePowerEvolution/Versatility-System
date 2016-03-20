@@ -1557,12 +1557,12 @@ webpackJsonp([0],{
 	    request.email = $('#email').val();
 	    request.phone = $('#phone').val();
 	    request.group = $('#group').val();
-	    request.role = $('#type').val();
+	    request.role = $('input[name="type"]').val();
 
 	    console.log(request);
 	    $.post('/api/manager/user', request, function (result) {
 	      console.log(result);
-	      Materialize.toast('新增失敗');
+	      Materialize.toast('新增成功');
 	    }).fail(function () {
 	      Materialize.toast('新增失敗');
 	    });
