@@ -1,11 +1,6 @@
 # 系務系統
 
-[![Build Status](https://travis-ci.org/AbsolutePowerEvolution/VersatilitySystem.svg?branch=master)](https://travis-ci.org/AbsolutePowerEvolution/VersatilitySystem)
-[![StyleCI](https://styleci.io/repos/43665262/shield?style=flat)](https://styleci.io/repos/43665262)
-
-
 ## OAuth
-
 
 ### 請求
 
